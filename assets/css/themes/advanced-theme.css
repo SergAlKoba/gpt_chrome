@@ -1,0 +1,18 @@
+/* Advanced theme styles */
+body {
+  background-color: #272822;
+  color: #f8f8f2;
+}
+
+input, textarea, select, button {
+  background-color: #383830;
+  color: #f8f8f2;
+  border: 1px solid #49483e;
+}
+
+button:hover {
+  background-color: #5e5c5a;
+}
+
+/* Add more advanced theme customization here */
+/* Customize additional elements as needed */

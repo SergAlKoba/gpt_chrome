@@ -1,0 +1,17 @@
+/* Dark theme styles */
+body {
+  background-color: #1e1e1e;
+  color: #c9c9c9;
+}
+
+input, textarea, select, button {
+  background-color: #3a3a3a;
+  color: #c9c9c9;
+  border: 1px solid #555;
+}
+
+button:hover {
+  background-color: #505050;
+}
+
+/* Customize additional elements as needed */

@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 400;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#global.dark{
+    min-height: 100vh;
+    background: #0F1110;
+}
+
+.header_global {
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    background: #171918;
+    border-bottom: 1px solid #202322;
+}
+
+.header_global .logo{
+    width: 19.5%;
+    padding: 0 16px;
+    min-width: 280px;
+    max-width: 280px;
+}
+
+.header_global .logo h2{
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 16px;
+    letter-spacing: -0.04em;
+}
+
+.header_global .logo h2 span{
+    display: block;
+    font-weight: 700;
+}
+
+.header_global .account{
+    width: 80.5%;
+    display: flex;
+    padding: 0 24px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_global .user{
+    display: flex;
+    align-items: center;
+}
+
+.header_global .user span{
+    font-size: 16px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 16px;
+    display: inline-block;
+    letter-spacing: -0.04em;
+}
+
+.header_global .user a {
+    opacity: 0.4;
+    margin-left: 8px;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.header_global .user a:hover{
+    opacity: 1;
+}
+
+.header_global .user a img{
+    display: block;
+}
+
+.header_global .settings{
+    display: flex;
+    align-items: center;
+}
+
+.header_global .settings a{
+    width: 24px;
+    display: block;
+    margin-left: 32px;
+}
+
+.header_global .settings .share{
+    opacity: 0.4;
+    transition: all 0.3s;
+}
+
+.header_global .settings .share:hover{
+    opacity: 1;
+}
+
+.header_global .settings .menu{
+    opacity: 0.4;
+    transition: all 0.3s;
+}
+
+.header_global .settings .menu:hover{
+    opacity: 1;
+}
+
+.header_global .settings img{
+    width: 100%;
+    display: block;
+}
+
+#global .flex.overflow-hidden.relative{
+    height: 100vh;
+    display: flex;
+    padding-top: 65px;
+    justify-content: center;
+}
+
+#global .bg-gray-900 {
+    width: 19.5%;
+    height: 100vh;
+    padding: 24px 0;
+    max-width: 280px;
+    min-width: 280px;
+    background: #171918;
+}
+
+#global .space-y-1{
+    padding: 0 16px;
+}
+
+#global .space-y-1 .text-sm.mb-2{
+    display: flex;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F1110;
+    line-height: 18px;
+    padding: 15px 15px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    align-items: center;
+    transition: all 0.3s;
+    background: #B4F573;
+    letter-spacing: -0.04em;
+    justify-content: center;
+    border: 1px solid #B4F573;
+}
+
+#global .space-y-1 .text-sm.mb-2:hover{
+    color: #B4F573;
+    background: transparent;
+}
+
+#global .space-y-1 .text-sm.mb-2 svg{
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+#global .space-y-1 .flex-col.flex-1.overflow-y-auto.border-b{
+    margin: 0 -16px;
+    border-bottom: 1px solid #202322;
+}
+
+#global .space-y-1 .flex.flex-col.gap-2.text-gray-100.text-sm{
+    padding: 0 16px;
+}
+
+#global .space-y-1 .items-center.gap-3.relative.rounded-md {
+    display: flex;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+#global .space-y-1 .items-center.gap-3.relative.rounded-md {
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 18px;
+    margin-bottom: 5px;
+    align-items: center;
+    padding: 13px 10px 14px;
+    letter-spacing: -0.04em;
+    border-radius: 8px;
+}
+
+#global .space-y-1 .items-center.gap-3.relative.rounded-md .z-10 {
+    display: flex;
+    align-items: center;
+    
+}
+
+#global .space-y-1 .items-center.gap-3.relative.rounded-md .overflow-hidden.break-all.relative{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#global .space-y-1 .items-center.gap-3.relative.rounded-md.bg-gray-800 {
+    background: #0F1110;
+}
+
+#global .flex.h-full.max-w-full.flex-1.flex-col {
+    width: 80.5%;
+}
+
+
+@media (min-width: 1900px) {
+
+    .header_global .logo {
+        min-width: 375px;
+        max-width: 375px;
+    }
+
+    #global .bg-gray-900 {
+        min-width: 375px;
+        max-width: 375px;
+    }
+
+}
+

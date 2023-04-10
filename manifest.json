@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "ChatGPT Theme Customizer",
+  "version": "1.0",
+  "description": "A Chrome extension to customize ChatGPT themes.",
+  "permissions": ["activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.openai.com/chatgpt/*"],
+      "js": ["contentScript.js"],
+      "css": ["./assets/css/styles.css"]
+    }
+  ],
+  "icons": {
+    "16": "./assets/images/down.png",
+    "48": "./assets/images/down.png",
+    "128": "./assets/images/down.png"
+  }
+}
