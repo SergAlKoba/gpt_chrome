@@ -249,14 +249,228 @@
 
 #global .flex.items-center.rounded-md.transition-colors.duration-200.text-white.cursor-pointer.text-sm{
     padding: 13px 8px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 18px;
+    letter-spacing: -0.04em;
 }
 
 #global .flex.h-full.max-w-full.flex-1.flex-col {
     width: 80.5%;
     display: flex;
     flex-direction: column-reverse;
+    transition: all 0.4s;
 }
 
+#global .flex.h-full.max-w-full.flex-1.flex-col.active{
+    padding-right: 240px;
+}
+
+#global .menu_content{
+    right: 0;
+    bottom: 0;
+    width: 240px;
+    position: fixed;
+    padding: 24px 16px;
+    border-radius: 16px;
+    background: #171918;
+    height: calc(100vh - 65px);
+    border: 1px solid #202322;
+    transform: translate(105%, 0);
+    transition: all 0.3s;
+}
+
+#global .menu_content.active{
+    transform: translate(0, 0);
+}
+
+#global .menu_content form{
+    position: relative;
+    margin-bottom: 24px;
+}
+
+#global .menu_content form input{
+    z-index: 1;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 18px;
+    position: relative;
+    border-radius: 8px;
+    background: #171918;
+    letter-spacing: -0.04em;
+    border: 1px solid #202322;
+    padding: 10px 20px 10px 48px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+#global .menu_content form button{
+    top: 50%;
+    left: 10px;
+    z-index: 3;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    transform: translate(0, -50%);
+}
+
+#global .menu_content .categories li{
+    padding: 8px 0;
+    flex-wrap: wrap;
+    cursor: pointer;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 18px;
+    position: relative;
+    align-items: center;
+    letter-spacing: -0.04em;
+}
+
+#global .menu_content .categories li::after{
+    content: '';
+    top: 50%;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    background: url('../images/CaretDown.svg') no-repeat 50% 50%;
+    background-size: cover;
+    transform: translate(0, -50%);
+    transition: all 0.3s;
+}
+
+#global .menu_content .categories li.active::after{
+    transform: translate(0, -50%) rotate(180deg);
+}
+
+#global .menu_content .categories .items li::after{
+    top: 8px;
+    width: 16px;
+    height: 16px;
+    transform: translate(0, 0);
+}
+
+#global .menu_content .categories .items li{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#global .menu_content .categories .items li .story_content{
+    padding-top: 14px;
+    display: flex;    
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#global .menu_content .categories .items li .story_content div {
+    width: 48%;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: #202322;
+    border: 1px solid #202322;
+}
+
+#global .menu_content .categories .items li .story_content div p{
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 13px;
+    letter-spacing: -0.04em;
+    color: rgba(255, 255, 255, 0.4);
+    overflow: hidden;
+    display: -moz-box;
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+}
+
+#global .menu_content .categories li img{
+    width: 24px;
+    margin-right: 8px;
+}
+
+#global .menu_content .favourites {
+    margin-bottom: 24px;
+}
+
+#global .menu_content .favourites li{
+    padding: 8px 0;
+    cursor: pointer;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 18px;
+    position: relative;
+    align-items: center;
+    letter-spacing: -0.04em;
+}
+
+#global .menu_content .favourites li::after{
+    content: '';
+    top: 50%;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    background: url('../images/CaretDown.svg') no-repeat 50% 50%;
+    background-size: cover;
+    transform: translate(0, -50%);
+    transition: all 0.3s;
+}
+
+#global .menu_content .favourites li img{
+    width: 24px;
+    margin-right: 8px;
+}
+
+#global .menu_content .purchased_prompts {
+    padding: 8px 0;
+    flex-wrap: wrap;
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 18px;
+    position: relative;
+    margin-bottom: 24px;
+    align-items: center;
+    letter-spacing: -0.04em;
+}
+
+#global .menu_content .purchased_prompts img{
+    width: 24px;
+    margin-right: 8px;
+}
+
+#global .menu_content .discover_more{
+    width: 100%;
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: 600;
+    line-height: 18px;
+    border-radius: 8px;
+    align-items: center;
+    background: #202322;
+    justify-content: center;
+    letter-spacing: -0.04em;
+    transition: all 0.3s;
+}
+
+#global .menu_content .discover_more:hover{
+    color: #202322;
+    background: #FFFFFF;
+}
 
 #global .flex .dark\:bg-gray-800{
     border: none;
@@ -266,12 +480,14 @@
 #global .flex .react-scroll-to-bottom--css-vobxp-79elbk.h-full.dark\:bg-gray-800{
     padding: 0 24px;
 }
+
 #global .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
     padding-top: 104px;
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 {
     margin: 24px;
+    transition: all 0.4s;
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .btn.relative.btn-neutral {
@@ -314,6 +530,10 @@
     border-radius: 0px 16px 16px 16px;
 }
 
+#global .relative.transition-width .w-full.text-gray-800 .lg\:w-\[calc\(100\%-115px\)\]{
+    width: 100%;
+}
+
 #global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3{
     color: #0F1110;
     padding: 16px 24px;
@@ -330,7 +550,15 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
+#global .flex.justify-between.lg\:block{
+    display: none;
+}
+
 #global .flex .text-center.text-xs{
+    display: none;
+}
+
+#global .flex .text-gray-400.flex.self-end{
     display: none;
 }
 
@@ -347,11 +575,64 @@
     background: #0F1110;
 }
 
+#global .flex.items-center.justify-between {
+    padding: 13px 8px 14px;
+}
+
+#global .flex.items-center.justify-between div{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 18px;
+    letter-spacing: -0.04em;
+}
+
+#global .flex.items-center.justify-between div svg {
+    width: 20px;
+    margin-right: 8px;
+}
+
 #global .md\:bottom-2\.5 {
     top: 50%;
     bottom: initial;
     transform: translate(0, -50%);
 }
+
+#global .theme_settings{
+    position: relative;
+    padding: 13px 68px 14px 8px;
+}
+
+#global .theme_settings img{
+    top: 50%;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(0, -50%);
+}
+
+
+
+#global  .theme_settings_content{
+    top: 0;
+    left: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+
+
 
 @media (min-width: 1900px) {
 
@@ -365,4 +646,51 @@
         max-width: 375px;
     }
 
+    #global .flex.h-full.max-w-full.flex-1.flex-col.active {
+        padding-right: 340px;
+    }
+
+    #global .menu_content {
+        width: 340px;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+#global.textury .flex.h-full.max-w-full.flex-1.flex-col{
+    background: url('../images/textury_bg.png') no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#global.textury .flex .react-scroll-to-bottom--css-vobxp-79elbk.h-full.dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.textury .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
+    background: transparent;
+}
+
+#global.textury .flex .dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.textury .flex .bg-gray-50 {
+    background: transparent;
+}
+
+#global.textury .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    background: #E3EEF1;
+}
+
+#global.textury .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    background: rgba(0, 0, 0, 0.64);
+    backdrop-filter: blur(6px);
 }
