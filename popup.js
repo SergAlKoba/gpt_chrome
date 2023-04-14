@@ -6,12 +6,13 @@
 // });
 console.log(0)
 
-const menuBtn = document.querySelector('.menu');
-const element = document.querySelector('.stretch.mx-2.flex.flex-row.gap-3');
-console.log(0)
-menuBtn.addEventListener('click', function() {
+// const menuBtn = document.querySelector('.menu');
+// const element = document.querySelector('.stretch.mx-2.flex.flex-row.gap-3');
+// console.log(0)
+// menuBtn.addEventListener('click', function() {
   
-  element.classList.add('active');
-});
+//   element.classList.add('active');
+// });
+
 
 

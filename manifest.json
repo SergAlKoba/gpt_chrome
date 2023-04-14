@@ -7,21 +7,39 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
+      "16": "./assets/images/down.png",
+      "48": "./assets/images/down.png",
+      "128": "./assets/images/down.png"
     }
   },
-  "content_scripts": [
-    {
-      "matches": ["*://*.openai.com/chatgpt/*"],
-      "js": ["contentScript.js"],
-      "css": ["./assets/css/styles.css"]
-    }
-  ],
+  "content_scripts": [{
+    "matches": ["*://*.openai.com/*"],
+    "js": ["contentScript.js"],
+    "css": ["./assets/css/global_styles.css"]
+  }],
   "icons": {
     "16": "./assets/images/down.png",
     "48": "./assets/images/down.png",
     "128": "./assets/images/down.png"
-  }
+  },
+  "web_accessible_resources": [{
+      "resources": [
+          "assets/images/theme_settings_img1.png",
+          "assets/images/textury_bg.png",
+          "assets/images/Textury art.png",
+          "assets/images/share.svg",
+          "assets/images/search.svg",
+          "assets/images/purchased_prompts_img.svg",
+          "assets/images/PencilSimple.svg",
+          "assets/images/menu.svg",
+          "assets/images/favourites_img.svg",
+          "assets/images/favorites.svg",
+          "assets/images/down.png",
+          "assets/images/ChatTeardropDots.svg",
+          "assets/images/categories_img.svg",
+          "assets/images/CaretDown.svg"
+      ],
+      "use_dynamic_url": false,
+      "matches": ["<all_urls>"]
+    }]
 }
