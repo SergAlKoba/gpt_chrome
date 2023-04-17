@@ -59,45 +59,204 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 document.body.setAttribute('id', 'global');
-document.body.innerHTML += `
-<div class="menu_content active">
-            <form>
-                <button><img src="${chrome.runtime.getURL('assets/images/search.svg')}" alt=""></button>
-                <input type="search" placeholder="Search...">
-            </form>
-            <ul class="categories">
-                <li class="active"><img src="${chrome.runtime.getURL('assets/images/categories_img.svg')}" alt=""> Categories</li>
-                <ul class="items">
-                    <li>
-                        <span style="background: #B4F573;"></span> Finance
-                        <div class="story_content">
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                        </div>
-                    </li>
-                    <li><span style="background: #FFA959;"></span> Artificial Intelligence</li>
-                    <li><span style="background: #59FFE1;"></span> Education</li>
-                    <li><span style="background: #8B9D64;"></span> Bussiness</li>
-                    <li><span style="background: #8E649D;"></span> Sports</li>
-                </ul>
-            </ul>
-            <ul class="favourites">
-                <li><img src="assets/images/favourites_img.svg" alt=""> Favourites</li>
-            </ul>
-            <a class="purchased_prompts" href="javascript:void(0)"><img src="${chrome.runtime.getURL('assets/images/purchased_prompts_img.svg')}" alt=""> Purchased Prompts</a>
-            <a class="discover_more" href="javascript:void(0)">Discover more</a>
-        </div>
-`
+
+let menuContent = document.createElement("div");
+menuContent.className = "menu_content active";
+
+
+let menuContentForm = document.createElement("form");
+
+let menuContentFormButton = document.createElement("button");
+
+let menuContentFormButtonImg = document.createElement("img");
+menuContentFormButtonImg.src = chrome.runtime.getURL('assets/images/search.svg');
+menuContentFormButtonImg.setAttribute("alt", "");
+
+menuContentFormButton.appendChild(menuContentFormButtonImg);
+menuContentForm.appendChild(menuContentFormButton);
+
+let menuContentFormInput = document.createElement("input");
+menuContentFormInput.setAttribute("type", "search");
+menuContentFormInput.setAttribute("placeholder", "Search...");
+
+menuContentForm.appendChild(menuContentFormInput);
+
+menuContent.appendChild(menuContentForm);
+
+
+
+let menuContentCategories = document.createElement("ul");
+menuContentCategories.className = "categories";
+
+let menuContentCategoriesLi = document.createElement("li");
+menuContentCategoriesLi.className = "active";
+
+let menuContentCategoriesLiImg = document.createElement("img");
+menuContentCategoriesLiImg.src = chrome.runtime.getURL('assets/images/categories_img.svg');
+menuContentCategoriesLiImg.setAttribute("alt", "");
+
+menuContentCategoriesLi.appendChild(menuContentCategoriesLiImg);
+
+let menuContentCategoriesLiText = document.createTextNode(" Categories");
+
+menuContentCategoriesLi.appendChild(menuContentCategoriesLiText);
+
+menuContentCategories.appendChild(menuContentCategoriesLi);
+
+let menuContentCategoriesItems = document.createElement("ul");
+menuContentCategoriesItems.className = "items";
+
+let menuContentCategoriesItemsLi = document.createElement("li");
+
+let menuContentCategoriesItemsLiSpan = document.createElement("span");
+menuContentCategoriesItemsLiSpan.style = "background: #B4F573";
+
+menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiSpan);
+
+let menuContentCategoriesItemsLiText = document.createTextNode(" Finance");
+
+menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiText);
+
+let menuContentCategoriesItemsLiStoryContent = document.createElement("div");
+
+menuContentCategoriesItemsLiStoryContent.className = "story_content";
+
+
+let menuContentCategoriesItemsLiStoryContentDiv1 = document.createElement("div");
+let menuContentCategoriesItemsLiStoryContentDiv1P = document.createElement("p");
+menuContentCategoriesItemsLiStoryContentDiv1P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
+
+menuContentCategoriesItemsLiStoryContentDiv1.appendChild(menuContentCategoriesItemsLiStoryContentDiv1P);
+menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv1);
+
+let menuContentCategoriesItemsLiStoryContentDiv2 = document.createElement("div");
+let menuContentCategoriesItemsLiStoryContentDiv2P = document.createElement("p");
+menuContentCategoriesItemsLiStoryContentDiv2P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
+
+menuContentCategoriesItemsLiStoryContentDiv2.appendChild(menuContentCategoriesItemsLiStoryContentDiv2P);
+menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv2);
+
+let menuContentCategoriesItemsLiStoryContentDiv3 = document.createElement("div");
+let menuContentCategoriesItemsLiStoryContentDiv3P = document.createElement("p");
+menuContentCategoriesItemsLiStoryContentDiv3P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
+
+menuContentCategoriesItemsLiStoryContentDiv3.appendChild(menuContentCategoriesItemsLiStoryContentDiv3P);
+menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv3);
+
+let menuContentCategoriesItemsLiStoryContentDiv4 = document.createElement("div");
+let menuContentCategoriesItemsLiStoryContentDiv4P = document.createElement("p");
+menuContentCategoriesItemsLiStoryContentDiv4P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
+
+menuContentCategoriesItemsLiStoryContentDiv4.appendChild(menuContentCategoriesItemsLiStoryContentDiv4P);
+menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv4);
+
+menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiStoryContent);
+menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
+
+
+
+let menuContentCategoriesItemsLi2 = document.createElement("li");
+let menuContentCategoriesItemsLi2Span = document.createElement("span");
+
+menuContentCategoriesItemsLi2Span.style = "background: #FFA959";
+
+menuContentCategoriesItemsLi2.appendChild(menuContentCategoriesItemsLi2Span);
+
+let menuContentCategoriesItemsLi2Text = document.createTextNode(" Artificial Intelligence");
+
+menuContentCategoriesItemsLi2.appendChild(menuContentCategoriesItemsLi2Text);
+menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi2);
+
+
+
+let menuContentCategoriesItemsLi3 = document.createElement("li");
+let menuContentCategoriesItemsLi3Span = document.createElement("span");
+
+menuContentCategoriesItemsLi3Span.style = "background: #59FFE1";
+
+menuContentCategoriesItemsLi3.appendChild(menuContentCategoriesItemsLi3Span);
+
+let menuContentCategoriesItemsLi3Text = document.createTextNode(" Education");
+
+menuContentCategoriesItemsLi3.appendChild(menuContentCategoriesItemsLi3Text);
+menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi3);
+
+
+let menuContentCategoriesItemsLi4 = document.createElement("li");
+let menuContentCategoriesItemsLi4Span = document.createElement("span");
+
+menuContentCategoriesItemsLi4Span.style = "background: #8B9D64";
+
+menuContentCategoriesItemsLi4.appendChild(menuContentCategoriesItemsLi4Span);
+
+let menuContentCategoriesItemsLi4Text = document.createTextNode(" Bussiness");
+
+menuContentCategoriesItemsLi4.appendChild(menuContentCategoriesItemsLi4Text);
+menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi4);
+
+
+
+let menuContentCategoriesItemsLi5 = document.createElement("li");
+let menuContentCategoriesItemsLi5Span = document.createElement("span");
+
+menuContentCategoriesItemsLi5Span.style = "background: #8E649D";
+
+menuContentCategoriesItemsLi5.appendChild(menuContentCategoriesItemsLi5Span);
+
+let menuContentCategoriesItemsLi5Text = document.createTextNode(" Sports");
+
+menuContentCategoriesItemsLi5.appendChild(menuContentCategoriesItemsLi5Text);
+menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi5);
+
+
+
+menuContentCategories.appendChild(menuContentCategoriesItems);
+menuContent.appendChild(menuContentCategories);
+
+let menuContentFavorites = document.createElement("ul");
+menuContentFavorites.className = "favourites";
+
+let menuContentFavoritesLi = document.createElement("li");
+let menuContentFavoritesLiImg = document.createElement("img");
+menuContentFavoritesLiImg.src = chrome.runtime.getURL('assets/images/favourites_img.svg');
+menuContentFavoritesLiImg.setAttribute("alt", "");
+
+menuContentFavoritesLi.appendChild(menuContentFavoritesLiImg);
+
+let menuContentFavoritesLiText = document.createTextNode(" Favourites");
+
+menuContentFavoritesLi.appendChild(menuContentFavoritesLiText);
+menuContentFavorites.appendChild(menuContentFavoritesLi);
+menuContent.appendChild(menuContentFavorites);
+
+let menuContentPurchasedPrompts = document.createElement("a");
+menuContentPurchasedPrompts.className = "purchased_prompts";
+menuContentPurchasedPrompts.setAttribute("href","javascript:void(0)");
+
+
+let menuContentPurchasedPromptsImg = document.createElement("img");
+menuContentPurchasedPromptsImg.src = chrome.runtime.getURL('assets/images/purchased_prompts_img.svg');
+menuContentPurchasedPromptsImg.setAttribute("alt","");
+
+menuContentPurchasedPrompts.appendChild(menuContentPurchasedPromptsImg);
+
+let menuContentPurchasedPromptsText = document.createTextNode(" Purchased Prompts");
+menuContentPurchasedPrompts.appendChild(menuContentPurchasedPromptsText);
+menuContent.appendChild(menuContentPurchasedPrompts);
+
+let menuContentDiscoverMore = document.createElement("a");
+menuContentDiscoverMore.className = "discover_more";
+menuContentDiscoverMore.setAttribute("href","javascript:void(0)");
+
+let menuContentDiscoverMoreText = document.createTextNode("Discover more");
+menuContentDiscoverMore.appendChild(menuContentDiscoverMoreText);
+
+menuContent.appendChild(menuContentDiscoverMore);
+
+document.body.appendChild(menuContent);
+
+
+
 
 let header = document.createElement("header");
 header.className = 'header_global';
@@ -159,23 +318,7 @@ account.appendChild(accountSettings);
 header.appendChild(account);
 document.body.appendChild(header);
 
-// document.body.innerHTML += `
-// <header class="header_global">
-//         <div class="logo">
-//             <h2>Got <span>Good.</span></h2>
-//         </div>
-//         <div class="account">
-//             <div class="user">
-//                 <span>Artificial Intelligence chat room</span>\
-//             </div>
-//             <div class="settings">
-//                 <a class="favorites" href="javascript:void(0)"><img src="${chrome.runtime.getURL('./assets/images/favorites.svg')}" alt=""></a>
-//                 <a class="share" href="javascript:void(0)"><img src="${chrome.runtime.getURL('./assets/images/share.svg')}" alt=""></a>
-//                 <a class="menu" href="javascript:void(0)"><img src="${chrome.runtime.getURL('assets/images/menu.svg')}" alt=""></a>
-//             </div>
-//         </div>
-//     </header>
-// `
+
 
 
 let themeSettingsContent = document.createElement("div");
@@ -194,23 +337,44 @@ let settingContentFormButtonImg = document.createElement("img");
 settingContentFormButtonImg.src = chrome.runtime.getURL('assets/images/search.svg');
 settingContentFormButtonImg.setAttribute("alt", "");
 
-document.body.innerHTML += `
-<div class="theme_settings_content" style="display: none;">
-        <div class="settings_content">
-            <form action="">
-                <button><img src="${chrome.runtime.getURL('assets/images/search.svg')}" alt=""></button>
-                <input type="search" placeholder="Search theme...">
-            </form>
-            <div class="tabs">
-                <ul class="tabs_nav">
-                    <li data-tabs="tone" class="tabs_item active">Tone</li>
-                    <li data-tabs="style" class="tabs_item">Style</li>
-                </ul>
-                <div class="tabs_nav_content tone"></div>
-                <div class="tabs_nav_content style"></div>
-            </div>
-        </div>
-    </div>
-`
+let settingContentFormInput = document.createElement("input");
+settingContentFormInput.setAttribute("type", "search");
+settingContentFormInput.setAttribute("placeholder", "Search theme...");
+
+let settingContentTabs = document.createElement("div");
+settingContentTabs.className = "tabs";
+
+let settingContentTabsList = document.createElement("ul");
+settingContentTabsList.className = "tabs_nav";
+
+let liTone = document.createElement("li");
+liTone.setAttribute("data-tabs", "tone");
+liTone.classList.add("tabs_item", "active");
+liTone.innerText = "Tone";
+
+let liStyle = document.createElement('li');
+liStyle.setAttribute("data-tabs", "style");
+liStyle.classList.add("tabs_item");
+liStyle.innerText = "Style";
+
+let settingContentTabsTone = document.createElement("div");
+settingContentTabsTone.className = "tabs_nav_content tone";
+let settingContentTabsStyle = document.createElement("div");
+settingContentTabsStyle.className = "tabs_nav_content style";
+
+settingContentTabs.appendChild(settingContentTabsStyle);
+settingContentTabs.appendChild(settingContentTabsTone);
+settingContentTabsList.appendChild(liTone);
+settingContentTabsList.appendChild(liStyle);
+settingContentTabs.appendChild(settingContentTabsList);
+settingsContentForm.appendChild(settingContentFormInput);
+settingContentFormButton.appendChild(settingContentFormButtonImg);
+settingsContentForm.appendChild(settingContentFormButton);
+settingsContent.appendChild(settingContentTabs);
+settingsContent.appendChild(settingsContentForm);
+themeSettingsContent.appendChild(settingsContent);
+document.body.appendChild(themeSettingsContent);
+
+
 
 document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col').classList.add('active')
