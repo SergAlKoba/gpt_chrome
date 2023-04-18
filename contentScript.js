@@ -60,29 +60,30 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 document.body.setAttribute('id', 'global');
 
-let menuContent = document.createElement("div");
-menuContent.className = "menu_content active";
+function createContentForm() { 
+  let menuContentForm = document.createElement("form");
+  let menuContentFormButton = document.createElement("button");
+  let menuContentFormButtonImg = document.createElement("img");
+  menuContentFormButtonImg.src = chrome.runtime.getURL('assets/images/search.svg');
+  menuContentFormButtonImg.setAttribute("alt", "");
 
+  menuContentFormButton.appendChild(menuContentFormButtonImg);
+  menuContentForm.appendChild(menuContentFormButton);
 
-let menuContentForm = document.createElement("form");
+  let menuContentFormInput = document.createElement("input");
+  menuContentFormInput.setAttribute("type", "search");
+  menuContentFormInput.setAttribute("placeholder", "Search...");
 
-let menuContentFormButton = document.createElement("button");
+  menuContentForm.appendChild(menuContentFormInput);
+  return menuContentForm;
+}
 
-let menuContentFormButtonImg = document.createElement("img");
-menuContentFormButtonImg.src = chrome.runtime.getURL('assets/images/search.svg');
-menuContentFormButtonImg.setAttribute("alt", "");
-
-menuContentFormButton.appendChild(menuContentFormButtonImg);
-menuContentForm.appendChild(menuContentFormButton);
-
-let menuContentFormInput = document.createElement("input");
-menuContentFormInput.setAttribute("type", "search");
-menuContentFormInput.setAttribute("placeholder", "Search...");
-
-menuContentForm.appendChild(menuContentFormInput);
-
-menuContent.appendChild(menuContentForm);
-
+const menuContent = document.createElement("div");
+function createMenuContent() {
+  menuContent.className = "menu_content active";
+  menuContent.appendChild(createContentForm()); 
+}
+createMenuContent();
 
 
 let menuContentCategories = document.createElement("ul");
@@ -121,34 +122,16 @@ let menuContentCategoriesItemsLiStoryContent = document.createElement("div");
 
 menuContentCategoriesItemsLiStoryContent.className = "story_content";
 
-
-let menuContentCategoriesItemsLiStoryContentDiv1 = document.createElement("div");
-let menuContentCategoriesItemsLiStoryContentDiv1P = document.createElement("p");
-menuContentCategoriesItemsLiStoryContentDiv1P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
-
-menuContentCategoriesItemsLiStoryContentDiv1.appendChild(menuContentCategoriesItemsLiStoryContentDiv1P);
-menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv1);
-
-let menuContentCategoriesItemsLiStoryContentDiv2 = document.createElement("div");
-let menuContentCategoriesItemsLiStoryContentDiv2P = document.createElement("p");
-menuContentCategoriesItemsLiStoryContentDiv2P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
-
-menuContentCategoriesItemsLiStoryContentDiv2.appendChild(menuContentCategoriesItemsLiStoryContentDiv2P);
-menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv2);
-
-let menuContentCategoriesItemsLiStoryContentDiv3 = document.createElement("div");
-let menuContentCategoriesItemsLiStoryContentDiv3P = document.createElement("p");
-menuContentCategoriesItemsLiStoryContentDiv3P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
-
-menuContentCategoriesItemsLiStoryContentDiv3.appendChild(menuContentCategoriesItemsLiStoryContentDiv3P);
-menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv3);
-
-let menuContentCategoriesItemsLiStoryContentDiv4 = document.createElement("div");
-let menuContentCategoriesItemsLiStoryContentDiv4P = document.createElement("p");
-menuContentCategoriesItemsLiStoryContentDiv4P.innerText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
-
-menuContentCategoriesItemsLiStoryContentDiv4.appendChild(menuContentCategoriesItemsLiStoryContentDiv4P);
-menuContentCategoriesItemsLiStoryContent.appendChild(menuContentCategoriesItemsLiStoryContentDiv4);
+const menuDivText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
+let menuDivs = [];
+for (let i = 0; i < 4; i++) {
+  const menuDiv = document.createElement("div");
+  const menuDivP = document.createElement("p");
+  menuDivP.innerText = menuDivText;
+  menuDiv.appendChild(menuDivP);
+  menuDivs[i] = menuDiv;
+}
+menuContentCategoriesItemsLiStoryContent.append(...menuDivs);
 
 menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiStoryContent);
 menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
@@ -231,12 +214,12 @@ menuContent.appendChild(menuContentFavorites);
 
 let menuContentPurchasedPrompts = document.createElement("a");
 menuContentPurchasedPrompts.className = "purchased_prompts";
-menuContentPurchasedPrompts.setAttribute("href","javascript:void(0)");
+menuContentPurchasedPrompts.setAttribute("href", "javascript:void(0)");
 
 
 let menuContentPurchasedPromptsImg = document.createElement("img");
 menuContentPurchasedPromptsImg.src = chrome.runtime.getURL('assets/images/purchased_prompts_img.svg');
-menuContentPurchasedPromptsImg.setAttribute("alt","");
+menuContentPurchasedPromptsImg.setAttribute("alt", "");
 
 menuContentPurchasedPrompts.appendChild(menuContentPurchasedPromptsImg);
 
@@ -246,7 +229,7 @@ menuContent.appendChild(menuContentPurchasedPrompts);
 
 let menuContentDiscoverMore = document.createElement("a");
 menuContentDiscoverMore.className = "discover_more";
-menuContentDiscoverMore.setAttribute("href","javascript:void(0)");
+menuContentDiscoverMore.setAttribute("href", "javascript:void(0)");
 
 let menuContentDiscoverMoreText = document.createTextNode("Discover more");
 menuContentDiscoverMore.appendChild(menuContentDiscoverMoreText);
