@@ -360,4 +360,6 @@ document.body.appendChild(themeSettingsContent);
 
 
 
-document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col').classList.add('active')
+// document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col').classList.add('active')
+
+
