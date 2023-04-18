@@ -376,47 +376,34 @@ const toneItemsData = [
   { url: 'assets/images/tone_item_5.png', title: "Textury art" },
 ];
 
-function createNavContentStyle() {
-  let tabsNavContentStyle = document.createElement("div");
-  tabsNavContentStyle.setAttribute("class", "tabs_nav_content style");
+function createTabsDiv() {
+  let tabsDiv = document.createElement('div');
+  tabsDiv.className = 'tabs';
 
-  let styleItems = document.createElement("div");
-  styleItems.setAttribute("class", "style_items");
+  let ul = document.createElement('ul');
+  ul.className = 'tabs_nav';
+  tabsDiv.appendChild(ul);
 
-  for (let i = 0; i < 6; i++) {
-    let styleItem = document.createElement("div");
-    styleItem.setAttribute("class", "style_item");
-    if (i === 0) {
-      styleItem.setAttribute("class", "style_item active");
+  let li1 = document.createElement('li');
+  li1.setAttribute('data-tabs', 'tone');
+  li1.className = 'tabs_item active';
+  li1.textContent = 'Tone';
+  ul.appendChild(li1);
 
-      let h4 = document.createElement("h4");
-      h4.innerText = "Aa";
-      styleItem.appendChild(h4);
+  let li2 = document.createElement('li');
+  li2.setAttribute('data-tabs', 'style');
+  li2.className = 'tabs_item';
+  li2.textContent = 'Style';
+  ul.appendChild(li2);
 
-      let p = document.createElement("p");
-      p.innerText = "The quick brown fox jumps over the lazy dog";
-      styleItem.appendChild(p);
-
-      styleItems.appendChild(styleItem);
-    }
-  }
-
-  tabsNavContentStyle.appendChild(styleItems);
-
-  return tabsNavContentStyle;
-}
-
-function createNavContent() {
-  let tabsNavContent = document.createElement('div');
-  tabsNavContent.setAttribute('class', 'tabs_nav_content tone active');
+  let tabsNavContentTone = document.createElement('div');
+  tabsNavContentTone.setAttribute('class', 'tabs_nav_content tone active');
 
   let toneItems = document.createElement('div');
   toneItems.setAttribute('class', 'tone_items');
 
-
   for (let i = 0; i < toneItemsData.length; i++) {
     const item = toneItemsData[i];
-
     let toneItem = document.createElement('div');
     toneItem.setAttribute('class', 'tone_item');
     let toneItemImg = document.createElement('img');
@@ -431,33 +418,50 @@ function createNavContent() {
     toneItems.append(toneItem);
   }
 
-  tabsNavContent.append(toneItems);
-  return tabsNavContent;
-}
+  tabsNavContentTone.append(toneItems);
 
-function createTabsDiv() {
-  let tabsDiv = document.createElement("div");
-  tabsDiv.className = "tabs";
+  let styleItems = document.createElement('div');
+  styleItems.setAttribute('class', 'style_items');
 
-  let ul = document.createElement("ul");
-  ul.className = "tabs_nav";
-  tabsDiv.appendChild(ul);
+  for (let i = 0; i < 6; i++) {
+    let styleItem = document.createElement('div');
+    styleItem.setAttribute('class', 'style_item');
+    if (i === 0) {
+      styleItem.setAttribute('class', 'style_item active');
 
-  let li1 = document.createElement("li");
-  li1.setAttribute("data-tabs", "tone");
-  li1.className = "tabs_item active";
-  li1.textContent = "Tone";
-  ul.appendChild(li1);
+      let h4 = document.createElement('h4');
+      h4.innerText = 'Aa';
+      styleItem.appendChild(h4);
 
-  let li2 = document.createElement("li");
-  li2.setAttribute("data-tabs", "style");
-  li2.className = "tabs_item";
-  li2.textContent = "Style";
-  ul.appendChild(li2);
+      let p = document.createElement('p');
+      p.innerText = 'The quick brown fox jumps over the lazy dog';
+      styleItem.appendChild(p);
+
+      styleItems.appendChild(styleItem);
+    }
+  }
+
+  let tabsNavContentStyle = document.createElement('div');
+  tabsNavContentStyle.setAttribute('class', 'tabs_nav_content style');
+  tabsNavContentStyle.appendChild(styleItems);
+
+  li1.onclick = () => {
+    li1.classList.add("active");
+    li2.classList.remove("active");
+    tabsNavContentTone.classList.add('active');
+    tabsNavContentStyle.classList.remove('active');
+  };
+  li2.onclick = () => {
+    li1.classList.remove("active");
+    li2.classList.add("active");
+    tabsNavContentTone.classList.remove('active');
+    tabsNavContentStyle.classList.add('active');
+  };
 
 
-  tabsDiv.appendChild(createNavContent());
-  tabsDiv.appendChild(createNavContentStyle());
+
+  tabsDiv.appendChild(tabsNavContentTone);
+  tabsDiv.appendChild(tabsNavContentStyle);
 
   return tabsDiv;
 }
@@ -490,6 +494,10 @@ function createSettingsDiv() {
   applyLink.setAttribute("href", "javascript:void(0)");
   applyLink.textContent = "Apply";
 
+  applyLink.onclick = ()=>{
+    localStorage.setItem('style', window.selectedStyle);
+  }
+
   settingsDiv.appendChild(createForm());
   settingsDiv.appendChild(createTabsDiv());
   settingsDiv.appendChild(applyLink);
@@ -499,10 +507,11 @@ function createSettingsDiv() {
 
 function createThemeSettingsContent() {
   let div = document.createElement("div");
-  div.className = "theme_settings_content";
+  div.className = "theme_settings_content active";
 
   let span = document.createElement("span");
   span.className = "close";
+  span.onclick = () => div.classList.remove("active");
 
   div.appendChild(span);
   div.appendChild(createSettingsDiv());
