@@ -60,7 +60,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 document.body.setAttribute('id', 'global');
 
-function createContentForm() { 
+
+
+function createContentForm() {
   let menuContentForm = document.createElement("form");
   let menuContentFormButton = document.createElement("button");
   let menuContentFormButtonImg = document.createElement("img");
@@ -81,9 +83,10 @@ function createContentForm() {
 const menuContent = document.createElement("div");
 function createMenuContent() {
   menuContent.className = "menu_content active";
-  menuContent.appendChild(createContentForm()); 
+  menuContent.appendChild(createContentForm());
 }
 createMenuContent();
+
 
 
 let menuContentCategories = document.createElement("ul");
@@ -358,6 +361,156 @@ settingsContent.appendChild(settingsContentForm);
 themeSettingsContent.appendChild(settingsContent);
 document.body.appendChild(themeSettingsContent);
 
+
+
+const toneItemsData = [
+  { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme" },
+  { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme" },
+  { url: 'assets/images/tone_item_2.png', title: "Blue ocean" },
+  { url: 'assets/images/tone_item_2.png', title: "Blue ocean" },
+  { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic" },
+  { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic" },
+  { url: 'assets/images/tone_item_4.png', title: "Colorful gradient" },
+  { url: 'assets/images/tone_item_4.png', title: "Colorful gradient" },
+  { url: 'assets/images/tone_item_5.png', title: "Textury art" },
+  { url: 'assets/images/tone_item_5.png', title: "Textury art" },
+];
+
+function createNavContentStyle() {
+  let tabsNavContentStyle = document.createElement("div");
+  tabsNavContentStyle.setAttribute("class", "tabs_nav_content style");
+
+  let styleItems = document.createElement("div");
+  styleItems.setAttribute("class", "style_items");
+
+  for (let i = 0; i < 6; i++) {
+    let styleItem = document.createElement("div");
+    styleItem.setAttribute("class", "style_item");
+    if (i === 0) {
+      styleItem.setAttribute("class", "style_item active");
+
+      let h4 = document.createElement("h4");
+      h4.innerText = "Aa";
+      styleItem.appendChild(h4);
+
+      let p = document.createElement("p");
+      p.innerText = "The quick brown fox jumps over the lazy dog";
+      styleItem.appendChild(p);
+
+      styleItems.appendChild(styleItem);
+    }
+  }
+
+  tabsNavContentStyle.appendChild(styleItems);
+
+  return tabsNavContentStyle;
+}
+
+function createNavContent() {
+  let tabsNavContent = document.createElement('div');
+  tabsNavContent.setAttribute('class', 'tabs_nav_content tone active');
+
+  let toneItems = document.createElement('div');
+  toneItems.setAttribute('class', 'tone_items');
+
+
+  for (let i = 0; i < toneItemsData.length; i++) {
+    const item = toneItemsData[i];
+
+    let toneItem = document.createElement('div');
+    toneItem.setAttribute('class', 'tone_item');
+    let toneItemImg = document.createElement('img');
+    toneItemImg.setAttribute('src', chrome.runtime.getURL(item.url));
+    toneItemImg.setAttribute('alt', '');
+    let toneItemHeading = document.createElement('h4');
+    toneItemHeading.textContent = item.title;
+    let toneItemParagraph = document.createElement('p');
+    toneItemParagraph.textContent = 'by John Bolino';
+
+    toneItem.append(toneItemImg, toneItemHeading, toneItemParagraph);
+    toneItems.append(toneItem);
+  }
+
+  tabsNavContent.append(toneItems);
+  return tabsNavContent;
+}
+
+function createTabsDiv() {
+  let tabsDiv = document.createElement("div");
+  tabsDiv.className = "tabs";
+
+  let ul = document.createElement("ul");
+  ul.className = "tabs_nav";
+  tabsDiv.appendChild(ul);
+
+  let li1 = document.createElement("li");
+  li1.setAttribute("data-tabs", "tone");
+  li1.className = "tabs_item active";
+  li1.textContent = "Tone";
+  ul.appendChild(li1);
+
+  let li2 = document.createElement("li");
+  li2.setAttribute("data-tabs", "style");
+  li2.className = "tabs_item";
+  li2.textContent = "Style";
+  ul.appendChild(li2);
+
+
+  tabsDiv.appendChild(createNavContent());
+  tabsDiv.appendChild(createNavContentStyle());
+
+  return tabsDiv;
+}
+
+function createForm() {
+  let form = document.createElement("form");
+  form.setAttribute("action", "");
+  let button = document.createElement("button");
+  form.appendChild(button);
+
+  let img = document.createElement("img");
+  img.setAttribute('src', chrome.runtime.getURL('assets/images/search.svg'));
+  img.setAttribute("alt", "");
+  button.appendChild(img);
+
+  let input = document.createElement("input");
+  input.setAttribute("type", "search");
+  input.setAttribute("placeholder", "Search theme...");
+  form.appendChild(input);
+
+  return form;
+}
+
+function createSettingsDiv() {
+  let settingsDiv = document.createElement("div");
+  settingsDiv.className = "settings_content";
+
+  let applyLink = document.createElement("a");
+  applyLink.setAttribute("class", "apply");
+  applyLink.setAttribute("href", "javascript:void(0)");
+  applyLink.textContent = "Apply";
+
+  settingsDiv.appendChild(createForm());
+  settingsDiv.appendChild(createTabsDiv());
+  settingsDiv.appendChild(applyLink);
+  return settingsDiv;
+
+}
+
+function createThemeSettingsContent() {
+  let div = document.createElement("div");
+  div.className = "theme_settings_content";
+
+  let span = document.createElement("span");
+  span.className = "close";
+
+  div.appendChild(span);
+  div.appendChild(createSettingsDiv());
+
+  return div;
+};
+
+document.body.appendChild(createThemeSettingsContent());
 
 
 // document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col').classList.add('active')

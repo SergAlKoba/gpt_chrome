@@ -24,6 +24,12 @@
   },
   "web_accessible_resources": [{
       "resources": [
+          "assets/images/tone_item_1.png",
+          "assets/images/tone_item_2.png",
+          "assets/images/tone_item_3.png",
+          "assets/images/tone_item_4.png",
+          "assets/images/tone_item_5.png",
+          "assets/images/tone_item_check.svg",
           "assets/images/theme_settings_img1.png",
           "assets/images/textury_bg.png",
           "assets/images/Textury art.png",
