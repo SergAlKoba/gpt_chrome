@@ -774,7 +774,7 @@
     width: 16px;
     height: 16px;
     position: absolute;
-    background: url('../images/tone_item_check.svg') no-repeat 50% 50%;
+    background: var(--checkIcon) no-repeat 50% 50%;
     background-size: cover;
     transform: translate(0, -50%);
 }

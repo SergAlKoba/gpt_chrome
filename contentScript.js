@@ -1,3 +1,8 @@
+let selectedTone = localStorage.getItem("tone");
+let selectedStyle = localStorage.getItem("style");
+
+console.log({ selectedTone, selectedStyle });
+
 function addCustomizeThemeButton() {
   const updatesAndFAQ = document.querySelector('YOUR_SELECTOR_HERE');
   if (updatesAndFAQ) {
@@ -242,52 +247,35 @@ menuContent.appendChild(menuContentDiscoverMore);
 document.body.appendChild(menuContent);
 
 
+const createElement = (tagName, className) => {
+  const element = document.createElement(tagName);
+  element.className = className;
+  return element;
+};
 
-
-let header = document.createElement("header");
-header.className = 'header_global';
-
-let logo = document.createElement("div");
-logo.className = 'logo';
-
-let logoH2 = document.createElement("h2");
+const header = createElement("header", "header_global");
+const logo = createElement("div", "logo");
+const logoH2 = createElement("h2");
 logoH2.innerText = "Got ";
-
-let logoH2Span = document.createElement("span");
+const logoH2Span = createElement("span");
 logoH2Span.innerText = "Good.";
-
-let account = document.createElement("div");
-account.className = "account";
-
-let accountUser = document.createElement("div");
-accountUser.className = "user";
-
-let accountUserSpan = document.createElement("span");
+const account = createElement("div", "account");
+const accountUser = createElement("div", "user");
+const accountUserSpan = createElement("span");
 accountUserSpan.innerText = "Artificial Intelligence chat room";
-
-let accountSettings = document.createElement("div");
-accountSettings.className = "settings";
-
-let settingsFavoritesImg = document.createElement("img");
+const accountSettings = createElement("div", "settings");
+const settingsFavoritesLink = createElement("a", "favorites");
+const settingsFavoritesImg = createElement("img");
 settingsFavoritesImg.src = chrome.runtime.getURL('./assets/images/favorites.svg');
 settingsFavoritesImg.setAttribute("alt", "");
-
-let settingsShareImg = document.createElement("img");
+const settingsShareLink = createElement("a", "share");
+const settingsShareImg = createElement("img");
 settingsShareImg.src = chrome.runtime.getURL('./assets/images/share.svg');
 settingsShareImg.setAttribute("alt", "");
-
-let settingsMenuImg = document.createElement("img");
+const settingsMenuLink = createElement("a", "menu");
+const settingsMenuImg = createElement("img");
 settingsMenuImg.src = chrome.runtime.getURL('assets/images/menu.svg');
 settingsMenuImg.setAttribute("alt", "");
-
-let settingsFavoritesLink = document.createElement("a");
-settingsFavoritesLink.className = 'favorites';
-
-let settingsShareLink = document.createElement("a");
-settingsShareLink.className = 'share';
-
-let settingsMenuLink = document.createElement("a");
-settingsMenuLink.className = 'menu';
 
 logoH2.appendChild(logoH2Span);
 logo.appendChild(logoH2);
@@ -303,7 +291,6 @@ accountSettings.appendChild(settingsMenuLink);
 account.appendChild(accountSettings);
 header.appendChild(account);
 document.body.appendChild(header);
-
 
 
 
@@ -406,6 +393,10 @@ function createTabsDiv() {
     const item = toneItemsData[i];
     let toneItem = document.createElement('div');
     toneItem.setAttribute('class', 'tone_item');
+    if (i.toString() == selectedTone) {
+      toneItem.classList.add("active");
+    }
+    toneItem.style.setProperty("--checkIcon", `url(${chrome.runtime.getURL("assets/images/tone_item_check.svg")})`);
     let toneItemImg = document.createElement('img');
     toneItemImg.setAttribute('src', chrome.runtime.getURL(item.url));
     toneItemImg.setAttribute('alt', '');
@@ -413,6 +404,14 @@ function createTabsDiv() {
     toneItemHeading.textContent = item.title;
     let toneItemParagraph = document.createElement('p');
     toneItemParagraph.textContent = 'by John Bolino';
+
+    toneItem.onclick = () => {
+      selectedTone = i;
+      Array.from(toneItems.children).forEach(item => {
+        item.classList.remove("active");
+      });
+      toneItem.classList.add("active");
+    };
 
     toneItem.append(toneItemImg, toneItemHeading, toneItemParagraph);
     toneItems.append(toneItem);
@@ -423,22 +422,37 @@ function createTabsDiv() {
   let styleItems = document.createElement('div');
   styleItems.setAttribute('class', 'style_items');
 
+
+
   for (let i = 0; i < 6; i++) {
     let styleItem = document.createElement('div');
     styleItem.setAttribute('class', 'style_item');
-    if (i === 0) {
-      styleItem.setAttribute('class', 'style_item active');
 
-      let h4 = document.createElement('h4');
-      h4.innerText = 'Aa';
-      styleItem.appendChild(h4);
-
-      let p = document.createElement('p');
-      p.innerText = 'The quick brown fox jumps over the lazy dog';
-      styleItem.appendChild(p);
-
-      styleItems.appendChild(styleItem);
+    if (i.toString() == selectedStyle) {
+      styleItem.classList.add("active");
     }
+
+    let h4 = document.createElement('h4');
+    h4.innerText = 'Aa';
+    styleItem.appendChild(h4);
+
+    let p = document.createElement('p');
+    p.innerText = 'The quick brown fox jumps over the lazy dog';
+
+
+    styleItem.onclick = () => {
+      selectedStyle = i;
+      Array.from(styleItems.children).forEach(item => {
+        item.classList.remove("active");
+      });
+      styleItem.classList.add("active");
+    };
+
+
+    styleItem.appendChild(p);
+
+    styleItems.appendChild(styleItem);
+
   }
 
   let tabsNavContentStyle = document.createElement('div');
@@ -463,13 +477,18 @@ function createTabsDiv() {
   tabsDiv.appendChild(tabsNavContentTone);
   tabsDiv.appendChild(tabsNavContentStyle);
 
-  return tabsDiv;
+  return {
+    element: tabsDiv, toneItems, styleItems
+  };
 }
 
-function createForm() {
+function createForm(tabsDiv) {
   let form = document.createElement("form");
   form.setAttribute("action", "");
   let button = document.createElement("button");
+  button.onclick = (e) => {
+    e.preventDefault();
+  }
   form.appendChild(button);
 
   let img = document.createElement("img");
@@ -482,6 +501,24 @@ function createForm() {
   input.setAttribute("placeholder", "Search theme...");
   form.appendChild(input);
 
+  input.oninput = (e) => {
+    Array.from(tabsDiv.toneItems.children).forEach(item => {
+      if (!item.textContent.includes(e.target.value)) {
+        item.style.display = "none";
+
+      } else {
+        item.style.display = "block";
+      }
+    });
+    Array.from(tabsDiv.styleItems.children).forEach(item => {
+      if (!item.textContent.includes(e.target.value)) {
+        item.style.display = "none";
+
+      } else {
+        item.style.display = "block";
+      }
+    });
+  }
   return form;
 }
 
@@ -491,15 +528,20 @@ function createSettingsDiv() {
 
   let applyLink = document.createElement("a");
   applyLink.setAttribute("class", "apply");
-  applyLink.setAttribute("href", "javascript:void(0)");
+  applyLink.setAttribute("href", "#");
   applyLink.textContent = "Apply";
 
-  applyLink.onclick = ()=>{
-    localStorage.setItem('style', window.selectedStyle);
-  }
+  applyLink.onclick = (e) => {
+    e.preventDefault();
+    localStorage.setItem('tone', selectedTone);
+    localStorage.setItem('style', selectedStyle);
+    return false;
+  };
 
-  settingsDiv.appendChild(createForm());
-  settingsDiv.appendChild(createTabsDiv());
+  const tabsDiv = createTabsDiv();
+
+  settingsDiv.appendChild(createForm(tabsDiv));
+  settingsDiv.appendChild(tabsDiv.element);
   settingsDiv.appendChild(applyLink);
   return settingsDiv;
 
