@@ -188,6 +188,8 @@ function createSettingsDiv() {
         e.preventDefault();
         localStorage.setItem('tone', selectedTone);
         localStorage.setItem('style', selectedStyle);
+        document.querySelector("#global .theme_settings_content")?.classList.remove("active");
+
         return false;
     };
 
@@ -200,9 +202,9 @@ function createSettingsDiv() {
 
 }
 
-function createThemeSettingsContent() {
+function createModal() {
     let div = document.createElement("div");
-    div.className = "theme_settings_content active";
+    div.className = "theme_settings_content";
 
     let span = document.createElement("span");
     span.className = "close";
@@ -214,7 +216,7 @@ function createThemeSettingsContent() {
     return div;
 };
 
-document.body.appendChild(createThemeSettingsContent());
+document.body.appendChild(createModal());
 
 
 // document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col').classList.add('active')

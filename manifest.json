@@ -14,7 +14,7 @@
   },
   "content_scripts": [{
     "matches": ["*://*.openai.com/*"],
-    "js": ["contentScripts/index.js","contentScripts/modal.js","contentScripts/header.js","contentScripts/sidebar.js"],
+    "js": ["contentScripts/index.js","contentScripts/modal.js","contentScripts/header.js","contentScripts/sidebar.js","contentScripts/leftSideBar.js"],
     "css": ["./assets/css/global_styles.css"]
   }],
   "icons": {
