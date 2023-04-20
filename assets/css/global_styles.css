@@ -936,7 +936,7 @@
 
 
 
-#global.textury .flex.h-full.max-w-full.flex-1.flex-col{
+#global.textury .flex.overflow-hidden.relative{
     background: url('../images/textury_bg.png') no-repeat 50% 50%;
     background-size: cover;
 }
@@ -967,3 +967,95 @@
 }
 
 
+#global.blue_ocean .flex.overflow-hidden.relative{
+    background: url('../images/blue_ocean.png') no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#global.blue_ocean .flex .react-scroll-to-bottom--css-vobxp-79elbk.h-full.dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.blue_ocean .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
+    background: transparent;
+}
+
+#global.blue_ocean .flex .dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.blue_ocean .flex .bg-gray-50 {
+    background: transparent;
+}
+
+#global.blue_ocean .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    background: #F1DAFF;
+}
+
+#global.blue_ocean .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    background: #442D75;
+}
+
+
+#global.lime_vulcanic .flex.overflow-hidden.relative{
+    background: url('../images/lime_vulcanic.png') no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#global.lime_vulcanic .flex .react-scroll-to-bottom--css-vobxp-79elbk.h-full.dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.lime_vulcanic .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
+    background: transparent;
+}
+
+#global.lime_vulcanic .flex .dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.lime_vulcanic .flex .bg-gray-50 {
+    background: transparent;
+}
+
+#global.lime_vulcanic .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    color: #fff;
+    background: #003BD3;
+}
+
+#global.lime_vulcanic .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    background: rgba(0, 0, 0, 0.64);
+    backdrop-filter: blur(12px);
+}
+
+
+#global.colorful_gradient .flex.overflow-hidden.relative{
+    background: url('../images/colorful_gradient.png') no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#global.colorful_gradient .flex .react-scroll-to-bottom--css-vobxp-79elbk.h-full.dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.colorful_gradient .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
+    background: transparent;
+}
+
+#global.colorful_gradient .flex .dark\:bg-gray-800 {
+    background: transparent;
+}
+
+#global.colorful_gradient .flex .bg-gray-50 {
+    background: transparent;
+}
+
+#global.colorful_gradient .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    color: #000000;
+    background: #FFFACF;
+}
+
+#global.colorful_gradient .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3 {
+    background: #000000;
+    backdrop-filter: blur(12px);
+}
