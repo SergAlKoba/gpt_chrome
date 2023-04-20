@@ -42,3 +42,8 @@ accountSettings.appendChild(settingsMenuLink);
 account.appendChild(accountSettings);
 header.appendChild(account);
 document.body.appendChild(header);
+
+settingsMenuLink.onclick = () => {
+document.getElementsByClassName("menu_content")[0].classList.toggle("active");
+
+}

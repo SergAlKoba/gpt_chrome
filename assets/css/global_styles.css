@@ -340,7 +340,7 @@
     width: 24px;
     height: 24px;
     position: absolute;
-    background: url('../images/CaretDown.svg') no-repeat 50% 50%;
+    background: var(--icon) no-repeat 50% 50%;
     background-size: cover;
     transform: translate(0, -50%);
     transition: all 0.3s;

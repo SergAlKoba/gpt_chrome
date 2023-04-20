@@ -155,16 +155,8 @@ function createForm(tabsDiv) {
     form.appendChild(input);
 
     input.oninput = (e) => {
-        Array.from(tabsDiv.toneItems.children).forEach(item => {
-            if (!item.textContent.includes(e.target.value)) {
-                item.style.display = "none";
-
-            } else {
-                item.style.display = "block";
-            }
-        });
-        Array.from(tabsDiv.styleItems.children).forEach(item => {
-            if (!item.textContent.includes(e.target.value)) {
+        Array.from(document.querySelectorAll(".tone_item, .style_item")).forEach(item => {
+            if (!item.textContent.toLowerCase().includes(e.target.value.toLowerCase())) {
                 item.style.display = "none";
 
             } else {
