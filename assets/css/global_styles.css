@@ -570,6 +570,7 @@
 
 #global .flex .text-base{
     max-width: 100%;
+    padding-right: 50px;
 }
 
 #global .flex .bg-gray-50 {
@@ -896,6 +897,12 @@
     background: transparent;
 }
 
+#global  .button_wait{
+    top: 10px;
+    right: -40px;
+    position: absolute;
+}
+
 @media (min-width: 1900px) {
 
     .header_global .logo {
@@ -918,7 +925,9 @@
 
 }
 
-
+.md\:gap-2{
+    justify-content: flex-end;
+}
 
 
 
