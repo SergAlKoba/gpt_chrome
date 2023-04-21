@@ -21,6 +21,8 @@ const textNode = document.createTextNode("Theme Settings");
 aTag.appendChild(textNode);
 aTag.onclick = (e) => {
     e.preventDefault();
+    selectedStyleTmp = selectedStyle;
+    selectedToneTmp = selectedTone;
     document.querySelector("#global .theme_settings_content")?.classList.add("active");
 }
 

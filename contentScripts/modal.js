@@ -1,9 +1,3 @@
-let selectedTone = localStorage.getItem("tone");
-let selectedStyle = localStorage.getItem("style");
-
-console.log({ selectedTone, selectedStyle });
-
-document.body.setAttribute('class', selectedTone);
 
 
 const toneItemsData = [
@@ -12,6 +6,12 @@ const toneItemsData = [
     { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic", name: "lime_vulcanic" },
     { url: 'assets/images/tone_item_4.png', title: "Colorful gradient", name: "colorful_gradient" },
     { url: 'assets/images/tone_item_5.png', title: "Textury art", name: "textury" },
+];
+const styleItemData = [
+    { title: 'Default', name: 'global_fonts' },
+    { title: 'Roboto', name: 'roboto' },
+    { title: 'Montserrat', name: 'montserrat' },
+    { title: 'Roboto Condensed', name: 'roboto_condensed' },
 ];
 
 function createTabsDiv() {
@@ -59,8 +59,7 @@ function createTabsDiv() {
 
         toneItem.onclick = () => {
             selectedTone = item.name;
-            document.body.setAttribute("class",item.name);
-            document.body.style.setProperty("--mainbg", `url("${chrome.runtime.getURL(`assets/images/${item.name}.png`)}")`);
+            applyCurrentTheme();
             Array.from(toneItems.children).forEach(item => {
                 item.classList.remove("active");
             });
@@ -78,24 +77,29 @@ function createTabsDiv() {
 
 
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < styleItemData.length; i++) {
+        let item = styleItemData[i];
         let styleItem = document.createElement('div');
         styleItem.setAttribute('class', 'style_item');
+        styleItem.setAttribute('data-font', item.name);
 
-        if (i.toString() == selectedStyle) {
+        if (item.name == selectedStyle) {
             styleItem.classList.add("active");
         }
 
         let h4 = document.createElement('h4');
-        h4.innerText = 'Aa';
+        h4.classList.add(item.name);
+        h4.innerText = item.title;
         styleItem.appendChild(h4);
 
         let p = document.createElement('p');
+        p.classList.add(item.name);
         p.innerText = 'The quick brown fox jumps over the lazy dog';
 
 
         styleItem.onclick = () => {
-            selectedStyle = i;
+            selectedStyle = item.name;
+            applyCurrentTheme();
             Array.from(styleItems.children).forEach(item => {
                 item.classList.remove("active");
             });
@@ -201,7 +205,24 @@ function createModal() {
 
     let span = document.createElement("span");
     span.className = "close";
-    span.onclick = () => div.classList.remove("active");
+    span.onclick = () => {
+        selectedTone = selectedToneTmp;
+        selectedStyle = selectedStyleTmp;
+
+        document.querySelectorAll(".theme_settings_content [data-theme]").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        document.querySelectorAll(".theme_settings_content [data-font]").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        document.querySelector(`.theme_settings_content [data-theme="${selectedTone}"]`).classList.add("active");
+        document.querySelector(`.theme_settings_content [data-font="${selectedStyle}"]`).classList.add("active");
+        div.classList.remove("active");
+        
+        applyCurrentTheme();
+    };
 
     div.appendChild(span);
     div.appendChild(createSettingsDiv());
