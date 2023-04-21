@@ -897,7 +897,7 @@
     background: transparent;
 }
 
-#global  .button_wait{
+#global .button_wait{
     top: 10px;
     right: -40px;
     position: absolute;
@@ -926,10 +926,196 @@
 }
 
 .md\:gap-2{
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
 }
 
+#global .latest_google{
+    display: flex;
+    align-items: center;
+}
 
+#global .latest_google .latest_data{
+    display: flex;
+    padding: 10px 0;
+    margin-right: 24px;
+    align-items: center;
+}
+
+#global .latest_google .latest_data img{
+    width: 16px;
+    display: block;
+    margin-right: 6px;
+}
+
+#global .latest_google .latest_data p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 18px;
+    margin-right: 8px;
+    letter-spacing: -0.04em;
+}
+
+#global .latest_google .tone{
+    display: flex;
+    padding: 10px 0;
+    margin-right: 24px;
+    align-items: center;
+}
+
+#global .latest_google .tone:hover ul li ul{
+    display: block;
+}
+
+#global .latest_google .tone:hover ul::after {
+    transform: translate(0, -50%) rotate(180deg);
+}
+
+#global .latest_google .tone p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 18px;
+    margin-right: 4px;
+    letter-spacing: -0.04em;
+}
+
+#global .latest_google .tone ul{
+    position: relative;
+    border-radius: 8px;
+    background: #201C2C;
+    padding: 4px 32px 4px 8px;
+}
+
+#global .latest_google .tone ul::after {
+    content: '';
+    top: 50%;
+    right: 6px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background: url('../images/CaretDown.svg') no-repeat 50% 50%;
+    background-size: cover;
+    transform: translate(0, -50%);
+    transition: all 0.3s;
+}
+
+#global .latest_google .tone ul li{
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #B795FF;
+    line-height: 18px;
+    letter-spacing: -0.04em;
+}
+
+#global .latest_google .tone ul li ul{
+    left: 0;
+    width: 100%;
+    bottom: 30px;
+    display: none;
+    padding: 6px 8px;
+    position: absolute;
+}
+
+#global .latest_google .tone ul li ul::after{
+    display: none;
+}
+
+#global .latest_google .tone ul li ul li{
+    color: #FFFFFF;
+    margin-bottom: 4px;
+    transition: all 0.4s;
+}
+
+#global .latest_google .tone ul li ul li:hover{
+    color: #B795FF;
+}
+
+#global .latest_google .tone ul li ul li:last-child{
+    margin-bottom: 0;
+}
+
+#global .latest_google .style{
+    display: flex;
+    margin-right: 24px;
+    align-items: center;
+    padding: 10px 0;
+}
+
+#global .latest_google .style:hover ul li ul{
+    display: block;
+}
+
+#global .latest_google .style:hover ul::after {
+    transform: translate(0, -50%) rotate(180deg);
+}
+
+#global .latest_google .style p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 18px;
+    margin-right: 4px;
+    letter-spacing: -0.04em;
+}
+
+#global .latest_google .style ul{
+    position: relative;
+    border-radius: 8px;
+    background: #1C2C1F;
+    padding: 4px 32px 4px 8px;
+}
+
+#global .latest_google .style ul::after {
+    content: '';
+    top: 50%;
+    right: 6px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background: url('../images/CaretDown.svg') no-repeat 50% 50%;
+    background-size: cover;
+    transform: translate(0, -50%);
+    transition: all 0.3s;
+}
+
+#global .latest_google .style ul li{
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #97FF95;
+    line-height: 18px;
+    letter-spacing: -0.04em;
+}
+
+#global .latest_google .style ul li ul{
+    left: 0;
+    width: 100%;
+    bottom: 30px;
+    display: none;
+    padding: 6px 8px;
+    position: absolute;
+}
+
+#global .latest_google .style ul li ul::after{
+    display: none;
+}
+
+#global .latest_google .style ul li ul li{
+    color: #FFFFFF;
+    margin-bottom: 4px;
+    transition: all 0.4s;
+}
+
+#global .latest_google .style ul li ul li:hover{
+    color: #97FF95;
+}
+
+#global .latest_google .style ul li ul li:last-child{
+    margin-bottom: 0;
+}
 
 
 
