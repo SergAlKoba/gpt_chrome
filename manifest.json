@@ -39,6 +39,10 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/textury.png",
+        "assets/images/Textury art.png",
+        "assets/images/colorful_gradient.png",
+        "assets/images/lime_vulcanic.png",
         "assets/images/blue_ocean.png",
         "assets/images/tone_item_1.png",
         "assets/images/tone_item_2.png",
@@ -47,8 +51,6 @@
         "assets/images/tone_item_5.png",
         "assets/images/tone_item_check.svg",
         "assets/images/theme_settings_img1.png",
-        "assets/images/textury_bg.png",
-        "assets/images/Textury art.png",
         "assets/images/share.svg",
         "assets/images/search.svg",
         "assets/images/purchased_prompts_img.svg",
