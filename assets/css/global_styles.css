@@ -1,15 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 
 *{
     margin: 0;
     padding: 0;
     font-weight: 400;
-    font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     -ms-box-sizing: border-box;
     -o-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.global_fonts{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.roboto{
+    font-family: 'Roboto', sans-serif;
+}
+
+.montserrat{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.roboto_condensed{
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 #global.dark{
@@ -848,10 +866,10 @@
 }
 
 #global .theme_settings_content .settings_content .tabs_nav_content .style_items .style_item h4{
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 500;
     color: #FFFFFF;
-    line-height: 40px;
+    line-height: 32px;
     margin-bottom: 5px;
     letter-spacing: -0.04em;
 }
@@ -861,7 +879,10 @@
     font-size: 12px;
     font-weight: 400;
     color: #FFFFFF;
+    overflow: hidden;
     line-height: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     letter-spacing: -0.04em;
 }
 
