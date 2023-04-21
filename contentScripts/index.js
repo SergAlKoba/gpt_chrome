@@ -41,7 +41,7 @@ function applyTheme(theme) {
         document.head.appendChild(themeStylesheet);
     }
 
-    themeStylesheet.href = chrome.runtime.getURL('');
+    themeStylesheet.href = chrome.runtime.getURL(themeHref);
 }
 
 const customizeThemeButton = addCustomizeThemeButton();
