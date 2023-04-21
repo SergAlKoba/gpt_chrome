@@ -1,5 +1,6 @@
 function addCustomizeThemeButton() {
-  const updatesAndFAQ = document.querySelector('YOUR_SELECTOR_HERE');
+  const updatesAndFAQ = document.querySelector('nav > a:nth-child(7)')
+  console.log(updatesAndFAQ);
   if (updatesAndFAQ) {
     const customizeThemeButton = document.createElement('button');
     customizeThemeButton.textContent = 'Customize Themes';
@@ -9,6 +10,40 @@ function addCustomizeThemeButton() {
   }
   return null;
 }
+
+function fetchApiRequest(endpoint, method = 'GET', body = null) {
+  const token = localStorage.getItem('got_good_token');
+  let headers = {};
+  if (token) {
+    headers = {
+      'Content-Type': 'application/json',
+      'Authorization':  token
+    };
+  } else {
+    headers = {
+      'Content-Type': 'application/json',
+    };
+  }
+
+  const requestOptions = {
+    method,
+    headers,
+  };
+
+  if (body) {
+    requestOptions.body = JSON.stringify(body);
+  }
+
+  try {
+    const response = fetch(endpoint, requestOptions);
+    return response.json();
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+fetchApiRequest('', 'GET')
 
 function applyTheme(theme) {
   const themeStylesheetId = 'chatgpt-theme-stylesheet';
