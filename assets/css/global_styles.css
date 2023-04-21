@@ -968,7 +968,7 @@
 
 
 #global.blue_ocean .flex.overflow-hidden.relative{
-    background: url('../images/blue_ocean.png') no-repeat 50% 50%;
+    background: var(--mainbg) no-repeat 50% 50% ;
     background-size: cover;
 }
 
@@ -998,7 +998,7 @@
 
 
 #global.lime_vulcanic .flex.overflow-hidden.relative{
-    background: url('../images/lime_vulcanic.png') no-repeat 50% 50%;
+    background: var(--mainbg) no-repeat 50% 50%;
     background-size: cover;
 }
 
@@ -1030,7 +1030,7 @@
 
 
 #global.colorful_gradient .flex.overflow-hidden.relative{
-    background: url('../images/colorful_gradient.png') no-repeat 50% 50%;
+    background: var(--mainbg) no-repeat 50% 50%;
     background-size: cover;
 }
 

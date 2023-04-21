@@ -31,4 +31,4 @@ aTag.appendChild(imgTag);
 
 
 
-document.querySelector("#__next > div.overflow-hidden.w-full.h-full.relative.flex > div.dark.hidden > div > div > nav > a:nth-child(6)")?.parentElement.append(aTag);
+document.querySelector("#__next .overflow-hidden.w-full.h-full .dark .flex.h-full nav .border-t")?.parentElement.append(aTag);

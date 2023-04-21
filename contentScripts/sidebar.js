@@ -1,3 +1,26 @@
+function filterCategory(categoryName) {
+    const allCategories = document.querySelectorAll('.categories .items');
+    allCategories.forEach((category) => {
+        if (categoryName === 'all' || category.querySelector('li').innerText.trim() === categoryName) {
+            category.style.display = 'block';
+        } else {
+            category.style.display = 'none';
+        }
+    });
+}
+
+function searchItems(searchValue) {
+    const allItems = document.querySelectorAll('.story_content div');
+    allItems.forEach((item) => {
+        if (item.querySelector('p').innerText.toLowerCase().includes(searchValue.toLowerCase())) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+
 function createDiscoverMore() {
     let menuContentDiscoverMore = document.createElement("a");
     menuContentDiscoverMore.className = "discover_more";
@@ -45,7 +68,7 @@ function createContentFavorites() {
     return menuContentFavorites;
 }
 
-function createCategory(name,itemsSize) {
+function createCategory(name, itemsSize) {
     let menuContentCategoriesItems = document.createElement("ul");
     menuContentCategoriesItems.className = "items";
 
@@ -84,6 +107,14 @@ function createCategories() {
     let menuContentCategories = document.createElement("ul");
     menuContentCategories.className = "categories";
 
+    menuContentCategories.querySelectorAll('li').forEach((category) => {
+        category.addEventListener('click', () => {
+            menuContentCategories.querySelectorAll('li').forEach((cat) => cat.classList.remove('active'));
+            category.classList.add('active');
+            filterCategory(category.innerText.trim());
+        });
+    });
+
     let menuContentCategoriesLi = document.createElement("li");
     menuContentCategoriesLi.className = "active";
 
@@ -102,11 +133,11 @@ function createCategories() {
     menuContentCategories.appendChild(menuContentCategoriesLi);
 
 
-    menuContentCategories.appendChild(createCategory("Finance",4));
-    menuContentCategories.appendChild(createCategory("Artificial Intelligence",0));
-    menuContentCategories.appendChild(createCategory("Education",0));
-    menuContentCategories.appendChild(createCategory("Bussiness",0));
-    menuContentCategories.appendChild(createCategory("Sports",0));
+    menuContentCategories.appendChild(createCategory("Finance", 4));
+    menuContentCategories.appendChild(createCategory("Artificial Intelligence", 0));
+    menuContentCategories.appendChild(createCategory("Education", 0));
+    menuContentCategories.appendChild(createCategory("Bussiness", 0));
+    menuContentCategories.appendChild(createCategory("Sports", 0));
 
     return menuContentCategories;
 }
@@ -125,6 +156,10 @@ function createContentForm() {
     menuContentFormInput.setAttribute("type", "search");
     menuContentFormInput.setAttribute("placeholder", "Search...");
 
+    menuContentFormInput.addEventListener('input', (event) => {
+        searchItems(event.target.value);
+    });
+
     menuContentForm.appendChild(menuContentFormInput);
     return menuContentForm;
 }
@@ -140,8 +175,8 @@ function createMenuContent() {
 
     return menuContent;
 }
-const menu = document.createElement("div");
-menu.className = "overflow-hidden w-full h-full relative flex";
+document.body.appendChild(createMenuContent());
 
-menu.appendChild(createMenuContent());
-document.body.appendChild(menu);
+//сделать раскрытие категорий
+//сделать фильтрацию по категориям
+//fetch restApi promise 

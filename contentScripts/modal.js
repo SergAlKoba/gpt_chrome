@@ -3,17 +3,15 @@ let selectedStyle = localStorage.getItem("style");
 
 console.log({ selectedTone, selectedStyle });
 
+document.body.setAttribute('class', selectedTone);
+
+
 const toneItemsData = [
-    { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme" },
-    { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme" },
-    { url: 'assets/images/tone_item_2.png', title: "Blue ocean" },
-    { url: 'assets/images/tone_item_2.png', title: "Blue ocean" },
-    { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic" },
-    { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic" },
-    { url: 'assets/images/tone_item_4.png', title: "Colorful gradient" },
-    { url: 'assets/images/tone_item_4.png', title: "Colorful gradient" },
-    { url: 'assets/images/tone_item_5.png', title: "Textury art" },
-    { url: 'assets/images/tone_item_5.png', title: "Textury art" },
+    { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme", name: "none" },
+    { url: 'assets/images/tone_item_2.png', title: "Blue ocean", name: "blue_ocean" },
+    { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic", name: "lime_vulcanic" },
+    { url: 'assets/images/tone_item_4.png', title: "Colorful gradient", name: "colorful_gradient" },
+    { url: 'assets/images/tone_item_5.png', title: "Textury art", name: "textury" },
 ];
 
 function createTabsDiv() {
@@ -46,7 +44,8 @@ function createTabsDiv() {
         const item = toneItemsData[i];
         let toneItem = document.createElement('div');
         toneItem.setAttribute('class', 'tone_item');
-        if (i.toString() == selectedTone) {
+        toneItem.setAttribute('data-theme', item.name);
+        if (item.name == selectedTone) {
             toneItem.classList.add("active");
         }
         toneItem.style.setProperty("--checkIcon", `url(${chrome.runtime.getURL("assets/images/tone_item_check.svg")})`);
@@ -59,7 +58,9 @@ function createTabsDiv() {
         toneItemParagraph.textContent = 'by John Bolino';
 
         toneItem.onclick = () => {
-            selectedTone = i;
+            selectedTone = item.name;
+            document.body.setAttribute("class",item.name);
+            document.body.style.setProperty("--mainbg", `url("${chrome.runtime.getURL(`assets/images/${item.name}.png`)}")`);
             Array.from(toneItems.children).forEach(item => {
                 item.classList.remove("active");
             });
