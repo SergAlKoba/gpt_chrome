@@ -166,7 +166,7 @@ function createContentForm() {
 
 function createMenuContent() {
     const menuContent = document.createElement("div");
-    menuContent.className = "menu_content active";
+    menuContent.className = "menu_content";
     menuContent.appendChild(createContentForm());
     menuContent.appendChild(createCategories());
     menuContent.appendChild(createContentFavorites());

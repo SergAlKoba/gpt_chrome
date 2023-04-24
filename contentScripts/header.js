@@ -30,5 +30,6 @@ const createElement = (tagName, className) => {
   
   settingsMenuLink.onclick = () => {
     document.getElementsByClassName("menu_content")[0].classList.toggle("active");
+    document.getElementsByClassName("flex h-full max-w-full flex-1 flex-col")[0].classList.toggle("active");
   };
   
