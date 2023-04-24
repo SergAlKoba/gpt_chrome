@@ -578,7 +578,7 @@
 }
 
 #global .flex .text-gray-400.flex.self-end{
-    display: none;
+    /* display: none; */
 }
 
 #global .flex .gap-3{
