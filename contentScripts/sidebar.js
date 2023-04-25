@@ -22,161 +22,143 @@ function searchItems(searchValue) {
 
 
 function createDiscoverMore() {
-    let menuContentDiscoverMore = document.createElement("a");
-    menuContentDiscoverMore.className = "discover_more";
-    menuContentDiscoverMore.setAttribute("href", "javascript:void(0)");
-
-    let menuContentDiscoverMoreText = document.createTextNode("Discover more");
-    menuContentDiscoverMore.appendChild(menuContentDiscoverMoreText);
-
-    return menuContentDiscoverMore;
+    return createElem("a", { class: "discover_more", href: "javascript:void(0)" }, ["Discover more"]);
 }
 
-function createPurchasedPromts() {
-    let menuContentPurchasedPrompts = document.createElement("a");
-    menuContentPurchasedPrompts.className = "purchased_prompts";
-    menuContentPurchasedPrompts.setAttribute("href", "javascript:void(0)");
 
+function createPurchasedPrompts() {
+    const menuContentPurchasedPromptsImg = createElem("img", {
+        src: chrome.runtime.getURL('assets/images/purchased_prompts_img.svg'),
+        alt: ""
+    }, []);
 
-    let menuContentPurchasedPromptsImg = document.createElement("img");
-    menuContentPurchasedPromptsImg.src = chrome.runtime.getURL('assets/images/purchased_prompts_img.svg');
-    menuContentPurchasedPromptsImg.setAttribute("alt", "");
-
-    menuContentPurchasedPrompts.appendChild(menuContentPurchasedPromptsImg);
-
-    let menuContentPurchasedPromptsText = document.createTextNode(" Purchased Prompts");
-    menuContentPurchasedPrompts.appendChild(menuContentPurchasedPromptsText);
+    const menuContentPurchasedPrompts = createElem("a", {
+        class: "purchased_prompts",
+        href: "javascript:void(0)"
+    }, [
+        menuContentPurchasedPromptsImg,
+        " Purchased Prompts"
+    ]);
 
     return menuContentPurchasedPrompts;
 }
 
+
 function createContentFavorites() {
-    let menuContentFavorites = document.createElement("ul");
-    menuContentFavorites.className = "favourites";
+    const menuContentFavoritesLiImg = createElem("img", {
+        src: chrome.runtime.getURL('assets/images/favourites_img.svg'),
+        alt: ""
+    }, []);
 
-    let menuContentFavoritesLi = document.createElement("li");
-    let menuContentFavoritesLiImg = document.createElement("img");
-    menuContentFavoritesLiImg.src = chrome.runtime.getURL('assets/images/favourites_img.svg');
-    menuContentFavoritesLiImg.setAttribute("alt", "");
+    const menuContentFavoritesLi = createElem("li", {}, [
+        menuContentFavoritesLiImg,
+        " Favourites"
+    ]);
 
-    menuContentFavoritesLi.appendChild(menuContentFavoritesLiImg);
+    const menuContentFavorites = createElem("ul", {
+        class: "favourites"
+    }, [
+        menuContentFavoritesLi
+    ]);
 
-    let menuContentFavoritesLiText = document.createTextNode(" Favourites");
-
-    menuContentFavoritesLi.appendChild(menuContentFavoritesLiText);
-    menuContentFavorites.appendChild(menuContentFavoritesLi);
     return menuContentFavorites;
 }
 
-function createCategory(name, itemsSize) {
-    let menuContentCategoriesItems = document.createElement("ul");
-    menuContentCategoriesItems.className = "items";
 
-    let menuContentCategoriesItemsLi = document.createElement("li");
+function createCategory(itemsSize) {
+    const menuContentCategoriesItems = createElem("ul", { class: "items" }, []);
 
-    let menuContentCategoriesItemsLiSpan = document.createElement("span");
-    menuContentCategoriesItemsLiSpan.style = "background: #B4F573";
+    const menuContentCategoriesItemsLiSpan = createElem("span", { style: "background: #B4F573" }, []);
 
-    menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiSpan);
-
-    let menuContentCategoriesItemsLiText = document.createTextNode(name);
-
-    menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiText);
-
-    let menuContentCategoriesItemsLiStoryContent = document.createElement("div");
-
-    menuContentCategoriesItemsLiStoryContent.className = "story_content";
+    const menuContentCategoriesItemsLiStoryContent = createElem("div", { class: "story_content" }, []);
 
     const menuDivText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
-    let menuDivs = [];
+    const menuDivs = [];
     for (let i = 0; i < itemsSize; i++) {
-        const menuDiv = document.createElement("div");
-        const menuDivP = document.createElement("p");
-        menuDivP.innerText = menuDivText;
-        menuDiv.appendChild(menuDivP);
+        const menuDivP = createElem("p", {}, [menuDivText]);
+        const menuDiv = createElem("div", {}, [menuDivP]);
         menuDivs[i] = menuDiv;
     }
     menuContentCategoriesItemsLiStoryContent.append(...menuDivs);
 
-    menuContentCategoriesItemsLi.appendChild(menuContentCategoriesItemsLiStoryContent);
+    const menuContentCategoriesItemsLi = createElem("li", {}, [
+        menuContentCategoriesItemsLiStoryContent
+    ]);
+
     menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
     return menuContentCategoriesItems;
 }
 
+
 function createCategories() {
-    let menuContentCategories = document.createElement("ul");
-    menuContentCategories.className = "categories";
-
-    menuContentCategories.querySelectorAll('li').forEach((category) => {
-        category.addEventListener('click', () => {
-            menuContentCategories.querySelectorAll('li').forEach((cat) => cat.classList.remove('active'));
-            category.classList.add('active');
-            filterCategory(category.innerText.trim());
+    const createCategoryElement = (text, count) => {
+        const li = createElem("li", { "data-count": count }, [text]);
+        li.addEventListener("click", () => {
+            // const categories = menuContentCategories.querySelectorAll("li");
+            // categories.forEach((cat) => cat.classList.remove("active"));
+            li.classList.toggle("active");
         });
-    });
+        return createElem("div", { class: "i-category" }, [li, createCategory(4)]);
+    };
 
-    let menuContentCategoriesLi = document.createElement("li");
-    menuContentCategoriesLi.className = "active";
-
+    const menuContentCategories = createElem("ul", { class: "categories" }, []);
     menuContentCategories.style.setProperty("--icon", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 
-    let menuContentCategoriesLiImg = document.createElement("img");
-    menuContentCategoriesLiImg.src = chrome.runtime.getURL('assets/images/categories_img.svg');
-    menuContentCategoriesLiImg.setAttribute("alt", "");
+    const menuContentCategoriesLiImg = createElem("img", { src: chrome.runtime.getURL("assets/images/categories_img.svg"), alt: "" }, []);
 
-    menuContentCategoriesLi.appendChild(menuContentCategoriesLiImg);
+    const menuContentCategoriesLi = createElem("li", { class: "i-big-category" }, [
+        menuContentCategoriesLiImg,
+        " Categories"
+    ]);
+    menuContentCategoriesLi.onclick = () => {
+        menuContentCategoriesLi.classList.toggle("active");
+    }
 
-    let menuContentCategoriesLiText = document.createTextNode(" Categories");
+    menuContentCategories.append(
+        menuContentCategoriesLi,
+        createElem("ul", {}, [createCategoryElement("Finance", 2),
+        createCategoryElement("Artificial Intelligence", 1),
+        createCategoryElement("Education", 1),
+        createCategoryElement("Bussiness", 0),
+        createCategoryElement("Sports", 0)
+    ]));
 
-    menuContentCategoriesLi.appendChild(menuContentCategoriesLiText);
-
-    menuContentCategories.appendChild(menuContentCategoriesLi);
-
-
-    menuContentCategories.appendChild(createCategory("Finance", 4));
-    menuContentCategories.appendChild(createCategory("Artificial Intelligence", 0));
-    menuContentCategories.appendChild(createCategory("Education", 0));
-    menuContentCategories.appendChild(createCategory("Bussiness", 0));
-    menuContentCategories.appendChild(createCategory("Sports", 0));
 
     return menuContentCategories;
 }
 
+
 function createContentForm() {
-    let menuContentForm = document.createElement("form");
-    let menuContentFormButton = document.createElement("button");
-    let menuContentFormButtonImg = document.createElement("img");
-    menuContentFormButtonImg.src = chrome.runtime.getURL('assets/images/search.svg');
-    menuContentFormButtonImg.setAttribute("alt", "");
+    const menuContentFormButtonImg = createElem("img", {
+        src: chrome.runtime.getURL('assets/images/search.svg'),
+        alt: ""
+    }, []);
 
-    menuContentFormButton.appendChild(menuContentFormButtonImg);
-    menuContentForm.appendChild(menuContentFormButton);
+    const menuContentFormButton = createElem("button", {}, [menuContentFormButtonImg]);
 
-    let menuContentFormInput = document.createElement("input");
-    menuContentFormInput.setAttribute("type", "search");
-    menuContentFormInput.setAttribute("placeholder", "Search...");
+    const menuContentFormInput = createElem("input", {
+        type: "search",
+        placeholder: "Search..."
+    }, []);
 
     menuContentFormInput.addEventListener('input', (event) => {
         searchItems(event.target.value);
     });
 
-    menuContentForm.appendChild(menuContentFormInput);
-    return menuContentForm;
+    return createElem("form", {}, [menuContentFormButton, menuContentFormInput]);
 }
 
 function createMenuContent() {
-    const menuContent = document.createElement("div");
-    menuContent.className = "menu_content";
-    menuContent.appendChild(createContentForm());
-    menuContent.appendChild(createCategories());
-    menuContent.appendChild(createContentFavorites());
-    menuContent.appendChild(createPurchasedPromts());
-    menuContent.appendChild(createDiscoverMore());
+    const menuContent = createElem("div", { class: "menu_content" }, [
+        createContentForm(),
+        createCategories(),
+        createContentFavorites(),
+        createPurchasedPrompts(),
+        createDiscoverMore()
+    ]);
 
     return menuContent;
 }
+
 document.body.appendChild(createMenuContent());
 
-//сделать раскрытие категорий
-//сделать фильтрацию по категориям
-//fetch restApi promise 
