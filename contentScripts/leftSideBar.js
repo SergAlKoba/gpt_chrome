@@ -43,12 +43,17 @@ function addElement() {
 
 
 function checkElement() {
-    const element = document.querySelector(".theme-settings-toggle"); 
+    const element = document.querySelector(".theme-settings-toggle");
     if (!element) {
         addElement();
     }
 }
 
-setInterval(checkElement, 1000);
+setInterval(function () {
+    document.querySelectorAll("a.bg-gray-900").forEach(element => {
+        element.classList.remove("bg-gray-900")
+    });
+    checkElement();
+}, 1000);
 
 addElement();

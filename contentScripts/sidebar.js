@@ -94,8 +94,6 @@ function createCategories() {
     const createCategoryElement = (text, count) => {
         const li = createElem("li", { "data-count": count }, [text]);
         li.addEventListener("click", () => {
-            // const categories = menuContentCategories.querySelectorAll("li");
-            // categories.forEach((cat) => cat.classList.remove("active"));
             li.classList.toggle("active");
         });
         return createElem("div", { class: "i-category" }, [li, createCategory(4)]);

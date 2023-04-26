@@ -1321,3 +1321,8 @@ ul[id^="headlessui-listbox-options"] li {
 #headlessui-listbox-button-\:r0\: {
     margin-top: 40px !important;
 }
+
+/* #global .flex .flex-col.items-center.text-sm.dark\:bg-gray-800 {
+    padding: 40px;
+    padding-top: 104px;
+} */
