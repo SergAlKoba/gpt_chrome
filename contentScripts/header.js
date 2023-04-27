@@ -29,14 +29,35 @@ accountSettings.appendChild(settingsMenuLink);
 account.appendChild(accountSettings);
 header.appendChild(account);
 document.body.appendChild(header);
+const API_URL = "https://gootgood.ai";
 
-settingsMenuLink.onclick = () => {
+function getCategories() {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    return fetch("https://gotgood.ai/api/shop/get-categories/", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
+
+
+response = getCategories();
+localStorage.setItem("categories", JSON.stringify(response));
+console.log(response);
+settingsMenuLink.onclick = async () => {
     if (menuOpened) {
         document.getElementsByClassName("menu_content")[0].classList.remove("active");
         document.getElementsByClassName("flex h-full max-w-full flex-1 flex-col")[0].classList.remove("active");
+
     } else {
         document.getElementsByClassName("menu_content")[0].classList.add("active");
         document.getElementsByClassName("flex h-full max-w-full flex-1 flex-col")[0].classList.add("active");
+        response = await getCategories();
+        localStorage.setItem("categories", JSON.stringify(response));
+        console.log(response);
     }
 
 

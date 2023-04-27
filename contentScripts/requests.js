@@ -1,13 +1,13 @@
-const API_URL = "127.0.0.1:8080";
+const API_URL = "https://gootgood.ai";
 const TOKEN = localStorage.getItem('token');
 
-function getCategories() {
+async function getCategories() {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
 
-    return fetch("/api/shop/get-categories/", requestOptions)
+    return await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -138,7 +138,6 @@ function login(email, password) {
         }),
         redirect: 'follow'
     };
-
     response = fetch(API_URL + "/api/user/login/", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))

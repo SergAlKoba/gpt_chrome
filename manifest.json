@@ -27,7 +27,8 @@
         "contentScripts/modal.js",
         "contentScripts/header.js",
         "contentScripts/sidebar.js",
-        "contentScripts/leftSideBar.js"
+        "contentScripts/leftSideBar.js",
+        "contentScripts/requests.js"
       ],
       "css": [
         "./assets/css/global_styles.css"

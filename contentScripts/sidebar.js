@@ -112,6 +112,8 @@ function createCategories() {
 
         menuContentCategoriesLi.classList.toggle("active");
     }
+    categories = localStorage.getItem("categories") || [];
+    categories = JSON.parse(categories);
 
     menuContentCategories.append(
         menuContentCategoriesLi,
@@ -121,6 +123,12 @@ function createCategories() {
         createCategoryElement("Bussiness", 0),
         createCategoryElement("Sports", 0)
     ]));
+    if (categories?.results){
+        categories.results.forEach((category) => {
+            menuContentCategories.append(createCategoryElement(category.name, category.pk));
+        });
+    }
+
 
 
     return menuContentCategories;
