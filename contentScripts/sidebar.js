@@ -108,7 +108,7 @@ function createCategories() {
         menuContentCategoriesLiImg,
         " Categories"
     ]);
-    menuContentCategoriesLi.onclick = () => {    
+    menuContentCategoriesLi.onclick = () => {
 
         menuContentCategoriesLi.classList.toggle("active");
     }
@@ -119,18 +119,18 @@ function createCategories() {
     menuContentCategories.append(
         menuContentCategoriesLi,
         createElem("ul", {}, [
-        // createCategoryElement("Finance", 2),
-        // createCategoryElement("Artificial Intelligence", 1),
-        // createCategoryElement("Education", 1),
-        // createCategoryElement("Bussiness", 0),
-        // createCategoryElement("Sports", 0)
-    ]));
-    if (categories){
+            // createCategoryElement("Finance", 2),
+            // createCategoryElement("Artificial Intelligence", 1),
+            // createCategoryElement("Education", 1),
+            // createCategoryElement("Bussiness", 0),
+            // createCategoryElement("Sports", 0)
+        ]));
+    if (categories) {
         console.warn(categories);
         categories.forEach((category) => {
             menuContentCategories.append(createCategoryElement(category.name, category.pk));
         });
-    } 
+    }
 
 
 

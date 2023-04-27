@@ -1,3 +1,31 @@
+const API_URL = "https://gotgood.ai/api/user/login/";
+
+async function login(email, password) {
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        redirect: 'follow'
+    });
+    const { auth_token } = await response.json();
+    localStorage.setItem("token", auth_token);
+}
+
+async function doLogin() {
+    try {
+        await login("root@gmail.com", "root");
+        console.log("Успешная аутентификация!");
+    } catch (error) {
+        console.error("Ошибка аутентификации:", error);
+    }
+}
+
+doLogin();
+
+
+
 let menuOpened = false;
 
 const createElement = (tagName, className) => {

@@ -3,16 +3,16 @@ const TOKEN = localStorage.getItem('token');
 
 async function getCategories() {
     var requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
+        method: 'GET',
+        redirect: 'follow'
     };
-  
+
     let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
     let result = await response.json();
     console.log(result);
     sessionStorage.setItem("categories", JSON.stringify(result.results));
     return response;
-  }
+}
 
 function getPromptsByCategory(categoryIds, name) {
     var requestOptions = {
