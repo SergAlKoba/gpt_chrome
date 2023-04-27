@@ -108,7 +108,8 @@ function createCategories() {
         menuContentCategoriesLiImg,
         " Categories"
     ]);
-    menuContentCategoriesLi.onclick = () => {
+    menuContentCategoriesLi.onclick = () => {    
+
         menuContentCategoriesLi.classList.toggle("active");
     }
 

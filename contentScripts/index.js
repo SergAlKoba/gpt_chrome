@@ -9,6 +9,7 @@ console.log({ selectedTone, selectedStyle });
 function applyCurrentTheme() {
     document.body.setAttribute('class', `${selectedTone} ${selectedStyle}`);
     document.body.style.setProperty("--mainbg", `url("${chrome.runtime.getURL(`assets/images/${selectedTone}.png`)}")`);
+
 }
 applyCurrentTheme();
 
