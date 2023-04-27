@@ -1458,7 +1458,7 @@ ul[id^="headlessui-listbox-options"] li {
 }
 
 .text-base {
-    padding-right: 0 !important;
+    /* padding-right: 0 !important; */
 }
 
 #headlessui-listbox-button-\:r0\: {
