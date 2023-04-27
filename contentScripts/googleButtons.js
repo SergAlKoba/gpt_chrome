@@ -1,10 +1,11 @@
 const createElem = (tag, attributes, children) => {
+    console.log(tag, attributes, children)
     const elem = document.createElement(tag);
 
     for (const key in attributes) {
         elem.setAttribute(key, attributes[key]);
     }
-
+    
     children.forEach(child => {
         if (typeof child === 'string') {
             elem.appendChild(document.createTextNode(child));

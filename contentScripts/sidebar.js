@@ -16,7 +16,7 @@ async function getPromptsByCategory(categoryId) {
         method: 'GET',
         redirect: 'follow'
     };
-    let response = await fetch(`https://gotgood.ai/get-extension-prompt-by-category/${categoryId}`, requestOptions);
+    let response = await fetch(`https://gotgood.ai/api/shop/get-extension-prompt-by-category/${categoryId}`, requestOptions);
     let result = await response.json();
     console.log(result);
     return result;
@@ -92,7 +92,7 @@ function createContentFavorites() {
 }
 
 
-function createCategory(itemsSize) {
+function createCategory(id) {
     const menuContentCategoriesItems = createElem("ul", {
         class: "items"
     }, []);
@@ -107,33 +107,36 @@ function createCategory(itemsSize) {
 
     const menuDivText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
     const menuDivs = [];
-    for (let i = 0; i < itemsSize; i++) {
-        const menuDivP = createElem("p", {}, [menuDivText]);
-        const menuDiv = createElem("div", {}, [menuDivP]);
-        menuDivs[i] = menuDiv;
-    }
-    menuContentCategoriesItemsLiStoryContent.append(...menuDivs);
-
-    const menuContentCategoriesItemsLi = createElem("li", {}, [
-        menuContentCategoriesItemsLiStoryContent
-    ]);
-
-    menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
-    return menuContentCategoriesItems;
+    getPromptsByCategory(id).then((response) => {
+        console.log(response.length);
+        for (let i = 0; i < response.length; i++) {
+            const menuDivP = createElem("p", {}, ["text"]);
+            const menuDiv = createElem("div", {}, [menuDivP]);
+            menuDivs[i] = menuDiv;
+        }
+        menuContentCategoriesItemsLiStoryContent.append(...menuDivs);
+    
+            const menuContentCategoriesItemsLi = createElem("li", {}, [
+                menuContentCategoriesItemsLiStoryContent
+            ]);
+    
+            menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
+            return menuContentCategoriesItems;
+    });
 }
 
 
 function createCategories() {
-    const createCategoryElement = (text, count) => {
+    const createCategoryElement = (text, id) => {
         const li = createElem("li", {
-            "data-count": count
+            "data-count": id
         }, [text]);
         li.addEventListener("click", () => {
             li.classList.toggle("active");
         });
         return createElem("div", {
             class: "i-category"
-        }, [li, createCategory(4)]);
+        }, [li, createCategory(id)]);
     };
 
     const menuContentCategories = createElem("ul", {
@@ -170,20 +173,10 @@ function createCategories() {
 
         console.warn(response);
         response.forEach((category) => {
-            menuContentCategories.append(createCategoryElement(category.name,0));
+            menuContentCategories.append(createCategoryElement(category.name, category.id));
         });
     })
-    getPromptsByCategory().then((response) => {
 
-        console.warn(response);
-        
-        response.forEach((obj) => {
-            console.warn(obj.id);
-            console.warn(obj.name);
-            console.warn(obj.amount_of_lookups);
-            console.warn(obj.prompt_template);
-        });
-    })
 
     return menuContentCategories;
 }
