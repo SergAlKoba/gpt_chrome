@@ -1,40 +1,28 @@
 const API_URL = "https://gotgood.ai";
 const TOKEN = localStorage.getItem('token');
 
-async function getCategories() {
-    var requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-  
-    let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
-    let result = await response.json();
-    console.log(result);
-    sessionStorage.setItem("categories", JSON.stringify(result.results));
-    return response;
-  }
+// async function getCategories() {
+//     var requestOptions = {
+//         method: 'GET',
+//         redirect: 'follow'
+//     };
 
-function getPromptsByCategory(categoryIds, name) {
+//     let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
+//     let result = await response.json();
+//     console.log(result);
+//     sessionStorage.setItem("categories", JSON.stringify(result.results));
+//     return result.results;
+// }
+
+async function getPromptsByCategory(categoryId) {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
-    let result_url = API_URL + '/api/shop/search/?';
-    if (name) {
-        result_url += `name=${name}&`;
-    }
-    if (categoryIds) {
-        categoryIds.forEach(id => {
-            result_url += `categories=${id}&`;
-        });
-    }
-    return fetch(result_url, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            console.log(result.results);
-            localStorage.setItem("categories", JSON.stringify(result.results))
-        })
-        .catch(error => console.log('error', error));
+    let response = await fetch(`https://gotgood.ai/get-extension-prompt-by-category/${categoryId}`, requestOptions);
+    let result = await response.json();
+    console.log(result);
+    return result;
 }
 
 function getFavorites() {
@@ -142,7 +130,7 @@ async function login(email, password) {
         }),
         redirect: 'follow'
     };
-    let response = fetch(API_URL + "/api/user/login/", requestOptions)
+    let response = fetch("https://gotgood.ai/api/user/login/", requestOptions)
         .catch(error => console.log('error', error));
     let result = await response.json();
     localStorage.setItem('token', result.auth_token);
