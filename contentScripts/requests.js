@@ -1,17 +1,18 @@
-const API_URL = "https://gootgood.ai";
+const API_URL = "https://gotgood.ai";
 const TOKEN = localStorage.getItem('token');
 
 async function getCategories() {
     var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
+      method: 'GET',
+      redirect: 'follow'
     };
-
-    return await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-}
+  
+    let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
+    let result = await response.json();
+    console.log(result);
+    sessionStorage.setItem("categories", JSON.stringify(result.results));
+    return response;
+  }
 
 function getPromptsByCategory(categoryIds, name) {
     var requestOptions = {
@@ -29,7 +30,10 @@ function getPromptsByCategory(categoryIds, name) {
     }
     return fetch(result_url, requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => {
+            console.log(result.results);
+            localStorage.setItem("categories", JSON.stringify(result.results))
+        })
         .catch(error => console.log('error', error));
 }
 
@@ -127,7 +131,7 @@ function logout() {
         .catch(error => console.log('error', error));
 }
 
-function login(email, password) {
+async function login(email, password) {
 
     var requestOptions = {
         method: 'POST',
@@ -138,13 +142,10 @@ function login(email, password) {
         }),
         redirect: 'follow'
     };
-    response = fetch(API_URL + "/api/user/login/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
+    let response = fetch(API_URL + "/api/user/login/", requestOptions)
         .catch(error => console.log('error', error));
-    console.log(response);
-    localStorage.setItem('token', response.auth_token);
-    return response;
+    let result = await response.json();
+    localStorage.setItem('token', result.auth_token);
 }
 
 function register(email, username, password) {

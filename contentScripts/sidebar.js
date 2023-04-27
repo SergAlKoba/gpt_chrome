@@ -112,22 +112,25 @@ function createCategories() {
 
         menuContentCategoriesLi.classList.toggle("active");
     }
-    categories = localStorage.getItem("categories") || [];
-    categories = JSON.parse(categories);
-
+    var categories = undefined;
+    setInterval(() => {
+        categories = sessionStorage.getItem("categories");
+    }, 1000);
     menuContentCategories.append(
         menuContentCategoriesLi,
-        createElem("ul", {}, [createCategoryElement("Finance", 2),
-        createCategoryElement("Artificial Intelligence", 1),
-        createCategoryElement("Education", 1),
-        createCategoryElement("Bussiness", 0),
-        createCategoryElement("Sports", 0)
+        createElem("ul", {}, [
+        // createCategoryElement("Finance", 2),
+        // createCategoryElement("Artificial Intelligence", 1),
+        // createCategoryElement("Education", 1),
+        // createCategoryElement("Bussiness", 0),
+        // createCategoryElement("Sports", 0)
     ]));
-    if (categories?.results){
-        categories.results.forEach((category) => {
+    if (categories){
+        console.warn(categories);
+        categories.forEach((category) => {
             menuContentCategories.append(createCategoryElement(category.name, category.pk));
         });
-    }
+    } 
 
 
 
