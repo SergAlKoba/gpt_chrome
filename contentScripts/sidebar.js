@@ -43,31 +43,31 @@ function process_input() {
         send_button.removeAttribute('disabled');
         send_button.click();
     });
-    // textarea.addEventListener('change', (event) => {
-    //     console.log(event.key);
-    //     if (event.key === 'Enter') {
-    //         alert(localStorage.getItem('template'));
-    //         const inputValue = textarea.value.trim();
-    //         if (localStorage.getItem('template') && inputValue !== '') {
-    //             // perform your action here, e.g. send the form data to the server
-    //             console.log('Submitting the form...');
-    //             // clear the input field and enable the form submission again
-    //             let selected_prompt = localStorage.getItem('template');
-    //             for (let i = 0; i < variable_names.length; i++) {
-    //                 selected_prompt = selected_prompt.replace(`{${variable_names[i]}}`, input_text[i]);
-    //             }
-    //             textarea.value = selected_prompt;
-    //             textarea.removeEventListener('keydown', preventSubmission);
-    //             textarea.removeEventListener('submit', preventSubmission);
-    //             send_button.click();
+    textarea.addEventListener('keydown', (event) => {
+        console.log(event.key);
+        if (event.key === 'Enter') {
+            alert(localStorage.getItem('template'));
+            const inputValue = textarea.value.trim();
+            if (localStorage.getItem('template') && inputValue !== '') {
+                // perform your action here, e.g. send the form data to the server
+                console.log('Submitting the form...');
+                // clear the input field and enable the form submission again
+                let selected_prompt = localStorage.getItem('template');
+                for (let i = 0; i < variable_names.length; i++) {
+                    selected_prompt = selected_prompt.replace(`{${variable_names[i]}}`, input_text[i]);
+                }
+                textarea.value = selected_prompt;
+                textarea.removeEventListener('keydown', preventSubmission);
+                textarea.removeEventListener('submit', preventSubmission);
+                send_button.click();
 
-    //         } else {
-    //             // prevent the default enter key behavior
-    //             console.warn('prevent submission');
-    //             event.preventDefault();
-    //         }
-    //     }
-    // });
+            } else {
+                // prevent the default enter key behavior
+                console.warn('prevent submission');
+                event.preventDefault();
+            }
+        }
+    });
 }
 
 async function getCategories() {
@@ -174,7 +174,7 @@ function createCategory(id) {
     }, []);
 
     const menuContentCategoriesItemsLiStoryContent = createElem("div", {
-        class: "story_content"
+        class: "story_content_liner"
     }, []);
 
     const menuDivText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
@@ -193,7 +193,6 @@ function createCategory(id) {
                 if (matches) {
                     const variables = matches.map(match => `[${match.substring(1, match.length - 1)}]`);
                     const variable_without_braces = matches.map(match => match.substring(1, match.length - 1));
-
                     document.querySelector("textarea").setAttribute('placeholder', variables);
                     variable_names = variable_without_braces;
                     localStorage.setItem('template', response[i].prompt_template);
@@ -201,7 +200,7 @@ function createCategory(id) {
                     localStorage.removeItem('template');
                     sendInput(selected_prompt);
                 }
-                // process_input();
+                process_input();
             });
 
             menuDivs[i] = menuDiv;
