@@ -1453,8 +1453,6 @@
 
 
 
-
-
 /* Вадим */
 
 ul[id^="headlessui-listbox-options"] li {
@@ -1498,4 +1496,42 @@ ul[id^="headlessui-listbox-options"] li {
 
 #headlessui-listbox-button-\:r0\: {
     margin-top: 40px !important;
+}
+
+#global .flex.overflow-hidden.relative,
+#global.textury .flex.overflow-hidden.relative,
+#global.blue_ocean .flex.overflow-hidden.relative,
+#global.lime_vulcanic .flex.overflow-hidden.relative,
+#global.colorful_gradient .flex.overflow-hidden.relative {
+    background: var(--mainbg) no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item.active::after {
+    background: var(--checkIcon) no-repeat 50% 50%;
+}
+
+#global .menu_content .categories li::after {
+    background: var(--icon) no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#global .menu_content .categories .items li::after {
+    content: none;
+}
+
+#global .menu_content .categories .i-category li+.items {
+    display: none;
+}
+
+#global .menu_content .categories .i-category li.active+.items {
+    display: block;
+}
+
+#global .menu_content .i-big-category+ul {
+    display: none;
+}
+
+#global .menu_content .i-big-category.active+ul {
+    display: block;
 }
