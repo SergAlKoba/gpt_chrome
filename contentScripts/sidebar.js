@@ -17,6 +17,7 @@ function sendInput(selected_prompt) {
     }
     setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
         console.log(result);
+        //to send ready message into ChatGPT 
         document.querySelector("textarea").value = result.prompt_text;
         send_button.removeAttribute('disabled');
         send_button.click();
