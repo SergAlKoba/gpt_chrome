@@ -1,7 +1,5 @@
-const API_URL = "https://gotgood.ai/api/user/login/";
-
 async function login(email, password) {
-    const response = await fetch(API_URL, {
+    const response = await fetch("https://gotgood.ai/api/user/login/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

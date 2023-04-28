@@ -177,16 +177,25 @@ async function register(email, username, password) {
     return result;
 }
 
-async function setPromptText(style = none, text = none, tone = none, result_amount = none) {
+function send_gpt_request(){
+    let input = document.querySelector('textarea')
+    input.value = 'test';
+    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button')
+    send_button.click()
+}
+
+
+
+async function setPromptText(style = none, text = none, tone = none, result_amount = none, iclude_google_data=false) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
 
     var raw = JSON.stringify({
         "style": style,
         "tone": tone,
         "result_amount": result_amount,
-        "text": text
+        "text": text,
+        "iclude_google_data": iclude_google_data
     });
 
     var requestOptions = {
@@ -197,18 +206,8 @@ async function setPromptText(style = none, text = none, tone = none, result_amou
     };
 
     let response = await fetch(API_URL + "/api/shop/get-result-prompt/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
     let result = await response.json();
     console.log(response);
     localStorage.setItem('token', result.auth_token);
     return result;
-}
-
-function send_gpt_request(){
-    let input = document.querySelector('textarea')
-    input.value = 'test';
-    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button')
-    send_button.click()
 }

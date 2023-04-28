@@ -1,3 +1,75 @@
+const regex = /{([^}]+)}/g;
+
+function preventSubmission(event) {
+    event.preventDefault();
+}
+
+function sendInput(selected_prompt) {
+    document.querySelector("textarea").value = selected_prompt;
+    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+    let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let include_google_data = document.getElementById('headlessui-switch-:rh:').getAttribute('aria-checked');
+    if (include_google_data === 'true') {
+        include_google_data = true;
+    } else {
+        include_google_data = false;
+    }
+    setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
+        console.log(result);
+        document.querySelector("textarea").value = result.prompt_text;
+        send_button.removeAttribute('disabled');
+        send_button.click();
+    })
+}
+
+function process_input() {
+    let textarea = document.querySelector("textarea");
+    let variable_names = textarea.value.split(",");
+    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+    send_button.addEventListener('click', (event) => {
+        alert(localStorage.getItem('template'));
+        send_button.addEventListener('click', preventSubmission);
+        event.preventDefault();
+        if (textarea.value) {
+            input_text = input_text.split(",");
+            console.log(input_text);
+
+            for (let i = 0; i < variable_names.length; i++) {
+                textarea.value = textarea.value.replace(`{${variable_names[i]}}`, input_text[i]);
+            }
+        }
+        send_button.removeEventListener('click', preventSubmission);
+        send_button.removeAttribute('disabled');
+        send_button.click();
+    });
+    // textarea.addEventListener('change', (event) => {
+    //     console.log(event.key);
+    //     if (event.key === 'Enter') {
+    //         alert(localStorage.getItem('template'));
+    //         const inputValue = textarea.value.trim();
+    //         if (localStorage.getItem('template') && inputValue !== '') {
+    //             // perform your action here, e.g. send the form data to the server
+    //             console.log('Submitting the form...');
+    //             // clear the input field and enable the form submission again
+    //             let selected_prompt = localStorage.getItem('template');
+    //             for (let i = 0; i < variable_names.length; i++) {
+    //                 selected_prompt = selected_prompt.replace(`{${variable_names[i]}}`, input_text[i]);
+    //             }
+    //             textarea.value = selected_prompt;
+    //             textarea.removeEventListener('keydown', preventSubmission);
+    //             textarea.removeEventListener('submit', preventSubmission);
+    //             send_button.click();
+
+    //         } else {
+    //             // prevent the default enter key behavior
+    //             console.warn('prevent submission');
+    //             event.preventDefault();
+    //         }
+    //     }
+    // });
+}
+
 async function getCategories() {
     var requestOptions = {
         method: 'GET',
@@ -17,7 +89,7 @@ async function getPromptsByCategory(categoryId) {
         redirect: 'follow'
     };
     let response = await fetch(`https://gotgood.ai/api/shop/get-extension-prompt-by-category/${categoryId}`, requestOptions);
-    let result = await response.json();
+    let result = response.json();
     console.log(result);
     return result;
 }
@@ -110,19 +182,39 @@ function createCategory(id) {
     getPromptsByCategory(id).then((response) => {
         console.log(response.length);
         for (let i = 0; i < response.length; i++) {
-            const menuDivP = createElem("p", {}, ["text"]);
-            const menuDiv = createElem("div", {}, [menuDivP]);
+            const menuDivP = createElem("p", {}, [response[i].prompt_template]);
+            const menuDiv = createElem("div", {
+                "id": response[i].id
+            }, [menuDivP]);
+            menuDiv.addEventListener("click", () => {
+                selected_prompt = response[i].prompt_template
+                const matches = selected_prompt.match(regex);
+                console.warn(matches);
+                if (matches) {
+                    const variables = matches.map(match => `[${match.substring(1, match.length - 1)}]`);
+                    const variable_without_braces = matches.map(match => match.substring(1, match.length - 1));
+
+                    document.querySelector("textarea").setAttribute('placeholder', variables);
+                    variable_names = variable_without_braces;
+                    localStorage.setItem('template', response[i].prompt_template);
+                } else {
+                    localStorage.removeItem('template');
+                    sendInput(selected_prompt);
+                }
+                // process_input();
+            });
+
             menuDivs[i] = menuDiv;
         }
         menuContentCategoriesItemsLiStoryContent.append(...menuDivs);
-    
-            const menuContentCategoriesItemsLi = createElem("li", {}, [
-                menuContentCategoriesItemsLiStoryContent
-            ]);
-    
-            menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
-            return menuContentCategoriesItems;
+
+        const menuContentCategoriesItemsLi = createElem("li", {}, [
+            menuContentCategoriesItemsLiStoryContent
+        ]);
+
+        menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
     });
+    return menuContentCategoriesItems;
 }
 
 
@@ -162,20 +254,14 @@ function createCategories() {
 
     menuContentCategories.append(
         menuContentCategoriesLi,
-        createElem("ul", {}, [
-            // createCategoryElement("Finance", 2),
-            // createCategoryElement("Artificial Intelligence", 1),
-            // createCategoryElement("Education", 1),
-            // createCategoryElement("Bussiness", 0),
-            // createCategoryElement("Sports", 0)
-        ]));
+        createElem("ul", {}, []));
     getCategories().then((response) => {
 
         console.warn(response);
         response.forEach((category) => {
             menuContentCategories.append(createCategoryElement(category.name, category.id));
         });
-    })
+    });
 
 
     return menuContentCategories;

@@ -21,7 +21,7 @@ fetch(svgFileUrl)
         div.appendChild(button);
         
         const container = document.body;
-        container.querySelector("").appendChild(div);
+        container.querySelector("body").appendChild(div);
     })
     .catch(error => {
         console.error('Error loading SVG file:', error);

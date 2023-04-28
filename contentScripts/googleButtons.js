@@ -1,11 +1,10 @@
 const createElem = (tag, attributes, children) => {
-    console.log(tag, attributes, children)
     const elem = document.createElement(tag);
 
     for (const key in attributes) {
         elem.setAttribute(key, attributes[key]);
     }
-    
+
     children.forEach(child => {
         if (typeof child === 'string') {
             elem.appendChild(document.createTextNode(child));
@@ -18,7 +17,7 @@ const createElem = (tag, attributes, children) => {
 };
 
 function createLatestGoogle() {
-    const latestGoogle = createElem('div', { class: 'latest_google' }, [
+    const latestGoogle = createElem('div', { class: 'latest_google'}, [
         createElem('div', { class: 'latest_data' }, [
             createElem('span', { class: 'info' }, [
                 createElem('img', { src: 'assets/images/Info.svg', alt: '' }, [])
@@ -50,7 +49,7 @@ function createLatestGoogle() {
                 ])
             ])
         ]),
-        createElem('div', { class: 'tone' }, [
+        createElem('div', { class: 'tone', id: 'tone-google' }, [
             createElem('p', {}, ['Tone :']),
             createElem('ul', {}, [
                 createElem('li', {}, [
@@ -66,7 +65,7 @@ function createLatestGoogle() {
                 ])
             ])
         ]),
-        createElem('div', { class: 'style' }, [
+        createElem('div', { class: 'style', id: 'style-google' }, [
             createElem('p', {}, ['Style :']),
             createElem('ul', {}, [
                 createElem('li', {}, [
