@@ -23,3 +23,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 document.body.setAttribute('id', 'global');
+
+document.querySelector(':root').style.setProperty("--followUp", `url(${chrome.runtime.getURL("assets/images/follow_up_CaretDown.svg")})`);

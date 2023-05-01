@@ -43,6 +43,8 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/follow_up_CaretDown.svg",
+        "assets/images/Info.svg",
         "assets/images/textury.png",
         "assets/images/Textury art.png",
         "assets/images/colorful_gradient.png",

@@ -20,8 +20,7 @@ fetch(svgFileUrl)
         div.style.border = '1px solid black';
         div.appendChild(button);
         
-        const container = document.body;
-        container.querySelector("body").appendChild(div);
+        document.body.appendChild(div);
     })
     .catch(error => {
         console.error('Error loading SVG file:', error);

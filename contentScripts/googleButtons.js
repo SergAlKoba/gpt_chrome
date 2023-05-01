@@ -16,11 +16,50 @@ const createElem = (tag, attributes, children) => {
     return elem;
 };
 
+function createFollowUpDiv() {
+    const createListItem = (text) => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        return li;
+    };
+
+    const createList = (items) => {
+        const ul = document.createElement('ul');
+        items.forEach((item) => {
+            ul.appendChild(createListItem(item));
+        });
+        return ul;
+    };
+
+    const createFollowUpList = () => {
+        const followUpItems = [
+            'Make this more consistent',
+            'Tell me more about this',
+            'Expand details',
+            'Give me better suggestions',
+            'Wrap this up',
+        ];
+        const followUpList = createList(followUpItems);
+        const followUpListItem = createListItem('Follow up');
+        followUpListItem.appendChild(followUpList);
+        const mainList = document.createElement('ul');
+        mainList.appendChild(followUpListItem);
+        return mainList;
+    };
+
+    const div = document.createElement('div');
+    div.classList.add('follow_up');
+    div.appendChild(createFollowUpList());
+    return div;
+}
+
 function createLatestGoogle() {
-    const latestGoogle = createElem('div', { class: 'latest_google'}, [
+    const followUpDiv = createFollowUpDiv();
+    return createElem('div', { class: 'latest_google' }, [
         createElem('div', { class: 'latest_data' }, [
             createElem('span', { class: 'info' }, [
-                createElem('img', { src: 'assets/images/Info.svg', alt: '' }, [])
+                createElem('img', { src: chrome.runtime.getURL('assets/images/Info.svg'), alt: '' }, [])
+                
             ]),
             createElem('p', {}, ['Include latest google data']),
             createElem('button', {
@@ -82,15 +121,13 @@ function createLatestGoogle() {
             ])
         ]),
     ]);
-    return latestGoogle;
 }
-
-
 
 function addElementGoogle() {
     const latestGoogle = createLatestGoogle();
-    let messageInput = document.querySelector("#__next > div.overflow-hidden.w-full.h-full.relative.flex > div.flex.h-full.max-w-full.flex-1.flex-col > main > div.absolute.bottom-0.left-0.w-full.border-t > form > div > div.flex.flex-col.w-full.py-2.flex-grow");
+    let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form > div > div.flex.flex-col.w-full.py-2.flex-grow");
     let messageInputContainer = messageInput.parentNode;
+    latestGoogle.appendChild(createFollowUpDiv());
     messageInputContainer.insertBefore(latestGoogle, messageInput);
 }
 
@@ -102,3 +139,5 @@ setInterval(() => {
 }, 1000);
 
 addElementGoogle();
+
+/*  */
