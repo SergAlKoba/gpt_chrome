@@ -1,5 +1,7 @@
 const svgFileUrl = chrome.runtime.getURL('assets/images/favorites.svg');
 
+
+
 fetch(svgFileUrl)
     .then(response => {
         if (!response.ok) {
@@ -8,19 +10,35 @@ fetch(svgFileUrl)
         return response.text();
     })
     .then(svgContent => {
-        const button = document.createElement('button');
-        button.textContent = 'button_wait';
-        button.addEventListener('click', () => {
-            
-        });
-        button.innerHTML = svgContent;
-        
-        const div = document.createElement('div');
-        div.className = 'my-div';
-        div.style.border = '1px solid black';
-        div.appendChild(button);
-        
-        document.body.appendChild(div);
+        function addFavoritesButton(chatMessage) {
+
+            const parentElement = chatMessage.parentElement.parentElement.parentElement;
+            if (parentElement.querySelectorAll('.button_wait').length < 1) {
+                const button = document.createElement('button');
+                button.addEventListener('click', () => {
+
+                    console.log(parentElement.querySelector("p").parentElement.textContent);
+                });
+                button.innerHTML = svgContent;
+
+                const div = document.createElement('div');
+                div.className = 'button_wait';
+                div.appendChild(button);
+
+                parentElement.appendChild(div);
+
+            }
+
+
+        }
+
+        setInterval(function () {
+            const chatMessages = document.querySelectorAll('div > div > button.p-1.rounded-md:first-child');
+            chatMessages.forEach(addFavoritesButton);
+
+
+
+        }, 1000)
     })
     .catch(error => {
         console.error('Error loading SVG file:', error);

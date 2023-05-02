@@ -1,3 +1,10 @@
+const followUpItems = [
+    'Make this more consistent',
+    'Tell me more about this',
+    'Expand details',
+    'Give me better suggestions',
+    'Wrap this up',
+];
 const createElem = (tag, attributes, children) => {
     const elem = document.createElement(tag);
 
@@ -20,7 +27,16 @@ function createFollowUpDiv() {
     const createListItem = (text) => {
         const li = document.createElement('li');
         li.textContent = text;
+        li.onclick = () => {
+            const userInput = document.querySelector('form  textarea');
+            userInput.value = text;
+            const submitButton = userInput.parentElement.querySelector('button');
+            submitButton.disabled = false;
+            submitButton.click();
+
+        };
         return li;
+
     };
 
     const createList = (items) => {
@@ -32,15 +48,10 @@ function createFollowUpDiv() {
     };
 
     const createFollowUpList = () => {
-        const followUpItems = [
-            'Make this more consistent',
-            'Tell me more about this',
-            'Expand details',
-            'Give me better suggestions',
-            'Wrap this up',
-        ];
+
         const followUpList = createList(followUpItems);
-        const followUpListItem = createListItem('Follow up');
+        const followUpListItem = document.createElement('li');
+        followUpListItem.textContent = 'Follow up';
         followUpListItem.appendChild(followUpList);
         const mainList = document.createElement('ul');
         mainList.appendChild(followUpListItem);
@@ -59,7 +70,7 @@ function createLatestGoogle() {
         createElem('div', { class: 'latest_data' }, [
             createElem('span', { class: 'info' }, [
                 createElem('img', { src: chrome.runtime.getURL('assets/images/Info.svg'), alt: '' }, [])
-                
+
             ]),
             createElem('p', {}, ['Include latest google data']),
             createElem('button', {
@@ -139,5 +150,3 @@ setInterval(() => {
 }, 1000);
 
 addElementGoogle();
-
-/*  */
