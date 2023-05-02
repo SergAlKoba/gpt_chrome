@@ -146,7 +146,7 @@
     background: #0F1110;
 }
 
-#global .bg-gray-900 {
+#global .dark.hidden.flex-shrink-0.bg-gray-900 {
     width: 19.5%;
     height: 100vh;
     max-width: 280px;
@@ -1014,7 +1014,7 @@
         max-width: 375px;
     }
 
-    #global .bg-gray-900 {
+    #global .dark.hidden.flex-shrink-0.bg-gray-900 {
         min-width: 375px;
         max-width: 375px;
     }
@@ -1511,10 +1511,7 @@ ul[id^="headlessui-listbox-options"] li {
     background: var(--checkIcon) no-repeat 50% 50%;
 }
 
-#global .menu_content .categories li::after,
-#global .menu_content .favourites li::after,
-#global .latest_google .tone ul::after,
-#global .latest_google .style ul::after {
+#global .menu_content .categories li::after {
     background: var(--icon) no-repeat 50% 50%;
     background-size: cover;
 }
@@ -1537,8 +1534,4 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .menu_content .i-big-category.active+ul {
     display: block;
-}
-
-#global .latest_google .follow_up ul::after {
-    background: var(--followUp) no-repeat 50% 50%;
 }
