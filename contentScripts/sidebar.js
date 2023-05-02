@@ -20,6 +20,7 @@ function sendInput(selected_prompt) {
         //to send ready message into ChatGPT 
         document.querySelector("textarea").value = result.prompt_text;
         send_button.removeAttribute('disabled');
+        localStorage.removeItem('template');
         send_button.click();
     })
 }
@@ -28,39 +29,45 @@ function process_input() {
     let textarea = document.querySelector("textarea");
     let variable_names = textarea.value.split(",");
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
-    send_button.addEventListener('click', (event) => {
-        alert(localStorage.getItem('template'));
-        send_button.addEventListener('click', preventSubmission);
-        event.preventDefault();
-        if (textarea.value) {
-            input_text = input_text.split(",");
-            console.log(input_text);
-
+    send_button.addEventListener('click', () => {
+        const inputValue = textarea.value.trim();
+        if (localStorage.getItem('template') && inputValue !== '') {
+            let variables = textarea.value.split(",");
+            
+            // perform your action here, e.g. send the form data to the server
+            console.log('Submitting the form...');
+            // clear the input field and enable the form submission again
+            let selected_prompt = localStorage.getItem('template');
             for (let i = 0; i < variable_names.length; i++) {
-                textarea.value = textarea.value.replace(`{${variable_names[i]}}`, input_text[i]);
+                selected_prompt = selected_prompt.replace(/{.*}/, variables[i]);
             }
+            console.log(selected_prompt);
+            sendInput(selected_prompt);
+            send_button.removeEventListener('submit', preventSubmission);
+            send_button.removeEventListener('click', preventSubmission);
+
+        } else {
+            // prevent the default enter key behavior
+            send_button.addEventListener('click', preventSubmission);
+            send_button.removeEventListener('submit', preventSubmission);
         }
-        send_button.removeEventListener('click', preventSubmission);
-        send_button.removeAttribute('disabled');
-        send_button.click();
     });
     textarea.addEventListener('keydown', (event) => {
-        console.log(event.key);
         if (event.key === 'Enter') {
-            alert(localStorage.getItem('template'));
             const inputValue = textarea.value.trim();
             if (localStorage.getItem('template') && inputValue !== '') {
+                let variables = textarea.value.split(",");
                 // perform your action here, e.g. send the form data to the server
                 console.log('Submitting the form...');
                 // clear the input field and enable the form submission again
                 let selected_prompt = localStorage.getItem('template');
                 for (let i = 0; i < variable_names.length; i++) {
-                    selected_prompt = selected_prompt.replace(`{${variable_names[i]}}`, input_text[i]);
+                    selected_prompt = selected_prompt.replace(/{.*}/, variables[i]);
                 }
-                textarea.value = selected_prompt;
+                console.log(selected_prompt);
+                sendInput(selected_prompt);
                 textarea.removeEventListener('keydown', preventSubmission);
                 textarea.removeEventListener('submit', preventSubmission);
-                send_button.click();
 
             } else {
                 // prevent the default enter key behavior
