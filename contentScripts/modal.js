@@ -1,5 +1,3 @@
-
-
 const toneItemsData = [
     { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme", name: "none" },
     { url: 'assets/images/tone_item_2.png', title: "Blue ocean", name: "blue_ocean" },
