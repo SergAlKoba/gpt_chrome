@@ -146,7 +146,7 @@
     background: #0F1110;
 }
 
-#global .bg-gray-900 {
+#global .dark.hidden.flex-shrink-0.bg-gray-900 {
     width: 19.5%;
     height: 100vh;
     max-width: 280px;
@@ -1014,7 +1014,7 @@
         max-width: 375px;
     }
 
-    #global .bg-gray-900 {
+    #global .dark.hidden.flex-shrink-0.bg-gray-900 {
         min-width: 375px;
         max-width: 375px;
     }
