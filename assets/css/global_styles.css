@@ -1516,6 +1516,19 @@ ul[id^="headlessui-listbox-options"] li {
     background-size: cover;
 }
 
+#global .latest_google .follow_up ul::after{
+    background: var(--followUpCaretDown) no-repeat 50% 50%;
+}
+
+#global .latest_google .tone ul::after{
+    background: var(--toneCaretDown) no-repeat 50% 50%;
+    
+}
+
+#global .latest_google .style ul::after{
+     background: var(--styleCaretDown) no-repeat 50% 50%;
+}
+
 #global .menu_content .categories .items li::after {
     content: none;
 }
