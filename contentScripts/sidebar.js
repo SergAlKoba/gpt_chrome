@@ -4,7 +4,7 @@ function preventSubmission(event) {
     event.preventDefault();
 }
 
-function sendInput(selected_prompt) {
+function sendInput(selected_prompt, is_disabled = false) {
     document.querySelector("textarea").value = selected_prompt;
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
@@ -15,15 +15,19 @@ function sendInput(selected_prompt) {
     } else {
         include_google_data = false;
     }
+    include_google_data = false;
     setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
         console.log(result);
         //to send ready message into ChatGPT 
         document.querySelector("textarea").value = result.prompt_text;
-        send_button.removeAttribute('disabled');
+        if (is_disabled) {
+            send_button.removeAttribute('disabled');
+            send_button.click();
+        }
         localStorage.removeItem('template');
-        send_button.click();
     })
 }
+
 
 function process_input() {
     let textarea = document.querySelector("textarea");
@@ -33,7 +37,7 @@ function process_input() {
         const inputValue = textarea.value.trim();
         if (localStorage.getItem('template') && inputValue !== '') {
             let variables = textarea.value.split(",");
-            
+
             // perform your action here, e.g. send the form data to the server
             console.log('Submitting the form...');
             // clear the input field and enable the form submission again
@@ -43,16 +47,26 @@ function process_input() {
             }
             console.log(selected_prompt);
             sendInput(selected_prompt);
+            textarea.value = '';
             send_button.removeEventListener('submit', preventSubmission);
             send_button.removeEventListener('click', preventSubmission);
+            localStorage.removeItem('template');
+
+        } else if (inputValue !== '') {
+            alert(inputValue);
+            console.warn('here is the input value click');
+            localStorage.removeItem('template');
+            sendInput(textarea.value.trim());
+            textarea.value = '';
 
         } else {
-            // prevent the default enter key behavior
             send_button.addEventListener('click', preventSubmission);
             send_button.removeEventListener('submit', preventSubmission);
         }
+
     });
     textarea.addEventListener('keydown', (event) => {
+
         if (event.key === 'Enter') {
             const inputValue = textarea.value.trim();
             if (localStorage.getItem('template') && inputValue !== '') {
@@ -65,15 +79,36 @@ function process_input() {
                     selected_prompt = selected_prompt.replace(/{.*}/, variables[i]);
                 }
                 console.log(selected_prompt);
-                sendInput(selected_prompt);
-                textarea.removeEventListener('keydown', preventSubmission);
-                textarea.removeEventListener('submit', preventSubmission);
-
-            } else {
-                // prevent the default enter key behavior
-                console.warn('prevent submission');
-                event.preventDefault();
+                document.querySelector("textarea").value = selected_prompt;
+                let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+                let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+                let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+                let include_google_data = document.getElementById('headlessui-switch-:rh:').getAttribute('aria-checked');
+                if (include_google_data === 'true') {
+                    include_google_data = true;
+                } else {
+                    include_google_data = false;
+                }
+                include_google_data = false;
+                setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
+                    console.log(result);
+                    //to send ready message into ChatGPT 
+                    document.querySelector("textarea").value = result.prompt_text;
+                    // if (is_disabled) {
+                    //     send_button.removeAttribute('disabled');
+                    //     send_button.click();
+                    // }
+                    localStorage.removeItem('template');
+                    textarea.removeEventListener('keydown', preventSubmission);
+                    textarea.removeEventListener('submit', preventSubmission);
+                    localStorage.removeItem('template');
+                    textarea.value = '';
+                    textarea.placeholder = 'Send a message.';
+                })
             }
+        } else {
+            // textarea.addEventListener('keydown', preventSubmission);
+            textarea.addEventListener('submit', preventSubmission);
         }
     });
 }
@@ -204,11 +239,11 @@ function createCategory(id) {
                     document.querySelector("textarea").setAttribute('placeholder', variables);
                     variable_names = variable_without_braces;
                     localStorage.setItem('template', response[i].prompt_template);
+                    process_input();
                 } else {
                     localStorage.removeItem('template');
-                    sendInput(selected_prompt);
+                    sendInput(selected_prompt, true);
                 }
-                process_input();
             });
 
             menuDivs[i] = menuDiv;

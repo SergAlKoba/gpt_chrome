@@ -3,21 +3,33 @@ document.querySelector(':root').style.setProperty("--toneCaretDown", `url(${chro
 document.querySelector(':root').style.setProperty("--styleCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 
 const googleStyles = [
-    { title: 'Descriptive 1', name: 'name 1' },
-    { title: 'Descriptive 2', name: 'name 2' },
-    { title: 'Descriptive 3', name: 'name 3' },
-    { title: 'Descriptive 4', name: 'name 4' },
-    { title: 'Descriptive 5', name: 'name 5' },
-    { title: 'Descriptive 6', name: 'name 6' }
+    { title: 'Narrative', name: 'name 1' },
+    { title: 'Expository', name: 'name 2' },
+    { title: 'Descriptive', name: 'name 3' },
+    { title: 'Persuasive', name: 'name 4' },
+    { title: 'Creative', name: 'name 5' },
+    { title: 'Technical', name: 'name 6' },
+    { title: 'Review', name: 'name 7' },
+    { title: 'Poetic', name: 'name 8' },
+    { title: 'Academic', name: 'name 9' },
+    { title: 'Business', name: 'name 10' }
 ];
+
 const googleTones = [
-    { title: 'Persuasive 1', name: 'name 1' },
-    { title: 'Persuasive 2', name: 'name 2' },
-    { title: 'Persuasive 3', name: 'name 3' },
-    { title: 'Persuasive 4', name: 'name 4' },
-    { title: 'Persuasive 5', name: 'name 5' },
-    { title: 'Persuasive 6', name: 'name 6' }
+    { title: 'Formal', name: 'name 1' },
+    { title: 'Informal', name: 'name 2' },
+    { title: 'Optimistic', name: 'name 3' },
+    { title: 'Pessimistic', name: 'name 4' },
+    { title: 'Joyful', name: 'name 5' },
+    { title: 'Sad', name: 'name 6' },
+    { title: 'Sincere', name: 'name 7' },
+    { title: 'Hypocritical', name: 'name 8' },
+    { title: 'Fearful', name: 'name 9' },
+    { title: 'Hopeful', name: 'name 10' },
+    { title: 'Humorous', name: 'name 11' },
+    { title: 'Serious', name: 'name 12' }
 ];
+    
 
 const categories = [
     { id: 'tone-google', name: 'Persuasive', items: googleTones, className: 'Tone' },

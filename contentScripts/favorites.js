@@ -16,7 +16,9 @@ fetch(svgFileUrl)
             if (parentElement.querySelectorAll('.button_wait').length < 1) {
                 const button = document.createElement('button');
                 button.addEventListener('click', () => {
-
+                    createBookmark(parentElement.querySelector("p").parentElement.textContent).then((result) => {
+                        console.log(result);
+                    });
                     console.log(parentElement.querySelector("p").parentElement.textContent);
                 });
                 button.innerHTML = svgContent;
