@@ -20,13 +20,15 @@
         "*://*.openai.com/*"
       ],
       "js": [
+        "contentScripts/index.js",
+        "contentScripts/favorites.js",
         "contentScripts/googleButtons.js",
         "contentScripts/googleFonts.js",
-        "contentScripts/index.js",
         "contentScripts/modal.js",
         "contentScripts/header.js",
         "contentScripts/sidebar.js",
-        "contentScripts/leftSideBar.js"
+        "contentScripts/leftSideBar.js",
+        "contentScripts/requests.js"
       ],
       "css": [
         "./assets/css/global_styles.css"
@@ -41,6 +43,8 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/follow_up_CaretDown.svg",
+        "assets/images/Info.svg",
         "assets/images/textury.png",
         "assets/images/Textury art.png",
         "assets/images/colorful_gradient.png",

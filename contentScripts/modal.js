@@ -1,5 +1,3 @@
-
-
 const toneItemsData = [
     { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme", name: "none" },
     { url: 'assets/images/tone_item_2.png', title: "Blue ocean", name: "blue_ocean" },
@@ -159,16 +157,35 @@ function createForm(tabsDiv) {
     input.setAttribute("placeholder", "Search theme...");
     form.appendChild(input);
 
-    input.oninput = (e) => {
-        Array.from(document.querySelectorAll(".tone_item, .style_item")).forEach(item => {
-            if (!item.textContent.toLowerCase().includes(e.target.value.toLowerCase())) {
-                item.style.display = "none";
 
-            } else {
+    function filterItems(searchText) {
+        const normalizeText = (text) => {
+            return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        };
+    
+        const searchRegExp = new RegExp(normalizeText(searchText), 'g');
+    
+        Array.from(document.querySelectorAll(".tone_item, .style_item")).forEach(item => {
+            const titleElement = item.querySelector("h4");
+            const itemText = titleElement ? normalizeText(titleElement.textContent) : "";
+    
+            if (normalizeText(searchText).length < 2) {
                 item.style.display = "block";
+            } else {
+                if (!itemText.match(searchRegExp)) {
+                    item.style.display = "none";
+                } else {
+                    item.style.display = "block";
+                }
             }
         });
     }
+    
+
+    input.oninput = (e) => {
+        filterItems(e.target.value);
+    }
+    
     return form;
 }
 

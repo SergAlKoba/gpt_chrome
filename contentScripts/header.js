@@ -1,3 +1,31 @@
+async function login(email, password) {
+    const response = await fetch("https://gotgood.ai/api/user/login/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+        redirect: 'follow'
+    });
+    const { auth_token } = await response.json();
+    localStorage.setItem("token", auth_token);
+}
+
+async function doLogin() {
+    try {
+        await login("root@gmail.com", "root");
+        console.log("Успешная аутентификация!");
+    } catch (error) {
+        console.error("Ошибка аутентификации:", error);
+    }
+}
+
+doLogin();
+
+
+
+let menuOpened = false;
+
 const createElement = (tagName, className) => {
     const element = document.createElement(tagName);
     element.className = className;
@@ -12,17 +40,7 @@ const logoH2Span = createElement("span");
 logoH2Span.innerText = "Good.";
 const account = createElement("div", "account");
 const accountUser = createElement("div", "user");
-const accountUserSpan = createElement("span");
-accountUserSpan.innerText = "Artificial Intelligence chat room";
 const accountSettings = createElement("div", "settings");
-const settingsFavoritesLink = createElement("a", "favorites");
-const settingsFavoritesImg = createElement("img");
-settingsFavoritesImg.src = chrome.runtime.getURL('./assets/images/favorites.svg');
-settingsFavoritesImg.setAttribute("alt", "");
-const settingsShareLink = createElement("a", "share");
-const settingsShareImg = createElement("img");
-settingsShareImg.src = chrome.runtime.getURL('./assets/images/share.svg');
-settingsShareImg.setAttribute("alt", "");
 const settingsMenuLink = createElement("a", "menu");
 const settingsMenuImg = createElement("img");
 settingsMenuImg.src = chrome.runtime.getURL('assets/images/menu.svg');
@@ -31,19 +49,34 @@ settingsMenuImg.setAttribute("alt", "");
 logoH2.appendChild(logoH2Span);
 logo.appendChild(logoH2);
 header.appendChild(logo);
-accountUser.appendChild(accountUserSpan);
 account.appendChild(accountUser);
-settingsFavoritesLink.appendChild(settingsFavoritesImg);
-settingsShareLink.appendChild(settingsShareImg);
 settingsMenuLink.appendChild(settingsMenuImg);
-accountSettings.appendChild(settingsFavoritesLink);
-accountSettings.appendChild(settingsShareLink);
 accountSettings.appendChild(settingsMenuLink);
 account.appendChild(accountSettings);
 header.appendChild(account);
 document.body.appendChild(header);
 
-settingsMenuLink.onclick = () => {
-document.getElementsByClassName("menu_content")[0].classList.toggle("active");
+settingsMenuLink.onclick = async () => {
+    if (menuOpened) {
+        document.getElementsByClassName("menu_content")[0].classList.remove("active");
+        document.getElementsByClassName("flex h-full max-w-full flex-1 flex-col")[0].classList.remove("active");
 
-}
+    } else {
+        document.getElementsByClassName("menu_content")[0].classList.add("active");
+        document.getElementsByClassName("flex h-full max-w-full flex-1 flex-col")[0].classList.add("active");
+        await getCategories();
+    }
+
+
+    menuOpened = !menuOpened;
+};
+setInterval(() => {
+    let el = document.getElementsByClassName("flex h-full max-w-full flex-1 flex-col")[0];
+    let menuReallyOpened = el.classList.contains("active");
+    if (menuReallyOpened && !menuOpened) {
+        el.classList.remove("active");
+    } else if (!menuReallyOpened && menuOpened) {
+        el.classList.add("active");
+    }
+
+}, 1000);

@@ -2,13 +2,14 @@ let selectedTone = localStorage.getItem("tone");
 let selectedStyle = localStorage.getItem("style");
 
 let selectedToneTmp = selectedTone;
-let selectedStyleTmp = selectedStyle; 
+let selectedStyleTmp = selectedStyle;
 
 console.log({ selectedTone, selectedStyle });
 
 function applyCurrentTheme() {
     document.body.setAttribute('class', `${selectedTone} ${selectedStyle}`);
     document.body.style.setProperty("--mainbg", `url("${chrome.runtime.getURL(`assets/images/${selectedTone}.png`)}")`);
+
 }
 applyCurrentTheme();
 
