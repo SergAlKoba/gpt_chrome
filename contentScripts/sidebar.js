@@ -5,6 +5,7 @@ function preventSubmission(event) {
 }
 
 function sendInput(selected_prompt, is_disabled = false) {
+    console.log(selected_prompt);
     document.querySelector("textarea").value = selected_prompt;
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
