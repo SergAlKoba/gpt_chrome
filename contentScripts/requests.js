@@ -89,8 +89,6 @@ async function createBookmark(output) {
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
-    let result = await response.json();
-    return result;
 }
 
 async function createFavourite(prompt) {
