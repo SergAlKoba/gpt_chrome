@@ -68,7 +68,8 @@
         "assets/images/down.png",
         "assets/images/ChatTeardropDots.svg",
         "assets/images/categories_img.svg",
-        "assets/images/CaretDown.svg"
+        "assets/images/CaretDown.svg",
+        "assets/images/microphone.svg"
       ],
       "use_dynamic_url": false,
       "matches": [
