@@ -603,6 +603,8 @@
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative {
+    width: auto;
+    margin-right: 80px;
     position: relative;
     padding: 19px 32px;
     border-radius: 16px;
@@ -1068,6 +1070,34 @@
     top: 10px;
     right: -40px;
     position: absolute;
+}
+
+#global .microphone {
+    top: 0;
+    width: 64px;
+    right: -80px;
+    height: 64px;
+    cursor: pointer;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    border-radius: 16px;
+    background: #171918;
+    justify-content: center;
+    border: 1px solid #202322;
+    transition: all 0.3s;
+    
+}
+
+#global .microphone:hover{
+    background: #B4F573;
+    border: 1px solid #B4F573;
+    
+
+}
+
+#global .microphone:hover svg path{
+    fill: #000;
 }
 
 @media (min-width: 1900px) {
