@@ -1544,7 +1544,7 @@
 
 
 
-/* Вадим */
+/* Р’Р°РґРёРј */
 
 ul[id^="headlessui-listbox-options"] li {
     height: 30px !important;
@@ -1625,4 +1625,17 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .menu_content .i-big-category.active+ul {
     display: block;
+}
+
+#global .latest_google .follow_up ul::after{
+    background: var(--followUpCaretDown) no-repeat 50% 50%;
+}
+
+#global .latest_google .tone ul::after{
+    background: var(--toneCaretDown) no-repeat 50% 50%;
+    
+}
+
+#global .latest_google .style ul::after{
+     background: var(--styleCaretDown) no-repeat 50% 50%;
 }
