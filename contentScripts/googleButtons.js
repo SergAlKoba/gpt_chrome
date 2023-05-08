@@ -132,39 +132,10 @@ function createLatestGoogle() {
 
     const latestDataDiv = document.createElement('div');
     latestDataDiv.className = 'latest_data';
-    latestGoogleDiv.appendChild(latestDataDiv);
-
-    const infoSpan = document.createElement('span');
-    infoSpan.className = 'info';
-    latestDataDiv.appendChild(infoSpan);
-
-    const infoImg = document.createElement('img');
-    infoImg.src = chrome.runtime.getURL('assets/images/Info.svg');
-    infoImg.alt = '';
-    infoSpan.appendChild(infoImg);
-
-    const includeLatestGoogleData = document.createElement('p');
-    includeLatestGoogleData.textContent = 'Include latest google data';
-    latestDataDiv.appendChild(includeLatestGoogleData);
-
-    const button = document.createElement('button');
-    button.className = 'bg-green-600 relative inline-flex flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-0 h-6 w-11';
-    button.id = 'headlessui-switch-:rh:';
-    button.role = 'switch';
-    button.type = 'button';
-    button.tabIndex = '0';
-    button.setAttribute('aria-checked', 'true');
-    button.setAttribute('data-headlessui-state', 'checked');
-    latestDataDiv.appendChild(button);
-
-    const srOnlySpan = document.createElement('span');
-    srOnlySpan.className = 'sr-only';
-    srOnlySpan.textContent = 'Use setting';
-    button.appendChild(srOnlySpan);
 
     const pointerEventsSpan = document.createElement('span');
     pointerEventsSpan.className = 'pointer-events-none relative inline-block transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5 h-5 w-5';
-    button.appendChild(pointerEventsSpan);
+    latestDataDiv.appendChild(pointerEventsSpan);
 
     const hiddenSpans = ['opacity-0', 'opacity-100'].map(opacityClass => {
         const span = document.createElement('span');
