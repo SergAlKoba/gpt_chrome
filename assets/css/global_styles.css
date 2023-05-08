@@ -1092,8 +1092,6 @@
 #global .microphone:hover{
     background: #10a37f;
     border: 1px solid #10a37f;
-    
-
 }
 
 #global .microphone:hover svg path{
