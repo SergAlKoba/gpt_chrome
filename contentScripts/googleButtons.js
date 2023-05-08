@@ -293,6 +293,7 @@ function addMicrophone() {
                         recognition.onresult = (result) => {
                             textArea.value += ` ${result.results[0][0].transcript}`;
                             sendButton.removeAttribute('disabled');
+                            microphoneDiv.classList.remove('microphone-is-listening');
                         };
                     }
                 }
