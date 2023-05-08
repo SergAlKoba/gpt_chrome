@@ -603,10 +603,69 @@
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative {
+    position: relative;
     padding: 19px 32px;
+    border-radius: 16px;
     background: #171918;
     border: 1px solid #202322;
-    border-radius: 16px;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster{
+    left: 26px;
+    bottom: 26px;
+    display: none;
+    position: absolute;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster input {
+    width: 280px;
+    height: 40px;
+    position: relative;
+    border-radius: 12px;
+    background: #000000;
+    border: 1px solid #000;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul.active{
+    display: block;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul{
+    left: 0;
+    width: 280px;
+    bottom: 48px;
+    padding: 10px;
+    display: none;
+    position: absolute;
+    border-radius: 8px;
+    background: #000;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li{
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 18px;
+    padding: 6px 10px;
+    letter-spacing: -0.04em;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li:last-child{
+    border-bottom: none;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li:hover{
+    color: #FFFFFF;
+    background: #343541;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li:last-child{
+    margin-bottom: 0;
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster.active{
+    display: block;
 }
 
 #global .rounded-sm.text-white.flex.items-center.justify-center{
@@ -659,6 +718,10 @@
 
 #global .flex .text-gray-400.flex.self-end{
     /* display: none; */
+}
+
+#global .w-\[260px\]{
+    width: 100%;
 }
 
 .flex.py-3.px-3.items-center.gap-3.relative.rounded-md.cursor-pointer.break-all.pr-14 {
@@ -1010,13 +1073,13 @@
 @media (min-width: 1900px) {
 
     .header_global .logo {
-        min-width: 375px;
-        max-width: 375px;
+        min-width: 340px;
+        max-width: 340px;
     }
 
     #global .dark.hidden.flex-shrink-0.bg-gray-900 {
-        min-width: 375px;
-        max-width: 375px;
+        min-width: 340px;
+        max-width: 340px;
     }
 
     #global .flex.h-full.max-w-full.flex-1.flex-col.active {
@@ -1514,19 +1577,6 @@ ul[id^="headlessui-listbox-options"] li {
 #global .menu_content .categories li::after {
     background: var(--icon) no-repeat 50% 50%;
     background-size: cover;
-}
-
-#global .latest_google .follow_up ul::after{
-    background: var(--followUpCaretDown) no-repeat 50% 50%;
-}
-
-#global .latest_google .tone ul::after{
-    background: var(--toneCaretDown) no-repeat 50% 50%;
-    
-}
-
-#global .latest_google .style ul::after{
-     background: var(--styleCaretDown) no-repeat 50% 50%;
 }
 
 #global .menu_content .categories .items li::after {
