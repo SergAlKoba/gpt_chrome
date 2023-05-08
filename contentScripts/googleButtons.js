@@ -271,6 +271,36 @@ function addMicrophone() {
     microphoneDiv.appendChild(img);
     let parent_element = document.querySelector('form > div').childNodes[2];
     parent_element.appendChild(microphoneDiv);
+
+    const textArea = document.querySelector('textarea');
+    const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition;
+
+    microphoneDiv.addEventListener('click', () => {
+        navigator && navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(() => {
+                if (microphoneDiv.classList.contains('microphone-is-listening')) {
+                    microphoneDiv.classList.remove('microphone-is-listening');
+                    recognition && recognition.stop();
+                } else {
+                    microphoneDiv.classList.add('microphone-is-listening');
+
+                    if (SpeechRecognition !== undefined && textArea) {
+                        recognition = new SpeechRecognition();
+                        recognition.start();
+                        recognition.onresult = (result) => {
+                            textArea.value += ` ${result.results[0][0].transcript}`;
+                            sendButton.removeAttribute('disabled');
+                        };
+                    }
+                }
+            })
+            .catch(() => {
+                alert('Microphone access denied');
+            });
+    });
 }
 
 function addElementGoogle() {

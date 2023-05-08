@@ -273,7 +273,7 @@
     color: #FFFFFF;
     line-height: 18px;
     letter-spacing: -0.04em;
-    
+
 }
 
 #global .flex.h-full.max-w-full.flex-1.flex-col {
@@ -390,12 +390,12 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    position: absolute;   
+    position: absolute;
 }
 
 #global .menu_content .categories .items li .story_content{
     padding-top: 14px;
-    display: flex;    
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
@@ -671,11 +671,11 @@
 }
 
 #global .rounded-sm.text-white.flex.items-center.justify-center{
-    
+
 }
 
 #global .text-base.gap-4.md\:gap-6 .rounded-sm{
-    
+
 }
 
 #global .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3{
@@ -1086,7 +1086,7 @@
     justify-content: center;
     border: 1px solid #202322;
     transition: all 0.3s;
-    
+
 }
 
 #global .microphone:hover{
@@ -1096,6 +1096,10 @@
 
 #global .microphone:hover svg path{
     fill: #000;
+}
+
+#global .microphone.microphone.microphone-is-listening {
+    background-color: red;
 }
 
 @media (min-width: 1900px) {
@@ -1633,7 +1637,7 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .latest_google .tone ul::after{
     background: var(--toneCaretDown) no-repeat 50% 50%;
-    
+
 }
 
 #global .latest_google .style ul::after{
