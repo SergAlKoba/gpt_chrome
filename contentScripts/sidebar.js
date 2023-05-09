@@ -9,6 +9,7 @@ function sendInput(selected_prompt, is_disabled = false) {
     document.querySelector("textarea").value = selected_prompt;
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let include_google_data = document.getElementById('headlessui-switch-:rh:').getAttribute('aria-checked');
     if (include_google_data === 'true') {
