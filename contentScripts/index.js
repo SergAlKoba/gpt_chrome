@@ -1,6 +1,5 @@
 let selectedTone = localStorage.getItem("tone");
 let selectedStyle = localStorage.getItem("style");
-
 let selectedToneTmp = selectedTone;
 let selectedStyleTmp = selectedStyle;
 

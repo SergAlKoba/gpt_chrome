@@ -20,6 +20,7 @@
         "*://*.openai.com/*"
       ],
       "js": [
+        "contentScripts/jquery.min.js",
         "contentScripts/index.js",
         "contentScripts/favorites.js",
         "contentScripts/googleButtons.js",

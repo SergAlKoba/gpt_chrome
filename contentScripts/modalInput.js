@@ -1,10 +1,33 @@
-const container = document.querySelector('textarea').parentElement;
+document.addEventListener('readystatechange', event => {
+  
+  const container = $('textarea').parentElement;
+
+  container.appendChild(prompster);
+  const textArea = $('textarea')
+  const selectorPromster = $(".prompster");
+  const selectorUlPromster = selectorPromster.querySelector("ul");
+  const search = document.getElementById('site-search');
+
+  search.addEventListener('blur', () => {
+    selectorPromster.classList.remove('active');
+    selectorUlPromster.classList.remove('active');
+  });
+  textArea.addEventListener('input', function () {
+    if (textArea.value == '/') {
+      selectorPromster.classList.add('active');
+      selectorUlPromster.classList.add('active');
+      // search.focus();
+    } else {
+      console.log('not /', textArea.value);
+    }
+  });
+});
 
 function sendModalInput(selected_prompt) {
   console.log(selected_prompt);
-  let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+  let send_button = $('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
 
-  document.querySelector("textarea").value = selected_prompt;
+  $("textarea").value = selected_prompt;
   send_button.removeAttribute('disabled');
   send_button.click();
 }
@@ -70,7 +93,7 @@ function filterPrompterItems(searchText) {
   const normalizeText = (text) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   };
-  Array.from(document.querySelectorAll(".prompster-item")).forEach(item => {
+  Array.from($All(".prompster-item")).forEach(item => {
     const itemText = normalizeText(item.textContent);
 
     const searchRegExp = new RegExp(normalizeText(searchText), 'g');
@@ -85,26 +108,3 @@ function filterPrompterItems(searchText) {
 }
 
 // container.insertAdjacentHTML('afterbegin', prompster);
-container.appendChild(prompster);
-const textArea = document.querySelector('textarea')
-const selectorPromster = document.querySelector(".prompster");
-const selectorUlPromster = selectorPromster.querySelector("ul");
-const search = document.getElementById('site-search');
-
-search.addEventListener('blur', () => {
-  selectorPromster.classList.remove('active');
-  selectorUlPromster.classList.remove('active');
-});
-
-
-setInterval(() => {
-  textArea.addEventListener('input', function () {
-    if (textArea.value == '/') {
-      selectorPromster.classList.add('active');
-      selectorUlPromster.classList.add('active');
-      // search.focus();
-    } else {
-      console.log('not /', textArea.value);
-    }
-  });
-}, 1000);
