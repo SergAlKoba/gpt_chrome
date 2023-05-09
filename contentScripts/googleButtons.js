@@ -117,14 +117,14 @@ const followUpItems = [
     'Wrap this up',
 ];
 
-function createUlFromItems(items) {
+function createUlFromItems(type, items) {
     const ul = document.createElement('ul');
 
     items.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item.title;
         li.onclick = function () {
-            itemClickHandler(item, li);
+            itemClickHandler(type, item, li);
         };
         ul.appendChild(li);
     });
@@ -132,8 +132,8 @@ function createUlFromItems(items) {
     return ul;
 }
 
-function itemClickHandler(item, li) {
-    console.log('Clicked:', item.title, 'Name:', item.name);
+function itemClickHandler(type, item, li) {
+    localStorage.setItem(type, item.title);
     li.parentElement.parentElement.querySelector('span').textContent = item.title;
 }
 
@@ -236,10 +236,10 @@ function createLatestGoogle() {
         const li = document.createElement('li');
 
         const span = document.createElement('span');
-        span.textContent = category.name;
+        span.textContent = localStorage.getItem(category.className) || category.name;
 
         li.appendChild(span);
-        li.appendChild(createUlFromItems(category.items));
+        li.appendChild(createUlFromItems(category.className, category.items));
         ul.appendChild(li);
 
     });
