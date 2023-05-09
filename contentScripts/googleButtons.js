@@ -141,6 +141,14 @@ const followUpItems = [
 function createUlFromItems(type, items) {
     const ul = document.createElement('ul');
 
+    if (type === 'Tone') {
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') ? localStorage.getItem('Prompt payload') + ` Tone : ${items[0].title} ` : ` Tone : ${items[0].title} `);
+    } else if (type === 'Style') {
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') ? localStorage.getItem('Prompt payload') + ` Style : ${items[0].title} ` : ` Style : ${items[0].title} `);
+    } else if (type === 'Language') {
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') ? localStorage.getItem('Prompt payload') + ` Output language : ${items[0].title} ` : ` Output language : ${items[0].title} `);
+    }
+
     items.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item.title;

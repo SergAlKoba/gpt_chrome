@@ -30,11 +30,13 @@ function sendInput(selected_prompt, is_disabled = false) {
     })
 }
 
-const textarea = document.querySelector("textarea");
-textarea && textarea.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        document.querySelector("textarea").value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
-    }
+document.addEventListener('readystatechange', event => {
+    const textarea = document.querySelector("textarea");
+    textarea && textarea.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            document.querySelector("textarea").value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+        }
+    });
 });
 
 function process_input() {
