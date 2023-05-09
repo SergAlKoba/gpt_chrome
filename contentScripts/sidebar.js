@@ -299,8 +299,6 @@ function createCategories() {
         menuContentCategoriesLi,
         createElem("ul", {}, []));
     getCategories().then((response) => {
-
-        console.warn(response);
         response.forEach((category) => {
             menuContentCategories.querySelector('ul').append(createCategoryElement(category.name, category.id));
         });
