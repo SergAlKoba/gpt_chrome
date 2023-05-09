@@ -150,7 +150,7 @@ function filterCategory(categoryName) {
 }
 
 function searchItems(searchValue) {
-    const allItems = document.querySelectorAll('.story_content div');
+    const allItems = document.querySelectorAll('.story_content_liner div');
     allItems.forEach((item) => {
         if (item.querySelector('p').innerText.toLowerCase().includes(searchValue.toLowerCase())) {
             item.style.display = 'block';
@@ -302,7 +302,7 @@ function createCategories() {
 
         console.warn(response);
         response.forEach((category) => {
-            menuContentCategories.append(createCategoryElement(category.name, category.id));
+            menuContentCategories.querySelector('ul').append(createCategoryElement(category.name, category.id));
         });
     });
 
