@@ -94,6 +94,21 @@ const googleTones = [{
     }
 ];
 
+const languagesList = [
+    {
+        title: 'English',
+        name: 'name 1'
+    },
+    {
+        title: 'Russian',
+        name: 'name 2'
+    },
+    {
+        title: 'Ukrainian',
+        name: 'name 3'
+    }
+];
+
 
 const categories = [{
         id: 'tone-google',
@@ -109,9 +124,9 @@ const categories = [{
     },
     {
         id: 'language-google',
-        name: 'English',
-        items: googleStyles,
-        className: 'Style'
+        name: 'Language',
+        items: languagesList,
+        className: 'Language'
     },
 ];
 
@@ -140,6 +155,27 @@ function createUlFromItems(type, items) {
 
 function itemClickHandler(type, item, li) {
     localStorage.setItem(type, item.title);
+
+    if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${item.title} ` : localStorage.getItem('Prompt payload') + ` Tone: ${item.title} `);
+    }
+
+    if (!/ Style: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Style') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${item.title} ` : localStorage.getItem('Prompt payload') + ` Style: ${item.title} `);
+    }
+
+    if (!/ Output language: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Language') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${item.title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${item.title} `);
+    }
+
+    if (type === 'Tone') {
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Tone: \w+ /, ` Tone: ${item.title} `));
+    } else if (type === 'Style') {
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Style: \w+ /, ` Style: ${item.title} `));
+    } else if (type === 'Language') {
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Output language: \w+ /, ` Output language: ${item.title} `));
+    }
+
     li.parentElement.parentElement.querySelector('span').textContent = item.title;
 }
 
@@ -318,6 +354,7 @@ function addMicrophone() {
             });
     });
 }
+
 
 function addElementGoogle() {
     const latestGoogle = createLatestGoogle();
