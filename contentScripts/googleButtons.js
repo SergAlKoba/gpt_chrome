@@ -112,19 +112,19 @@ const languagesList = [
 
 const categories = [{
         id: 'tone-google',
-        name: 'Persuasive',
+        name: 'Formal',
         items: googleTones,
         className: 'Tone'
     },
     {
         id: 'style-google',
-        name: 'Descriptive',
+        name: 'Narrative',
         items: googleStyles,
         className: 'Style'
     },
     {
         id: 'language-google',
-        name: 'Language',
+        name: 'English',
         items: languagesList,
         className: 'Language'
     },
@@ -141,12 +141,16 @@ const followUpItems = [
 function createUlFromItems(type, items) {
     const ul = document.createElement('ul');
 
-    if (type === 'Tone') {
-        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') ? localStorage.getItem('Prompt payload') + ` Tone : ${items[0].title} ` : ` Tone : ${items[0].title} `);
-    } else if (type === 'Style') {
-        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') ? localStorage.getItem('Prompt payload') + ` Style : ${items[0].title} ` : ` Style : ${items[0].title} `);
-    } else if (type === 'Language') {
-        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') ? localStorage.getItem('Prompt payload') + ` Output language : ${items[0].title} ` : ` Output language : ${items[0].title} `);
+    if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Tone: ${items[0].title} `);
+    }
+
+    if (!/ Style: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Style') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Style: ${items[0].title} `);
+    }
+
+    if (!/ Output language: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Language') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${items[0].title} `);
     }
 
     items.forEach(item => {
@@ -163,18 +167,6 @@ function createUlFromItems(type, items) {
 
 function itemClickHandler(type, item, li) {
     localStorage.setItem(type, item.title);
-
-    if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
-        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${item.title} ` : localStorage.getItem('Prompt payload') + ` Tone: ${item.title} `);
-    }
-
-    if (!/ Style: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Style') {
-        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${item.title} ` : localStorage.getItem('Prompt payload') + ` Style: ${item.title} `);
-    }
-
-    if (!/ Output language: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Language') {
-        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${item.title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${item.title} `);
-    }
 
     if (type === 'Tone') {
         localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Tone: \w+ /, ` Tone: ${item.title} `));
