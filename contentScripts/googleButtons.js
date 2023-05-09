@@ -238,6 +238,10 @@ function createLatestGoogle() {
         const span = document.createElement('span');
         span.textContent = localStorage.getItem(category.className) || category.name;
 
+        if (!localStorage.getItem(category.className)) {
+            localStorage.setItem(category.className, category.name)
+        }
+
         li.appendChild(span);
         li.appendChild(createUlFromItems(category.className, category.items));
         ul.appendChild(li);
