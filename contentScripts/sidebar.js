@@ -11,23 +11,14 @@ function sendInput(selected_prompt, is_disabled = false) {
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let include_google_data = document.getElementById('headlessui-switch-:rh:').getAttribute('aria-checked');
-    if (include_google_data === 'true') {
-        include_google_data = true;
-    } else {
-        include_google_data = false;
-    }
+    let prompt_text= `${selected_prompt} Style: ${style_value} Language: ${language_value} Tone: ${tone_value}`
     include_google_data = false;
-    setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
-        console.log(result);
-        //to send ready message into ChatGPT
-        document.querySelector("textarea").value = result.prompt_text;
-        if (is_disabled) {
-            send_button.removeAttribute('disabled');
-            send_button.click();
-        }
-        localStorage.removeItem('template');
-    })
+    document.querySelector("textarea").value = prompt_text;
+    if (is_disabled) {
+        send_button.removeAttribute('disabled');
+        send_button.click();
+    }
+    localStorage.removeItem('template');
 }
 
 document.addEventListener('readystatechange', event => {
