@@ -107,6 +107,12 @@ const categories = [{
         items: googleStyles,
         className: 'Style'
     },
+    {
+        id: 'language-google',
+        name: 'English',
+        items: googleStyles,
+        className: 'Style'
+    },
 ];
 
 const followUpItems = [
