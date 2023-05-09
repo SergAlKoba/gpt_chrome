@@ -164,9 +164,10 @@ function searchItems(searchValue) {
 function createDiscoverMore() {
     return createElem("a", {
         class: "discover_more",
-        href: "javascript:void(0)"
+        href: "https://gotgood.ai/dashboard"
     }, ["Discover more"]);
 }
+
 
 
 function createPurchasedPrompts() {
