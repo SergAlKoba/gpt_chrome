@@ -269,9 +269,14 @@ function createLatestGoogle() {
     return latestGoogleDiv;
 }
 
+function callMicro(){
+    const microphoneDiv = document.getElementById('microphone');
+    microphoneDiv.click();
+}
 function addMicrophone() {
     const microphoneDiv = document.createElement('div');
     microphoneDiv.className = 'microphone';
+    microphoneDiv.id = 'microphone';
     const img = document.createElement('img');
     img.src = chrome.runtime.getURL(`assets/images/microphone.svg`);
     microphoneDiv.appendChild(img);
@@ -331,3 +336,12 @@ setInterval(() => {
 
 addElementGoogle();
 addMicrophone();
+
+function handleKeyDown(e) {
+    console.log(e.code);
+    if (e.code === 'KeyB' && (e.metaKey || e.ctrlKey)) {
+        callMicro();
+    }
+  }
+
+document.addEventListener("keydown", handleKeyDown);

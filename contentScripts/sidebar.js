@@ -165,9 +165,10 @@ function searchItems(searchValue) {
 function createDiscoverMore() {
     return createElem("a", {
         class: "discover_more",
-        href: "javascript:void(0)"
+        href: "https://gotgood.ai/dashboard"
     }, ["Discover more"]);
 }
+
 
 
 function createPurchasedPrompts() {
@@ -300,8 +301,6 @@ function createCategories() {
         menuContentCategoriesLi,
         createElem("ul", {}, []));
     getCategories().then((response) => {
-
-        console.warn(response);
         response.forEach((category) => {
             menuContentCategories.querySelector('ul').append(createCategoryElement(category.name, category.id));
         });
