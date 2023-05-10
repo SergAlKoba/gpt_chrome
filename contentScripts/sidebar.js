@@ -9,26 +9,32 @@ function sendInput(selected_prompt, is_disabled = false) {
     document.querySelector("textarea").value = selected_prompt;
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let include_google_data = document.getElementById('headlessui-switch-:rh:').getAttribute('aria-checked');
-    if (include_google_data === 'true') {
-        include_google_data = true;
-    } else {
-        include_google_data = false;
-    }
+    let prompt_text= `${selected_prompt} Style: ${style_value} Language: ${language_value} Tone: ${tone_value}`
     include_google_data = false;
-    setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
-        console.log(result);
-        //to send ready message into ChatGPT 
-        document.querySelector("textarea").value = result.prompt_text;
-        if (is_disabled) {
-            send_button.removeAttribute('disabled');
-            send_button.click();
-        }
-        localStorage.removeItem('template');
-    })
+    document.querySelector("textarea").value = prompt_text;
+    if (is_disabled) {
+        send_button.removeAttribute('disabled');
+        send_button.click();
+    }
+    localStorage.removeItem('template');
 }
 
+document.addEventListener('readystatechange', event => {
+    const textarea = document.querySelector("textarea");
+    const send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+
+    textarea && textarea.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            document.querySelector("textarea").value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+        }
+    });
+
+    send_button && send_button.addEventListener('click', () => {
+        textarea.value += ` ${localStorage.getItem('Prompt payload')}`;
+    });
+});
 
 function process_input() {
     let textarea = document.querySelector("textarea");
@@ -93,7 +99,7 @@ function process_input() {
                 include_google_data = false;
                 setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
                     console.log(result);
-                    //to send ready message into ChatGPT 
+                    //to send ready message into ChatGPT
                     document.querySelector("textarea").value = result.prompt_text;
                     // if (is_disabled) {
                     //     send_button.removeAttribute('disabled');
@@ -150,7 +156,7 @@ function filterCategory(categoryName) {
 }
 
 function searchItems(searchValue) {
-    const allItems = document.querySelectorAll('.story_content div');
+    const allItems = document.querySelectorAll('.story_content_liner div');
     allItems.forEach((item) => {
         if (item.querySelector('p').innerText.toLowerCase().includes(searchValue.toLowerCase())) {
             item.style.display = 'block';
@@ -164,9 +170,10 @@ function searchItems(searchValue) {
 function createDiscoverMore() {
     return createElem("a", {
         class: "discover_more",
-        href: "javascript:void(0)"
+        href: "https://gotgood.ai/dashboard"
     }, ["Discover more"]);
 }
+
 
 
 function createPurchasedPrompts() {
@@ -299,10 +306,8 @@ function createCategories() {
         menuContentCategoriesLi,
         createElem("ul", {}, []));
     getCategories().then((response) => {
-
-        console.warn(response);
         response.forEach((category) => {
-            menuContentCategories.append(createCategoryElement(category.name, category.id));
+            menuContentCategories.querySelector('ul').append(createCategoryElement(category.name, category.id));
         });
     });
 

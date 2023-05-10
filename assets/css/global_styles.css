@@ -273,7 +273,7 @@
     color: #FFFFFF;
     line-height: 18px;
     letter-spacing: -0.04em;
-    
+
 }
 
 #global .flex.h-full.max-w-full.flex-1.flex-col {
@@ -390,12 +390,12 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    position: absolute;   
+    position: absolute;
 }
 
 #global .menu_content .categories .items li .story_content{
     padding-top: 14px;
-    display: flex;    
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
@@ -671,11 +671,11 @@
 }
 
 #global .rounded-sm.text-white.flex.items-center.justify-center{
-    
+
 }
 
 #global .text-base.gap-4.md\:gap-6 .rounded-sm{
-    
+
 }
 
 #global .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3{
@@ -1088,7 +1088,7 @@
     justify-content: center;
     border: 1px solid #202322;
     transition: all 0.3s;
-    
+
 }
 
 #global .microphone:hover{
@@ -1098,6 +1098,10 @@
 
 #global .microphone:hover svg path{
     fill: #000;
+}
+
+#global .microphone.microphone.microphone-is-listening {
+    background-color: red;
 }
 
 @media (min-width: 1900px) {
@@ -1322,22 +1326,23 @@
 }
 
 
-#global .latest_google .lnaguage{
+
+#global .latest_google .language{
     display: flex;
     margin-right: 24px;
     align-items: center;
     padding: 10px 0;
 }
 
-#global .latest_google .lnaguage:hover ul li ul{
+#global .latest_google .language:hover ul li ul{
     display: block;
 }
 
-#global .latest_google .lnaguage:hover ul::after {
+#global .latest_google .language:hover ul::after {
     transform: translate(0, -50%) rotate(180deg);
 }
 
-#global .latest_google .lnaguage p{
+#global .latest_google .language p{
     font-size: 14px;
     font-weight: 400;
     color: #FFFFFF;
@@ -1346,14 +1351,14 @@
     letter-spacing: -0.04em;
 }
 
-#global .latest_google .lnaguage ul{
+#global .latest_google .language ul{
     position: relative;
     border-radius: 8px;
-    background: #171918;
+    background: #1C2C1F;
     padding: 4px 32px 4px 8px;
 }
 
-#global .latest_google .lnaguage ul::after {
+#global .latest_google .language ul::after {
     content: '';
     top: 50%;
     right: 6px;
@@ -1366,7 +1371,7 @@
     transition: all 0.3s;
 }
 
-#global .latest_google .lnaguage ul li{
+#global .latest_google .language ul li{
     font-size: 14px;
     cursor: pointer;
     font-weight: 500;
@@ -1375,7 +1380,7 @@
     letter-spacing: -0.04em;
 }
 
-#global .latest_google .lnaguage ul li ul{
+#global .latest_google .language ul li ul{
     left: 0;
     width: 100%;
     bottom: 30px;
@@ -1384,21 +1389,21 @@
     position: absolute;
 }
 
-#global .latest_google .lnaguage ul li ul::after{
+#global .latest_google .language ul li ul::after{
     display: none;
 }
 
-#global .latest_google .lnaguage ul li ul li{
+#global .latest_google .language ul li ul li{
     color: #FFFFFF;
     margin-bottom: 4px;
     transition: all 0.4s;
 }
 
-#global .latest_google .lnaguage ul li ul li:hover{
+#global .latest_google .language ul li ul li:hover{
     color: #97FF95;
 }
 
-#global .latest_google .lnaguage ul li ul li:last-child{
+#global .latest_google .language ul li ul li:last-child{
     margin-bottom: 0;
 }
 
@@ -1716,9 +1721,17 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .latest_google .tone ul::after{
     background: var(--toneCaretDown) no-repeat 50% 50%;
-    
+
 }
 
 #global .latest_google .style ul::after{
      background: var(--styleCaretDown) no-repeat 50% 50%;
+}
+
+.relative.flex.h-full.max-w-full.flex-1{
+    width: 80%;
+}
+
+#global .flex.h-full.w-full.flex-col.p-2{
+    padding-top: 80px;
 }
