@@ -1729,3 +1729,7 @@ ul[id^="headlessui-listbox-options"] li {
 .relative.flex.h-full.max-w-full.flex-1{
     width: 80%;
 }
+
+#global .flex.h-full.w-full.flex-col.p-2{
+    padding-top: 80px;
+}

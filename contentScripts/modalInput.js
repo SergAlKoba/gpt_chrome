@@ -12,7 +12,8 @@ document.addEventListener('readystatechange', event => {
     selectorPromster.classList.remove('active');
     selectorUlPromster.classList.remove('active');
   });
-  textArea.addEventListener('input', function () {
+  textArea.addEventListener('keydown', function () {
+    console.log(textArea.value);
     if (textArea.value == '/') {
       selectorPromster.classList.add('active');
       selectorUlPromster.classList.add('active');
