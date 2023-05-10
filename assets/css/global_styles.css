@@ -693,7 +693,9 @@
     width: 100%;
 }
 
-
+#global .flex.h-full.w-full.flex-col.p-2{
+    padding-top: 80px;
+}
 
 #global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3{
     color: #0F1110;
