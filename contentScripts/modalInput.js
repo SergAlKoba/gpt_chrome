@@ -107,7 +107,7 @@ function addPrompster() {
   });
 
   textArea.addEventListener('keydown', function (e) {
-    if (e.key === '/') {
+    if (e.key === '/' && textArea.value.length == 0) {
       e.preventDefault();
       selectorPromster.classList.add('active');
       selectorUlPromster.classList.add('active');
@@ -116,6 +116,8 @@ function addPrompster() {
       console.log('not /', textArea.value);
     }
   });
+  
+  
 
 }
 
