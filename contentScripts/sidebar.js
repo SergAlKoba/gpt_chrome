@@ -26,7 +26,7 @@ document.addEventListener('readystatechange', event => {
     const send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
 
     textarea && textarea.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && (event.key === 'Enter' && event.key === 'Shift')) {
             document.querySelector("textarea").value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
         }
     });

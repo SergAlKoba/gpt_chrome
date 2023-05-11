@@ -138,7 +138,7 @@ const followUpItems = [
     'Wrap this up',
 ];
 
-function createUlFromItems(type, items) {
+function createUlSFromItems(type, items) {
     const ul = document.createElement('ul');
 
     if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
@@ -285,7 +285,7 @@ function createLatestGoogle() {
         }
 
         li.appendChild(span);
-        li.appendChild(createUlFromItems(category.className, category.items));
+        li.appendChild(createUlSFromItems(category.className, category.items));
         ul.appendChild(li);
 
     });
