@@ -23,16 +23,23 @@ function sendInput(selected_prompt, is_disabled = false) {
 
 document.addEventListener('readystatechange', event => {
     const textarea = document.querySelector("textarea");
-    const send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+    const form = document.querySelector('form');
+    let textAreaState = '';
+
+    textarea.addEventListener('change', event => {
+        textAreaState = event.target.value;
+    });
 
     textarea && textarea.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && !(event.key === 'Enter' && event.key === 'Shift')) {
-            document.querySelector("textarea").value += `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+        if (event.key === 'Enter' && !(event.shiftKey)) {
+            textarea.value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+            event.preventDefault();
         }
     });
 
-    send_button && send_button.addEventListener('click', () => {
-        textarea.value += ` ${localStorage.getItem('Prompt payload')}`;
+    form.addEventListener('submit', (event) => {
+        textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
+        event.preventDefault();
     });
 });
 
