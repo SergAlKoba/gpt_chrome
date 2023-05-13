@@ -6,10 +6,10 @@ function preventSubmission(event) {
 
 function sendInput(selected_prompt, is_disabled = false) {
     console.warn(selected_prompt);
-    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
-    let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let send_button = $('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+    let style_value = $('#style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let language_value = $('#language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
+    let tone_value = $('#tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let prompt_text = ``;
     if (!style_value === 'Default') {
         prompt_text += `Style: ${style_value}`;
@@ -31,8 +31,8 @@ function sendInput(selected_prompt, is_disabled = false) {
 }
 
 document.addEventListener('readystatechange', event => {
-    const textarea = document.querySelector("textarea");
-    const form = document.querySelector('form');
+    const textarea = $("textarea");
+    const form = $('form');
     let textAreaState = '';
 
     textarea.addEventListener('change', event => {
@@ -61,9 +61,9 @@ document.addEventListener('readystatechange', event => {
 });
 
 function process_input() {
-    let textarea = document.querySelector("textarea");
+    let textarea = $("textarea");
     let variable_names = textarea.value.split(",");
-    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+    let send_button = $('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     send_button.addEventListener('click', () => {
         const inputValue = textarea.value.trim();
         if (localStorage.getItem('template') && inputValue !== '') {
@@ -110,7 +110,7 @@ function process_input() {
                 }
                 console.log(selected_prompt);
                 $("textarea").value = selected_prompt;
-                document.querySelector("textarea").value = selected_prompt;
+                $("textarea").value = selected_prompt;
                 // let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
                 // let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
                 // let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
