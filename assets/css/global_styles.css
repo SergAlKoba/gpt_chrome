@@ -1725,6 +1725,10 @@ ul[id^="headlessui-listbox-options"] li {
 #global .latest_google .style ul::after{
      background: var(--styleCaretDown) no-repeat 50% 50%;
 }
+#global .latest_google .language ul::after {
+    background: var(--languageCaretDown) no-repeat 50% 50%;
+  
+}
 
 .relative.flex.h-full.max-w-full.flex-1{
     width: 80%;
