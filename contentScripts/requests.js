@@ -85,7 +85,7 @@ async function createBookmark(output) {
         redirect: 'follow'
     };
 
-    let response = await fetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
+    await fetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

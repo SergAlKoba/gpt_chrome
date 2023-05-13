@@ -36,13 +36,21 @@ document.addEventListener('readystatechange', event => {
 
     textarea && textarea.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && !(event.shiftKey)) {
-            textarea.value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+            if (!textarea.value) {
+                textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
+            } else {
+                textarea.value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+            }
             event.preventDefault();
         }
     });
 
     form.addEventListener('submit', (event) => {
-        textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
+        if (!textarea.value) {
+            textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
+        } else {
+            textarea.value = `${textarea.value} ${localStorage.getItem('Prompt payload')}`;
+        }
         event.preventDefault();
     });
 });

@@ -4,6 +4,10 @@ document.querySelector(':root').style.setProperty("--styleCaretDown", `url(${chr
 document.querySelector(':root').style.setProperty("--languageCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 
 const googleStyles = [{
+        title: 'Default',
+        name: 'name 1'
+    },
+    {
         title: 'Narrative',
         name: 'name 1'
     },
@@ -46,6 +50,10 @@ const googleStyles = [{
 ];
 
 const googleTones = [{
+        title: 'Default',
+        name: 'name 1'
+    },
+    {
         title: 'Formal',
         name: 'name 1'
     },
@@ -95,7 +103,10 @@ const googleTones = [{
     }
 ];
 
-const languagesList = [
+const languagesList = [{
+        title: 'Default',
+        name: 'name 1'
+    },
     {
         title: 'English',
         name: 'name 1'
@@ -113,19 +124,19 @@ const languagesList = [
 
 const categories = [{
         id: 'tone-google',
-        name: 'Formal',
+        name: 'Default',
         items: googleTones,
         className: 'Tone'
     },
     {
         id: 'style-google',
-        name: 'Narrative',
+        name: 'Default',
         items: googleStyles,
         className: 'Style'
     },
     {
         id: 'language-google',
-        name: 'English',
+        name: 'Default',
         items: languagesList,
         className: 'Language'
     },
@@ -143,15 +154,23 @@ function createUlSFromItems(type, items) {
     const ul = document.createElement('ul');
 
     if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
-        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Tone: ${items[0].title} `);
+        if (!items[0].title === 'Default') {
+            localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${items[0].title}` : localStorage.getItem('Prompt payload') + ` Tone: ${items[0].title} `);
+        } else if (localStorage.getItem('Prompt payload') ){
+            localStorage.setItem(localStorage.getItem('Prompt payload'));
+        }
     }
 
     if (!/ Style: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Style') {
-        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Style: ${items[0].title} `);
+        if (!items[0].title === 'Default') {
+            localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Style: ${items[0].title} `);
+        }
     }
 
     if (!/ Output language: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Language') {
-        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${items[0].title} `);
+        if (!items[0].title === 'Default') {
+            localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${items[0].title} `);
+        }
     }
 
     items.forEach(item => {
@@ -205,12 +224,12 @@ function createFollowUpDiv() {
         const li = document.createElement('li');
         li.textContent = text;
         li.onclick = () => {
-            const userInput = document.querySelector('form  textarea');
+            const userInput = document.querySelector('textarea');
             userInput.value = text;
+            console.log(text);
             const submitButton = userInput.parentElement.querySelector('button');
             submitButton.disabled = false;
             submitButton.click();
-
         };
         return li;
 
@@ -310,10 +329,11 @@ function createLatestGoogle() {
     return latestGoogleDiv;
 }
 
-function callMicro(){
+function callMicro() {
     const microphoneDiv = document.getElementById('microphone');
     microphoneDiv.click();
 }
+
 function addMicrophone() {
     const microphoneDiv = document.createElement('div');
     microphoneDiv.className = 'microphone';
@@ -331,7 +351,9 @@ function addMicrophone() {
     let recognition;
 
     microphoneDiv.addEventListener('click', () => {
-        navigator && navigator.mediaDevices.getUserMedia({ audio: true })
+        navigator && navigator.mediaDevices.getUserMedia({
+                audio: true
+            })
             .then(() => {
                 if (microphoneDiv.classList.contains('microphone-is-listening')) {
                     microphoneDiv.classList.remove('microphone-is-listening');
@@ -384,6 +406,6 @@ function handleKeyDown(e) {
     if (e.code === 'KeyB' && (e.metaKey || e.ctrlKey)) {
         callMicro();
     }
-  }
+}
 
 document.addEventListener("keydown", handleKeyDown);

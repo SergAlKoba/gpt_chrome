@@ -112,8 +112,6 @@ function addPrompster() {
       selectorPromster.classList.add('active');
       selectorUlPromster.classList.add('active');
       search.focus();
-    } else {
-      console.log('not /', textArea.value);
     }
   });
   
