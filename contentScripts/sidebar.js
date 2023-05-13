@@ -5,20 +5,24 @@ function preventSubmission(event) {
 }
 
 function sendInput(selected_prompt, is_disabled = false) {
-    console.log(selected_prompt);
-    document.querySelector("textarea").value = selected_prompt;
+    console.warn(selected_prompt);
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let prompt_text= `${selected_prompt} Style: ${style_value} Language: ${language_value} Tone: ${tone_value}`;
-    $("textarea").value = prompt_text;
+    let prompt_text = `${selected_prompt} Style: ${style_value} Language: ${language_value} Tone: ${tone_value}`;
+    $("textarea").val(prompt_text);
 
     if (is_disabled) {
-        send_button.removeAttribute('disabled');
-        send_button.click();
+        setTimeout(() => {
+            send_button.removeAttribute('disabled');
+            send_button.click();
+        },1000)
+
+
+
     }
-    localStorage.removeItem('template');
+    // localStorage.removeItem('template');
 }
 
 document.addEventListener('readystatechange', event => {
@@ -251,7 +255,7 @@ function createCategory(id) {
                     localStorage.setItem('template', response[i].prompt_template);
                     process_input();
                 } else {
-                    localStorage.removeItem('template');
+                    localStorage.setItem('template', selected_prompt);
                     sendInput(selected_prompt, true);
                 }
             });
