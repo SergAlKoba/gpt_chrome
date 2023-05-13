@@ -157,19 +157,32 @@ function createUlSFromItems(type, items) {
         if (!items[0].title === 'Default') {
             localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${items[0].title}` : localStorage.getItem('Prompt payload') + ` Tone: ${items[0].title} `);
         } else if (localStorage.getItem('Prompt payload') ){
-            localStorage.setItem(localStorage.getItem('Prompt payload'));
+            localStorage.setItem(localStorage.getItem('Prompt payload').replace(/ Tone: \w+ /, ``));
+            if (localStorage.removeItem('Tone')){
+                localStorage.removeItem('Tone');
+            }
         }
     }
 
     if (!/ Style: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Style') {
         if (!items[0].title === 'Default') {
             localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Style: ${items[0].title} `);
+        } else if (localStorage.getItem('Prompt payload') ){
+            localStorage.setItem(localStorage.getItem('Prompt payload').replace(/ Style: \w+ /, ``));
+            if (localStorage.removeItem('Style')){
+                localStorage.removeItem('Style');
+            }
         }
     }
 
     if (!/ Output language: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Language') {
         if (!items[0].title === 'Default') {
             localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${items[0].title} `);
+        } else if (localStorage.getItem('Prompt payload') ){
+            localStorage.setItem(localStorage.getItem('Prompt payload').replace(/ Language: \w+ /, ``));
+            if (localStorage.removeItem('Language')){
+                localStorage.removeItem('Language');
+            }
         }
     }
 

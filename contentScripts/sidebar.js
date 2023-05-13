@@ -10,7 +10,16 @@ function sendInput(selected_prompt, is_disabled = false) {
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let prompt_text = `${selected_prompt} Style: ${style_value} Language: ${language_value} Tone: ${tone_value}`;
+    let prompt_text = ``;
+    if (!style_value === 'Default') {
+        prompt_text += `Style: ${style_value}`;
+    }
+    if (!language_value === 'Default') {
+        prompt_text += `Language: ${language_value}`;
+    }
+    if (!tone_value === 'Default') {
+        prompt_text += `Tone: ${tone_value}`;
+    }
     $("textarea").val(prompt_text);
 
     if (is_disabled) {
@@ -18,11 +27,7 @@ function sendInput(selected_prompt, is_disabled = false) {
             send_button.removeAttribute('disabled');
             send_button.click();
         },1000)
-
-
-
     }
-    // localStorage.removeItem('template');
 }
 
 document.addEventListener('readystatechange', event => {
