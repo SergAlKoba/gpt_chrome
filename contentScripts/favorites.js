@@ -23,9 +23,7 @@ fetch(svgFileUrl)
 
         setInterval(() => {
             $('div > div > button.p-1.rounded-md:first-child').each(function(index) {
-                if (index % 2 !== 0) { // Apply the function only to every second item
-                    addFavoritesButton.call(this);
-                }
+                addFavoritesButton.call(this);
             });
         }, 1000);
     })
