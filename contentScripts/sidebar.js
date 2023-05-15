@@ -5,34 +5,58 @@ function preventSubmission(event) {
 }
 
 function sendInput(selected_prompt, is_disabled = false) {
-    console.log(selected_prompt);
-    document.querySelector("textarea").value = selected_prompt;
+    console.warn(selected_prompt);
     let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
     let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let language_value = document.getElementById('language-google').childNodes[1].childNodes[0].childNodes[0].textContent;
     let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-    let prompt_text= `${selected_prompt} Style: ${style_value} Language: ${language_value} Tone: ${tone_value}`
-    include_google_data = false;
-    document.querySelector("textarea").value = prompt_text;
-    if (is_disabled) {
-        send_button.removeAttribute('disabled');
-        send_button.click();
+    let prompt_text = ``;
+    if (!style_value === 'Default') {
+        prompt_text += `Style: ${style_value}`;
     }
-    localStorage.removeItem('template');
+    if (!language_value === 'Default') {
+        prompt_text += `Language: ${language_value}`;
+    }
+    if (!tone_value === 'Default') {
+        prompt_text += `Tone: ${tone_value}`;
+    }
+    $("textarea").val(prompt_text);
+
+    if (is_disabled) {
+        setTimeout(() => {
+            send_button.removeAttribute('disabled');
+            send_button.click();
+        },1000)
+    }
 }
 
 document.addEventListener('readystatechange', event => {
     const textarea = document.querySelector("textarea");
-    const send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
+    const form = document.querySelector('form');
+    let textAreaState = '';
+
+    textarea.addEventListener('change', event => {
+        textAreaState = event.target.value;
+    });
 
     textarea && textarea.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && !(event.key === 'Enter' && event.key === 'Shift')) {
-            document.querySelector("textarea").value += `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+        if (event.key === 'Enter' && !(event.shiftKey)) {
+            if (!textarea.value) {
+                textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
+            } else {
+                textarea.value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
+            }
+            event.preventDefault();
         }
     });
 
-    send_button && send_button.addEventListener('click', () => {
-        textarea.value += ` ${localStorage.getItem('Prompt payload')}`;
+    form.addEventListener('submit', (event) => {
+        if (!textarea.value) {
+            textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
+        } else {
+            textarea.value = `${textarea.value} ${localStorage.getItem('Prompt payload')}`;
+        }
+        event.preventDefault();
     });
 });
 
@@ -244,7 +268,7 @@ function createCategory(id) {
                     localStorage.setItem('template', response[i].prompt_template);
                     process_input();
                 } else {
-                    localStorage.removeItem('template');
+                    localStorage.setItem('template', selected_prompt);
                     sendInput(selected_prompt, true);
                 }
             });
