@@ -142,7 +142,7 @@ const categories = [{
     },
 ];
 
-const followUpItems = [
+const followUpItems = [ 
     'Make this more consistent',
     'Tell me more about this',
     'Expand details',
@@ -152,6 +152,7 @@ const followUpItems = [
 
 function createUlSFromItems(type, items) {
     const ul = document.createElement('ul');
+    ul.style.width = '100px';
 
     if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
         if (!items[0].title === 'Default') {
@@ -189,6 +190,30 @@ function createUlSFromItems(type, items) {
     items.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item.title;
+        li.onclick = function () {
+            itemClickHandler(type, item, li);
+        };
+        ul.appendChild(li);
+    });
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.title;
+        li.style.minWidth = "100px";
+        li.onclick = function () {
+            itemClickHandler(type, item, li);
+        };
+        ul.appendChild(li);
+    });
+
+    while (ul.firstChild) {
+        ul.firstChild.remove();
+    }
+
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item.title;
+        li.style.width = '100%'; 
         li.onclick = function () {
             itemClickHandler(type, item, li);
         };
