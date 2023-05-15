@@ -376,6 +376,20 @@ function addMicrophone() {
 
                     if (SpeechRecognition !== undefined && textArea) {
                         recognition = new SpeechRecognition();
+                        if (localStorage.getItem('Language') && localStorage.getItem('Language') !== 'Default'){
+                            let language = localStorage.getItem('Language');
+                            if (language === 'English'){
+                                recognition.lang = 'en-US';
+                            } else if (language === 'French'){
+                                recognition.lang = 'fr-FR';
+                            } else if (language === 'Spanish'){
+                                recognition.lang = 'es-ES';
+                            } else if (language === 'Russian'){
+                                recognition.lang = 'ru-RU';
+                            } else if (language === 'Ukrainian'){
+                                recognition.lang = 'uk-UA';
+                            }
+                        } 
                         recognition.start();
                         recognition.onresult = (result) => {
                             textArea.value += ` ${result.results[0][0].transcript}`;
