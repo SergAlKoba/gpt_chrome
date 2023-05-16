@@ -10,8 +10,9 @@ fetch(svgFileUrl)
                 const button = $('<button>')
                     .click(() => {
                         const innerText = parentElement.children().children().children().first().text();
-                        createBookmark(innerText).then(result => console.log(result));
-                        console.log(innerText);
+                        createBookmark(innerText)
+                            .then(result => console.log(result))
+                            .catch(error => console.error(error));
                     })
                     .html(svgContent);
                 const div = $('<div>')
@@ -22,8 +23,10 @@ fetch(svgFileUrl)
         }
 
         setInterval(() => {
-            $('div > div > button.p-1.rounded-md:first-child').each(function(index) {
-                addFavoritesButton.call(this);
+            $('div > div > button.p-1.rounded-md:first-child').each(function(element, index) {
+                if (index % 2 !== 0) { 
+                    addFavoritesButton.call(this);
+                }
             });
         }, 1000);
     })
