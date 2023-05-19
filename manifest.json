@@ -4,8 +4,18 @@
   "version": "1.0",
   "description": "A Chrome extension to customize ChatGPT themes.",
   "permissions": [
-    "activeTab"
+    "contextMenus",
+    "activeTab",
+    "tabs",
+    "scripting"
   ],
+  "host_permissions": [
+    "http://*/",
+    "https://*/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
