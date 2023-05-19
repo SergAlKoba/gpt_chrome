@@ -3,146 +3,156 @@ document.querySelector(':root').style.setProperty("--toneCaretDown", `url(${chro
 document.querySelector(':root').style.setProperty("--styleCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 document.querySelector(':root').style.setProperty("--languageCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 
+const languages = {
+    'English': 'en-US',
+    'French': 'fr-FR',
+    'Spanish': 'es-ES',
+    'Russian': 'ru-RU',
+    'Ukrainian': 'uk-UA'
+};
+
 const googleStyles = [{
-        title: 'Default',
-        name: 'name 1'
-    },
-    {
-        title: 'Narrative',
-        name: 'name 1'
-    },
-    {
-        title: 'Expository',
-        name: 'name 2'
-    },
-    {
-        title: 'Descriptive',
-        name: 'name 3'
-    },
-    {
-        title: 'Persuasive',
-        name: 'name 4'
-    },
-    {
-        title: 'Creative',
-        name: 'name 5'
-    },
-    {
-        title: 'Technical',
-        name: 'name 6'
-    },
-    {
-        title: 'Review',
-        name: 'name 7'
-    },
-    {
-        title: 'Poetic',
-        name: 'name 8'
-    },
-    {
-        title: 'Academic',
-        name: 'name 9'
-    },
-    {
-        title: 'Business',
-        name: 'name 10'
-    }
+    title: 'Default',
+    name: 'name 1'
+},
+{
+    title: 'Narrative',
+    name: 'name 1'
+},
+{
+    title: 'Expository',
+    name: 'name 2'
+},
+{
+    title: 'Descriptive',
+    name: 'name 3'
+},
+{
+    title: 'Persuasive',
+    name: 'name 4'
+},
+{
+    title: 'Creative',
+    name: 'name 5'
+},
+{
+    title: 'Technical',
+    name: 'name 6'
+},
+{
+    title: 'Review',
+    name: 'name 7'
+},
+{
+    title: 'Poetic',
+    name: 'name 8'
+},
+{
+    title: 'Academic',
+    name: 'name 9'
+},
+{
+    title: 'Business',
+    name: 'name 10'
+}
 ];
 
 const googleTones = [{
-        title: 'Default',
-        name: 'name 1'
-    },
-    {
-        title: 'Formal',
-        name: 'name 1'
-    },
-    {
-        title: 'Informal',
-        name: 'name 2'
-    },
-    {
-        title: 'Optimistic',
-        name: 'name 3'
-    },
-    {
-        title: 'Pessimistic',
-        name: 'name 4'
-    },
-    {
-        title: 'Joyful',
-        name: 'name 5'
-    },
-    {
-        title: 'Sad',
-        name: 'name 6'
-    },
-    {
-        title: 'Sincere',
-        name: 'name 7'
-    },
-    {
-        title: 'Hypocritical',
-        name: 'name 8'
-    },
-    {
-        title: 'Fearful',
-        name: 'name 9'
-    },
-    {
-        title: 'Hopeful',
-        name: 'name 10'
-    },
-    {
-        title: 'Humorous',
-        name: 'name 11'
-    },
-    {
-        title: 'Serious',
-        name: 'name 12'
-    }
+    title: 'Default',
+    name: 'name 1'
+},
+{
+    title: 'Formal',
+    name: 'name 1'
+},
+{
+    title: 'Informal',
+    name: 'name 2'
+},
+{
+    title: 'Optimistic',
+    name: 'name 3'
+},
+{
+    title: 'Pessimistic',
+    name: 'name 4'
+},
+{
+    title: 'Joyful',
+    name: 'name 5'
+},
+{
+    title: 'Sad',
+    name: 'name 6'
+},
+{
+    title: 'Sincere',
+    name: 'name 7'
+},
+{
+    title: 'Hypocritical',
+    name: 'name 8'
+},
+{
+    title: 'Fearful',
+    name: 'name 9'
+},
+{
+    title: 'Hopeful',
+    name: 'name 10'
+},
+{
+    title: 'Humorous',
+    name: 'name 11'
+},
+{
+    title: 'Serious',
+    name: 'name 12'
+}
 ];
 
 const languagesList = [{
-        title: 'Default',
-        name: 'name 1'
-    },
-    {
-        title: 'English',
-        name: 'name 1'
-    },
-    {
-        title: 'Russian',
-        name: 'name 2'
-    },
-    {
-        title: 'Ukrainian',
-        name: 'name 3'
-    }
+    title: 'Default',
+    name: 'name 1'
+},
+{
+    title: 'English',
+    name: 'name 1'
+},
+{
+    title: 'Russian',
+    name: 'name 2'
+},
+{
+    title: 'Ukrainian',
+    name: 'name 3'
+}
 ];
-
 
 const categories = [{
-        id: 'tone-google',
-        name: 'Default',
-        items: googleTones,
-        className: 'Tone'
-    },
-    {
-        id: 'style-google',
-        name: 'Default',
-        items: googleStyles,
-        className: 'Style'
-    },
-    {
-        id: 'language-google',
-        name: 'Default',
-        items: languagesList,
-        className: 'Language'
-    },
+    id: 'tone-google',
+    name: 'Default',
+    items: googleTones,
+    className: 'Tone',
+    displayName: 'Tone'
+},
+{
+    id: 'style-google',
+    name: 'Default',
+    items: googleStyles,
+    className: 'Style',
+    displayName: 'Style'
+},
+{
+    id: 'language-google',
+    name: 'Default',
+    items: languagesList,
+    className: 'Language',
+    displayName: 'Output language'
+},
 ];
 
-const followUpItems = [ 
+const followUpItems = [
     'Make this more consistent',
     'Tell me more about this',
     'Expand details',
@@ -150,72 +160,26 @@ const followUpItems = [
     'Wrap this up',
 ];
 
-function createUlSFromItems(type, items) {
+function createUlSFromCategory(category) {
     const ul = document.createElement('ul');
     ul.style.width = '100px';
 
-    if (!/ Tone: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Tone') {
-        if (!items[0].title === 'Default') {
-            localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Tone: ${items[0].title}` : localStorage.getItem('Prompt payload') + ` Tone: ${items[0].title} `);
-        } else if (localStorage.getItem('Prompt payload') ){
-            localStorage.setItem(localStorage.getItem('Prompt payload').replace(/ Tone: \w+ /, ``));
-            if (localStorage.removeItem('Tone')){
-                localStorage.removeItem('Tone');
-            }
-        }
+    if (category.items[0].title !== 'Default') {
+        localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` ${category.displayName}: ${category.items[0].title}` : localStorage.getItem('Prompt payload') + ` ${category.displayName}: ${category.items[0].title} `);
+
+    } else if (localStorage.getItem('Prompt payload')) {
+
+        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(new RegExp(`${category.displayName}: \\w+`), ``));
+        localStorage.removeItem(category.className);
+
     }
 
-    if (!/ Style: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Style') {
-        if (!items[0].title === 'Default') {
-            localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Style: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Style: ${items[0].title} `);
-        } else if (localStorage.getItem('Prompt payload') ){
-            localStorage.setItem(localStorage.getItem('Prompt payload').replace(/ Style: \w+ /, ``));
-            if (localStorage.removeItem('Style')){
-                localStorage.removeItem('Style');
-            }
-        }
-    }
-
-    if (!/ Output language: \w+ /.test(localStorage.getItem('Prompt payload')) && type === 'Language') {
-        if (!items[0].title === 'Default') {
-            localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` Output language: ${items[0].title} ` : localStorage.getItem('Prompt payload') + ` Output language: ${items[0].title} `);
-        } else if (localStorage.getItem('Prompt payload') ){
-            localStorage.setItem(localStorage.getItem('Prompt payload').replace(/ Language: \w+ /, ``));
-            if (localStorage.removeItem('Language')){
-                localStorage.removeItem('Language');
-            }
-        }
-    }
-
-    items.forEach(item => {
+    category.items.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item.title;
+        li.style.width = '100%';
         li.onclick = function () {
-            itemClickHandler(type, item, li);
-        };
-        ul.appendChild(li);
-    });
-
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item.title;
-        li.style.minWidth = "100px";
-        li.onclick = function () {
-            itemClickHandler(type, item, li);
-        };
-        ul.appendChild(li);
-    });
-
-    while (ul.firstChild) {
-        ul.firstChild.remove();
-    }
-
-    items.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item.title;
-        li.style.width = '100%'; 
-        li.onclick = function () {
-            itemClickHandler(type, item, li);
+            itemClickHandler(category.className, category.displayName, item, li);
         };
         ul.appendChild(li);
     });
@@ -223,16 +187,24 @@ function createUlSFromItems(type, items) {
     return ul;
 }
 
-function itemClickHandler(type, item, li) {
+function itemClickHandler(type, displayName, item, li) {
+    console.log(type, displayName,item);
+
     localStorage.setItem(type, item.title);
 
-    if (type === 'Tone') {
-        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Tone: \w+ /, ` Tone: ${item.title} `));
-    } else if (type === 'Style') {
-        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Style: \w+ /, ` Style: ${item.title} `));
-    } else if (type === 'Language') {
-        localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(/ Output language: \w+ /, ` Output language: ${item.title} `));
+    if (!localStorage.getItem('Prompt payload')) {
+        localStorage.setItem('Prompt payload', ` ${displayName}: ${item.title} `);
+    } else {
+        if (localStorage.getItem('Prompt payload').includes(displayName)) {
+            localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload').replace(new RegExp(`${displayName}: \\w+`), `${displayName}: ${item.title}`));
+        } else {
+            localStorage.setItem('Prompt payload', localStorage.getItem('Prompt payload') + ` ${displayName}: ${item.title} `);
+        }
+
+
     }
+
+
 
     li.parentElement.parentElement.querySelector('span').textContent = item.title;
 }
@@ -343,7 +315,7 @@ function createLatestGoogle() {
         }
 
         li.appendChild(span);
-        li.appendChild(createUlSFromItems(category.className, category.items));
+        li.appendChild(createUlSFromCategory(category, category.items));
         ul.appendChild(li);
 
     });
@@ -390,8 +362,8 @@ function addMicrophone() {
 
     microphoneDiv.addEventListener('click', () => {
         navigator && navigator.mediaDevices.getUserMedia({
-                audio: true
-            })
+            audio: true
+        })
             .then(() => {
                 if (microphoneDiv.classList.contains('microphone-is-listening')) {
                     microphoneDiv.classList.remove('microphone-is-listening');
@@ -401,20 +373,10 @@ function addMicrophone() {
 
                     if (SpeechRecognition !== undefined && textArea) {
                         recognition = new SpeechRecognition();
-                        if (localStorage.getItem('Language') && localStorage.getItem('Language') !== 'Default'){
+                        if (localStorage.getItem('Language') && localStorage.getItem('Language') !== 'Default') {
                             let language = localStorage.getItem('Language');
-                            if (language === 'English'){
-                                recognition.lang = 'en-US';
-                            } else if (language === 'French'){
-                                recognition.lang = 'fr-FR';
-                            } else if (language === 'Spanish'){
-                                recognition.lang = 'es-ES';
-                            } else if (language === 'Russian'){
-                                recognition.lang = 'ru-RU';
-                            } else if (language === 'Ukrainian'){
-                                recognition.lang = 'uk-UA';
-                            }
-                        } 
+                            recognition.lang = languages[language];
+                        }
                         recognition.start();
                         recognition.onresult = (result) => {
                             textArea.value += ` ${result.results[0][0].transcript}`;
@@ -454,7 +416,6 @@ addElementGoogle();
 addMicrophone();
 
 function handleKeyDown(e) {
-    console.log(e.code);
     if (e.code === 'KeyB' && (e.metaKey || e.ctrlKey)) {
         callMicro();
     }

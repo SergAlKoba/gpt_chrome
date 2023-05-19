@@ -1,4 +1,4 @@
-const items = [
+const prompsterComands = [
   { text: 'Make this more consistent', command: 'Make this more consistent' },
   { text: 'Tell me more about this', command: 'Tell me more about this' },
   { text: 'Expand details', command: 'Expand details' },
@@ -37,7 +37,7 @@ function createUlFromItems(items) {
   return createElementModal('ul', { id: 'prompsterList' }, liItems);
 }
 
-function filterPrompterItems(searchText) {
+function filterPrompsterItems(searchText) {
   const normalizeText = (text) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   };
@@ -66,10 +66,10 @@ function createPrompster() {
   }, []);
 
   prompsterInput.oninput = (e) => {
-    filterPrompterItems(e.target.value);
+    filterPrompsterItems(e.target.value);
   };
 
-  const ul = createUlFromItems(items);
+  const ul = createUlFromItems(prompsterComands);
   const prompster = createElementModal('div', { id: 'prompster', class: 'prompster' }, [ul, prompsterInput]);
   ul.querySelectorAll('.prompster-item').forEach((li) => {
     li.onclick = () => {
