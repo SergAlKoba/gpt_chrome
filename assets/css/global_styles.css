@@ -652,7 +652,9 @@
 }
 
 #global .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
-    padding: 104px 24px 0;
+    width: 79%;
+    margin: 0 auto;
+    padding: 104px 0 0;
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 {
@@ -750,22 +752,22 @@
 }
 
 #global .rounded-sm.text-white.flex.items-center.justify-center{
-
+    border-radius: 50%;
 }
 
 #global .text-base.gap-4.md\:gap-6 .rounded-sm{
-
+    border-radius: 50%;
 }
 
 #global .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3{
-    padding: 16px 24px;
-    background: #171918;
-    font-weight: 500;
     font-size: 16px;
-    line-height: 24px;
-    letter-spacing: -0.04em;
+    font-weight: 400;
     color: #FFFFFF;
-    border-radius: 0px 16px 16px 16px;
+    line-height: 24px;
+    padding: 16px 24px;
+    background: #33383D;
+    letter-spacing: -0.04em;
+    border-radius: 0px 8px 8px 8px;
 }
 
 #global .relative.transition-width .w-full.text-gray-800 .lg\:w-\[calc\(100\%-115px\)\]{
@@ -777,10 +779,10 @@
 }
 
 #global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3{
-    color: #0F1110;
+    color: #1D2939;
     padding: 16px 24px;
-    background: #B4F573;
-    border-radius: 0px 16px 16px 16px;
+    background: #83FF7A;
+    border-radius: 0px 8px 8px 8px;
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative textarea{
@@ -817,7 +819,7 @@
 
 #global .flex .text-base{
     max-width: 100%;
-    padding-right: 100px;
+    padding-right: 33px;
 }
 
 #global .flex .bg-gray-50 {
