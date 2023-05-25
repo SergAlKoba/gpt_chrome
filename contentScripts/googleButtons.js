@@ -162,7 +162,7 @@ const followUpItems = [
 
 function createUlSFromCategory(category) {
     const ul = document.createElement('ul');
-    ul.style.width = '100px';
+    ul.style.minWidth = '100px';
 
     if (category.items[0].title !== 'Default') {
         localStorage.setItem('Prompt payload', !localStorage.getItem('Prompt payload') ? ` ${category.displayName}: ${category.items[0].title}` : localStorage.getItem('Prompt payload') + ` ${category.displayName}: ${category.items[0].title} `);
@@ -177,7 +177,7 @@ function createUlSFromCategory(category) {
     category.items.forEach(item => {
         const li = document.createElement('li');
         li.textContent = item.title;
-        li.style.width = '100%';
+        li.style.minWidth = '100%';
         li.onclick = function () {
             itemClickHandler(category.className, category.displayName, item, li);
         };
@@ -188,7 +188,7 @@ function createUlSFromCategory(category) {
 }
 
 function itemClickHandler(type, displayName, item, li) {
-    console.log(type, displayName,item);
+    console.log(type, displayName, item);
 
     localStorage.setItem(type, item.title);
 
@@ -229,6 +229,24 @@ const createElem = (tag, attributes, children) => {
     return elem;
 };
 
+
+function createChecklistElement() {
+    var divElement = document.createElement("div");
+    divElement.className = "checklist";
+
+    var linkElement = document.createElement("a");
+    linkElement.href = "javascript:void(0)";
+
+    var imgElement = document.createElement("img");
+    imgElement.src = chrome.runtime.getURL("assets/images/checklist.svg");
+    imgElement.alt = "";
+
+    linkElement.appendChild(imgElement);
+    divElement.appendChild(linkElement);
+
+    return divElement;
+}
+
 function createFollowUpDiv() {
     const createListItem = (text) => {
         const li = document.createElement('li');
@@ -265,12 +283,17 @@ function createFollowUpDiv() {
     };
 
     const div = document.createElement('div');
-    div.classList.add('follow_up');
+    div.classList.add('style');
+    div.id = 'follow_up';
     div.appendChild(createFollowUpList());
     return div;
 }
 
+
 function createLatestGoogle() {
+
+    const latestGoogleContentDiv = document.createElement('div');
+    latestGoogleContentDiv.className = 'latest_google_content';
 
     const latestGoogleDiv = document.createElement('div');
     latestGoogleDiv.className = 'latest_google';
@@ -294,7 +317,7 @@ function createLatestGoogle() {
 
     categories.forEach(category => {
         const div = document.createElement('div');
-        div.className = category.className.toLowerCase();
+        div.classList.add('style');
         div.id = category.id;
         latestGoogleDiv.appendChild(div);
 
@@ -335,6 +358,12 @@ function createLatestGoogle() {
 
     }
 
+    while (latestGoogleDiv.firstChild) {
+        latestGoogleContentDiv.appendChild(latestGoogleDiv.firstChild);
+    }
+
+    latestGoogleDiv.appendChild(latestGoogleContentDiv);
+
 
     return latestGoogleDiv;
 }
@@ -351,11 +380,10 @@ function addMicrophone() {
     const img = document.createElement('img');
     img.src = chrome.runtime.getURL(`assets/images/microphone.svg`);
     microphoneDiv.appendChild(img);
-    let parent_element = document.querySelector('form > div').childNodes[2];
-    parent_element.appendChild(microphoneDiv);
-
     const textArea = document.querySelector('textarea');
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
+
+    $(microphoneDiv).insertAfter(sendButton);
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition;
@@ -393,12 +421,22 @@ function addMicrophone() {
 }
 
 
+var checklistElement = createChecklistElement();
+document.body.appendChild(checklistElement);
+
+
 function addElementGoogle() {
     const latestGoogle = createLatestGoogle();
-    let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form > div > div.flex.flex-col.w-full.py-2.flex-grow");
-    let messageInputContainer = messageInput.parentNode;
-    latestGoogle.appendChild(createFollowUpDiv());
-    messageInputContainer.insertBefore(latestGoogle, messageInput);
+    var checklistElement = createChecklistElement();
+
+    let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form");
+
+    // Ищем div latest_google_content и добавляем follow_up div в него
+    let latestGoogleContent = latestGoogle.querySelector('.latest_google_content');
+    latestGoogleContent.appendChild(createFollowUpDiv());
+
+    $(latestGoogle).insertAfter(messageInput);
+    latestGoogle.prepend(checklistElement);
 }
 
 setInterval(() => {
