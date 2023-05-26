@@ -84,10 +84,16 @@ function addPrompster() {
   textArea.addEventListener('keydown', function (e) {
     if (e.key === '/' && textArea.value.length == 0) {
       e.preventDefault();
-      selectorPromster.classList.add('active');
-      selectorUlPromster.classList.add('active');
+      selectorPromster.classList.toggle('active');
+      selectorUlPromster.classList.toggle('active');
+     
+      if (selectorPromster.classList.contains('active')) {
+        textArea.value = '';
+        filterPrompsterItems('');
+      }
     }
   });
+  
 
   textArea.addEventListener('input', (e) => {
     if(selectorPromster.classList.contains('active')) {
@@ -96,11 +102,15 @@ function addPrompster() {
   });
 
   textArea.addEventListener('keydown', (e) => {
-    if (e.key == 'Enter') {
+    if (e.key == 'Enter' && selectorPromster.classList.contains('active')) {
       e.preventDefault();
-      document.querySelector('.prompster-item.visible').click();
+      const visibleItems = document.querySelectorAll('.prompster-item.visible');
+      if(visibleItems.length > 0) {
+        visibleItems[0].click();
+      }
     }
   })
+  
 
   textArea.addEventListener('blur', () => {
     setTimeout(() => {
