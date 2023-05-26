@@ -421,9 +421,6 @@ function addMicrophone() {
 }
 
 
-var checklistElement = createChecklistElement();
-document.body.appendChild(checklistElement);
-
 
 function addElementGoogle() {
     const latestGoogle = createLatestGoogle();
@@ -431,7 +428,6 @@ function addElementGoogle() {
 
     let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form");
 
-    // Ищем div latest_google_content и добавляем follow_up div в него
     let latestGoogleContent = latestGoogle.querySelector('.latest_google_content');
     latestGoogleContent.appendChild(createFollowUpDiv());
 
