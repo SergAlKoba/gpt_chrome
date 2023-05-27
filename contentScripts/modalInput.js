@@ -30,14 +30,20 @@ function createUlFromItems(items) {
   items.forEach(item => {
     const spanNode = createElementModal('span', {style: 'color: #ACFFA6;'}, [document.createTextNode(item.promptCommand)]);
     const textNode = document.createTextNode(' ' + item.text);
-    const li = createElementModal('li', { class: 'prompster-item visible', value: item.promptCommand }, [spanNode, textNode]);
+    const li = createElementModal('li', { class: 'prompster-item visible', value: item.promptCommand, 'data-command': item.text }, [spanNode, textNode]);
+  
+    li.onclick = () => {
+      sendModalInput(li.getAttribute('data-command'));
+      prompster.classList.remove('active');
+      ul.classList.remove('active');
+    };
   
     liItems.push(li);
   });
   
-
   return createElementModal('ul', { id: 'prompsterList', style: 'overflow-y: auto; max-height: 200px;' }, liItems);
 }
+
 
 function filterPrompsterItems(searchText) {
   const normalizeText = (text) => {
@@ -60,19 +66,12 @@ function filterPrompsterItems(searchText) {
 }
 
 function createPrompster() {
-
   const ul = createUlFromItems(prompsterComands);
   const prompster = createElementModal('div', { id: 'prompster', class: 'prompster' }, [ul]);
-  ul.querySelectorAll('.prompster-item').forEach((li) => {
-    li.onclick = () => {
-      sendModalInput(li.getAttribute('value'));
-      prompster.classList.remove('active');
-      ul.classList.remove('active');
-    };
-  })  
 
   return prompster;
 }
+
 
 function addPrompster() {
   const container = document.querySelector('textarea').parentElement;
@@ -107,9 +106,12 @@ function addPrompster() {
       const visibleItems = document.querySelectorAll('.prompster-item.visible');
       if(visibleItems.length > 0) {
         visibleItems[0].click();
+        selectorPromster.classList.remove('active');
+        selectorUlPromster.classList.remove('active');
       }
     }
-  })
+  });
+  
   
 
   textArea.addEventListener('blur', () => {

@@ -43,6 +43,7 @@
         "contentScripts/modalInput.js"
       ],
       "css": [
+        "./assets/css/vadym_styles.css",
         "./assets/css/global_styles.css"
       ]
     }
