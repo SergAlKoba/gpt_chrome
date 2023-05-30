@@ -174,9 +174,9 @@
                                             </div>
                                             <div class="button_wait">
                                                 <button class="">
-                                                    <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M10.1033 0.816987C10.4701 0.0737414 11.5299 0.0737401 11.8967 0.816986L14.294 5.67446C14.4397 5.9696 14.7213 6.17417 15.047 6.2215L20.4075 7.00043C21.2277 7.11961 21.5552 8.12759 20.9617 8.70612L17.0828 12.4871C16.8471 12.7169 16.7396 13.0479 16.7952 13.3723L17.7109 18.7111C17.851 19.528 16.9936 20.151 16.26 19.7653L11.4653 17.2446C11.174 17.0915 10.826 17.0915 10.5347 17.2446L5.74005 19.7653C5.00642 20.151 4.14899 19.528 4.2891 18.7111L5.20479 13.3723C5.26043 13.0479 5.15288 12.7169 4.91719 12.4871L1.03827 8.70612C0.444756 8.12759 0.772265 7.11961 1.59249 7.00043L6.95302 6.2215C7.27873 6.17417 7.5603 5.9696 7.70596 5.67446L10.1033 0.816987Z" fill="#FFA959"/>
-                                                    </svg>
+                                                    <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M0.75 2.75C0.75 1.64543 1.64543 0.75 2.75 0.75H9.25C10.3546 0.75 11.25 1.64543 11.25 2.75V15.25L6 10.75L0.75 15.25V2.75Z" stroke="#D8DADB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>                                                        
                                                 </button>
                                             </div>
                                             <div class="flex justify-between lg:block"></div>
@@ -306,79 +306,54 @@
 
         <!-- При клике class="menu" на добавляем или удаляем класс active -->
         <div class="menu_content active">
+            <h2>Promt bar</h2>
             <form>
                 <button><img src="assets/images/search.svg" alt=""></button>
                 <input type="search" placeholder="Search...">
             </form>
-            <ul class="categories">
-                <li class="active"><img src="assets/images/categories_img.svg" alt=""> Categories</li>
-                <ul class="items">
-                    <li>
-                        <span style="background: #B4F573;"></span> Finance
-                        <div class="story_content">
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
-                            <div>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                            </div>
+            <div class="favourites promt_item">
+                <div class="item_nav"><img src="assets/images/favourites_img.svg" alt=""> Favourites</div>
+            </div>
+            <div class="categories promt_item active">
+                <div class="item_nav"><img src="assets/images/categories_img.svg" alt=""> Categories</div>
+                <div class="promt_item_content">
+                    <div class="filter">
+                        <div class="filter_title"><img src="assets/images/plants.svg" alt=""> <span>Plants</span></div>
+                        <ul class="filter_drop">
+                            <li><img src="assets/images/finance.svg" alt=""> <span>Finance</span></li>
+                            <li><img src="assets/images/plants.svg" alt=""> <span>Plants</span></li>
+                            <li><img src="assets/images/technology.svg" alt=""> <span>Technology</span></li>
+                            <li><img src="assets/images/car.svg" alt=""> <span>Car</span></li>
+                        </ul>
+                    </div>
+                    <div class="drop_content">
+                        <div class="answer">
+                            <span class="designation">Plants</span>
+                            <h3>What Happens If I Don't Give My Plants Nutrients?</h3>
+                            <p>With any plant or animal in the world, both macro and micronutrients are needed to thrive. Plants themselves need about 20 nutrients. These nutrients are the fuel for producing awesome cannabis plants.</p>
+                            <p><span>Who is the cannabis breeder Mephisto Genetics?</span></p>
+                            <ul class="stats">
+                                <li><img src="assets/images/thumbs-up.svg" alt=""> 210.31K</li>
+                                <li><img src="assets/images/eye.svg" alt=""> 12.4K</li>
+                            </ul>
                         </div>
-                    </li>
-                    <li><span style="background: #FFA959;"></span> Artificial Intelligence
-                        <div class="story_content_liner">
-                            <div>
-                                <h4>Financial planning for future</h4>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                                <div class="icon_top">
-                                    <i><img src="assets/images/icon_1.svg" alt="">14.1K</i>
-                                    <i><img src="assets/images/icon_2.svg" alt="">320K</i>
-                                </div>
-                            </div>
-                            <div>
-                                <h4>Financial planning for future</h4>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                                <div class="icon_top">
-                                    <i><img src="assets/images/icon_1.svg" alt="">14.1K</i>
-                                    <i><img src="assets/images/icon_2.svg" alt="">320K</i>
-                                </div>
-                            </div>
-                            <div>
-                                <h4>Financial planning for future</h4>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                                <div class="icon_top">
-                                    <i><img src="assets/images/icon_1.svg" alt="">14.1K</i>
-                                    <i><img src="assets/images/icon_2.svg" alt="">320K</i>
-                                </div>
-                            </div>
-                            <div>
-                                <h4>Financial planning for future</h4>
-                                <p>I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage</p>
-                                <div class="icon_top">
-                                    <i><img src="assets/images/icon_1.svg" alt="">14.1K</i>
-                                    <i><img src="assets/images/icon_2.svg" alt="">320K</i>
-                                </div>
-                            </div>
+                        <div class="answer">
+                            <span class="designation">Plants</span>
+                            <h3>Cannabis plants need what?</h3>
+                            <p>With any plant or animal in the world, both macro.</p>
+                            <ul class="stats">
+                                <li><img src="assets/images/thumbs-up.svg" alt=""> 210.31K</li>
+                                <li><img src="assets/images/eye.svg" alt=""> 12.4K</li>
+                            </ul>
                         </div>
-                    </li>
-                    <li><span style="background: #59FFE1;"></span> Education</li>
-                    <li><span style="background: #8B9D64;"></span> Bussiness</li>
-                    <li><span style="background: #8E649D;"></span> Sports</li>
-                </ul>
-            </ul>
-            <ul class="favourites">
-                <li><img src="assets/images/favourites_img.svg" alt=""> Favourites</li>
-            </ul>
-            <a class="purchased_prompts" href="javascript:void(0)"><img src="assets/images/purchased_prompts_img.svg" alt=""> Purchased Prompts</a>
-            <a class="discover_more" href="javascript:void(0)">Discover more</a>
+                    </div>
+                </div>
+            </div>
         </div>
         
     </div>
+    <script src="contentScripts/jquery-3.7.0.js"></script>
+    <script src="contentScripts/scriptFront.js"></script>
     <script src="popup.js"></script>
     <script></script>
   </body>
