@@ -43,8 +43,8 @@
         "contentScripts/modalInput.js"
       ],
       "css": [
-        "./assets/css/vadym_styles.css",
-        "./assets/css/global_styles.css"
+        "./assets/css/global_styles.css",
+        "./assets/css/vadym_styles.css"
       ]
     }
   ],
@@ -56,6 +56,14 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/CaretDown2_hover.svg",
+        "assets/images/CaretDown2.svg",
+        "assets/images/eye.svg",
+        "assets/images/thumbs-up.svg",
+        "assets/images/car.svg",
+        "assets/images/technology.svg",
+        "assets/images/finance.svg",
+        "assets/images/plants.svg",
         "assets/images/checklist.svg",
         "assets/images/follow_up_CaretDown.svg",
         "assets/images/Info.svg",

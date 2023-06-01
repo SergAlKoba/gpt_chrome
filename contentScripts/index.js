@@ -17,3 +17,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 
 $('body').attr('id', 'global');
+
+$('body').css("--dropdown-icon", `url("${chrome.runtime.getURL(`assets/images/CaretDown2.svg`)}")`);
+$('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/images/CaretDown2_hover.svg`)}")`);

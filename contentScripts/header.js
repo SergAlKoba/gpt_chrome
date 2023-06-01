@@ -5,27 +5,37 @@ let headerWasActive = false;
 let menuOpened = false;
 
 async function login(email, password) {
-  const response = await $.ajax({
-    url: "https://gotgood.ai/api/user/login/",
+  const response = await fetch("https://gotgood.ai/api/user/login/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    data: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password }),
     redirect: 'follow'
   });
-  const { auth_token } = await response.json();
-  localStorage.setItem("token", auth_token);
+  
+  const responseData = await response.json();
+  const { auth_token } = responseData;
+  
+  if (auth_token) {
+    localStorage.setItem("token", auth_token);
+    console.log("Успешная аутентификация!");
+  } else {
+    throw new Error("Отсутствует токен аутентификации");
+  }
 }
 
 async function doLogin() {
   try {
     await login("root@gmail.com", "root");
-    console.log("Успешная аутентификация!");
   } catch (error) {
     console.error("Ошибка аутентификации:", error);
   }
 }
+
+
+
+
 
 function createMenu() {
   $('.header_global').remove();

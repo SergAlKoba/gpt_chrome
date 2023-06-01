@@ -1,3 +1,67 @@
+const API_URL = "https://gotgood.ai";
+const TOKEN = localStorage.getItem('token') || '';
+
+async function getCategories() {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+    };
+
+    let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions);
+    let result = await response.json();
+    console.log(result);
+    sessionStorage.setItem("categories", JSON.stringify(result.results));
+    return result;
+}
+
+async function getFavorites() {
+    try {
+        var myHeaders = new Headers();
+        var token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('No token found in localStorage');
+        }
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        let response = await fetch(API_URL + "/api/chat/get-favorites/", requestOptions);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        let result = await response.json();
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error('An error occurred:', error);
+        throw error;
+    }
+}
+
+
+
+
+async function getPromptsByCategory(categoryId) {
+    try {
+        const response = await fetch(`${API_URL}/api/shop/get-extension-prompt-by-category/${categoryId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch prompts by category.');
+        }
+        const result = await response.json();
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+
 const regex = /{([^}]+)}/g;
 
 function preventSubmission(event) {
@@ -6,8 +70,8 @@ function preventSubmission(event) {
 
 function sendInput(selected_prompt, is_disabled = false) {
     console.warn(selected_prompt);
-    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
-    $("textarea").val(selected_prompt);
+    let send_button = document.querySelector('form > div > button');
+    document.querySelector("input[type='search']").value = selected_prompt;
 
     if (is_disabled) {
         send_button.removeAttribute('disabled');
@@ -15,140 +79,31 @@ function sendInput(selected_prompt, is_disabled = false) {
     }
 }
 
+function processInput() {
+    let input = document.querySelector("input[type='search']");
+    let variable_names = input.value.split(",");
+    let send_button = document.querySelector('form > div > button');
 
-document.addEventListener('readystatechange', event => {
-    const textarea = document.querySelector("textarea");
-    const form = document.querySelector('form');
-    let textAreaState = '';
-
-    textarea.addEventListener('change', event => {
-        textAreaState = event.target.value;
-    });
-
-    textarea && textarea.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && !(event.shiftKey)) {
-            if (!textarea.value) {
-                textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
-            } else {
-                textarea.value = `${event.target.value.trim()} ${localStorage.getItem('Prompt payload')}`;
-            }
-            event.preventDefault();
-        }
-    });
-
-    form.addEventListener('submit', (event) => {
-        console.log('here is the form submit');
-        console.log(textarea.value);
-        if (!textarea.value) {
-            textarea.value = `${textAreaState} ${localStorage.getItem('Prompt payload')}`;
-        } else {
-            textarea.value = `${textarea.value} ${localStorage.getItem('Prompt payload')}`;
-        }
-        event.preventDefault();
-    });
-});
-
-function process_input() {
-    let textarea = document.querySelector("textarea");
-    let variable_names = textarea.value.split(",");
-    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
-    send_button.addEventListener('click', () => {
-        const inputValue = textarea.value.trim();
-        if (localStorage.getItem('template') && inputValue !== '') {
-            let variables = textarea.value.split(",");
-
-            // perform your action here, e.g. send the form data to the server
-            console.log('Submitting the form...');
-            // clear the input field and enable the form submission again
-            let selected_prompt = localStorage.getItem('template');
-            for (let i = 0; i < variable_names.length; i++) {
-                selected_prompt = selected_prompt.replace(/{.*}/, variables[i]);
-            }
-            console.log(selected_prompt);
-            sendInput(selected_prompt);
-            textarea.value = '';
-            send_button.removeEventListener('submit', preventSubmission);
-            send_button.removeEventListener('click', preventSubmission);
-            localStorage.removeItem('template');
-
-        } else if (inputValue !== '') {
-            console.warn('here is the input value click');
-            localStorage.removeItem('template');
-            sendInput(textarea.value.trim());
-            textarea.value = '';
-        } else {
-            send_button.addEventListener('click', preventSubmission);
-            send_button.removeEventListener('submit', preventSubmission);
-        }
-        textarea.placeholder = 'Send a message.';
-
-    });
-    textarea.addEventListener('keydown', (event) => {
-
+    input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-            const inputValue = textarea.value.trim();
+            const inputValue = input.value.trim();
             if (localStorage.getItem('template') && inputValue !== '') {
-                let variables = textarea.value.split(",");
-                // perform your action here, e.g. send the form data to the server
-                console.log('Submitting the form...');
-                // clear the input field and enable the form submission again
+                let variables = input.value.split(",");
                 let selected_prompt = localStorage.getItem('template');
                 for (let i = 0; i < variable_names.length; i++) {
                     selected_prompt = selected_prompt.replace(/{.*}/, variables[i]);
                 }
                 console.log(selected_prompt);
-                $("textarea").value = selected_prompt;
-                document.querySelector("textarea").value = selected_prompt;
-                // let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button');
-                // let style_value = document.getElementById('style-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-                // let tone_value = document.getElementById('tone-google').childNodes[1].childNodes[0].childNodes[0].textContent;
-                // setPromptText(style_value, selected_prompt, tone_value, 5, include_google_data).then((result) => {
-                //     console.log(result);
-                //     //to send ready message into ChatGPT
-                //     document.querySelector("textarea").value = result.prompt_text;
-                //     // if (is_disabled) {
-                //     //     send_button.removeAttribute('disabled');
-                //     //     send_button.click();
-                //     // }
-                //     localStorage.removeItem('template');
-                //     textarea.removeEventListener('keydown', preventSubmission);
-                //     textarea.removeEventListener('submit', preventSubmission);
-                //     localStorage.removeItem('template');
-                //     textarea.value = '';
-                //     textarea.placeholder = 'Send a message.';
-                // })
+                input.value = selected_prompt;
+                localStorage.removeItem('template');
+                input.value = '';
+                input.placeholder = 'Send a message.';
             }
         } else {
-            // textarea.addEventListener('keydown', preventSubmission);
-            textarea.addEventListener('submit', preventSubmission);
+            input.addEventListener('submit', preventSubmission);
         }
-        textarea.placeholder = 'Send a message.';
-
+        input.placeholder = 'Send a message.';
     });
-}
-
-async function getCategories() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
-
-    let response = await fetch("https://gotgood.ai/api/shop/get-categories/", requestOptions)
-    let result = await response.json();
-    console.log(result);
-    return result.results;
-}
-
-
-async function getPromptsByCategory(categoryId) {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
-    let response = await fetch(`https://gotgood.ai/api/shop/get-extension-prompt-by-category/${categoryId}`, requestOptions);
-    let result = response.json();
-    console.log(result);
-    return result;
 }
 
 function filterCategory(categoryName) {
@@ -173,88 +128,54 @@ function searchItems(searchValue) {
     });
 }
 
-
-function createDiscoverMore() {
-    return createElem("a", {
-        class: "discover_more",
-        href: "https://gotgood.ai/dashboard"
-    }, ["Discover more"]);
-}
-
-
-
-function createPurchasedPrompts() {
-    const menuContentPurchasedPromptsImg = createElem("img", {
-        src: chrome.runtime.getURL('assets/images/purchased_prompts_img.svg'),
-        alt: ""
-    }, []);
-
-    const menuContentPurchasedPrompts = createElem("a", {
-        class: "purchased_prompts",
-        href: "javascript:void(0)"
-    }, [
-        menuContentPurchasedPromptsImg,
-        " Purchased Prompts"
-    ]);
-
-    return menuContentPurchasedPrompts;
-}
-
-
 function createContentFavorites() {
-    const menuContentFavoritesLiImg = createElem("img", {
+    const favoritesImg = createElem("img", {
         src: chrome.runtime.getURL('assets/images/favourites_img.svg'),
         alt: ""
     }, []);
 
-    const menuContentFavoritesLi = createElem("li", {}, [
-        menuContentFavoritesLiImg,
-        " Favourites"
-    ]);
-
-    const menuContentFavorites = createElem("ul", {
-        class: "favourites"
+    const favorites = createElem("div", {
+        class: "favourites promt_item"
     }, [
-        menuContentFavoritesLi
+        createElem("div", {
+            class: "item_nav"
+        }, [
+            favoritesImg,
+            " Favourites"
+        ])
     ]);
 
-    return menuContentFavorites;
+    favorites.addEventListener("click", () => {
+        favorites.classList.toggle("active");
+    });
+
+    return favorites;
 }
 
-
 function createCategory(id) {
-    const menuContentCategoriesItems = createElem("ul", {
+    const categoryItems = createElem("ul", {
         class: "items"
     }, []);
 
-    const menuContentCategoriesItemsLiSpan = createElem("span", {
-        style: "background: #B4F573"
-    }, []);
-
-    const menuContentCategoriesItemsLiStoryContent = createElem("div", {
-        class: "story_content_liner"
-    }, []);
-
-    const menuDivText = "I'm trying to improve my financial situation, but I'm not sure where to start. Can you give me some advice on how to manage my manage manage";
-    const menuDivs = [];
     getPromptsByCategory(id).then((response) => {
         console.log(response.length);
         for (let i = 0; i < response.length; i++) {
-            const menuDivP = createElem("p", {}, [response[i].prompt_template]);
-            const menuDiv = createElem("div", {
-                "id": response[i].id
-            }, [menuDivP]);
-            menuDiv.addEventListener("click", () => {
-                const selected_prompt = response[i].prompt_template
+            const promptParagraph = createElem("p", {}, [response[i].prompt_template]);
+            const promptDiv = createElem("div", {
+                "id": response[i].id,
+                "class": "answer"
+            }, [promptParagraph]);
+            promptDiv.addEventListener("click", () => {
+                const selected_prompt = response[i].prompt_template;
                 const matches = selected_prompt.match(regex);
                 console.warn(matches);
                 if (matches) {
                     const variables = matches.map(match => `[${match.substring(1, match.length - 1)}]`);
                     const variable_without_braces = matches.map(match => match.substring(1, match.length - 1));
-                    document.querySelector("textarea").setAttribute('placeholder', variables);
+                    document.querySelector("input[type='search']").setAttribute('placeholder', variables);
                     variable_names = variable_without_braces;
                     localStorage.setItem('template', response[i].prompt_template);
-                    // process_input();
+                    processInput();
                 } else {
                     localStorage.setItem('template', selected_prompt);
                     console.log(selected_prompt);
@@ -262,100 +183,191 @@ function createCategory(id) {
                 }
             });
 
-            menuDivs[i] = menuDiv;
+            categoryItems.appendChild(promptDiv);
         }
-        menuContentCategoriesItemsLiStoryContent.append(...menuDivs);
-
-        const menuContentCategoriesItemsLi = createElem("li", {}, [
-            menuContentCategoriesItemsLiStoryContent
-        ]);
-
-        menuContentCategoriesItems.appendChild(menuContentCategoriesItemsLi);
+    }).catch((error) => {
+        console.error(error);
     });
-    return menuContentCategoriesItems;
-}
 
+    return categoryItems;
+}
 
 function createCategories() {
-    const createCategoryElement = (text, id) => {
-        const li = createElem("li", {
-            "data-count": id
-        }, [text]);
-        li.addEventListener("click", () => {
-            li.classList.toggle("active");
-        });
-        return createElem("div", {
-            class: "i-category"
-        }, [li, createCategory(id)]);
-    };
-
-    const menuContentCategories = createElem("ul", {
-        class: "categories"
-    }, []);
-    menuContentCategories.style.setProperty("--icon", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
-
-    const menuContentCategoriesLiImg = createElem("img", {
-        src: chrome.runtime.getURL("assets/images/categories_img.svg"),
-        alt: ""
-    }, []);
-
-    const menuContentCategoriesLi = createElem("li", {
-        class: "i-big-category"
+    const categories = createElem("div", {
+        class: "categories promt_item active"
     }, [
-        menuContentCategoriesLiImg,
-        " Categories"
+        createElem("div", {
+            class: "item_nav",
+        }, [
+            createElem("img", {
+                src: chrome.runtime.getURL("assets/images/categories_img.svg"),
+                alt: ""
+            }, []),
+            " Categories"
+        ]),
+        createElem("div", {
+            class: "promt_item_content"
+        }, [
+            createElem("div", {
+                class: "filter"
+            }, [
+                createElem("div", {
+                    class: "filter_title"
+                }, [
+                    createElem("img", {
+                        src: chrome.runtime.getURL("assets/images/plants.svg"),
+                        alt: ""
+                    }, []),
+                    createElem("span", {}, ["Plants"])
+                ]),
+                createElem("ul", {
+                    class: "filter_drop"
+                }, [
+                    createElem("li", {}, [
+                        createElem("img", {
+                            src: chrome.runtime.getURL("assets/images/finance.svg"),
+                            alt: ""
+                        }, []),
+                        createElem("span", {}, ["Finance"])
+                    ]),
+                    createElem("li", {}, [
+                        createElem("img", {
+                            src: chrome.runtime.getURL("assets/images/plants.svg"),
+                            alt: ""
+                        }, []),
+                        createElem("span", {}, ["Plants"])
+                    ]),
+                    createElem("li", {}, [
+                        createElem("img", {
+                            src: chrome.runtime.getURL("assets/images/technology.svg"),
+                            alt: ""
+                        }, []),
+                        createElem("span", {}, ["Technology"])
+                    ]),
+                    createElem("li", {}, [
+                        createElem("img", {
+                            src: chrome.runtime.getURL("assets/images/car.svg"),
+                            alt: ""
+                        }, []),
+                        createElem("span", {}, ["Car"])
+                    ])
+                ])
+            ]),
+            createElem("div", {
+                class: "drop_content"
+            }, [
+                createElem("div", {
+                    class: "answer"
+                }, [
+                    createElem("span", {
+                        class: "designation"
+                    }, ["Plants"]),
+                    createElem("h3", {}, ["What Happens If I Don't Give My Plants Nutrients?"]),
+                    createElem("p", {}, ["With any plant or animal in the world, both macro and micronutrients are needed to thrive. Plants themselves need about 20 nutrients. These nutrients are the fuel for producing awesome cannabis plants."]),
+                    createElem("p", {}, [createElem("span", {}, ["Who is the cannabis breeder Mephisto Genetics?"])]),
+                    createElem("ul", {
+                        class: "stats"
+                    }, [
+                        createElem("li", {}, [
+                            createElem("img", {
+                                src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+                                alt: ""
+                            }, []),
+                            " 210.31K"
+                        ]),
+                        createElem("li", {}, [
+                            createElem("img", {
+                                src: chrome.runtime.getURL("assets/images/eye.svg"),
+                                alt: ""
+                            }, []),
+                            " 12.4K"
+                        ])
+                    ])
+                ]),
+                createElem("div", {
+                    class: "answer"
+                }, [
+                    createElem("span", {
+                        class: "designation"
+                    }, ["Plants"]),
+                    createElem("h3", {}, ["Cannabis plants need what?"]),
+                    createElem("p", {}, ["With any plant or animal in the world, both macro."]),
+                    createElem("ul", {
+                        class: "stats"
+                    }, [
+                        createElem("li", {}, [
+                            createElem("img", {
+                                src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+                                alt: ""
+                            }, []),
+                            " 210.31K"
+                        ]),
+                        createElem("li", {}, [
+                            createElem("img", {
+                                src: chrome.runtime.getURL("assets/images/eye.svg"),
+                                alt: ""
+                            }, []),
+                            " 12.4K"
+                        ])
+                    ])
+                ])
+            ])
+        ])
     ]);
-    menuContentCategoriesLi.onclick = () => {
 
-        menuContentCategoriesLi.classList.toggle("active");
-    }
-
-    menuContentCategories.append(
-        menuContentCategoriesLi,
-        createElem("ul", {}, []));
-    getCategories().then((response) => {
-        response.forEach((category) => {
-            menuContentCategories.querySelector('ul').append(createCategoryElement(category.name, category.id));
-        });
+    const itemNav = categories.querySelector(".item_nav");
+    itemNav.addEventListener("click", () => {
+        categories.classList.toggle("active");
     });
 
-
-    return menuContentCategories;
+    return categories;
 }
 
-
 function createContentForm() {
-    const menuContentFormButtonImg = createElem("img", {
+    const formButtonImg = createElem("img", {
         src: chrome.runtime.getURL('assets/images/search.svg'),
         alt: ""
     }, []);
 
-    const menuContentFormButton = createElem("button", {}, [menuContentFormButtonImg]);
+    const formButton = createElem("button", {}, [formButtonImg]);
 
-    const menuContentFormInput = createElem("input", {
+    const formInput = createElem("input", {
         type: "search",
         placeholder: "Search..."
     }, []);
 
-    menuContentFormInput.addEventListener('input', (event) => {
+    formInput.addEventListener('input', (event) => {
         searchItems(event.target.value);
     });
 
-    return createElem("form", {}, [menuContentFormButton, menuContentFormInput]);
+    return createElem("form", {}, [formButton, formInput]);
 }
 
 function createMenuContent() {
     const menuContent = createElem("div", {
         class: "menu_content"
     }, [
+        createElem("h2", {}, ["Prompt bar"]),
         createContentForm(),
-        createCategories(),
         createContentFavorites(),
-        createPurchasedPrompts(),
-        createDiscoverMore()
+        createCategories()
     ]);
 
     return menuContent;
 }
 
-document.body.appendChild(createMenuContent());
+async function init() {
+    document.body.appendChild(createMenuContent());
+    processInput();
+    const categoriesResponse = await getCategories();
+    const categories = categoriesResponse.results;
+    for (let i = 0; i < categories.length; i++) {
+        const categoryId = categories[i].id;
+        const categoryItems = createCategory(categoryId);
+        const categoryContainer = document.querySelector('.categories .promt_item_content .drop_content');
+        categoryContainer.appendChild(categoryItems);
+    }
+    await getFavorites();
+}
+
+init();

@@ -18,3 +18,10 @@
     overflow-x: hidden !important;
 }
 
+#global .menu_content .promt_item > .item_nav::after {
+    background: var(--dropdown-icon) no-repeat 50% 50% !important;
+}
+
+#global .menu_content .promt_item .promt_item_content .filter_title::after {
+    background: var(--dropdown-icon-hover) no-repeat 50% 50% !important;
+}
