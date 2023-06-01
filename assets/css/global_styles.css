@@ -377,6 +377,77 @@
     transform: translate(0, 0);
 }
 
+#global .menu_content .promt_bar{
+    display: none;
+}
+
+#global .menu_content .promt_bar.active{
+    display: block;
+}
+
+#global .menu_content .registration{
+    display: none;
+    padding: 23px;
+}
+
+#global .menu_content .registration span{
+    margin: 15px 0;
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 20px;
+    text-align: center;
+}
+
+#global .menu_content .registration .sign_up{
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    color: #0F1110;
+    line-height: 18px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    align-items: center;
+    transition: all 0.3s;
+    letter-spacing: -0.04em;
+    justify-content: center;
+    box-shadow: inset 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08);
+    background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%);
+    transition: all 0.5s;
+}
+
+#global .menu_content .registration .sign_up:hover{
+    box-shadow: inset 0px 0px 0px 30px rgba(16, 24, 40, 0.2);
+}
+
+#global .menu_content .registration .sign_in{
+    width: 100%;
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ACFFA6;
+    line-height: 18px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    align-items: center;
+    transition: all 0.3s;
+    letter-spacing: -0.04em;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(186, 252, 60, 0.0768) 0%, rgba(63, 255, 37, 0.0768) 100%), rgba(255, 255, 255, 0.05);
+    transition: all 0.5s;
+}
+
+#global .menu_content .registration .sign_in:hover{
+    box-shadow: 0px 0px 0px 6px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+}
+
+#global .menu_content .registration.active{
+    display: block;
+}
+
 #global .menu_content h2 {
     font-size: 18px;
     color: #D8DADB;
@@ -1952,4 +2023,216 @@ ul[id^="headlessui-listbox-options"] li {
     .md\:bottom-\[120px\] {
         bottom: 150px !important;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* POPUP */
+
+#global .popup{
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: 100vw;
+    display: none;
+    height: 100vh;
+    position: fixed;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+#global .popup.active{
+    display: block;
+}
+
+#global .popup .close{
+    top: 0;
+    right: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+}
+
+#global .popup .popup_content{
+    left: 50%;
+    top: 183px;
+    z-index: 4;
+    width: 480px;
+    position: absolute;
+    border-radius: 12px;
+    background: #181B1E;
+    box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+    transform: translate(-50%, 0);
+}
+
+#global .popup .popup_content .close_popup{
+    top: 19px;
+    z-index: 3;
+    width: 24px;
+    right: 17px;
+    cursor: pointer;
+    position: absolute;
+    transition: all 0.3s;
+}
+
+#global .popup .popup_content .close_popup:hover{
+    transform: rotate(180deg);
+}
+
+#global .popup .popup_content .title{
+    padding: 16px 60px 15px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#global .popup .popup_content .title h5{
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 28px;
+    margin-bottom: 4px;
+}
+
+#global .popup .popup_content .title p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #898F93;
+    line-height: 20px;
+}
+
+#global .popup .popup_content form{
+    padding: 16px;
+}
+
+#global .popup .popup_content form .input{
+    margin-bottom: 16px;
+}
+
+#global .popup .popup_content form label{
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 20px;
+    margin-bottom: 6px;
+}
+
+#global .popup .popup_content form input{
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #898F93;
+    line-height: 20px;
+    border-radius: 8px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+}
+
+#global .popup .popup_content form button {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    color: #0F1110;
+    line-height: 18px;
+    border-radius: 8px;
+    align-items: center;
+    transition: all 0.3s;
+    letter-spacing: -0.04em;
+    justify-content: center;
+    box-shadow: inset 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08);
+    background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%);
+    transition: all 0.5s;
+}
+
+#global .popup .popup_content form span {
+    display: block;
+    margin: 16px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 20px;
+    text-align: center;
+}
+
+#global .popup .popup_content form .sign_google{
+    width: 100%;
+    height: 44px;
+    display: flex;
+    font-size: 14px;
+    color: #D8DADB;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    align-items: center;
+    margin-bottom: 16px;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+}
+
+#global .popup .popup_content form .sign_google img{
+    width: 24px;
+    display: block;
+    margin-right: 8px;
+}
+
+#global .popup .popup_content form .sign_credentials{
+    width: 100%;
+    height: 44px;
+    display: flex;
+    font-size: 14px;
+    color: #D8DADB;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+}
+
+#global .popup .popup_content form .sign_credentials img{
+    width: 24px;
+    display: block;
+    margin-right: 8px;
+}
+
+#global .popup .popup_content form p{
+    font-size: 14px;
+    font-weight: 400;
+    color: #898F93;
+    line-height: 20px;
+    text-align: center;
+}
+
+#global .popup .popup_content form p a{
+    color: #EBECED;
 }

@@ -9,6 +9,24 @@ var $doc = $(document);
             // $('.promt_item').removeClass('active');
             $(this).parent('.promt_item').toggleClass('active');
         });
+
+        $('.close').on('click', function(){
+            $('.popup').removeClass('active');
+        });
+
+        $('.close_popup').on('click', function(){
+            $('.popup').removeClass('active');
+        });
+
+        $('.sign_up_js').on('click', function(){
+            $('.popup').removeClass('active');
+            $('.sign_up_popup').addClass('active');
+        });
+
+        $('.sign_in_js').on('click', function(){
+            $('.popup').removeClass('active');
+            $('.sign_in_popup').addClass('active');
+        });
        
     });
 

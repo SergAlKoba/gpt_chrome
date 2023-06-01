@@ -306,48 +306,116 @@
 
         <!-- При клике class="menu" на добавляем или удаляем класс active -->
         <div class="menu_content active">
-            <h2>Promt bar</h2>
-            <form>
-                <button><img src="assets/images/search.svg" alt=""></button>
-                <input type="search" placeholder="Search...">
-            </form>
-            <div class="favourites promt_item">
-                <div class="item_nav"><img src="assets/images/favourites_img.svg" alt=""> Favourites</div>
-            </div>
-            <div class="categories promt_item active">
-                <div class="item_nav"><img src="assets/images/categories_img.svg" alt=""> Categories</div>
-                <div class="promt_item_content">
-                    <div class="filter">
-                        <div class="filter_title"><img src="assets/images/plants.svg" alt=""> <span>Plants</span></div>
-                        <ul class="filter_drop">
-                            <li><img src="assets/images/finance.svg" alt=""> <span>Finance</span></li>
-                            <li><img src="assets/images/plants.svg" alt=""> <span>Plants</span></li>
-                            <li><img src="assets/images/technology.svg" alt=""> <span>Technology</span></li>
-                            <li><img src="assets/images/car.svg" alt=""> <span>Car</span></li>
-                        </ul>
+            <div>
+                <h2>Promt bar</h2>
+                <!-- registration будит видно если у ненго есть класс active -->
+                <div class="registration active">
+                    <a class="sign_up sign_up_js" href="javascript:void(0)">Sign Up</a>
+                    <span>or</span>
+                    <a class="sign_in sign_in_js" href="javascript:void(0)">Sign In</a>
+                </div>
+
+                <!-- promt_bar будит видно если у ненго есть класс active -->
+                <div class="promt_bar">
+                    <form>
+                        <button><img src="assets/images/search.svg" alt=""></button>
+                        <input type="search" placeholder="Search...">
+                    </form>
+                    <div class="favourites promt_item">
+                        <div class="item_nav"><img src="assets/images/favourites_img.svg" alt=""> Favourites</div>
                     </div>
-                    <div class="drop_content">
-                        <div class="answer">
-                            <span class="designation">Plants</span>
-                            <h3>What Happens If I Don't Give My Plants Nutrients?</h3>
-                            <p>With any plant or animal in the world, both macro and micronutrients are needed to thrive. Plants themselves need about 20 nutrients. These nutrients are the fuel for producing awesome cannabis plants.</p>
-                            <p><span>Who is the cannabis breeder Mephisto Genetics?</span></p>
-                            <ul class="stats">
-                                <li><img src="assets/images/thumbs-up.svg" alt=""> 210.31K</li>
-                                <li><img src="assets/images/eye.svg" alt=""> 12.4K</li>
-                            </ul>
-                        </div>
-                        <div class="answer">
-                            <span class="designation">Plants</span>
-                            <h3>Cannabis plants need what?</h3>
-                            <p>With any plant or animal in the world, both macro.</p>
-                            <ul class="stats">
-                                <li><img src="assets/images/thumbs-up.svg" alt=""> 210.31K</li>
-                                <li><img src="assets/images/eye.svg" alt=""> 12.4K</li>
-                            </ul>
+                    <div class="categories promt_item active">
+                        <div class="item_nav"><img src="assets/images/categories_img.svg" alt=""> Categories</div>
+                        <div class="promt_item_content">
+                            <div class="filter">
+                                <div class="filter_title"><img src="assets/images/plants.svg" alt=""> <span>Plants</span></div>
+                                <ul class="filter_drop">
+                                    <li><img src="assets/images/finance.svg" alt=""> <span>Finance</span></li>
+                                    <li><img src="assets/images/plants.svg" alt=""> <span>Plants</span></li>
+                                    <li><img src="assets/images/technology.svg" alt=""> <span>Technology</span></li>
+                                    <li><img src="assets/images/car.svg" alt=""> <span>Car</span></li>
+                                </ul>
+                            </div>
+                            <div class="drop_content">
+                                <div class="answer">
+                                    <span class="designation">Plants</span>
+                                    <h3>What Happens If I Don't Give My Plants Nutrients?</h3>
+                                    <p>With any plant or animal in the world, both macro and micronutrients are needed to thrive. Plants themselves need about 20 nutrients. These nutrients are the fuel for producing awesome cannabis plants.</p>
+                                    <p><span>Who is the cannabis breeder Mephisto Genetics?</span></p>
+                                    <ul class="stats">
+                                        <li><img src="assets/images/thumbs-up.svg" alt=""> 210.31K</li>
+                                        <li><img src="assets/images/eye.svg" alt=""> 12.4K</li>
+                                    </ul>
+                                </div>
+                                <div class="answer">
+                                    <span class="designation">Plants</span>
+                                    <h3>Cannabis plants need what?</h3>
+                                    <p>With any plant or animal in the world, both macro.</p>
+                                    <ul class="stats">
+                                        <li><img src="assets/images/thumbs-up.svg" alt=""> 210.31K</li>
+                                        <li><img src="assets/images/eye.svg" alt=""> 12.4K</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="popup sign_up_popup">
+            <span class="close"></span>
+            <div class="popup_content">
+                <span class="close_popup"><img src="assets/images/close.svg" alt=""></span>
+                <div class="title">
+                    <h5>Sign Up</h5>
+                    <p>Get started for free. No credit card required.</p>
+                </div>
+                <form>
+                    <div class="input">
+                        <label>E-mail adress</label>
+                        <input type="email" placeholder="acme@corp.ai">
+                    </div>
+                    <div class="input">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter password here">
+                    </div>
+                    <div class="input">
+                        <label>Confirm Password</label>
+                        <input type="password" placeholder="Enter password here">
+                    </div>
+                    <button>Sign Up</button>
+                    <span>or</span>
+                    <a href="javascript::void(0)" class="sign_google"><img src="assets/images/sign_google.png" alt=""> Sign up with Google</a>
+                    <a href="javascript::void(0)" class="sign_credentials"><img src="assets/images/sign_credentials.svg" alt=""> Sign up with Credentials</a>
+                    <p>Already registered? <a class="sign_in_js" href="javascript:void(0)">Sign in</a> to your account.</p>
+                </form>
+            </div>
+        </div>
+
+        <div class="popup sign_in_popup">
+            <span class="close"></span>
+            <div class="popup_content">
+                <span class="close_popup"><img src="assets/images/close.svg" alt=""></span>
+                <div class="title">
+                    <h5>Sign In</h5>
+                    <p>Sign in with Google or email to continue.</p>
+                </div>
+                <form>
+                    <div class="input">
+                        <label>E-mail adress</label>
+                        <input type="email" placeholder="acme@corp.ai">
+                    </div>
+                    <div class="input">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter password here">
+                    </div>
+                    <button>Sign In</button>
+                    <span>or</span>
+                    <a href="javascript::void(0)" class="sign_google"><img src="assets/images/sign_google.png" alt=""> Sign up with Google</a>
+                    <a href="javascript::void(0)" class="sign_credentials"><img src="assets/images/sign_credentials.svg" alt=""> Sign up with Credentials</a>
+                    <p>Already registered? <a class="sign_up_js" href="javascript:void(0)">Sign up</a> to your account.</p>
+                </form>
             </div>
         </div>
         
