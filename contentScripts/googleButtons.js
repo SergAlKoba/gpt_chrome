@@ -218,7 +218,7 @@ const createElem = (tag, attributes, children) => {
         elem.setAttribute(key, attributes[key]);
     }
 
-    children.forEach(child => {
+    children?.forEach(child => {
         if (typeof child === 'string') {
             elem.appendChild(document.createTextNode(child));
         } else {

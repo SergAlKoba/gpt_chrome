@@ -128,29 +128,6 @@ function searchItems(searchValue) {
     });
 }
 
-function createContentFavorites() {
-    const favoritesImg = createElem("img", {
-        src: chrome.runtime.getURL('assets/images/favourites_img.svg'),
-        alt: ""
-    }, []);
-
-    const favorites = createElem("div", {
-        class: "favourites promt_item"
-    }, [
-        createElem("div", {
-            class: "item_nav"
-        }, [
-            favoritesImg,
-            " Favourites"
-        ])
-    ]);
-
-    favorites.addEventListener("click", () => {
-        favorites.classList.toggle("active");
-    });
-
-    return favorites;
-}
 
 function createCategory(id) {
     const categoryItems = createElem("ul", {
@@ -192,17 +169,55 @@ function createCategory(id) {
     return categoryItems;
 }
 
-function createCategories() {
-    const categories = createElem("div", {
-        class: "categories promt_item active"
+
+function createMenuContent() {
+    const menuContent = createElem("div", {
+        class: "menu_content"
+    }, [
+        createElem("div", {}, [
+            createElem("h2", {}, ["Prompt bar"]),
+            createRegistration(),
+            createPromtBar(),]),
+
+
+    ]);
+
+    return menuContent;
+}
+
+
+
+function createRegistration() {
+    const signUpLink = createElem("a", {
+        class: "sign_up sign_up_js",
+        href: "javascript:void(0)"
+    }, ["Sign Up"]);
+
+    const orText = createElem("span", {}, ["or"]);
+
+    const signInLink = createElem("a", {
+        class: "sign_in sign_in_js",
+        href: "javascript:void(0)"
+    }, ["Sign In"]);
+
+    const registration = createElem("div", {
+        class: "registration active"
+    }, [signUpLink, orText, signInLink]);
+
+    return registration;
+}
+
+function createPromtBar() {
+    let categoriesPromtItem = createElem("div", {
+        class: "categories promt_item"
     }, [
         createElem("div", {
-            class: "item_nav",
+            class: "item_nav"
         }, [
             createElem("img", {
                 src: chrome.runtime.getURL("assets/images/categories_img.svg"),
                 alt: ""
-            }, []),
+            }),
             " Categories"
         ]),
         createElem("div", {
@@ -217,7 +232,7 @@ function createCategories() {
                     createElem("img", {
                         src: chrome.runtime.getURL("assets/images/plants.svg"),
                         alt: ""
-                    }, []),
+                    }),
                     createElem("span", {}, ["Plants"])
                 ]),
                 createElem("ul", {
@@ -227,28 +242,28 @@ function createCategories() {
                         createElem("img", {
                             src: chrome.runtime.getURL("assets/images/finance.svg"),
                             alt: ""
-                        }, []),
+                        }),
                         createElem("span", {}, ["Finance"])
                     ]),
                     createElem("li", {}, [
                         createElem("img", {
                             src: chrome.runtime.getURL("assets/images/plants.svg"),
                             alt: ""
-                        }, []),
+                        }),
                         createElem("span", {}, ["Plants"])
                     ]),
                     createElem("li", {}, [
                         createElem("img", {
                             src: chrome.runtime.getURL("assets/images/technology.svg"),
                             alt: ""
-                        }, []),
+                        }),
                         createElem("span", {}, ["Technology"])
                     ]),
                     createElem("li", {}, [
                         createElem("img", {
                             src: chrome.runtime.getURL("assets/images/car.svg"),
                             alt: ""
-                        }, []),
+                        }),
                         createElem("span", {}, ["Car"])
                     ])
                 ])
@@ -264,7 +279,9 @@ function createCategories() {
                     }, ["Plants"]),
                     createElem("h3", {}, ["What Happens If I Don't Give My Plants Nutrients?"]),
                     createElem("p", {}, ["With any plant or animal in the world, both macro and micronutrients are needed to thrive. Plants themselves need about 20 nutrients. These nutrients are the fuel for producing awesome cannabis plants."]),
-                    createElem("p", {}, [createElem("span", {}, ["Who is the cannabis breeder Mephisto Genetics?"])]),
+                    createElem("p", {}, [
+                        createElem("span", {}, ["Who is the cannabis breeder Mephisto Genetics?"])
+                    ]),
                     createElem("ul", {
                         class: "stats"
                     }, [
@@ -272,14 +289,14 @@ function createCategories() {
                             createElem("img", {
                                 src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
                                 alt: ""
-                            }, []),
+                            }),
                             " 210.31K"
                         ]),
                         createElem("li", {}, [
                             createElem("img", {
                                 src: chrome.runtime.getURL("assets/images/eye.svg"),
                                 alt: ""
-                            }, []),
+                            }),
                             " 12.4K"
                         ])
                     ])
@@ -299,14 +316,14 @@ function createCategories() {
                             createElem("img", {
                                 src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
                                 alt: ""
-                            }, []),
+                            }),
                             " 210.31K"
                         ]),
                         createElem("li", {}, [
                             createElem("img", {
                                 src: chrome.runtime.getURL("assets/images/eye.svg"),
                                 alt: ""
-                            }, []),
+                            }),
                             " 12.4K"
                         ])
                     ])
@@ -314,46 +331,54 @@ function createCategories() {
             ])
         ])
     ]);
-
-    const itemNav = categories.querySelector(".item_nav");
-    itemNav.addEventListener("click", () => {
-        categories.classList.toggle("active");
-    });
-
-    return categories;
-}
-
-function createContentForm() {
-    const formButtonImg = createElem("img", {
-        src: chrome.runtime.getURL('assets/images/search.svg'),
-        alt: ""
-    }, []);
-
-    const formButton = createElem("button", {}, [formButtonImg]);
-
-    const formInput = createElem("input", {
-        type: "search",
-        placeholder: "Search..."
-    }, []);
-
-    formInput.addEventListener('input', (event) => {
-        searchItems(event.target.value);
-    });
-
-    return createElem("form", {}, [formButton, formInput]);
-}
-
-function createMenuContent() {
-    const menuContent = createElem("div", {
-        class: "menu_content"
+    let favoritesPromtItem = createElem("div", {
+        class: "favourites promt_item"
     }, [
-        createElem("h2", {}, ["Prompt bar"]),
-        createContentForm(),
-        createContentFavorites(),
-        createCategories()
+        createElem("div", {
+            class: "item_nav"
+        }, [
+            createElem("img", {
+                src: chrome.runtime.getURL("assets/images/favourites_img.svg"),
+                alt: ""
+            }),
+            " Favourites"
+        ])
     ]);
 
-    return menuContent;
+    categoriesPromtItem.onclick = () => {
+        categoriesPromtItem.classList.toggle('active');
+    };
+    
+    favoritesPromtItem.onclick = () => {
+        favoritesPromtItem.classList.toggle('active');
+    };
+    
+
+    const promtBar = createElem("div", {
+        class: "promt_bar"
+    }, [
+        createElem("form", {}, [
+            createElem("button", {}, [
+                createElem("img", {
+                    src: chrome.runtime.getURL("assets/images/search.svg"),
+                    alt: ""
+                })
+            ]),
+            createElem("input", {
+                type: "search",
+                placeholder: "Search..."
+            })
+        ]),
+        favoritesPromtItem,
+        categoriesPromtItem
+    ]);
+
+    // const itemNav = body.querySelector(".item_nav");
+    // itemNav.addEventListener("click", () => {
+    //     promtBar.classList.toggle("active");
+    // });
+
+    return promtBar;
 }
 
 async function init() {

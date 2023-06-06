@@ -13,10 +13,10 @@ async function login(email, password) {
     body: JSON.stringify({ email, password }),
     redirect: 'follow'
   });
-  
+
   const responseData = await response.json();
   const { auth_token } = responseData;
-  
+
   if (auth_token) {
     localStorage.setItem("token", auth_token);
     console.log("Успешная аутентификация!");
@@ -63,55 +63,67 @@ function createMenu() {
   $("#__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden ").append(header);
   $("#__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden ").css('padding-top', '60px');
 
-  settingsMenuLink.on("click", async () => {
+  settingsMenuLink.off('click').on("click", async () => {
+    console.log("Клик по settingsMenuLink");
+  
     if (!menuOpened) {
+      console.log("Сайдбар был закрыт, открываем его");
       $(".menu_content").addClass("active");
       $(".flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
       $(".header_global").addClass("active");
-      $(".flex h-full max-w-full flex-1 flex-col").addClass("active");
+      $(".flex h-full max-w-full flex-1.flex-col").addClass("active");
       headerWasActive = true;
-      await getCategories();
+      try {
+        await getCategories();
+      } catch (error) {
+        console.error(error);
+      }
+      menuOpened = true;
     } else {
+      console.log("Сайдбар был открыт, закрываем его");
       $(".menu_content").removeClass("active");
       $(".flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
       $(".header_global").removeClass("active");
       $(".flex h-full max-w-full flex-1 flex-col").removeClass("active");
       headerWasActive = false;
+      menuOpened = false;
     }
-    menuOpened = !menuOpened;
-  }
-  )};
+  })
+  
+};
 
 
 
-  setInterval(() => {
-    const headerElement = $("#__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden").find('.header_global');
 
-    if (headerElement.length === 0) {
-      createMenu();
-      headerStatus = null; 
-    } else {
-      
-      const currentStatus = headerElement.hasClass('active') ? 'active' : 'inactive';
-      if (headerStatus !== currentStatus) {
-      
-        if (headerWasActive && currentStatus === 'inactive') {
-          headerElement.addClass('active');
-        }
-        headerStatus = currentStatus;
+
+setInterval(() => {
+  const headerElement = $("#__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden").find('.header_global');
+
+  if (headerElement.length === 0) {
+    createMenu();
+    headerStatus = null;
+  } else {
+
+    const currentStatus = headerElement.hasClass('active') ? 'active' : 'inactive';
+    if (headerStatus !== currentStatus) {
+
+      if (headerWasActive && currentStatus === 'inactive') {
+        headerElement.addClass('active');
       }
-    }
-  }, 500);
-
-
-
-  async function initializeApp() {
-    try {
-      await doLogin();
-      createMenu();
-    } catch (error) {
-      console.error("Ошибка при инициализации приложения:", error);
+      headerStatus = currentStatus;
     }
   }
+}, 500);
 
-  initializeApp();
+
+
+async function initializeApp() {
+  try {
+    await doLogin();
+    createMenu();
+  } catch (error) {
+    console.error("Ошибка при инициализации приложения:", error);
+  }
+}
+
+initializeApp();
