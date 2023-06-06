@@ -168,9 +168,10 @@
 
 #global .flex.overflow-hidden.relative .dark.bg-gray-900{
     z-index: 9;
+    width: 280px;
     position: relative;
+    overflow-x: initial;
     background: #181B1E;
-    width: 280px !important;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -188,6 +189,7 @@
     width: 100%;
     padding: 0 16px;
 }
+
 
 #global .flex.py-3.px-3.items-center.gap-3.rounded-md.transition-colors.duration-200.text-white.cursor-pointer.text-sm.mb-1.flex-shrink-0.border{
     width: 83%;
@@ -335,13 +337,40 @@
     background: #0F1110;
 }
 
-#global .flex.items-center.rounded-md.transition-colors.duration-200.text-white.cursor-pointer.text-sm{
-    padding: 13px 32px 14px;
+#global .flex.p-3.gap-3.transition-colors.duration-200.text-white.cursor-pointer.text-sm.rounded-md.border.h-11.w-11.flex-shrink-0.items-center.justify-center{
+    top: 14px;
+    width: 40px;
+    height: 40px;
+    right: -55px;
+    position: absolute;
+}
+
+#global .absolute.left-2.top-2.z-10.hidden.md\:inline-block{
+    top: 14px;
+}
+
+#global .absolute.left-2.top-2.z-10.hidden.md\:inline-block button{
+    width: 40px;
+    height: 40px;
+}
+
+#global .mb-1.flex.flex-row.gap-2{
+    padding: 0 15px;
+}
+
+#global .flex.p-3.items-center.gap-3.transition-colors.duration-200.text-white.cursor-pointer.text-sm.rounded-md.border.h-11.flex-shrink-0.flex-grow{
+    width: 100%;
+    margin: 0 auto;
     font-size: 14px;
     font-weight: 500;
-    color: #FFFFFF;
+    color: #0F1110;
     line-height: 18px;
+    text-align: center;
+    padding: 13px 32px 14px;
+    justify-content: center;
     letter-spacing: -0.04em;
+    box-shadow: inset 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08);
+    background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%);
 }
 
 #global .group.relative .flex.w-full.items-center.rounded-md.px-3.py-3.text-sm{
@@ -1303,11 +1332,13 @@
 
 }
 
-#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .absolute.p-1.rounded-md.text-gray-500{
+#global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40{
+    top: 50%;
     opacity: 1;
     right: 58px;
     width: 40px;
     height: 40px;
+    bottom: initial;
     cursor: pointer;
     display: flex;
     border-radius: 8px;
@@ -1315,23 +1346,20 @@
     justify-content: center;
     box-shadow: inset 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08);
     background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%);
+    transform: translate(0, -50%);
     transition: all 0.3s;
 }
 
-#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .absolute.p-1.rounded-md.text-gray-500:hover{
+#global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40:hover{
     transform: translate(0, -50%) scale(1.1);
 }
 
-#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .absolute.p-1.rounded-md.text-gray-500 svg {
+#global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40 svg {
     margin: 0;
 }
 
-#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .absolute.p-1.rounded-md.text-gray-500 svg line {
-    color: #000;
-}
-
-#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .absolute.p-1.rounded-md.text-gray-500 svg polygon{
-    color: #000;
+#global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40 svg path {
+    fill: #000;
 }
 
 #global .microphone:hover{
@@ -2008,7 +2036,7 @@ ul[id^="headlessui-listbox-options"] li {
 }
 
 .relative.flex.h-full.max-w-full.flex-1{
-    width: 80%;
+    width: 100%;
 }
 
 
@@ -2052,7 +2080,7 @@ ul[id^="headlessui-listbox-options"] li {
 #global .popup{
     top: 0;
     left: 0;
-    z-index: 9;
+    z-index: 99;
     width: 100vw;
     display: none;
     height: 100vh;

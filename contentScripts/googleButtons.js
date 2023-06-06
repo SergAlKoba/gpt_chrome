@@ -322,7 +322,7 @@ function createLatestGoogle() {
         latestGoogleDiv.appendChild(div);
 
         const p = document.createElement('p');
-        p.textContent = `${category.className} :`;
+        // p.textContent = `${category.className} :`;
         div.appendChild(p);
 
         const ul = document.createElement('ul');
