@@ -27,6 +27,11 @@ var $doc = $(document);
             $('.popup').removeClass('active');
             $('.sign_in_popup').addClass('active');
         });
+
+        $('.prompt_popup_js').on('click', function(){
+            $('.popup').removeClass('active');
+            $('.prompt_popup').addClass('active');
+        });
        
     });
 
