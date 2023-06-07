@@ -40,7 +40,7 @@
         "contentScripts/header.js",
         "contentScripts/sidebar.js",
         "contentScripts/leftSideBar.js",
-        "contentScripts/requests.js",   
+        "contentScripts/requests.js",
         "contentScripts/modalInput.js",
         "contentScripts/scriptFront.js"
       ],
@@ -58,6 +58,9 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/sign_credentials.svg",
+        "assets/images/sign_google.png",
+        "assets/images/close.svg",
         "assets/images/CaretDown2_hover.svg",
         "assets/images/CaretDown2.svg",
         "assets/images/eye.svg",
