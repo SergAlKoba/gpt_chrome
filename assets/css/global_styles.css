@@ -1564,6 +1564,23 @@
     letter-spacing: -0.04em;
 }
 
+#global .group.w-full.text-gray-800.dark\:text-gray-100.border-b.dark\:bg-gray-800:hover .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible{
+    display: flex;
+}
+
+#global  .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible{
+    top: -15px;
+    right: -15px;
+    display: none;
+    padding: 2px 5px;
+    align-items: center;
+    position: absolute;
+    border-radius: 8px;
+    --tw-translate-x: 0;
+    background: #181B1E;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 #global .latest_google .style ul{
     position: relative;
     border-radius: 8px;
