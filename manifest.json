@@ -58,6 +58,11 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/idea.svg",
+        "assets/images/bookmark.svg",
+        "assets/images/thumbs-down2.svg",
+        "assets/images/thumbs-up2.svg",
+        "assets/images/copy.svg",
         "assets/images/sign_credentials.svg",
         "assets/images/sign_google.png",
         "assets/images/close.svg",
