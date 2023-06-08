@@ -32,6 +32,14 @@ var $doc = $(document);
             $('.popup').removeClass('active');
             $('.prompt_popup').addClass('active');
         });
+
+        $('.idea_js').on('click', function(){
+            $('.idea_popup').toggleClass('active');
+        });
+
+        $('.idea_popup li').on('click', function(){
+            $('.idea_popup').removeClass('active');
+        });
        
     });
 
