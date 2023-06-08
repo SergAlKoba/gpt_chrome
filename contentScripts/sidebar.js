@@ -345,15 +345,15 @@ function createPromtBar() {
         ])
     ]);
 
-    categoriesPromtItem.onclick = () => {
-        categoriesPromtItem.classList.toggle('active');
-    };
+    categoriesPromtItem.addEventListener("click", function () {
+        document.querySelector('.categories promt_item').classList.toggle('active');
+    });
     
-    favoritesPromtItem.onclick = () => {
-        favoritesPromtItem.classList.toggle('active');
-    };
+    favoritesPromtItem.addEventListener("click", function () {
+        document.querySelector('.favourites promt_item').classList.toggle('active');
+    });
     
-
+    
     const promtBar = createElem("div", {
         class: "promt_bar"
     }, [
@@ -372,11 +372,6 @@ function createPromtBar() {
         favoritesPromtItem,
         categoriesPromtItem
     ]);
-
-    // const itemNav = body.querySelector(".item_nav");
-    // itemNav.addEventListener("click", () => {
-    //     promtBar.classList.toggle("active");
-    // });
 
     return promtBar;
 }

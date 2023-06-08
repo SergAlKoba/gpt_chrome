@@ -1,5 +1,3 @@
-
-
 async function login(email, password) {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -24,8 +22,11 @@ async function login(email, password) {
         localStorage.setItem('token', result.auth_token);
 
         const registrationElement = document.querySelector('.registration');
-        const promptBarElement = document.querySelector('.prompt_bar');
+        const promptBarElement = document.querySelector('.promt_bar');
+        const popupSignIn = document.querySelector('.sign_in_popup');
+        console.log();
         if (registrationElement && promptBarElement) {
+            popupSignIn.classList.remove('active');
             registrationElement.classList.remove('active');
             promptBarElement.classList.add('active');
         }
@@ -47,8 +48,7 @@ async function register(email, password, confirmPassword) {
         headers: myHeaders,
         body: JSON.stringify({
             "email": email,
-            "password": password,
-            "confirmPassword": confirmPassword
+            "password": password
         }),
         redirect: 'follow'
     };
@@ -61,8 +61,10 @@ async function register(email, password, confirmPassword) {
         localStorage.setItem('token', result.auth_token);
 
         const registrationElement = document.querySelector('.registration');
-        const promptBarElement = document.querySelector('.prompt_bar');
+        const promptBarElement = document.querySelector('.promt_bar');
+        const popupSignUp = document.querySelector('.sign_up_popup');
         if (registrationElement && promptBarElement) {
+            popupSignUp.classList.remove('active');
             registrationElement.classList.remove('active');
             promptBarElement.classList.add('active');
         }
