@@ -10,12 +10,17 @@ async function login(email, password) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({
+      email,
+      password
+    }),
     redirect: 'follow'
   });
 
   const responseData = await response.json();
-  const { auth_token } = responseData;
+  const {
+    auth_token
+  } = responseData;
 
   if (auth_token) {
     localStorage.setItem("token", auth_token);
@@ -65,7 +70,7 @@ function createMenu() {
 
   settingsMenuLink.off('click').on("click", async () => {
     console.log("Клик по settingsMenuLink");
-  
+
     if (!menuOpened) {
       console.log("Сайдбар был закрыт, открываем его");
       $(".menu_content").addClass("active");
@@ -89,7 +94,7 @@ function createMenu() {
       menuOpened = false;
     }
   })
-  
+
 };
 
 

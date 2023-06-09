@@ -84,6 +84,6 @@ function createButton(className, stroke, strokeWidth, viewBox, strokeLinecap, st
     return button;
 }
 
-document.querySelector('').appendChild(container);
+// document.querySelector('').appendChild(container);
 
 

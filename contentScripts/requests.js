@@ -1,4 +1,4 @@
-const API_URL = "https://gotgood.ai";
+// const API_URL = "https://gotgood.ai";
 const TOKEN = localStorage.getItem('token');
 
 async function getCategories() {

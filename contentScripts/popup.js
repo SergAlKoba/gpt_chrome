@@ -15,10 +15,11 @@ async function login(email, password) {
     let response = await fetch("https://gotgood.ai/api/user/login/", requestOptions)
         .catch(error => console.log('error', error));
     let result = await response.json();
-
+    console.warn(result || localStorage.getItem('token'));
     console.log(result);
+    console.log(localStorage.getItem('token'));
 
-    if (result.user) {
+    if (result.auth_token || localStorage.getItem('token')) {
         localStorage.setItem('token', result.auth_token);
 
         const registrationElement = document.querySelector('.registration');

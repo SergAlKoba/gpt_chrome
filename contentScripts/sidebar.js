@@ -346,11 +346,11 @@ function createPromtBar() {
     ]);
 
     categoriesPromtItem.addEventListener("click", function () {
-        document.querySelector('.categories promt_item').classList.toggle('active');
+        document.querySelector('.categories.promt_item').classList.toggle('active');
     });
     
     favoritesPromtItem.addEventListener("click", function () {
-        document.querySelector('.favourites promt_item').classList.toggle('active');
+        document.querySelector('.favourites.promt_item').classList.toggle('active');
     });
     
     
