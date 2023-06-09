@@ -21,7 +21,7 @@ async function getFavorites() {
         if (!token) {
             throw new Error('No token found in localStorage');
         }
-        myHeaders.append("Authorization", `Bearer ${token}`);
+        myHeaders.append("Authorization", `token ${token}`);
 
         var requestOptions = {
             method: 'GET',
