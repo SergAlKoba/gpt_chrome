@@ -344,14 +344,6 @@ function createPromtBar() {
             " Favourites"
         ])
     ]);
-
-    categoriesPromtItem.addEventListener("click", function () {
-        document.querySelector('.categories.promt_item').classList.toggle('active');
-    });
-    
-    favoritesPromtItem.addEventListener("click", function () {
-        document.querySelector('.favourites.promt_item').classList.toggle('active');
-    });
     
     
     const promtBar = createElem("div", {

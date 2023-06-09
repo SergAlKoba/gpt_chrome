@@ -230,22 +230,88 @@ const createElem = (tag, attributes, children) => {
 };
 
 
-function createChecklistElement() {
-    var divElement = document.createElement("div");
-    divElement.className = "checklist";
+function createIdeaPopup() {
 
-    var linkElement = document.createElement("a");
+    const ideaPopup = document.createElement('div');
+    ideaPopup.className = 'idea_popup';
+
+    const image = document.createElement('img');
+    image.src = chrome.runtime.getURL('assets/images/idea2.svg');
+    image.alt = '';
+    ideaPopup.appendChild(image);
+
+    const list = document.createElement('ul');
+    ideaPopup.appendChild(list);
+
+    const listItem1 = document.createElement('li');
+    listItem1.textContent = 'History of Turkey';
+    list.appendChild(listItem1);
+
+    const listItem2 = document.createElement('li');
+    listItem2.textContent = 'checkout time w hotel cdmx';
+    list.appendChild(listItem2);
+
+    const listItem3 = document.createElement('li');
+    listItem3.textContent = 'd/dx x^2 y^4, d/dy x^2 y4';
+    list.appendChild(listItem3);
+
+    const listItem4 = document.createElement('li');
+    listItem4.textContent = 'brown dog name ideas';
+    list.appendChild(listItem4);
+
+    const listItem5 = document.createElement('li');
+    listItem5.textContent = 'how to center a div idk';
+    list.appendChild(listItem5);
+
+    return ideaPopup;
+}
+
+
+
+
+function createChecklistElement() {
+    const divElement = document.createElement("div");
+    divElement.className = "checklist idea_js";
+
+    const linkElement = document.createElement("a");
     linkElement.href = "javascript:void(0)";
 
-    var imgElement = document.createElement("img");
-    imgElement.src = chrome.runtime.getURL("assets/images/checklist.svg");
+    const imgElement = document.createElement("img");
+    imgElement.src = chrome.runtime.getURL("assets/images/idea.svg");
     imgElement.alt = "";
 
     linkElement.appendChild(imgElement);
     divElement.appendChild(linkElement);
 
+    divElement.addEventListener('click', function () {
+        let ideaPopup = document.querySelector('.idea_popup');
+        if (ideaPopup) {
+            ideaPopup.classList.toggle('active');
+        } else {
+            console.error('ideaPopup element is undefined');
+        }
+    });
+
     return divElement;
 }
+
+
+function addIdeaPopup() {
+    const ideaPopup = createIdeaPopup();
+    const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
+
+    $(ideaPopup).insertAfter(sendButton);
+
+}
+
+addIdeaPopup();
+
+setInterval(() => {
+    let ideaPopup = document.querySelector('.idea_popup');
+    if (!ideaPopup) {
+        addIdeaPopup();
+    }
+}, 1000);
 
 function createFollowUpDiv() {
     const createListItem = (text) => {

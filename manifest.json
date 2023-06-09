@@ -58,6 +58,7 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "assets/images/idea2.svg",
         "assets/images/idea.svg",
         "assets/images/bookmark.svg",
         "assets/images/thumbs-down2.svg",
