@@ -30,15 +30,31 @@ var $doc = $(document);
 
         $('.prompt_popup_js').on('click', function(){
             $('.popup').removeClass('active');
-            $('.prompt_popup').addClass('active');
+            $('.prompt_details_popup').addClass('active');
         });
 
-        // $('.idea_js').on('click', function(){
-        //     $('.idea_popup').toggleClass('active');
-        // });
+        $('.idea_js').on('click', function(){
+            $('.idea_popup').toggleClass('active');
+        });
 
         $('.idea_popup li').on('click', function(){
             $('.idea_popup').removeClass('active');
+        });
+
+        $('.selected li').on('click', function(){
+            $(this).toggleClass('active');
+        });
+
+        $('.header_global .menu').on('click', function(){
+            $('.menu_content').addClass('active');
+            $('.header_global').addClass('active');
+            $('#global .flex.h-full.max-w-full.flex-1.flex-col').addClass('active');
+        });
+
+        $('.menu_content .menu').on('click', function(){
+            $('.menu_content').removeClass('active');
+            $('.header_global').removeClass('active');
+            $('#global .flex.h-full.max-w-full.flex-1.flex-col').removeClass('active');
         });
        
     });
