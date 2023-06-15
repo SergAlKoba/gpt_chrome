@@ -4,8 +4,9 @@ let selectedStyle = localStorage.getItem("style");
 console.log({ selectedTone, selectedStyle });
 
 function applyCurrentTheme() {
-    $('body').attr('class', `${selectedTone} ${selectedStyle}`);
-    $('body').css("--mainbg", `url("${chrome.runtime.getURL(`assets/images/${selectedTone}.png`)}")`);
+    let body = $('body');
+    body.attr('class', `${selectedTone} ${selectedStyle}`);
+    body.css("--mainbg", `url("${chrome.runtime.getURL(`assets/images/${selectedTone}.png`)}")`);
 }
 applyCurrentTheme();
 
@@ -86,4 +87,14 @@ function createButton(className, stroke, strokeWidth, viewBox, strokeLinecap, st
 
 // document.querySelector('').appendChild(container);
 
-
+createSpinner = () => {
+    const spinner = document.createElement('div')
+    spinner.className = "loading-spinner";
+    spinner.style.display = "none";
+    const spinnerChild = document.createElement('div');
+    spinnerChild.className = "spinner";
+    spinner.appendChild(spinnerChild);
+    $('body').append(spinner);
+    return spinner;
+}
+console.log(createSpinner());

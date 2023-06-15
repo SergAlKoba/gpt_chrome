@@ -69,15 +69,25 @@ function preventSubmission(event) {
 }
 
 function sendInput(selected_prompt, is_disabled = false) {
-    console.warn(selected_prompt);
-    let send_button = document.querySelector('form > div > button');
-    document.querySelector("input[type='search']").value = selected_prompt;
+    let send_button = document.querySelector('form > div > div > button');
+    let textarea = document.querySelector("textarea");
+    textarea.value = selected_prompt;
 
+    // Create and dispatch the input event
+    let event = new Event('input', {
+        'bubbles': true,
+        'cancelable': true
+    });
+    textarea.dispatchEvent(event);
+
+    // If the button is initially disabled, remove the disabled attribute
     if (is_disabled) {
         send_button.removeAttribute('disabled');
-        send_button.click();
     }
+
+    send_button.click();
 }
+
 
 function processInput() {
     let input = document.querySelector("input[type='search']");
@@ -178,8 +188,18 @@ function createMenuContent() {
             createElem("h2", {}, ["Prompt bar"]),
             createRegistration(),
             createPromtBar(),]),
+    ]);
 
+    return menuContent;
+}
 
+function createSignedMenuContent() {
+    const menuContent = createElem("div", {
+        class: "menu_content"
+    }, [
+        createElem("div", {}, [
+            createElem("h2", {}, ["Prompt bar"]),
+            createPromtBar(),]),
     ]);
 
     return menuContent;
@@ -381,5 +401,12 @@ async function init() {
     }
     await getFavorites();
 }
-
-init();
+if (!localStorage.getItem('token')) {
+    init();
+} else {
+    document.body.appendChild(createSignedMenuContent());
+    const promptBarElement = document.querySelector('.promt_bar');
+    if (promptBarElement) {
+        promptBarElement.classList.add('active');
+    }
+}

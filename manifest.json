@@ -46,6 +46,7 @@
       ],
       "css": [
         "./assets/css/global_styles.css",
+        "./assets/css/custom_styles.css",
         "./assets/css/vadym_styles.css"
       ]
     }

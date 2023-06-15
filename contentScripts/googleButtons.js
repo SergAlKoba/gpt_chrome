@@ -3,162 +3,100 @@ document.querySelector(':root').style.setProperty("--toneCaretDown", `url(${chro
 document.querySelector(':root').style.setProperty("--styleCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 document.querySelector(':root').style.setProperty("--languageCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 
+async function getTooltips(output) {
+    console.log('getTooltips', output)
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+
+    let requestOptions = {
+        method: 'POST', headers: myHeaders, redirect: 'follow', body: JSON.stringify({
+            "output": output
+        })
+    };
+
+    let response = await fetch("https://gotgood.ai/api/chat/tooltip-search/", requestOptions)
+    let result = await response.json();
+    console.log('response', result)
+    return result;
+}
+
+
 const languages = {
-    'English': 'en-US',
-    'French': 'fr-FR',
-    'Spanish': 'es-ES',
-    'Russian': 'ru-RU',
-    'Ukrainian': 'uk-UA'
+    'English': 'en-US', 'French': 'fr-FR', 'Spanish': 'es-ES', 'Russian': 'ru-RU', 'Ukrainian': 'uk-UA'
 };
 
 const googleStyles = [{
-    title: 'Default',
-    name: 'name 1'
-},
-{
-    title: 'Narrative',
-    name: 'name 1'
-},
-{
-    title: 'Expository',
-    name: 'name 2'
-},
-{
-    title: 'Descriptive',
-    name: 'name 3'
-},
-{
-    title: 'Persuasive',
-    name: 'name 4'
-},
-{
-    title: 'Creative',
-    name: 'name 5'
-},
-{
-    title: 'Technical',
-    name: 'name 6'
-},
-{
-    title: 'Review',
-    name: 'name 7'
-},
-{
-    title: 'Poetic',
-    name: 'name 8'
-},
-{
-    title: 'Academic',
-    name: 'name 9'
-},
-{
-    title: 'Business',
-    name: 'name 10'
-}
-];
+    title: 'Default', name: 'name 1'
+}, {
+    title: 'Narrative', name: 'name 1'
+}, {
+    title: 'Expository', name: 'name 2'
+}, {
+    title: 'Descriptive', name: 'name 3'
+}, {
+    title: 'Persuasive', name: 'name 4'
+}, {
+    title: 'Creative', name: 'name 5'
+}, {
+    title: 'Technical', name: 'name 6'
+}, {
+    title: 'Review', name: 'name 7'
+}, {
+    title: 'Poetic', name: 'name 8'
+}, {
+    title: 'Academic', name: 'name 9'
+}, {
+    title: 'Business', name: 'name 10'
+}];
 
 const googleTones = [{
-    title: 'Default',
-    name: 'name 1'
-},
-{
-    title: 'Formal',
-    name: 'name 1'
-},
-{
-    title: 'Informal',
-    name: 'name 2'
-},
-{
-    title: 'Optimistic',
-    name: 'name 3'
-},
-{
-    title: 'Pessimistic',
-    name: 'name 4'
-},
-{
-    title: 'Joyful',
-    name: 'name 5'
-},
-{
-    title: 'Sad',
-    name: 'name 6'
-},
-{
-    title: 'Sincere',
-    name: 'name 7'
-},
-{
-    title: 'Hypocritical',
-    name: 'name 8'
-},
-{
-    title: 'Fearful',
-    name: 'name 9'
-},
-{
-    title: 'Hopeful',
-    name: 'name 10'
-},
-{
-    title: 'Humorous',
-    name: 'name 11'
-},
-{
-    title: 'Serious',
-    name: 'name 12'
-}
-];
+    title: 'Default', name: 'name 1'
+}, {
+    title: 'Formal', name: 'name 1'
+}, {
+    title: 'Informal', name: 'name 2'
+}, {
+    title: 'Optimistic', name: 'name 3'
+}, {
+    title: 'Pessimistic', name: 'name 4'
+}, {
+    title: 'Joyful', name: 'name 5'
+}, {
+    title: 'Sad', name: 'name 6'
+}, {
+    title: 'Sincere', name: 'name 7'
+}, {
+    title: 'Hypocritical', name: 'name 8'
+}, {
+    title: 'Fearful', name: 'name 9'
+}, {
+    title: 'Hopeful', name: 'name 10'
+}, {
+    title: 'Humorous', name: 'name 11'
+}, {
+    title: 'Serious', name: 'name 12'
+}];
 
 const languagesList = [{
-    title: 'Default',
-    name: 'name 1'
-},
-{
-    title: 'English',
-    name: 'name 1'
-},
-{
-    title: 'Russian',
-    name: 'name 2'
-},
-{
-    title: 'Ukrainian',
-    name: 'name 3'
-}
-];
+    title: 'Default', name: 'name 1'
+}, {
+    title: 'English', name: 'name 1'
+}, {
+    title: 'Russian', name: 'name 2'
+}, {
+    title: 'Ukrainian', name: 'name 3'
+}];
 
 const categories = [{
-    id: 'tone-google',
-    name: 'Default',
-    items: googleTones,
-    className: 'Tone',
-    displayName: 'Tone'
-},
-{
-    id: 'style-google',
-    name: 'Default',
-    items: googleStyles,
-    className: 'Style',
-    displayName: 'Style'
-},
-{
-    id: 'language-google',
-    name: 'Default',
-    items: languagesList,
-    className: 'Language',
-    displayName: 'Output language'
-},
-];
+    id: 'tone-google', name: 'Default', items: googleTones, className: 'Tone', displayName: 'Tone'
+}, {
+    id: 'style-google', name: 'Default', items: googleStyles, className: 'Style', displayName: 'Style'
+}, {
+    id: 'language-google', name: 'Default', items: languagesList, className: 'Language', displayName: 'Output language'
+},];
 
-const followUpItems = [
-    'Make this more consistent',
-    'Tell me more about this',
-    'Expand details',
-    'Give me better suggestions',
-    'Wrap this up',
-];
+const followUpItems = ['Make this more consistent', 'Tell me more about this', 'Expand details', 'Give me better suggestions', 'Wrap this up',];
 
 function createUlSFromCategory(category) {
     const ul = document.createElement('ul');
@@ -205,10 +143,8 @@ function itemClickHandler(type, displayName, item, li) {
     }
 
 
-
     li.parentElement.parentElement.querySelector('span').textContent = item.title;
 }
-
 
 
 const createElem = (tag, attributes, children) => {
@@ -230,8 +166,8 @@ const createElem = (tag, attributes, children) => {
 };
 
 
-function createIdeaPopup() {
-
+async function createIdeaPopup(last_message) {
+    let data = await getTooltips(last_message);
     const ideaPopup = document.createElement('div');
     ideaPopup.className = 'idea_popup';
 
@@ -242,31 +178,54 @@ function createIdeaPopup() {
 
     const list = document.createElement('ul');
     ideaPopup.appendChild(list);
-
-    const listItem1 = document.createElement('li');
-    listItem1.textContent = 'History of Turkey';
-    list.appendChild(listItem1);
-
-    const listItem2 = document.createElement('li');
-    listItem2.textContent = 'checkout time w hotel cdmx';
-    list.appendChild(listItem2);
-
-    const listItem3 = document.createElement('li');
-    listItem3.textContent = 'd/dx x^2 y^4, d/dy x^2 y4';
-    list.appendChild(listItem3);
-
-    const listItem4 = document.createElement('li');
-    listItem4.textContent = 'brown dog name ideas';
-    list.appendChild(listItem4);
-
-    const listItem5 = document.createElement('li');
-    listItem5.textContent = 'how to center a div idk';
-    list.appendChild(listItem5);
+    for (let el of data['ideas']) {
+        const listItem = document.createElement('li');
+        listItem.textContent = el;
+        listItem.addEventListener('click', () => {
+            sendInput(listItem.textContent, true);
+            for (let el of list.childNodes) {
+                el.remove();
+            }
+        });
+        list.appendChild(listItem);
+    }
+    // const listItem1 = document.createElement('li');
+    // listItem1.textContent = 'History of Turkey';
+    // listItem1.addEventListener('click', () => {
+    //     sendInput(listItem1.textContent, true);
+    // });
+    // list.appendChild(listItem1);
+    //
+    // const listItem2 = document.createElement('li');
+    // listItem2.textContent = 'checkout time w hotel cdmx';
+    // listItem2.addEventListener('click', () => {
+    //     sendInput(listItem2.textContent, true);
+    // });
+    // list.appendChild(listItem2);
+    //
+    // const listItem3 = document.createElement('li');
+    // listItem3.textContent = 'd/dx x^2 y^4, d/dy x^2 y4';
+    // listItem3.addEventListener('click', () => {
+    //     sendInput(listItem3.textContent, true);
+    // });
+    // list.appendChild(listItem3);
+    //
+    // const listItem4 = document.createElement('li');
+    // listItem4.textContent = 'brown dog name ideas';
+    // listItem4.addEventListener('click', () => {
+    //     sendInput(listItem4.textContent, true);
+    // });
+    // list.appendChild(listItem4);
+    //
+    // const listItem5 = document.createElement('li');
+    // listItem5.textContent = 'how to center a div idk';
+    // listItem5.addEventListener('click', () => {
+    //     sendInput(listItem5.textContent, true);
+    // });
+    // list.appendChild(listItem5);
 
     return ideaPopup;
 }
-
-
 
 
 function createChecklistElement() {
@@ -283,9 +242,18 @@ function createChecklistElement() {
     linkElement.appendChild(imgElement);
     divElement.appendChild(linkElement);
 
-    divElement.addEventListener('click', function () {
+    let isAddingIdeaPopup = false;
+
+    divElement.addEventListener('click', async function () {
         let ideaPopup = document.querySelector('.idea_popup');
-        if (ideaPopup) {
+        console.log("loading");
+
+        if (!ideaPopup && !isAddingIdeaPopup) {
+            isAddingIdeaPopup = true;
+            await addIdeaPopup();
+            isAddingIdeaPopup = false;
+            console.log("loaded");
+        } else if (ideaPopup) {
             ideaPopup.classList.toggle('active');
         } else {
             console.error('ideaPopup element is undefined');
@@ -296,22 +264,24 @@ function createChecklistElement() {
 }
 
 
-function addIdeaPopup() {
-    const ideaPopup = createIdeaPopup();
+async function addIdeaPopup() {
+    let last_message = $('div.flex.flex-grow.flex-col.gap-3 > div > div > p').last().text();
+    console.log(last_message);
+    const ideaPopup = await createIdeaPopup(last_message);
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
 
     $(ideaPopup).insertAfter(sendButton);
-
+    return ideaPopup; // return the ideaPopup so you can wait for it in the event listener
 }
 
-addIdeaPopup();
-
-setInterval(() => {
-    let ideaPopup = document.querySelector('.idea_popup');
-    if (!ideaPopup) {
-        addIdeaPopup();
-    }
-}, 1000);
+// addIdeaPopup();
+//
+// setInterval(() => {
+//     let ideaPopup = document.querySelector('.idea_popup');
+//     if (!ideaPopup) {
+//         addIdeaPopup();
+//     }
+// }, 1000);
 
 function createFollowUpDiv() {
     const createListItem = (text) => {
@@ -378,7 +348,6 @@ function createLatestGoogle() {
         pointerEventsSpan.appendChild(span);
         return span;
     });
-
 
 
     categories.forEach(category => {
@@ -485,7 +454,6 @@ function addMicrophone() {
             });
     });
 }
-
 
 
 function addElementGoogle() {
