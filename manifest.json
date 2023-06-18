@@ -102,7 +102,11 @@
         "assets/images/ChatTeardropDots.svg",
         "assets/images/categories_img.svg",
         "assets/images/CaretDown.svg",
-        "assets/images/microphone.svg"
+        "assets/images/microphone.svg",
+        "assets/images/like.svg",
+        "assets/images/like_hover.svg",
+        "assets/images/eye.svg",
+        "assets/images/thumbs-up.svg"
       ],
       "use_dynamic_url": false,
       "matches": [

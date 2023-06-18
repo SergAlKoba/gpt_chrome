@@ -187,7 +187,7 @@ function createMenuContent() {
         createElem("div", {}, [
             createElem("h2", {}, ["Prompt bar"]),
             createRegistration(),
-            createPromtBar(),]),
+            createPromptBar(),]),
     ]);
 
     return menuContent;
@@ -199,7 +199,7 @@ function createSignedMenuContent() {
     }, [
         createElem("div", {}, [
             createElem("h2", {}, ["Prompt bar"]),
-            createPromtBar(),]),
+            createPromptBar(),]),
     ]);
 
     return menuContent;
@@ -227,165 +227,173 @@ function createRegistration() {
     return registration;
 }
 
-function createPromtBar() {
-    let categoriesPromtItem = createElem("div", {
-        class: "categories promt_item"
-    }, [
-        createElem("div", {
-            class: "item_nav"
-        }, [
-            createElem("img", {
-                src: chrome.runtime.getURL("assets/images/categories_img.svg"),
-                alt: ""
-            }),
-            " Categories"
-        ]),
-        createElem("div", {
-            class: "promt_item_content"
-        }, [
-            createElem("div", {
-                class: "filter"
-            }, [
-                createElem("div", {
-                    class: "filter_title"
-                }, [
-                    createElem("img", {
-                        src: chrome.runtime.getURL("assets/images/plants.svg"),
-                        alt: ""
-                    }),
-                    createElem("span", {}, ["Plants"])
-                ]),
-                createElem("ul", {
-                    class: "filter_drop"
-                }, [
-                    createElem("li", {}, [
-                        createElem("img", {
-                            src: chrome.runtime.getURL("assets/images/finance.svg"),
-                            alt: ""
-                        }),
-                        createElem("span", {}, ["Finance"])
-                    ]),
-                    createElem("li", {}, [
-                        createElem("img", {
-                            src: chrome.runtime.getURL("assets/images/plants.svg"),
-                            alt: ""
-                        }),
-                        createElem("span", {}, ["Plants"])
-                    ]),
-                    createElem("li", {}, [
-                        createElem("img", {
-                            src: chrome.runtime.getURL("assets/images/technology.svg"),
-                            alt: ""
-                        }),
-                        createElem("span", {}, ["Technology"])
-                    ]),
-                    createElem("li", {}, [
-                        createElem("img", {
-                            src: chrome.runtime.getURL("assets/images/car.svg"),
-                            alt: ""
-                        }),
-                        createElem("span", {}, ["Car"])
-                    ])
-                ])
-            ]),
-            createElem("div", {
-                class: "drop_content"
-            }, [
-                createElem("div", {
-                    class: "answer"
-                }, [
-                    createElem("span", {
-                        class: "designation"
-                    }, ["Plants"]),
-                    createElem("h3", {}, ["What Happens If I Don't Give My Plants Nutrients?"]),
-                    createElem("p", {}, ["With any plant or animal in the world, both macro and micronutrients are needed to thrive. Plants themselves need about 20 nutrients. These nutrients are the fuel for producing awesome cannabis plants."]),
-                    createElem("p", {}, [
-                        createElem("span", {}, ["Who is the cannabis breeder Mephisto Genetics?"])
-                    ]),
-                    createElem("ul", {
-                        class: "stats"
-                    }, [
-                        createElem("li", {}, [
-                            createElem("img", {
-                                src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
-                                alt: ""
-                            }),
-                            " 210.31K"
-                        ]),
-                        createElem("li", {}, [
-                            createElem("img", {
-                                src: chrome.runtime.getURL("assets/images/eye.svg"),
-                                alt: ""
-                            }),
-                            " 12.4K"
-                        ])
-                    ])
-                ]),
-                createElem("div", {
-                    class: "answer"
-                }, [
-                    createElem("span", {
-                        class: "designation"
-                    }, ["Plants"]),
-                    createElem("h3", {}, ["Cannabis plants need what?"]),
-                    createElem("p", {}, ["With any plant or animal in the world, both macro."]),
-                    createElem("ul", {
-                        class: "stats"
-                    }, [
-                        createElem("li", {}, [
-                            createElem("img", {
-                                src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
-                                alt: ""
-                            }),
-                            " 210.31K"
-                        ]),
-                        createElem("li", {}, [
-                            createElem("img", {
-                                src: chrome.runtime.getURL("assets/images/eye.svg"),
-                                alt: ""
-                            }),
-                            " 12.4K"
-                        ])
-                    ])
-                ])
-            ])
-        ])
-    ]);
-    let favoritesPromtItem = createElem("div", {
-        class: "favourites promt_item"
-    }, [
-        createElem("div", {
-            class: "item_nav"
-        }, [
-            createElem("img", {
-                src: chrome.runtime.getURL("assets/images/favourites_img.svg"),
-                alt: ""
-            }),
-            " Favourites"
-        ])
-    ]);
-    
-    
-    const promtBar = createElem("div", {
-        class: "promt_bar"
-    }, [
-        createElem("form", {}, [
-            createElem("button", {}, [
-                createElem("img", {
-                    src: chrome.runtime.getURL("assets/images/search.svg"),
-                    alt: ""
-                })
-            ]),
-            createElem("input", {
-                type: "search",
-                placeholder: "Search..."
-            })
-        ]),
-        favoritesPromtItem,
-        categoriesPromtItem
-    ]);
+function createSearch() {
+    const searchInput = createElem("input", {
+        type: "search",
+        placeholder: "Search",
+    }, []);
+    let searchIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/search.svg"),
+    }, []);
+    let searchButton = createElem("button", {}, [searchIcon]);
+    return createElem("form", {
+    }, [searchButton, searchInput]);
+}
+function createCategoryMenu(categories) {
+    let filterImage = createElem("img", {
+        src: categories[0].icon,
+    }, []);
+    let filterText = createElem("span", {
+        data: categories[0].id,
+    }, []);
+    filterText.textContent = categories[0].name;
+    let filterTitle = createElem("div", {
+        class: "filter_title"
+    }, [filterImage, filterText]);
+    let filterDrop = createElem("ul", {
+        class: "filter_drop"
+    }, []);
+    for (let i = 1; i < categories.length; i++) {
+        let filterDropItem = createElem("li", {
+            data: categories[i].id,
+        }, []);
 
-    return promtBar;
+        filterDropItem.textContent = categories[i].name;
+        filterDrop.appendChild(filterDropItem);
+    }
+    let filterElem = createElem("div", {
+        class: "filter"
+    }, [filterTitle, filterDrop]);
+    return filterElem;
+}
+
+function createSinglePrompt(promptObj) {
+    let link = createElem("a", {
+        href: "javascript:void(0)",
+        class: "prompt_popup_js"
+    }, []);
+    let category = createElem("span", {
+        class: "designation"
+    }, []);
+    category.textContent = promptObj.name;
+    let title = createElem("h3", {}, []);
+    title.textContent = promptObj.name;
+    let description = createElem("p", {}, []);
+    description.textContent = promptObj.description;
+
+    let likeIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+    }, []);
+
+    let viewIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/eye.svg"),
+    }, []);
+
+    let views = createElem("li", {}, [
+        viewIcon,
+    ]);
+    views.textContent += ' ' + promptObj.amount_of_lookups;
+    let likes = createElem("li", {}, [
+        likeIcon,
+    ]);
+    likes.textContent += ' ' + promptObj.like_amount;
+    let stats = createElem("ul", {
+        class: "stats"
+    }, [likes, views]);
+
+    likeIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/like.svg"),
+    }, []);
+    let likeHoverIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+    }, []);
+    let likeLi = createElem("li", {
+        class: promptObj.is_liked? "active" : ""
+    }, [likeIcon, likeHoverIcon]);
+    let favouriteIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/like.svg"),
+    }, []);
+    let favouriteHoverIcon = createElem("img", {
+        src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+    }, []);
+    let favouriteLi = createElem("li", {
+        class: promptObj.is_liked? "active" : ""
+    }, [favouriteIcon, favouriteHoverIcon]);
+    let selected = createElem("ul", {
+        class: "selected"
+    },[likeLi, favouriteLi]);
+
+    return createElem("div", {
+        class: "answer"
+    }, [link, category, title, description, stats, selected]);
+}
+
+function createPromptBar() {
+    let prompts = [
+        {
+            "id": 2,
+            "steps": [],
+            "categories": [
+                {
+                    "id": 1,
+                    "name": "finance"
+                },
+                {
+                    "id": 2,
+                    "name": "architecture"
+                }
+            ],
+            "is_favourite": false,
+            "like_amount": 0,
+            "is_liked": false,
+            "creator": {
+                "pk": 1,
+                "avatar": null,
+                "username": "root"
+            },
+            "name": "second prompt",
+            "description": "second prompt without steps",
+            "created_at": "2023-06-01T13:56:30.919341",
+            "amount_of_lookups": 0,
+            "prompt_template": "second prompt without steps {variable}",
+            "click_amount": 0
+        }
+    ];
+    let categories = [
+        {
+            "id": 1,
+            "name": "finance",
+            "icon": null
+        },
+        {
+            "id": 2,
+            "name": "architecture",
+            "icon": null
+        },
+        {
+            "id": 3,
+            "name": "Writing",
+            "icon": null
+        }
+    ];
+
+    let promptBarContent = createElem("div", {
+        class: "drop_content"
+    }, []);
+    for (let i = 0; i < prompts.length; i++) {
+        let prompt = createSinglePrompt(prompts[i]);
+        promptBarContent.appendChild(prompt);
+    }
+    let promptItemContent = createElem("div", {
+        class: "promt_item_content"
+    }, [promptBarContent]);
+        let promptsCategoriesDiv = createElem("div", {
+        class: "categories promt_item active"
+    }, [createCategoryMenu(categories), promptItemContent]);
+    let promptBar = createElem("div", {
+        class: "promt_bar"
+    },[createSearch(), promptsCategoriesDiv]);
+    return promptBar;
 }
 
 async function init() {
