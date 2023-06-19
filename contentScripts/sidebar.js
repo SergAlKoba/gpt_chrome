@@ -187,7 +187,8 @@ function createMenuContent() {
         createElem("div", {}, [
             createElem("h2", {}, ["Prompt bar"]),
             createRegistration(),
-            createPromptBar(),]),
+            createPromptBar(),
+        ]),
     ]);
 
     return menuContent;
@@ -199,7 +200,8 @@ function createSignedMenuContent() {
     }, [
         createElem("div", {}, [
             createElem("h2", {}, ["Prompt bar"]),
-            createPromptBar(),]),
+            createPromptBar(),
+        ]),
     ]);
 
     return menuContent;
@@ -380,10 +382,22 @@ function createPromptBar() {
     let promptBarContent = createElem("div", {
         class: "drop_content"
     }, []);
+
+const onShowPromptPopupById = (id) => () => {
+    document.body.appendChild(createPromptDetailsPopup(id));
+};
+
     for (let i = 0; i < prompts.length; i++) {
         let prompt = createSinglePrompt(prompts[i]);
+        const promptId = prompts[i].id;
+
+        prompt.addEventListener('click', () => {
+            onShowPromptPopupById(promptId)()
+          });
+
         promptBarContent.appendChild(prompt);
     }
+
     let promptItemContent = createElem("div", {
         class: "promt_item_content"
     }, [promptBarContent]);
@@ -395,6 +409,149 @@ function createPromptBar() {
     },[createSearch(), promptsCategoriesDiv]);
     return promptBar;
 }
+
+   function createPromptDetailsPopup(id) {
+    
+        const popup = document.createElement('div');
+        popup.classList.add('popup', 'prompt_details_popup', 'active');
+      
+        const closeSpan = document.createElement('span');
+        closeSpan.classList.add('close');
+        popup.appendChild(closeSpan);
+      
+        const popupContent = document.createElement('div');
+        popupContent.classList.add('popup_content');
+        popup.appendChild(popupContent);
+      
+        const closePopupSpan = document.createElement('span');
+        closePopupSpan.classList.add('close_popup');
+        popupContent.appendChild(closePopupSpan);
+      
+        const closeImg = document.createElement('img');
+        closeImg.src = chrome.runtime.getURL('assets/images/close.svg');
+        closeImg.alt = '';
+    
+        closeImg.addEventListener('click', () => {
+            document.body.removeChild(popup);
+        });
+    
+        closePopupSpan.appendChild(closeImg);
+    
+      
+        const titleDiv = document.createElement('div');
+        titleDiv.classList.add('title');
+        popupContent.appendChild(titleDiv);
+      
+        const titleHeading = document.createElement('h5');
+        titleHeading.textContent = 'Prompt details';
+        titleDiv.appendChild(titleHeading);
+      
+        const promptPopupContentDiv = document.createElement('div');
+        promptPopupContentDiv.classList.add('prompt_popup_content');
+        popupContent.appendChild(promptPopupContentDiv);
+      
+        const tabPromptContentDiv = document.createElement('div');
+        tabPromptContentDiv.classList.add('tab_prompt_content');
+        promptPopupContentDiv.appendChild(tabPromptContentDiv);
+      
+        const answerDiv = document.createElement('div');
+        answerDiv.classList.add('answer');
+        tabPromptContentDiv.appendChild(answerDiv);
+      
+        const answerHeading = document.createElement('h3');
+        answerHeading.textContent = 'Life Goes On';
+        answerDiv.appendChild(answerHeading);
+      
+        const answerPara1 = document.createElement('p');
+        answerPara1.textContent = 'With any plant or animal in the world, both macro and micronutrients are needed.';
+        answerDiv.appendChild(answerPara1);
+      
+        const answerPara2 = document.createElement('p');
+        answerPara2.textContent = 'With any plant or animal in the world, both macro and micronutrients are needed. With any plant or animal in the world, both macro and micronutrients are needed. With any plant or animal in the world, both macro and micronutrients are needed.';
+        answerDiv.appendChild(answerPara2);
+      
+        const answerPara3 = document.createElement('p');
+        answerPara3.textContent = 'With any plant or animal in the world, both macro and micronutrients are needed.';
+        answerDiv.appendChild(answerPara3);
+      
+        const statsList = document.createElement('ul');
+        statsList.classList.add('stats');
+        answerDiv.appendChild(statsList);
+      
+        const statsItem1 = document.createElement('li');
+        const statsItem1Img = document.createElement('img');
+        statsItem1Img.src = 'assets/images/thumbs-up.svg';
+        statsItem1Img.alt = '';
+        statsItem1.appendChild(statsItem1Img);
+        statsItem1.appendChild(document.createTextNode('210.31K'));
+        statsList.appendChild(statsItem1);
+      
+        const statsItem2 = document.createElement('li');
+        const statsItem2Img = document.createElement('img');
+        statsItem2Img.src = 'assets/images/eye.svg';
+        statsItem2Img.alt = '';
+        statsItem2.appendChild(statsItem2Img);
+        statsItem2.appendChild(document.createTextNode('12.4K'));
+        statsList.appendChild(statsItem2);
+      
+        const contentTopicDiv = document.createElement('div');
+        contentTopicDiv.classList.add('content_topic');
+        promptPopupContentDiv.appendChild(contentTopicDiv);
+      
+        const form = document.createElement('form');
+    
+        form.addEventListener('submit', async (event) => {
+            form.checkValidity();
+            console.log('form submit', event);
+            event.preventDefault();
+        });
+    
+        contentTopicDiv.appendChild(form);
+    
+        
+        function createInput(labelText, inputType, inputValue) {
+            const inputDiv = document.createElement('div');
+            inputDiv.classList.add('input');
+          
+            const inputLabel = document.createElement('label');
+            inputLabel.textContent = labelText;
+            inputDiv.appendChild(inputLabel);
+          
+            const input = document.createElement('input');
+            input.type = inputType;
+            input.placeholder = 'plants and genetics';
+            input.required = true;
+            input.value = null;
+            inputDiv.appendChild(input);
+          
+            return inputDiv;
+          }
+          
+          for (let i = 1; i <= 5; i++) {
+            const inputDiv = createInput('Content topic', 'text', 'Plants and genetics');
+            form.appendChild(inputDiv);
+          }
+      
+        const bottomDiv = document.createElement('div');
+        bottomDiv.classList.add('bottom');
+        popupContent.appendChild(bottomDiv);
+      
+        const sendBtn = document.createElement('button');
+        sendBtn.classList.add('use_prompt');
+        sendBtn.textContent = 'Send prompt';
+    
+        sendBtn.addEventListener('click', (e) => {
+            const isValid = form.checkValidity();
+            console.log('isValid', isValid);
+            if (!isValid) {
+                form.reportValidity();
+              }
+        });
+    
+        bottomDiv.appendChild(sendBtn);
+      
+        return popup;
+      }
 
 async function init() {
     document.body.appendChild(createMenuContent());
@@ -409,6 +566,7 @@ async function init() {
     }
     await getFavorites();
 }
+
 if (!localStorage.getItem('token')) {
     init();
 } else {
@@ -418,3 +576,7 @@ if (!localStorage.getItem('token')) {
         promptBarElement.classList.add('active');
     }
 }
+
+ 
+  
+  

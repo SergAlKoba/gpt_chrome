@@ -3,16 +3,8 @@
   "name": "ChatGPT Theme Customizer",
   "version": "1.0",
   "description": "A Chrome extension to customize ChatGPT themes.",
-  "permissions": [
-    "contextMenus",
-    "activeTab",
-    "tabs",
-    "scripting"
-  ],
-  "host_permissions": [
-    "http://*/",
-    "https://*/"
-  ],
+  "permissions": ["contextMenus", "activeTab", "tabs", "scripting"],
+  "host_permissions": ["http://*/", "https://*/"],
   "background": {
     "service_worker": "background.js"
   },
@@ -26,9 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.openai.com/*"
-      ],
+      "matches": ["*://*.openai.com/*"],
       "js": [
         "contentScripts/jquery.min.js",
         "contentScripts/index.js",
@@ -106,12 +96,16 @@
         "assets/images/like.svg",
         "assets/images/like_hover.svg",
         "assets/images/eye.svg",
-        "assets/images/thumbs-up.svg"
+        "assets/images/thumbs-up.svg",
+        "assets/images/custom.svg",
+        "assets/images/content.svg",
+        "assets/images/marketing.svg",
+        "assets/images/paid_ads.svg",
+        "assets/images/communications.svg",
+        "assets/images/sales.svg"
       ],
       "use_dynamic_url": false,
-      "matches": [
-        "<all_urls>"
-      ]
+      "matches": ["<all_urls>"]
     }
   ]
 }
