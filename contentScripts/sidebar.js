@@ -310,6 +310,7 @@ function createSinglePrompt(promptObj) {
         likeIcon,
     ]);
     likes.textContent += ' ' + promptObj.like_amount;
+
     let stats = createElem("ul", {
         class: "stats"
     }, [likes, views]);
@@ -317,21 +318,81 @@ function createSinglePrompt(promptObj) {
     likeIcon = createElem("img", {
         src: chrome.runtime.getURL("assets/images/like.svg"),
     }, []);
+
     let likeHoverIcon = createElem("img", {
         src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+        class: "hover"
     }, []);
+
     let likeLi = createElem("li", {
         class: promptObj.is_liked? "active" : ""
-    }, [likeIcon, likeHoverIcon]);
+    }, [
+        likeIcon,
+        likeHoverIcon
+        ]);
+   
+
+likeLi.addEventListener("click", function (e) {
+    e.stopPropagation();
+
+        if (likeLi.classList.contains("active")) {
+            likeLi.classList.remove("active");
+            likeLi.remove()
+
+            likeIcon.classList.remove("hover")
+
+            let likeLi = createElem("li", {
+                class: ""
+            }, [likeIcon,likeHoverIcon]);
+            
+        } else {
+            likeLi.remove()
+            likeIcon.classList.add("hover")
+
+             let likeLi = createElem("li", {
+                class: "active"
+            }, [likeIcon,likeHoverIcon]);
+        }});
+
+        
     let favouriteIcon = createElem("img", {
-        src: chrome.runtime.getURL("assets/images/like.svg"),
+        src: chrome.runtime.getURL("assets/images/selected.svg"),
     }, []);
+
     let favouriteHoverIcon = createElem("img", {
-        src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+        src: chrome.runtime.getURL("assets/images/selected_hover.svg"),
+        class: "hover"
     }, []);
+
     let favouriteLi = createElem("li", {
-        class: promptObj.is_liked? "active" : ""
-    }, [favouriteIcon, favouriteHoverIcon]);
+        // class: promptObj.is_liked? "active" : ""
+    }, [favouriteIcon,favouriteHoverIcon]);
+
+
+    
+    favouriteLi.addEventListener("click", function (e) {
+        e.stopPropagation();
+        console.log("click____");
+
+        if (favouriteLi.classList.contains("active")) {
+            console.log("active");
+
+            favouriteLi.remove();
+            let favouriteLi = createElem("li", {
+                class:""
+            }, [favouriteIcon,favouriteHoverIcon]);
+        
+            
+        } else {
+            console.log("active2");            
+            favouriteLi.remove();
+            let favouriteLi = createElem("li", {
+                class:"active"
+            }, [favouriteIcon,favouriteHoverIcon]);
+        
+        }
+    });
+
     let selected = createElem("ul", {
         class: "selected"
     },[likeLi, favouriteLi]);
@@ -357,7 +418,7 @@ function createPromptBar() {
                 }
             ],
             "is_favourite": false,
-            "like_amount": 0,
+            "like_amount": 30,
             "is_liked": false,
             "creator": {
                 "pk": 1,
@@ -367,7 +428,7 @@ function createPromptBar() {
             "name": "second prompt",
             "description": "second prompt without steps",
             "created_at": "2023-06-01T13:56:30.919341",
-            "amount_of_lookups": 0,
+            "amount_of_lookups": 20,
             "prompt_template": "second prompt without steps {variable}",
             "click_amount": 0
         }
