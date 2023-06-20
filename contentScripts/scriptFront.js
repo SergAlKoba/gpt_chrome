@@ -45,6 +45,14 @@ var $doc = $(document);
             $(this).toggleClass('active');
         });
 
+        $('.view_item').on('click', function(){
+            var viwe = $(this).data('view');
+            $('.view_item').removeClass('active');
+            $('.drop_content').removeClass('active');
+            $(this).addClass('active');
+            $('.' + viwe).addClass('active');
+        });
+
         $('.header_global .menu').on('click', function(){
             $('.menu_content').addClass('active');
             $('.header_global').addClass('active');
