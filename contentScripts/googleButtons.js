@@ -412,7 +412,7 @@ function callMicro() {
 
 function addImdInSendButton(sendButton) {
     const imgSend = document.createElement('img');
-    imgSend.src = chrome.runtime.getURL('assets/images/vector.svg');
+    imgSend.src = chrome.runtime.getURL('assets/images/sendIcon.svg');
     imgSend.alt = '';
     sendButton.appendChild(imgSend);
 }
@@ -426,7 +426,7 @@ function addMicrophone() {
     microphoneDiv.appendChild(img);
     const textArea = document.querySelector('textarea');
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
-    
+
     addImdInSendButton(sendButton)
 
     $(microphoneDiv).insertAfter(sendButton);
