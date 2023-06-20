@@ -14,21 +14,21 @@ fetch(svgFileUrl)
                             .then(result => console.log(result))
                             .catch(error => console.error(error));
                     })
-                    .html(svgContent);
-                const div = $('<div>')
-                    .addClass('button_wait')
-                    .append(button);
-                parentElement.append(div);
+                //     .html(svgContent);
+                // const div = $('<div>')
+                //     .addClass('button_wait')
+                //     .append(button);
+                // parentElement.append(div);
             }
         }
 
-        setInterval(() => {
-            $('div > div > button.p-1.rounded-md:first-child').each(function(element, index) {
-                if (index % 2 !== 0) { 
-                    addFavoritesButton.call(this);
-                }
-            });
-        }, 1000);
+        // setInterval(() => {
+        //     $('div > div > button.p-1.rounded-md:first-child').each(function(element, index) {
+        //         if (index % 2 !== 0) { 
+        //             addFavoritesButton.call(this);
+        //         }
+        //     });
+        // }, 1000);
     })
     .catch(error => {
         console.error('Error loading SVG file:', error);
