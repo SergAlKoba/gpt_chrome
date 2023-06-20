@@ -41,6 +41,54 @@ function debounce(func, delay) {
   };
 }
 
+function formatNumber(number) {
+  if (number < 1000) {
+    return number.toString();
+  } else {
+    const suffixes = ['', 'K', 'M', 'B', 'T'];
+    const suffixIndex = Math.floor(Math.log10(number) / 3);
+    const scaledNumber = (number / Math.pow(1000, suffixIndex)).toFixed(1);
+
+    return scaledNumber + suffixes[suffixIndex];
+  }
+}
+
+function deepClone(obj) {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  let clone;
+
+  if (Array.isArray(obj)) {
+    clone = [];
+    for (let i = 0; i < obj.length; i++) {
+      clone[i] = deepClone(obj[i]);
+    }
+  } else {
+    clone = {};
+    for (let key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        clone[key] = deepClone(obj[key]);
+      }
+    }
+  }
+
+  return clone;
+}
+
+function replaceVariables(data, text) {
+  for (let i = 0; i < data.length; i++) {
+    const variableName = data[i].variable_name;
+    const value = data[i].value;
+    const regex = new RegExp(`\\[${variableName}\\]`, 'g');
+    text = text.replace(regex, value);
+  }
+  return text;
+}
+
+
+
 async function searchPrompts(text, categoryId) {
   const requestOptions = {
     method: 'GET',
@@ -453,8 +501,8 @@ function createPrompts(prompts, parent) {
     promptsWrapper.removeChild(promptsWrapper.firstChild);
   }
 
-  const onShowPromptPopupById = (id) => () => {
-    document.body.appendChild(createPromptDetailsPopup(id));
+  const onShowPromptPopupById = (prompt) => () => {
+    document.body.appendChild(createPromptDetailsPopup(prompt));
   };
 
   for (let i = 0; i < prompts.length; i++) {
@@ -462,14 +510,15 @@ function createPrompts(prompts, parent) {
     const promptId = prompts[i].id;
 
     prompt.addEventListener('click', () => {
-      onShowPromptPopupById(promptId)()
+      onShowPromptPopupById(prompts[i])()
     });
 
     promptsWrapper.appendChild(prompt);
   }
 }
 
-function createPromptDetailsPopup(id) {
+function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template }) {
+  const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement('div');
   popup.classList.add('popup', 'prompt_details_popup', 'active');
@@ -518,20 +567,12 @@ function createPromptDetailsPopup(id) {
   tabPromptContentDiv.appendChild(answerDiv);
 
   const answerHeading = document.createElement('h3');
-  answerHeading.textContent = 'Life Goes On';
+  answerHeading.textContent = name;
   answerDiv.appendChild(answerHeading);
 
   const answerPara1 = document.createElement('p');
-  answerPara1.textContent = 'With any plant or animal in the world, both macro and micronutrients are needed.';
+  answerPara1.textContent = description;
   answerDiv.appendChild(answerPara1);
-
-  const answerPara2 = document.createElement('p');
-  answerPara2.textContent = 'With any plant or animal in the world, both macro and micronutrients are needed. With any plant or animal in the world, both macro and micronutrients are needed. With any plant or animal in the world, both macro and micronutrients are needed.';
-  answerDiv.appendChild(answerPara2);
-
-  const answerPara3 = document.createElement('p');
-  answerPara3.textContent = 'With any plant or animal in the world, both macro and micronutrients are needed.';
-  answerDiv.appendChild(answerPara3);
 
   const statsList = document.createElement('ul');
   statsList.classList.add('stats');
@@ -542,7 +583,7 @@ function createPromptDetailsPopup(id) {
   statsItem1Img.src = 'assets/images/thumbs-up.svg';
   statsItem1Img.alt = '';
   statsItem1.appendChild(statsItem1Img);
-  statsItem1.appendChild(document.createTextNode('210.31K'));
+  statsItem1.appendChild(document.createTextNode(formatNumber(amount_of_lookups)));
   statsList.appendChild(statsItem1);
 
   const statsItem2 = document.createElement('li');
@@ -550,7 +591,7 @@ function createPromptDetailsPopup(id) {
   statsItem2Img.src = 'assets/images/eye.svg';
   statsItem2Img.alt = '';
   statsItem2.appendChild(statsItem2Img);
-  statsItem2.appendChild(document.createTextNode('12.4K'));
+  statsItem2.appendChild(document.createTextNode(formatNumber(like_amount)));
   statsList.appendChild(statsItem2);
 
   const contentTopicDiv = document.createElement('div');
@@ -568,7 +609,7 @@ function createPromptDetailsPopup(id) {
   contentTopicDiv.appendChild(form);
 
 
-  function createInput(labelText, inputType, inputValue) {
+  function createInput(labelText, inputType, placeholder, onValueChange, inputValue) {
     const inputDiv = document.createElement('div');
     inputDiv.classList.add('input');
 
@@ -578,18 +619,25 @@ function createPromptDetailsPopup(id) {
 
     const input = document.createElement('input');
     input.type = inputType;
-    input.placeholder = 'plants and genetics';
+    input.placeholder = placeholder;
     input.required = true;
     input.value = null;
+    input.name = labelText;
+    input.addEventListener('input', onValueChange);
     inputDiv.appendChild(input);
 
     return inputDiv;
   }
 
-  for (let i = 1; i <= 5; i++) {
-    const inputDiv = createInput('Content topic', 'text', 'Plants and genetics');
-    form.appendChild(inputDiv);
+  const handleInputValueChange = (e) => {
+    const index = modalState.findIndex(({ variable_name }) => variable_name === e.target.name);
+    modalState[index].value = e.target.value;
   }
+
+  inputs.forEach(({ variable_name, placeholder }) => {
+    const inputDiv = createInput(variable_name, 'text', placeholder, handleInputValueChange);
+    form.appendChild(inputDiv);
+  });
 
   const bottomDiv = document.createElement('div');
   bottomDiv.classList.add('bottom');
@@ -604,6 +652,9 @@ function createPromptDetailsPopup(id) {
     console.log('isValid', isValid);
     if (!isValid) {
       form.reportValidity();
+    } else {
+      document.body.removeChild(popup);
+      sendInput(replaceVariables(modalState, prompt_template));
     }
   });
 
