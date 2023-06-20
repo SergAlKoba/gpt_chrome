@@ -265,8 +265,20 @@ async function createSignedMenuContent() {
         createElem("img", {
             src: chrome.runtime.getURL('assets/images/menu.svg')
         },[])
-
     ])
+
+    menuButton.addEventListener("click", () => {
+    
+      const menuContent = document.querySelector('.menu_content');
+      const headerGlobal = document.querySelector('.header_global');
+      const global = document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col');
+
+      menuContent.classList.remove('active');
+      headerGlobal.classList.remove('active');
+      global.classList.remove('active');
+
+    });
+
     
   const menuContent = createElem("div", {
     class: "menu_content"

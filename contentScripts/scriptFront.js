@@ -54,12 +54,15 @@ var $doc = $(document);
         });
 
         $('.header_global .menu').on('click', function(){
+            console.log('click__-menu');
             $('.menu_content').addClass('active');
             $('.header_global').addClass('active');
             $('#global .flex.h-full.max-w-full.flex-1.flex-col').addClass('active');
         });
 
         $('.menu_content .menu').on('click', function(){
+            console.log('click__-menu_content');
+
             $('.menu_content').removeClass('active');
             $('.header_global').removeClass('active');
             $('#global .flex.h-full.max-w-full.flex-1.flex-col').removeClass('active');
