@@ -92,8 +92,6 @@ const categories = [{
     id: 'tone-google', name: 'Default', items: googleTones, className: 'Tone', displayName: 'Tone'
 }, {
     id: 'style-google', name: 'Default', items: googleStyles, className: 'Style', displayName: 'Style'
-}, {
-    id: 'language-google', name: 'Default', items: languagesList, className: 'Language', displayName: 'Output language'
 },];
 
 const followUpItems = ['Make this more consistent', 'Tell me more about this', 'Expand details', 'Give me better suggestions', 'Wrap this up',];
@@ -270,6 +268,8 @@ async function addIdeaPopup() {
     const ideaPopup = await createIdeaPopup(last_message);
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
 
+    
+
     $(ideaPopup).insertAfter(sendButton);
     return ideaPopup; // return the ideaPopup so you can wait for it in the event listener
 }
@@ -353,6 +353,8 @@ function createLatestGoogle() {
     categories.forEach(category => {
         const div = document.createElement('div');
         div.classList.add('style');
+        div.classList.add('style_grey');
+        
         div.id = category.id;
         latestGoogleDiv.appendChild(div);
 
@@ -408,6 +410,13 @@ function callMicro() {
     microphoneDiv.click();
 }
 
+function addImdInSendButton(sendButton) {
+    const imgSend = document.createElement('img');
+    imgSend.src = chrome.runtime.getURL('assets/images/vector.svg');
+    imgSend.alt = '';
+    sendButton.appendChild(imgSend);
+}
+
 function addMicrophone() {
     const microphoneDiv = document.createElement('div');
     microphoneDiv.className = 'microphone';
@@ -417,6 +426,8 @@ function addMicrophone() {
     microphoneDiv.appendChild(img);
     const textArea = document.querySelector('textarea');
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
+    
+    addImdInSendButton(sendButton)
 
     $(microphoneDiv).insertAfter(sendButton);
 

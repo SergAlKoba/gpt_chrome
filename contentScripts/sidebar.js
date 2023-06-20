@@ -195,10 +195,21 @@ function createMenuContent() {
 }
 
 function createSignedMenuContent() {
+
+    const menuButton= createElem("a", {
+        class: "menu",
+    },[
+        createElem("img", {
+            src: chrome.runtime.getURL('assets/images/menu.svg')
+        },[])
+
+    ])
+
     const menuContent = createElem("div", {
         class: "menu_content"
     }, [
         createElem("div", {}, [
+            menuButton,
             createElem("h2", {}, ["Prompt bar"]),
             createPromptBar(),
         ]),
