@@ -105,7 +105,8 @@
         "assets/images/sales.svg",
         "assets/images/sendIcon.svg",
         "assets/images/selected.svg",
-        "assets/images/selected_hover.svg"
+        "assets/images/selected_hover.svg",
+        "assets/images/loader.gif"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]
