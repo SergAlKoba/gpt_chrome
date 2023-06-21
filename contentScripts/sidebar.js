@@ -685,6 +685,9 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
 
       observer.observe(document.body, { childList: true, subtree: true });
 
+      // Ideally, we need to clear MutationObserver instance after prompt is sent but chatgpt can show our prompt in the chat after some time
+      // A lot of MutationObserver can be created, and it can cause performance issues
+      // 1 prompt template message = 1 MutationObserver listener
     }
   });
 
