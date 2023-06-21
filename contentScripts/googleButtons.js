@@ -355,7 +355,7 @@ function createLatestGoogle() {
     categories.forEach(category => {
         const div = document.createElement('div');
         div.classList.add('style');
-        div.classList.add('style_gray');
+        div.classList.add('style_grey'); 
 
         div.id = category.id;
         latestGoogleDiv.appendChild(div);
