@@ -306,16 +306,39 @@ async function createMenuContent() {
 }
 
 async function createSignedMenuContent() {
-  const menuContent = createElem("div", {
-    class: "menu_content"
-  }, [
-    createElem("div", {}, [
-      createElem("h2", {}, ["Prompt bar"]),
-      await createPromptBar(),
-    ]),
-  ]);
 
-  return menuContent;
+  const menuButton= createElem("a", {
+      class: "menu",
+  },[
+      createElem("img", {
+          src: chrome.runtime.getURL('assets/images/menu.svg')
+      },[])
+  ])
+
+  menuButton.addEventListener("click", () => {
+  
+    const menuContent = document.querySelector('.menu_content');
+    const headerGlobal = document.querySelector('.header_global');
+    const global = document.querySelector('#global .flex.h-full.max-w-full.flex-1.flex-col');
+
+    menuContent.classList.remove('active');
+    headerGlobal.classList.remove('active');
+    global.classList.remove('active');
+
+  });
+
+  
+const menuContent = createElem("div", {
+  class: "menu_content"
+}, [
+  createElem("div", {}, [
+    menuButton,
+    createElem("h2", {}, ["Prompt bar"]),
+    await createPromptBar(),
+  ]),
+]);
+
+return menuContent;
 }
 
 
