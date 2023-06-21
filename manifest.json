@@ -103,7 +103,8 @@
         "assets/images/paid_ads.svg",
         "assets/images/communications.svg",
         "assets/images/sales.svg",
-        "assets/images/loader.gif"
+        "assets/images/loader.gif",
+        "assets/images/sendIcon.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]
