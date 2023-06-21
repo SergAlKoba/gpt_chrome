@@ -503,15 +503,45 @@ function createSinglePrompt(promptObj) {
         }});
 
 
-  let favouriteIcon = createElem("img", {
-    src: chrome.runtime.getURL("assets/images/like.svg"),
-  }, []);
-  let favouriteHoverIcon = createElem("img", {
-    src: chrome.runtime.getURL("assets/images/like_hover.svg"),
-  }, []);
-  let favouriteLi = createElem("li", {
-    class: promptObj.is_liked ? "active" : ""
-  }, [favouriteIcon, favouriteHoverIcon]);
+        let favouriteIcon = createElem("img", {
+          src: chrome.runtime.getURL("assets/images/selected.svg"),
+      }, []);
+  
+      let favouriteHoverIcon = createElem("img", {
+          src: chrome.runtime.getURL("assets/images/selected_hover.svg"),
+          class: "hover"
+      }, []);
+  
+      let favouriteLi = createElem("li", {
+          class: promptObj.is_liked? "active" : ""
+      }, [favouriteIcon,favouriteHoverIcon]);
+  
+  
+      
+      favouriteLi.addEventListener("click", function (e) {
+          e.stopPropagation();
+          console.log("click____");
+  
+          if (favouriteLi.classList.contains("active")) {
+              console.log("active");
+  
+              favouriteLi.remove();
+              let favouriteLi = createElem("li", {
+                  class:""
+              }, [favouriteIcon,favouriteHoverIcon]);
+          
+              
+          } else {
+              console.log("active2");            
+              favouriteLi.remove();
+              let favouriteLi = createElem("li", {
+                  class:"active"
+              }, [favouriteIcon,favouriteHoverIcon]);
+          
+          }
+      });
+
+      
   let selected = createElem("ul", {
     class: "selected"
   }, [likeLi, favouriteLi]);

@@ -104,7 +104,9 @@
         "assets/images/communications.svg",
         "assets/images/sales.svg",
         "assets/images/loader.gif",
-        "assets/images/sendIcon.svg"
+        "assets/images/sendIcon.svg",
+        "assets/images/selected.svg",
+        "assets/images/selected_hover.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]
