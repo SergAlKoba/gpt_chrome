@@ -484,22 +484,9 @@ function createSinglePrompt(promptObj) {
     e.stopPropagation();
 
         if (likeLi.classList.contains("active")) {
-            likeLi.classList.remove("active");
-            likeLi.remove()
-
-            likeIcon.classList.remove("hover")
-
-            let likeLi = createElem("li", {
-                class: ""
-            }, [likeIcon,likeHoverIcon]);
-            
+            likeLi.classList.remove("active");    
         } else {
-            likeLi.remove()
-            likeIcon.classList.add("hover")
-
-             let likeLi = createElem("li", {
-                class: "active"
-            }, [likeIcon,likeHoverIcon]);
+            likeLi.classList.add("active");                    
         }});
 
 
@@ -513,38 +500,26 @@ function createSinglePrompt(promptObj) {
       }, []);
   
       let favouriteLi = createElem("li", {
-          class: promptObj.is_liked? "active" : ""
-      }, [favouriteIcon,favouriteHoverIcon]);
-  
-  
-      
-      favouriteLi.addEventListener("click", function (e) {
-          e.stopPropagation();
-          console.log("click____");
-  
-          if (favouriteLi.classList.contains("active")) {
-              console.log("active");
-  
-              favouriteLi.remove();
-              let favouriteLi = createElem("li", {
-                  class:""
-              }, [favouriteIcon,favouriteHoverIcon]);
+        class: promptObj.is_liked ? "active" : ""
+    }, [favouriteIcon, favouriteHoverIcon]);
+    
+    favouriteLi.addEventListener("click", function (e) {
+        e.stopPropagation();
+        console.log("click____");
+    
+        if (favouriteLi.classList.contains("active")) {            
+            favouriteLi.classList.remove("active");
           
-              
-          } else {
-              console.log("active2");            
-              favouriteLi.remove();
-              let favouriteLi = createElem("li", {
-                  class:"active"
-              }, [favouriteIcon,favouriteHoverIcon]);
-          
-          }
-      });
-
-      
-  let selected = createElem("ul", {
-    class: "selected"
-  }, [likeLi, favouriteLi]);
+        } else {          
+            favouriteLi.classList.add("active");      
+        }
+    
+        // selected.appendChild(favouriteLi);
+    });
+    
+    let selected = createElem("ul", {
+        class: "selected"
+    }, [likeLi, favouriteLi]);
 
   return createElem("div", {
     class: "answer"
