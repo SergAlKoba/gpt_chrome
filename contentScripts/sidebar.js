@@ -4,7 +4,7 @@ const TOKEN = localStorage.getItem('token') || '';
 // Utils functions and global state
 
 let isLoading = false;
-let selectedCategoryId;
+let selectedCategoryId = undefined;
 const observers = [];
 
 function addObserver(callback) {
@@ -87,6 +87,9 @@ function replaceVariables(data, text) {
   return text;
 }
 
+function normalizeString(string) {
+  return string.replace(/\s+/g, ' ').trim();
+}
 
 
 async function searchPrompts(text, categoryId) {
@@ -664,7 +667,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
 
           for (let i = 0; i < divCount - 5; i++) {
             const div = divElements[i];
-            if (div.textContent.includes(replaceVariables(modalState, prompt_template))) {
+            if (normalizeString(div.textContent).includes(normalizeString(replaceVariables(modalState, prompt_template)))) {
               matches.push(div);
             }
           }
