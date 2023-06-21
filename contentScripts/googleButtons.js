@@ -92,9 +92,11 @@ const categories = [{
     id: 'tone-google', name: 'Default', items: googleTones, className: 'Tone', displayName: 'Tone'
 }, {
     id: 'style-google', name: 'Default', items: googleStyles, className: 'Style', displayName: 'Style'
-}, {
-    id: 'language-google', name: 'Default', items: languagesList, className: 'Language', displayName: 'Output language'
-},];
+},
+//  {
+//     id: 'language-google', name: 'Default', items: languagesList, className: 'Language', displayName: 'Output language'
+// },
+];
 
 const followUpItems = ['Make this more consistent', 'Tell me more about this', 'Expand details', 'Give me better suggestions', 'Wrap this up',];
 
@@ -353,6 +355,8 @@ function createLatestGoogle() {
     categories.forEach(category => {
         const div = document.createElement('div');
         div.classList.add('style');
+        div.classList.add('style_gray');
+
         div.id = category.id;
         latestGoogleDiv.appendChild(div);
 
