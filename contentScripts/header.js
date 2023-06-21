@@ -70,28 +70,31 @@ function createMenu() {
 
   settingsMenuLink.off('click').on("click", async () => {
     console.log("Клик по settingsMenuLink");
+    const $element = $('.menu');
+    const isOpenedMenu = $element.hasClass('active');
+    
 
-    if (!menuOpened) {
+    if (!isOpenedMenu) {
       console.log("Сайдбар был закрыт, открываем его");
       $(".menu_content").addClass("active");
       $(".flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
       $(".header_global").addClass("active");
       $(".flex h-full max-w-full flex-1.flex-col").addClass("active");
-      headerWasActive = true;
+      // headerWasActive = true;
       try {
         await getCategories();
       } catch (error) {
         console.error(error);
       }
-      menuOpened = true;
+      // menuOpened = true;
     } else {
       console.log("Сайдбар был открыт, закрываем его");
       $(".menu_content").removeClass("active");
       $(".flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
       $(".header_global").removeClass("active");
       $(".flex h-full max-w-full flex-1 flex-col").removeClass("active");
-      headerWasActive = false;
-      menuOpened = false;
+      // headerWasActive = false;
+      // menuOpened = false;
     }
   })
 
