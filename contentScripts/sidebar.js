@@ -655,6 +655,33 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
     } else {
       document.body.removeChild(popup);
       sendInput(replaceVariables(modalState, prompt_template));
+
+      const observer = new MutationObserver(() => {
+        const checkElements = () => {
+          const matches = [];
+          const divElements = document.querySelectorAll('div');
+          const divCount = divElements.length;
+
+          for (let i = 0; i < divCount - 5; i++) {
+            const div = divElements[i];
+            if (div.textContent.includes(replaceVariables(modalState, prompt_template))) {
+              matches.push(div);
+            }
+          }
+
+          if (matches.some(div => div.getAttributeNames().length === 0)) {
+            const lastFiveItems = matches.slice(-5);
+            lastFiveItems.forEach(div => {
+              div.style.display = 'none';
+            });
+          }
+        };
+
+        checkElements();
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+
     }
   });
 
