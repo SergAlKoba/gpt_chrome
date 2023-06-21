@@ -473,10 +473,36 @@ function createSinglePrompt(promptObj) {
   }, []);
   let likeHoverIcon = createElem("img", {
     src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+    class: "hover",
   }, []);
   let likeLi = createElem("li", {
     class: promptObj.is_liked ? "active" : ""
   }, [likeIcon, likeHoverIcon]);
+
+
+  likeLi.addEventListener("click", function (e) {
+    e.stopPropagation();
+
+        if (likeLi.classList.contains("active")) {
+            likeLi.classList.remove("active");
+            likeLi.remove()
+
+            likeIcon.classList.remove("hover")
+
+            let likeLi = createElem("li", {
+                class: ""
+            }, [likeIcon,likeHoverIcon]);
+            
+        } else {
+            likeLi.remove()
+            likeIcon.classList.add("hover")
+
+             let likeLi = createElem("li", {
+                class: "active"
+            }, [likeIcon,likeHoverIcon]);
+        }});
+
+
   let favouriteIcon = createElem("img", {
     src: chrome.runtime.getURL("assets/images/like.svg"),
   }, []);
