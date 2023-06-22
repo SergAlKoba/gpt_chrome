@@ -97,4 +97,4 @@ createSpinner = () => {
     $('body').append(spinner);
     return spinner;
 }
-console.log(createSpinner());
+console.log('createSpinner',createSpinner());

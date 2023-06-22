@@ -1450,6 +1450,7 @@
     background: #272727;
     padding: 10px 6px 5px 40px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    min-height: 50px;
 }
 
 #global .idea_popup.active{

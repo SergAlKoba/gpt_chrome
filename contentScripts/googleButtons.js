@@ -169,9 +169,16 @@ const createElem = (tag, attributes, children) => {
 
 
 async function createIdeaPopup(last_message) {
-    let data = await getTooltips(last_message);
+
+    const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
     const ideaPopup = document.createElement('div');
-    ideaPopup.className = 'idea_popup';
+    ideaPopup.className = 'idea_popup active';
+
+    const spinner =  createLoader()
+    spinner.classList.add('idea_loader')
+
+    ideaPopup.append(spinner)
+    $(ideaPopup).insertAfter(sendButton);
 
     const image = document.createElement('img');
     image.src = chrome.runtime.getURL('assets/images/idea2.svg');
@@ -179,7 +186,12 @@ async function createIdeaPopup(last_message) {
     ideaPopup.appendChild(image);
 
     const list = document.createElement('ul');
+
+    let data = await getTooltips(last_message);
+    spinner.remove()
+
     ideaPopup.appendChild(list);
+
     for (let el of data['ideas']) {
         const listItem = document.createElement('li');
         listItem.textContent = el;
@@ -191,6 +203,7 @@ async function createIdeaPopup(last_message) {
         });
         list.appendChild(listItem);
     }
+
     // const listItem1 = document.createElement('li');
     // listItem1.textContent = 'History of Turkey';
     // listItem1.addEventListener('click', () => {
@@ -229,40 +242,69 @@ async function createIdeaPopup(last_message) {
     return ideaPopup;
 }
 
+function  createSpinner ()  {
+    const spinner = document.createElement('div')
+    spinner.className = "loading-spinner";
+    spinner.style.display = "none";
+    const spinnerChild = document.createElement('div');
+    spinnerChild.className = "spinner";
+    spinner.appendChild(spinnerChild);
+    
+    return spinner;
+}
 
-function createChecklistElement() {
-    const divElement = document.createElement("div");
-    divElement.className = "checklist idea_js";
+function createImgIdea(){
+    const image = document.createElement('img');
+    image.src = chrome.runtime.getURL('assets/images/idea2.svg');
+    image.alt = '';
+    return image;
+}
 
+function createButtonIdea() {
+    const ideaButton = document.createElement("div");
+    ideaButton.className = "checklist idea_js";
+    return ideaButton
+}
+
+function createLinkIdea(){
     const linkElement = document.createElement("a");
     linkElement.href = "javascript:void(0)";
+    return linkElement;
+}
 
-    const imgElement = document.createElement("img");
-    imgElement.src = chrome.runtime.getURL("assets/images/idea.svg");
-    imgElement.alt = "";
 
-    linkElement.appendChild(imgElement);
-    divElement.appendChild(linkElement);
+function createChecklistElement() {
+
+    const buttonIdea = createButtonIdea()
+    const linkIdea = createLinkIdea()
+    const imgIdea = createImgIdea()
+
+    linkIdea.appendChild(imgIdea);
+    buttonIdea.appendChild(linkIdea);
 
     let isAddingIdeaPopup = false;
 
-    divElement.addEventListener('click', async function () {
+    buttonIdea.addEventListener('click', async function () {
         let ideaPopup = document.querySelector('.idea_popup');
-        console.log("loading");
 
-        if (!ideaPopup && !isAddingIdeaPopup) {
+        const isNotExistIdeaPopup = () => !ideaPopup && !isAddingIdeaPopup
+        
+        if (isNotExistIdeaPopup()) {
             isAddingIdeaPopup = true;
-            await addIdeaPopup();
+            await addIdeaPopup();            
             isAddingIdeaPopup = false;
             console.log("loaded");
-        } else if (ideaPopup) {
+        } 
+        else if (ideaPopup) {
             ideaPopup.classList.toggle('active');
-        } else {
+        }
+         else {
             console.error('ideaPopup element is undefined');
         }
+
     });
 
-    return divElement;
+    return buttonIdea;
 }
 
 
@@ -270,9 +312,7 @@ async function addIdeaPopup() {
     let last_message = $('div.flex.flex-grow.flex-col.gap-3 > div > div > p').last().text();
     console.log(last_message);
     const ideaPopup = await createIdeaPopup(last_message);
-    const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
 
-    $(ideaPopup).insertAfter(sendButton);
     return ideaPopup; // return the ideaPopup so you can wait for it in the event listener
 }
 
