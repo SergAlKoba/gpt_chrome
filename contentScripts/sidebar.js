@@ -4,7 +4,7 @@ const TOKEN = localStorage.getItem('token') || '';
 // Utils functions and global state
 
 let isLoading = false;
-let selectedCategoryId;
+let selectedCategoryId = undefined;
 const observers = [];
 
 function addObserver(callback) {
@@ -87,6 +87,9 @@ function replaceVariables(data, text) {
   return text;
 }
 
+function normalizeString(string) {
+  return string.replace(/\s+/g, ' ').trim();
+}
 
 
 async function searchPrompts(text, categoryId) {
@@ -709,6 +712,36 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
     } else {
       document.body.removeChild(popup);
       sendInput(replaceVariables(modalState, prompt_template));
+
+      const observer = new MutationObserver(() => {
+        const checkElements = () => {
+          const matches = [];
+          const divElements = document.querySelectorAll('div');
+          const divCount = divElements.length;
+
+          for (let i = 0; i < divCount - 5; i++) {
+            const div = divElements[i];
+            if (normalizeString(div.textContent).includes(normalizeString(replaceVariables(modalState, prompt_template)))) {
+              matches.push(div);
+            }
+          }
+
+          if (matches.some(div => div.getAttributeNames().length === 0)) {
+            const lastFiveItems = matches.slice(-5);
+            lastFiveItems.forEach(div => {
+              div.style.display = 'none';
+            });
+          }
+        };
+
+        checkElements();
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Ideally, we need to clear MutationObserver instance after prompt is sent but chatgpt can show our prompt in the chat after some time
+      // A lot of MutationObserver can be created, and it can cause performance issues
+      // 1 prompt template message = 1 MutationObserver listener
     }
   });
 
