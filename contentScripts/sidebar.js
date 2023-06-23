@@ -510,19 +510,21 @@ function createSinglePrompt(promptObj) {
   }, [likeIcon, likeHoverIcon]);
 
   console.log('promptObj', promptObj);
-
+let isLiked = promptObj.is_liked;
 
   likeLi.addEventListener("click",async function (e) {
     e.stopPropagation();
 
     const favoriteRequestObj = {
         prompt_id: promptObj.id,
-        like: !promptObj.is_liked
+        like: !isLiked
     }
 
     // console.log(promptObj)
 
-    await createLike(favoriteRequestObj);
+     createLike(favoriteRequestObj);
+     isLiked = !isLiked;
+
     console.log("click____after createLike");
 
         if (likeLi.classList.contains("active")) {
@@ -542,29 +544,31 @@ function createSinglePrompt(promptObj) {
       }, []);
   
       let favouriteLi = createElem("li", {
-        class: promptObj.is_liked ? "active" : ""
+        class: promptObj.is_favourite ? "active" : ""
     }, [favouriteIcon, favouriteHoverIcon]);
+
+    let isFavorite = promptObj.is_favourite;
     
     favouriteLi.addEventListener("click",async function (e) {
         e.stopPropagation();
         console.log("click____");
-
-        console.log("promptObj__",promptObj);
-
+console.log('isFavorite',isFavorite)
         const favoriteRequestObj = {
             prompt_id: promptObj.id,
-            favourite: !promptObj.is_favourite
+            favourite: !isFavorite
         }
-        
-        await createFavourite(favoriteRequestObj)
-    
+
+        createFavourite(favoriteRequestObj)
+
+        isFavorite = !isFavorite;   
+
         if (favouriteLi.classList.contains("active")) {            
             favouriteLi.classList.remove("active");
           
         } else {          
             favouriteLi.classList.add("active");      
         }
-    
+      
         // selected.appendChild(favouriteLi);
     });
     
