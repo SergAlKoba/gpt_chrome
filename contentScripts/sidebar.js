@@ -351,12 +351,24 @@ function createRegistration() {
     href: "javascript:void(0)"
   }, ["Sign Up"]);
 
+  signUpLink.addEventListener('click', () => {
+    $('.popup').removeClass('active');
+    $('.sign_up_popup').addClass('active');
+  });
+
+
   const orText = createElem("span", {}, ["or"]);
 
   const signInLink = createElem("a", {
     class: "sign_in sign_in_js",
     href: "javascript:void(0)"
   }, ["Sign In"]);
+
+  signInLink.addEventListener('click', () => {
+    $('.popup').removeClass('active');
+    $('.sign_in_popup').addClass('active');
+  });
+
 
   const registration = createElem("div", {
     class: "registration active"
