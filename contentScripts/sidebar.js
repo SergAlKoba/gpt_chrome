@@ -459,10 +459,7 @@ function createSinglePrompt(promptObj) {
   let description = createElem("p", {}, []);
   description.textContent = promptObj.description;
 
-  let likeIcon = createElem("img", {
-    src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
-  }, []);
-
+  
   let viewIcon = createElem("img", {
     src: chrome.runtime.getURL("assets/images/eye.svg"),
   }, []);
@@ -478,6 +475,9 @@ function createSinglePrompt(promptObj) {
     viewP
   ]);
 
+  let likeIcon = createElem("img", {
+    src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+  }, []);
   
 
   let likeP = createElem("p", {
@@ -490,10 +490,8 @@ function createSinglePrompt(promptObj) {
   let likes = createElem("li", {}, [
     likeIcon,
     likeP
-    // promptObj.like_amount
   ]);
   
-  // likes.textContent += ' ' + promptObj.like_amount;
   let stats = createElem("ul", {
     class: "stats"
   }, [likes, views]);
@@ -685,21 +683,52 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   statsList.classList.add('stats');
   answerDiv.appendChild(statsList);
 
-  const statsItem1 = document.createElement('li');
-  const statsItem1Img = document.createElement('img');
-  statsItem1Img.src = 'assets/images/thumbs-up.svg';
-  statsItem1Img.alt = '';
-  statsItem1.appendChild(statsItem1Img);
-  statsItem1.appendChild(document.createTextNode(formatNumber(amount_of_lookups)));
-  statsList.appendChild(statsItem1);
 
-  const statsItem2 = document.createElement('li');
-  const statsItem2Img = document.createElement('img');
-  statsItem2Img.src = 'assets/images/eye.svg';
-  statsItem2Img.alt = '';
-  statsItem2.appendChild(statsItem2Img);
-  statsItem2.appendChild(document.createTextNode(formatNumber(like_amount)));
-  statsList.appendChild(statsItem2);
+
+  let likeIcon = createElem("img", {
+    src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+  }, []);
+  
+
+  let likeP = createElem("p", {
+   style: "margin: unset;"
+  }, []);
+
+  likeP.textContent += ' ' + promptObj.like_amount;
+
+  let likes = createElem("li", {}, [
+    likeIcon,
+    likeP
+  ]);
+
+  const likeBlock = document.createElement('li');
+  likeBlock.appendChild(likes);
+  statsList.appendChild(likeBlock);
+
+
+  let viewIcon = createElem("img", {
+    src: chrome.runtime.getURL("assets/images/eye.svg"),
+  }, []);
+
+  let viewP = createElem("p", {
+    style: "margin: unset;"
+   }, []);
+ 
+   viewP.textContent += ' ' + amount_of_lookups;
+ 
+  let views = createElem("li", {}, [
+    viewIcon,
+    viewP
+  ]);
+
+  
+  const viewBlock = document.createElement('li');
+
+  viewBlock.appendChild(views);
+  statsList.appendChild(viewBlock);
+
+
+
 
   const contentTopicDiv = document.createElement('div');
   contentTopicDiv.classList.add('content_topic');
