@@ -93,9 +93,9 @@ async function createFavourite(prompt) {
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
 
-    var raw = JSON.stringify({
-        "prompt": prompt
-    });
+    var raw = JSON.stringify(
+         prompt
+    );
 
     var requestOptions = {
         method: 'POST',
@@ -104,13 +104,38 @@ async function createFavourite(prompt) {
         redirect: 'follow'
     };
 
-    let response = await fetch("https://gotgood.ai/api/chat/create-favourite/", requestOptions)
+    let response = await fetch("https://gotgood.ai/api/chat/prompt-favourite/", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     let result = await response.json();
     return result;
 }
+
+async function createLike(prompt) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+
+    var raw = JSON.stringify(
+         prompt
+    );
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    let response = await fetch("https://gotgood.ai/api/shop/prompt-like/", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    let result = await response.json();
+    return result;
+}
+
 
 async function logout() {
     var myHeaders = new Headers();
@@ -206,3 +231,4 @@ async function setPromptText(style = none, text = none, tone = none, result_amou
     localStorage.setItem('token', result.auth_token);
     return result;
 }
+

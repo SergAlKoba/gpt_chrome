@@ -442,10 +442,18 @@ function createSinglePrompt(promptObj) {
     href: "javascript:void(0)",
     class: "prompt_popup_js"
   }, []);
-  let category = createElem("span", {
+  let categories = createElem("div", {
     class: "designation"
   }, []);
-  category.textContent = promptObj.name;
+
+
+  promptObj.categories.forEach((categoryObj) => {
+    let category = createElem("span", {}, []);
+    category.textContent = categoryObj.name;
+    categories.appendChild(category);
+  });
+
+
   let title = createElem("h3", {}, []);
   title.textContent = promptObj.name;
   let description = createElem("p", {}, []);
@@ -459,14 +467,33 @@ function createSinglePrompt(promptObj) {
     src: chrome.runtime.getURL("assets/images/eye.svg"),
   }, []);
 
+  let viewP = createElem("p", {
+    style: "margin: unset;"
+   }, []);
+ 
+   viewP.textContent += ' ' + promptObj.like_amount;
+ 
   let views = createElem("li", {}, [
     viewIcon,
+    viewP
   ]);
-  views.textContent += ' ' + promptObj.amount_of_lookups;
+
+  
+
+  let likeP = createElem("p", {
+   style: "margin: unset;"
+  }, []);
+
+  likeP.textContent += ' ' + promptObj.like_amount;
+
+
   let likes = createElem("li", {}, [
     likeIcon,
+    likeP
+    // promptObj.like_amount
   ]);
-  likes.textContent += ' ' + promptObj.like_amount;
+  
+  // likes.textContent += ' ' + promptObj.like_amount;
   let stats = createElem("ul", {
     class: "stats"
   }, [likes, views]);
@@ -474,17 +501,31 @@ function createSinglePrompt(promptObj) {
   likeIcon = createElem("img", {
     src: chrome.runtime.getURL("assets/images/like.svg"),
   }, []);
+
   let likeHoverIcon = createElem("img", {
     src: chrome.runtime.getURL("assets/images/like_hover.svg"),
     class: "hover",
   }, []);
+
   let likeLi = createElem("li", {
     class: promptObj.is_liked ? "active" : ""
   }, [likeIcon, likeHoverIcon]);
 
+  console.log('promptObj', promptObj);
 
-  likeLi.addEventListener("click", function (e) {
+
+  likeLi.addEventListener("click",async function (e) {
     e.stopPropagation();
+
+    const favoriteRequestObj = {
+        prompt_id: promptObj.id,
+        like: !promptObj.is_liked
+    }
+
+    // console.log(promptObj)
+
+    await createLike(favoriteRequestObj);
+    console.log("click____after createLike");
 
         if (likeLi.classList.contains("active")) {
             likeLi.classList.remove("active");    
@@ -506,9 +547,18 @@ function createSinglePrompt(promptObj) {
         class: promptObj.is_liked ? "active" : ""
     }, [favouriteIcon, favouriteHoverIcon]);
     
-    favouriteLi.addEventListener("click", function (e) {
+    favouriteLi.addEventListener("click",async function (e) {
         e.stopPropagation();
         console.log("click____");
+
+        console.log("promptObj__",promptObj);
+
+        const favoriteRequestObj = {
+            prompt_id: promptObj.id,
+            favourite: !promptObj.is_favourite
+        }
+        
+        await createFavourite(favoriteRequestObj)
     
         if (favouriteLi.classList.contains("active")) {            
             favouriteLi.classList.remove("active");
@@ -526,7 +576,7 @@ function createSinglePrompt(promptObj) {
 
   return createElem("div", {
     class: "answer"
-  }, [link, category, title, description, stats, selected]);
+  }, [link, categories, title, description, stats, selected]);
 }
 
 async function createPromptBar() {

@@ -21,7 +21,7 @@ $('body').attr('id', 'global');
 
 $('body').css("--dropdown-icon", `url("${chrome.runtime.getURL(`assets/images/CaretDown2.svg`)}")`);
 $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/images/CaretDown2_hover.svg`)}")`);
-function createChatMessageButtons(container) {
+ function createChatMessageButtons(container) {
 
     const button1 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', 'currentColor', '2', '0 0 24 24', 'round', 'round', 'h-4 w-4', 'assets/images/copy.svg');
     button1.classList.add('btn_1');
@@ -37,18 +37,37 @@ function createChatMessageButtons(container) {
 
     // const button2 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/thumbs-up2.svg');
     // const button3 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/thumbs-down2.svg');
-    // const button4 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/bookmark.svg');
+    
+
+    const button4 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/bookmark.svg');
+    button4.classList.add('saveBtn');
+    button4.classList.add('btn_1');
+    button4.onclick = async (e) => {
+        e.preventDefault();
+
+    const getMessageChatGpt=()=> $(container).parent().parent().find('.break-words');
+    const isExistMessageChatGpt = () => getMessageChatGpt().length > 0;
+
+
+    if (isExistMessageChatGpt()) {
+        const textChatGpt = getMessageChatGpt().text();
+        await createBookmark(textChatGpt)
+    }       
+    };
 
     // container.appendChild(button1);
     // container.appendChild(button2);
     // container.appendChild(button3);
-    // container.appendChild(button4);
+    container.appendChild(button4);
+    // }
+
 }
 
 
 function checkAndUpdateChatMessageButtons() {
     const selector = "#global .relative.transition-width .w-full .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible";
     const elements = Array.from(document.querySelectorAll(selector));
+    
     elements.forEach(element => {
         if (!element.querySelector('.btn_1')) {
             createChatMessageButtons(element);
