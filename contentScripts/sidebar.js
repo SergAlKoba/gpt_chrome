@@ -615,6 +615,7 @@ function createPrompts(prompts, parent) {
     const promptId = prompts[i].id;
 
     prompt.addEventListener('click', () => {
+      console.log('click___1', );
       onShowPromptPopupById(prompts[i])()
     });
 
@@ -631,6 +632,10 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   const closeSpan = document.createElement('span');
   closeSpan.classList.add('close');
   popup.appendChild(closeSpan);
+
+  closeSpan.addEventListener('click', () => {
+  popup.classList.remove('active');
+  });
 
   const popupContent = document.createElement('div');
   popupContent.classList.add('popup_content');
@@ -694,7 +699,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
    style: "margin: unset;"
   }, []);
 
-  likeP.textContent += ' ' + promptObj.like_amount;
+  likeP.textContent += ' ' + like_amount;
 
   let likes = createElem("li", {}, [
     likeIcon,
