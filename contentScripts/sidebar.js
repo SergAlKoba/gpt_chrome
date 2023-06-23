@@ -153,7 +153,7 @@ async function getFavorites() {
 async function getPromptsByCategory(categoryId) {
   try {
     setIsLoading(true);
-    const response = await fetch(`${API_URL}/api/shop/get-extension-prompt-by-category/${categoryId}`);
+    const response = await fetch(`${API_URL}/api/shop/get-extension-prompt-by-category/${categoryId}`,{headers: {Authorization: `token ${TOKEN}`}});
     setIsLoading(false);
     if (!response.ok) {
       throw new Error('Failed to fetch prompts by category.');
