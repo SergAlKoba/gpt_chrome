@@ -273,7 +273,7 @@ function createLinkIdea(){
 }
 
 
-function createChecklistElement() {
+function createIdeaElement() {
 
     const buttonIdea = createButtonIdea()
     const linkIdea = createLinkIdea()
@@ -459,6 +459,24 @@ function addImdInSendButton(sendButton) {
     sendButton.appendChild(imgSend);
 }
 
+function addSelectedCategoriesValueInEndTextareaValue() {
+    console.log('addSelectedCategoriesValueInEndTextareaValue');
+    const textArea = document.querySelector('textarea');
+    categories.forEach(category => {
+    const selectedCategoryName = localStorage.getItem(category.className, category.name)
+
+    if(selectedCategoryName === 'Default') return
+
+    if (selectedCategoryName) {
+        textArea.value += ` ${category.className}:${selectedCategoryName} `;
+    }
+    });
+}
+
+
+
+
+
 function addMicrophone() {
     const microphoneDiv = document.createElement('div');
     microphoneDiv.className = 'microphone';
@@ -469,6 +487,11 @@ function addMicrophone() {
     const textArea = document.querySelector('textarea');
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
 
+    sendButton.addEventListener("click", () => {
+        addSelectedCategoriesValueInEndTextareaValue();
+    });
+
+    
     addImdInSendButton(sendButton)
 
     $(microphoneDiv).insertAfter(sendButton);
@@ -511,7 +534,7 @@ function addMicrophone() {
 
 function addElementGoogle() {
     const latestGoogle = createLatestGoogle();
-    var checklistElement = createChecklistElement();
+    var ideaElement = createIdeaElement();
 
     let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form");
 
@@ -519,7 +542,7 @@ function addElementGoogle() {
     latestGoogleContent.appendChild(createFollowUpDiv());
 
     $(latestGoogle).insertAfter(messageInput);
-    latestGoogle.prepend(checklistElement);
+    latestGoogle.prepend(ideaElement);
 }
 
 setInterval(() => {

@@ -129,6 +129,13 @@ function addPrompster() {
     });
 
 
+    textArea.addEventListener("keydown", (e) => {
+    if (e.code === 'Enter') {
+        addSelectedCategoriesValueInEndTextareaValue();
+    }
+});
+
+
     textArea.addEventListener('blur', () => {
         setTimeout(() => {
             selectorPromster.classList.remove('active');

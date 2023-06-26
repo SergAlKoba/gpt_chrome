@@ -178,6 +178,7 @@ function sendInput(selected_prompt, is_disabled = false) {
   let textarea = document.querySelector("textarea");
   textarea.value = selected_prompt;
 
+
   // Create and dispatch the input event
   let event = new Event('input', {
     'bubbles': true,
@@ -869,6 +870,7 @@ async function init() {
     processInput();
     const categoriesResponse = await getCategories();
     const categories = categoriesResponse.results;
+    console.log("categories".toLocaleUpperCase(), categories);
     for (let i = 0; i < categories.length; i++) {
       const categoryId = categories[i].id;
       const categoryItems = createCategory(categoryId);
