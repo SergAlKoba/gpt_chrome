@@ -422,16 +422,23 @@ function createSearch() {
 }
 
 function createCategoryMenu(categories) {
+  const isValidImg = !!categories[0]?.icon
+
   let filterImage = createElem("img", {
     src: categories[0].icon,
   }, []);
+
   let filterText = createElem("span", {
     data: categories[0].id,
   }, []);
+
   filterText.textContent = categories[0].name;
+  const childrenFilterTitle = isValidImg ? [filterImage, filterText] : [filterText];
+
   let filterTitle = createElem("div", {
     class: "filter_title"
-  }, [filterImage, filterText]);
+  }, childrenFilterTitle);
+
   let filterDrop = createElem("ul", {
     class: "filter_drop"
   }, []);
