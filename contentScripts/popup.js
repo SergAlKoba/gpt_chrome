@@ -40,7 +40,7 @@ async function login(email, password) {
     return result;
 }
 
-async function register(email, password, confirmPassword) {
+async function register(email, password, username) {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -49,7 +49,8 @@ async function register(email, password, confirmPassword) {
         headers: myHeaders,
         body: JSON.stringify({
             "email": email,
-            "password": password
+            "password": password,
+            "username": username
         }),
         redirect: 'follow'
     };
@@ -93,9 +94,14 @@ function createForm(type, submitFunction) {
     const form = document.createElement('form');
     const emailInput = createInput('email', 'acme@corp.ai');
     const passwordInput = createInput('password', 'Enter password here');
+    const  usernameInput = createInput('text', 'Enter username here', 'Username');
 
     form.appendChild(emailInput);
+    if (type === 'sign_up') {
+        form.appendChild(usernameInput);
+    }   
     form.appendChild(passwordInput);
+
 
     if (type === 'sign_up') {
         const confirmPasswordInput = createInput('password', 'Confirm password here', 'Confirm Password');
@@ -116,13 +122,14 @@ function createForm(type, submitFunction) {
 
         const email = emailInput.children[1].value;
         const password = passwordInput.children[1].value;
+        const username =usernameInput.children[1].value;
 
         let result;
         if (type === 'sign_up') {
             const confirmPasswordInput = form.querySelector('input[type="password"]:nth-child(2)');
             const confirmPassword = confirmPasswordInput.value;
             if (password === confirmPassword) {
-                result = await submitFunction(email, password);
+                result = await submitFunction(email, password, username);
             } else {
                 alert("Passwords do not match.");
                 return;
