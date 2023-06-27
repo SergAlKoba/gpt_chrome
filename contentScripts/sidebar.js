@@ -151,6 +151,7 @@ async function getFavorites() {
 
 // Render functions
 async function getPromptsByCategory(categoryId) {
+const TOKEN = localStorage.getItem('token') || '';
   try {
     setIsLoading(true);
     const response = await fetch(`${API_URL}/api/shop/get-extension-prompt-by-category/${categoryId}`,{headers: {Authorization: `token ${TOKEN}`}});

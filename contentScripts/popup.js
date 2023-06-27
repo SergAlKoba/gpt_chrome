@@ -142,7 +142,27 @@ function createForm(type, submitFunction) {
 }
 
 function createPopup(type) {
-    const submitFunction = type === 'sign_up' ? register : login;
+    async function afterLogin(email, password){
+        await login(email, password)
+
+        const  registrationElement = document.querySelector('.registration');
+        registrationElement.classList.remove('active');
+        
+        createSignedMenuContent().then((children) => {
+            document.body.appendChild(children);
+            const promptBarElement = document.querySelector('.promt_bar');
+            if (promptBarElement) {
+              promptBarElement.classList.add('active');
+              promptBarElement.appendChild(createLoader());
+            }
+          });
+
+          const  closePopup = document.querySelector('.close_popup');
+          closePopup.click();
+
+     }
+
+    const submitFunction = type === 'sign_up' ? register : afterLogin;
     const form = createForm(type, submitFunction);
 
     const div = document.createElement('div');
