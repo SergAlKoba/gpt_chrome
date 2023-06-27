@@ -8,7 +8,7 @@ async function getCategories() {
     let result = await response.json();
     console.log(result);
     sessionStorage.setItem("categories", JSON.stringify(result.results));
-    return response;
+    return result;
 }
 
 //     let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
@@ -157,25 +157,26 @@ async function logout() {
     return result;
 }
 
-async function login(email, password) {
+// async function login(email, password) {
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify({
-            "email": email,
-            "password": password
-        }),
-        redirect: 'follow'
-    };
-    let response = await fetch("https://gotgood.ai/api/user/login/", requestOptions)
-        .catch(error => console.log('error', error));
-    let result = await response.json();
-    localStorage.setItem('token', result.auth_token);
-    return result;
-}
+//     var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         body: JSON.stringify({
+//             "email": email,
+//             "password": password
+//         }),
+//         redirect: 'follow'
+//     };
+//     let response = await fetch("https://gotgood.ai/api/user/login/", requestOptions)
+//         .catch(error => console.log('error', error));
+//     let result = await response.json();
+//     localStorage.setItem('token', result.auth_token);
+//     return result;
+// }
 
 async function register(email, username, password) {
+    console.log('register___1')
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,

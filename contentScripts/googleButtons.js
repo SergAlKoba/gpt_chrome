@@ -331,7 +331,7 @@ function createFollowUpDiv() {
         li.textContent = text;
         li.onclick = () => {
             const userInput = document.querySelector('textarea');
-            userInput.value = text;
+            userInput.value += ` ${text}`;
             console.log(text);
             const submitButton = userInput.parentElement.querySelector('button');
             submitButton.disabled = false;
