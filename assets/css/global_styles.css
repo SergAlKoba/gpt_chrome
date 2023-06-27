@@ -1004,6 +1004,8 @@
 
 #global .flex .dark\:bg-gray-800{
     left: 0;
+    padding: 0;
+    width: 100%;
     border: none;
     background: #23292D;
 }
