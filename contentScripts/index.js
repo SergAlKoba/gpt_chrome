@@ -67,9 +67,10 @@ $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/ima
 function checkAndUpdateChatMessageButtons() {
     const selector = "#global .relative.transition-width .w-full .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible";
     const elements = Array.from(document.querySelectorAll(selector));
-    
+    let k = 0;
     elements.forEach(element => {
-        if (!element.querySelector('.btn_1')) {
+        ++k;
+        if (!element.querySelector('.btn_1') && k % 2 === 0) {
             createChatMessageButtons(element);
         }
     });
