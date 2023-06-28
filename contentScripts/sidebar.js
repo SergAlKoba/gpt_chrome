@@ -465,10 +465,53 @@ function createCategoryMenu(categories) {
     filterDropItem.textContent = categories[i].name;
     filterDrop.appendChild(filterDropItem);
   }
+
   let filterElem = createElem("div", {
-    class: "filter"
+    class: "filter_content"
   }, [filterTitle, filterDrop]);
-  return filterElem;
+  
+  const img1 = createElem("img", {
+    src: chrome.runtime.getURL("assets/images/unordered-list.svg"),
+    alt: ""
+  },[]);
+  
+  const img2 = createElem("img", {
+    src: chrome.runtime.getURL("assets/images/grid.svg"),
+    alt: ""
+  },[]);
+  
+  const link1 = createElem("a", {
+    "data-view": "list",
+    href: "javascript:void(0)",
+    class: "view_item"
+  }, [img1]);
+
+  link1.addEventListener('click', (e) => {
+    link1.classList.add('active');
+    link2.classList.remove('active');
+  });
+  
+  const link2 = createElem("a", {
+    "data-view": "grid",
+    href: "javascript:void(0)",
+    class: "view_item active"
+  }, [img2]);
+
+  
+  link2.addEventListener('click', (e) => {
+    link2.classList.add('active');
+    link1.classList.remove('active');
+  });
+
+  
+  const filterView = createElem("div", { class: "filter_view" }, [link1, link2]);
+  
+  let filterWrapper = createElem("div", {
+    class: "filter"
+  }, [filterElem, filterView]);
+
+  return filterWrapper;
+
 }
 
 function createSinglePrompt(promptObj) {
@@ -620,7 +663,7 @@ async function createPromptBar() {
   const promptsResponse = await getPromptsByCategory(categoriesResponse?.results[0]?.id);
 
   let promptBarContent = createElem("div", {
-    class: "drop_content"
+    class: "drop_content list active"
   }, []);
 
   createPrompts(promptsResponse, promptBarContent)
@@ -882,7 +925,7 @@ async function init() {
     for (let i = 0; i < categories.length; i++) {
       const categoryId = categories[i].id;
       const categoryItems = createCategory(categoryId);
-      const categoryContainer = document.querySelector('.categories .promt_item_content .drop_content');
+      const categoryContainer = document.querySelector('.categories .promt_item_content .drop_content .list');
       categoryContainer.appendChild(categoryItems);
     }
     await getFavorites();
