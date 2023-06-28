@@ -483,24 +483,33 @@ function createCategoryMenu(categories) {
   const link1 = createElem("a", {
     "data-view": "list",
     href: "javascript:void(0)",
-    class: "view_item"
+    class: "view_item active"
   }, [img1]);
 
   link1.addEventListener('click', (e) => {
     link1.classList.add('active');
     link2.classList.remove('active');
+    const dropContentList= document.querySelector('.drop_content.list');
+    
+    dropContentList.classList.add('active');
+    const dropContentGrid= document.querySelector('.drop_content.grid');
+    dropContentGrid.classList.remove('active');
   });
   
   const link2 = createElem("a", {
     "data-view": "grid",
     href: "javascript:void(0)",
-    class: "view_item active"
+    class: "view_item"
   }, [img2]);
 
   
   link2.addEventListener('click', (e) => {
     link2.classList.add('active');
     link1.classList.remove('active');
+    const dropContentList= document.querySelector('.drop_content.list');
+    dropContentList.classList.remove('active');
+    const dropContentGrid= document.querySelector('.drop_content.grid');
+    dropContentGrid.classList.add('active');
   });
 
   
@@ -665,12 +674,19 @@ async function createPromptBar() {
   let promptBarContent = createElem("div", {
     class: "drop_content list active"
   }, []);
+  
+  let promptBarContentGrid = createElem("div", {
+    class: "drop_content grid"
+  }, []);
+
 
   createPrompts(promptsResponse, promptBarContent)
+  createPrompts(promptsResponse, promptBarContentGrid)
+
 
   let promptItemContent = createElem("div", {
     class: "promt_item_content"
-  }, [promptBarContent]);
+  }, [ promptBarContent, promptBarContentGrid ]);
   let promptsCategoriesDiv = createElem("div", {
     class: "categories promt_item active"
   }, [createCategoryMenu(categoriesResponse?.results || []), promptItemContent]);
