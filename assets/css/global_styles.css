@@ -920,6 +920,7 @@
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.grid .answer {
+    cursor: pointer;
     position: relative;
     margin-bottom: 12px;
     padding-bottom: 36px;
