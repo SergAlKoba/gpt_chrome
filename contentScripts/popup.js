@@ -149,6 +149,9 @@ function createForm(type, submitFunction) {
 }
 
 function createPopup(type) {
+
+    const isSignUp = type === 'sign_up';
+
     async function afterLogin(email, password){
         await login(email, password)
 
@@ -169,7 +172,7 @@ function createPopup(type) {
 
      }
 
-    const submitFunction = type === 'sign_up' ? register : afterLogin;
+    const submitFunction = isSignUp ? register : afterLogin;
     const form = createForm(type, submitFunction);
 
     const div = document.createElement('div');
@@ -195,7 +198,7 @@ function createPopup(type) {
     const h5 = document.createElement('h5');
     h5.innerText = (type.charAt(0).toUpperCase() + type.slice(1)).replace('_', ' ');
     const p = document.createElement('p');
-    p.innerText = type === 'sign_up' ? 'Get started for free. No credit card required.' : 'Sign in with Google or email to continue.';
+    p.innerText = isSignUp ? 'Get started for free. No credit card required.' : 'Sign in with Google or email to continue.';
 
     title.appendChild(h5);
     title.appendChild(p);
@@ -212,21 +215,14 @@ function createPopup(type) {
     signGoogleLink.appendChild(signGoogleImg);
     signGoogleLink.appendChild(document.createTextNode(' Sign up with Google'));
 
-    const signCredentialsLink = document.createElement('a');
-    signCredentialsLink.href = 'javascript:void(0)';
-    signCredentialsLink.className = 'sign_credentials';
-    const signCredentialsImg = document.createElement('img');
-    signCredentialsImg.src = chrome.runtime.getURL('assets/images/sign_credentials.svg');
-    signCredentialsImg.alt = '';
-    signCredentialsLink.appendChild(signCredentialsImg);
-    signCredentialsLink.appendChild(document.createTextNode(' Sign up with Credentials'));
-
     const existingAccountText = document.createElement('p');
-    existingAccountText.innerHTML = 'Already registered? <a class="sign_in_js" href="javascript:void(0)">Sign in</a> to your account.';
+    const footerText = isSignUp ? 'Already registered? <a class="sign_in_js" href="javascript:void(0)">Sign in</a> to your account.' : `Don't have an account? 'Already registered? <a class="sign_up_js" href="javascript:void(0)">Sign up</a> your account.';`;
+
+    existingAccountText.innerHTML = footerText
 
     form.appendChild(orSpan);
     form.appendChild(signGoogleLink);
-    form.appendChild(signCredentialsLink);
+    // form.appendChild(signCredentialsLink);
     form.appendChild(existingAccountText);
 
     popupContent.appendChild(closePopup);

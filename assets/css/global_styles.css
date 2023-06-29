@@ -613,11 +613,11 @@
     position: relative;
 }
 
-#global .menu_content .promt_item .filter_content:hover .filter_title::after {
+#global .menu_content .promt_item .filter:hover .filter_title::after {
     transform: translate(0px, -50%) rotate(180deg);
 }
 
-#global .menu_content .promt_item .filter_content:hover .filter_drop{
+#global .menu_content .promt_item .filter:hover .filter_drop{
     display: block;
 }
 

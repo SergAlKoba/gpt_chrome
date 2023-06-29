@@ -93,10 +93,16 @@ function normalizeString(string) {
 
 
 async function searchPrompts(text, categoryId) {
-  const requestOptions = {
-    method: 'GET',
-    redirect: 'follow',
+
+
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+
+  let requestOptions = {
+      method: 'GET', headers: myHeaders, redirect: 'follow'
   };
+
 
   setIsLoading(true);
   let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId}`, requestOptions);
@@ -401,7 +407,13 @@ function createSearch() {
   async function processInput(e) {
     const promptsResult = await searchPrompts(e.target.value, selectedCategoryId || 1);
 
-    createPrompts(promptsResult?.results || []);
+    const promptBarContentList = document.querySelector('.drop_content.list');
+    const promptBarContentGrid = document.querySelector('.drop_content.grid');
+
+    createPrompts(promptsResult?.results || [],promptBarContentList,'.drop_content.list');
+    createPrompts(promptsResult?.results || [], promptBarContentGrid, '.drop_content.grid')
+
+    // createPrompts(promptsResult?.results || []);
   }
 
   const debouncedProcessInput = debounce(processInput, 500);
@@ -445,6 +457,7 @@ function createCategoryMenu(categories) {
   }, []);
 
   filterDrop.addEventListener('click', async (e) => {
+  
     if (e.target.tagName === 'LI') {
       const categoryId = parseInt(e.target.getAttribute('data'));
       selectedCategoryId = categoryId;
@@ -453,10 +466,11 @@ function createCategoryMenu(categories) {
       const { name: newTitleName } = categories.find(({ id }) => id === categoryId);
       document.querySelector('.filter_title span').textContent = newTitleName;
 
+      const promptBarContentList = document.querySelector('.drop_content.list');
       const promptBarContentGrid = document.querySelector('.drop_content.grid');
-console.log('promptBarContentGrid', promptBarContentGrid)
-      // createPrompts(promptsResponse);
-      createPrompts(promptsResponse, promptBarContentGrid)
+
+      createPrompts(promptsResponse,promptBarContentList,'.drop_content.list');
+      createPrompts(promptsResponse, promptBarContentGrid, '.drop_content.grid')
     }
   });
 
@@ -683,8 +697,11 @@ async function createPromptBar() {
   }, []);
 
 
-  createPrompts(promptsResponse, promptBarContent)
-  createPrompts(promptsResponse, promptBarContentGrid)
+  createPrompts(promptsResponse,promptBarContent,'.drop_content.list');
+  createPrompts(promptsResponse, promptBarContentGrid, '.drop_content.grid')
+
+  // createPrompts(promptsResponse, promptBarContent)
+  // createPrompts(promptsResponse, promptBarContentGrid)
 
 
   let promptItemContent = createElem("div", {
@@ -699,12 +716,19 @@ async function createPromptBar() {
   return promptBar;
 }
 
-function createPrompts(prompts, parent) {
-  const promptsWrapper = document.querySelector('.drop_content') || parent;
+function createPrompts(prompts, parent, parentClass='.drop_content.list') {
+  const promptsWrapper = document.querySelector(parentClass) || parent;
+  console.log('promptsWrapper____', promptsWrapper);
+  // const promptsWrapperGrid = document.querySelector('.drop_content.grid') || parent;
 
   while (promptsWrapper.firstChild) {
     promptsWrapper.removeChild(promptsWrapper.firstChild);
   }
+
+  
+  // while (promptsWrapperGrid.firstChild) {
+  //   promptsWrapperGrid.removeChild(promptsWrapperGrid.firstChild);
+  // }
 
   const onShowPromptPopupById = (prompt) => () => {
     document.body.appendChild(createPromptDetailsPopup(prompt));
@@ -720,6 +744,7 @@ function createPrompts(prompts, parent) {
     });
 
     promptsWrapper.appendChild(prompt);
+    // promptsWrapperGrid.appendChild(prompt);
   }
 }
 
