@@ -21,7 +21,7 @@ $('body').attr('id', 'global');
 
 $('body').css("--dropdown-icon", `url("${chrome.runtime.getURL(`assets/images/CaretDown2.svg`)}")`);
 $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/images/CaretDown2_hover.svg`)}")`);
- function createChatMessageButtons(container) {
+ function createChatMessageButtons(container,isClickBookmark) {
 
     const button1 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', 'currentColor', '2', '0 0 24 24', 'round', 'round', 'h-4 w-4', 'assets/images/copy.svg');
     button1.classList.add('btn_1');
@@ -75,19 +75,19 @@ $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/ima
 }
 
 
-function checkAndUpdateChatMessageButtons() {
+function checkAndUpdateChatMessageButtons(isClickBookmark) {
     const selector = "#global .relative.transition-width .w-full .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible";
     const elements = Array.from(document.querySelectorAll(selector));
     let k = 0;
     elements.forEach(element => {
         ++k;
         if (!element.querySelector('.btn_1') && k % 2 === 0) {
-            createChatMessageButtons(element);
+            createChatMessageButtons(element,isClickBookmark);
         }
     });
 }
 
-setInterval(checkAndUpdateChatMessageButtons, 1000);
+setInterval(()=> checkAndUpdateChatMessageButtons(isClickBookmark), 1000);
 
 
 function createButton(className, stroke, strokeWidth, viewBox, strokeLinecap, strokeLinejoin, svgClass, imgSrc) {
