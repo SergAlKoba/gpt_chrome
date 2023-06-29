@@ -1,6 +1,6 @@
 let selectedTone = localStorage.getItem("tone");
 let selectedStyle = localStorage.getItem("style");
-
+let isClickBookmark = false;
 console.log({ selectedTone, selectedStyle });
 
 function applyCurrentTheme() {
@@ -40,6 +40,9 @@ $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/ima
     
 
     const button4 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/bookmark.svg');
+    const bookmarkYellow = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/bookmarkYellow.svg');
+    bookmarkYellow.classList.add('btn_1');
+
     button4.classList.add('saveBtn');
     button4.classList.add('btn_1');
     button4.onclick = async (e) => {
@@ -51,15 +54,23 @@ $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/ima
 
     if (isExistMessageChatGpt()) {
         const textChatGpt = getMessageChatGpt().text();
+        // const spinner =  createLoader()
         await createBookmark(textChatGpt)
-    }       
+    }     
+
+    isClickBookmark = true;
+    button4.remove();
+    container.appendChild(bookmarkYellow);
+   
     };
 
     // container.appendChild(button1);
     // container.appendChild(button2);
     // container.appendChild(button3);
-    container.appendChild(button4);
-    // }
+
+    if (!isClickBookmark) {
+        container.appendChild(button4);
+    }
 
 }
 

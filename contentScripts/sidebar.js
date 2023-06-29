@@ -453,7 +453,10 @@ function createCategoryMenu(categories) {
       const { name: newTitleName } = categories.find(({ id }) => id === categoryId);
       document.querySelector('.filter_title span').textContent = newTitleName;
 
-      createPrompts(promptsResponse);
+      const promptBarContentGrid = document.querySelector('.drop_content.grid');
+console.log('promptBarContentGrid', promptBarContentGrid)
+      // createPrompts(promptsResponse);
+      createPrompts(promptsResponse, promptBarContentGrid)
     }
   });
 
