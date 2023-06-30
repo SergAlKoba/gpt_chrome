@@ -54,13 +54,13 @@ $('body').css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/ima
 
     if (isExistMessageChatGpt()) {
         const textChatGpt = getMessageChatGpt().text();
-        // const spinner =  createLoader()
+        button4.remove();
+        container.appendChild(bookmarkYellow);
         await createBookmark(textChatGpt)
     }     
 
     isClickBookmark = true;
-    button4.remove();
-    container.appendChild(bookmarkYellow);
+    
    
     };
 
