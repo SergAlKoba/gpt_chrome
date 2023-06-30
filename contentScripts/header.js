@@ -125,13 +125,13 @@ setInterval(() => {
 
 
 
-async function initializeApp() {
-  try {
-    await doLogin();
-    createMenu();
-  } catch (error) {
-    console.error("Ошибка при инициализации приложения:", error);
-  }
-}
+// async function initializeApp() {
+//   try {
+//     await doLogin();
+//     createMenu();
+//   } catch (error) {
+//     console.error("Ошибка при инициализации приложения:", error);
+//   }
+// }
 
-initializeApp();
+// initializeApp();

@@ -41,6 +41,8 @@ async function login(email, password) {
 }
 
 async function register(email, password, username) {
+    console.log('register___2')
+
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -152,8 +154,13 @@ function createPopup(type) {
 
     const isSignUp = type === 'sign_up';
 
-    async function afterLogin(email, password){
-        await login(email, password)
+    async function afterAuthorization(email, password,username){
+        if(isSignUp) {
+            await register(email, password, username);
+        }
+        else {
+            await login(email, password)
+        }
 
         const  registrationElement = document.querySelector('.registration');
         registrationElement.classList.remove('active');
@@ -172,7 +179,7 @@ function createPopup(type) {
 
      }
 
-    const submitFunction = isSignUp ? register : afterLogin;
+    const submitFunction = afterAuthorization
     const form = createForm(type, submitFunction);
 
     const div = document.createElement('div');

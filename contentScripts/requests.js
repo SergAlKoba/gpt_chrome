@@ -175,28 +175,28 @@ async function logout() {
 //     return result;
 // }
 
-async function register(email, username, password) {
-    console.log('register___1')
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify({
-            "username": username,
-            "email": email,
-            "password": password
-        }),
-        redirect: 'follow'
-    };
+// async function register(email, password, username) {
+//     console.log('register___1')
+//     var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         body: JSON.stringify({
+//             "username": username,
+//             "email": email,
+//             "password": password
+//         }),
+//         redirect: 'follow'
+//     };
 
-    let response = await fetch(API_URL + "/api/user/register/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-    let result = await response.json();
-    console.log(response);
-    localStorage.setItem('token', result.auth_token);
-    return result;
-}
+//     let response = await fetch(API_URL + "/api/user/register/", requestOptions)
+//         .then(response => response.text())
+//         .then(result => console.log(result))
+//         .catch(error => console.log('error', error));
+//     let result = await response.json();
+//     console.log(response);
+//     localStorage.setItem('token', result.auth_token);
+//     return result;
+// }
 
 function send_gpt_request(){
     let input = document.querySelector('textarea')
