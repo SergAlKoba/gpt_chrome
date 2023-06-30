@@ -925,28 +925,36 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
       const observer = new MutationObserver(() => {
         const checkElements = () => {
           const matches = [];
-          const divElements = document.querySelectorAll('div');
+          const divElements = document.querySelectorAll('.break-words');
+          
           const divCount = divElements.length;
-
-          for (let i = 0; i < divCount - 5; i++) {
+          
+          for (let i = divCount - 5; i < divCount ; i++) {
             const div = divElements[i];
-            if (normalizeString(div.textContent).includes(normalizeString(replaceVariables(modalState, prompt_template)))) {
-              matches.push(div);
+
+            const childDiv = div.querySelector('div')      
+            const innerText = childDiv?.innerText ? childDiv?.innerText: '';                      
+
+            if (innerText.includes(replaceVariables(modalState, prompt_template))) {                   
+            div.parentNode.parentNode.parentNode.parentNode.style.display = 'none';
+              // matches.push(div);
             }
           }
 
-          if (matches.some(div => div.getAttributeNames().length === 0)) {
-            const lastFiveItems = matches.slice(-5);
-            lastFiveItems.forEach(div => {
-              div.style.display = 'none';
-            });
-          }
+          // if (matches.some(div => div.getAttributeNames().length === 0)) {
+          //   console.log('matches___in');
+          //   const lastFiveItems = matches.slice(-5);
+          //   lastFiveItems.forEach(div => {
+          //     div.style.display = 'none';
+          //   });
+          // }
         };
 
         checkElements();
       });
 
       observer.observe(document.body, { childList: true, subtree: true });
+
 
       // Ideally, we need to clear MutationObserver instance after prompt is sent but chatgpt can show our prompt in the chat after some time
       // A lot of MutationObserver can be created, and it can cause performance issues
