@@ -1,16 +1,21 @@
+let isGetCommandRequest = false;
+let concatPromsterBEAndBasePrompster = [];
+
 const prompsterComands = [{
-    text: 'Make this more consistent',
-    command: 'Make this more consistent',
-    promptCommand: '/ask'
+    prompt: 'Make this more consistent',
+    command: '/ask',
+    related_prompt:null
 }, {
-    text: 'Tell me more about this',
-    command: 'Tell me more about this',
-    promptCommand: '/tell'
-}, {text: 'Expand details', command: 'Expand details', promptCommand: '/expand'}, {
-    text: 'Give me better suggestions',
-    command: 'Give me better suggestions',
-    promptCommand: '/suggest'
-}, {text: 'Wrap this up', command: 'Wrap this up', promptCommand: '/wrap'},];
+    prompt: 'Tell me more about this',
+    command: '/tell',
+    related_prompt:null
+}, {prompt: 'Expand details',  command: '/expand', related_prompt:null }, {
+    prompt: 'Give me better suggestions',
+    command: '/suggest',
+    related_prompt:null
+}, {prompt: 'Wrap this up', command: '/wrap',
+    related_prompt:null
+},];
 
 function createElementModal(tag, attributes, children) {
     const elem = document.createElement(tag);
@@ -40,16 +45,31 @@ function sendModalInput(selected_prompt) {
 function createUlFromItems(items) {
     const liItems = [];
     items.forEach(item => {
-        const spanNode = createElementModal('span', {style: 'color: #ACFFA6;'}, [document.createTextNode(item.promptCommand)]);
-        const textNode = document.createTextNode(' ' + item.text);
+        const spanNode = createElementModal('span', {style: 'color: #ACFFA6;'}, [document.createTextNode(item.command)]);
+        const textNode = document.createTextNode(' ' + item.prompt);
         const li = createElementModal('li', {
             class: 'prompster-item visible',
-            value: item.promptCommand,
-            'data-command': item.text
+            value: item.command,
+            'data-command': item.prompt
         }, [spanNode, textNode]);
 
-        li.onclick = () => {
-            sendModalInput(li.getAttribute('data-command'));
+        function onShowPromptPopupById  (prompt)  {
+            console.log('prompt',prompt)
+            document.body.appendChild(createPromptDetailsPopup(prompt));
+          };
+
+
+        li.onclick = (e) => {
+            console.log('li.onclick___')
+            if (item?.related_prompt===null) {
+                sendModalInput(li.getAttribute('data-command'));
+            }
+            else {
+                e.preventDefault();
+                e.stopPropagation();                
+                onShowPromptPopupById(item.related_prompt)
+            }
+                
             prompster.classList.remove('active');
             ul.classList.remove('active');
         };
@@ -81,17 +101,41 @@ function filterPrompsterItems(searchText) {
     });
 }
 
-function createPrompster() {
-    const ul = createUlFromItems(prompsterComands);
-    const prompster = createElementModal('div', {id: 'prompster', class: 'prompster'}, [ul]);
+async function getPrompsterCommands() {
 
-    return prompster;
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let response = await fetch("https://gotgood.ai/api/shop/get-commands/", requestOptions)
+        .catch(error => console.log('error', error));
+
+    let result = await response?.json();
+
+    return result.results;
 }
 
 
-function addPrompster() {
+
+ function createPrompster() {
+console.log('concatPromsterBEAndBasePrompster',concatPromsterBEAndBasePrompster)
+
+const ul = createUlFromItems(concatPromsterBEAndBasePrompster);
+const prompster = createElementModal('div', {id: 'prompster', class: 'prompster'}, [ul]);
+
+return prompster;
+}
+
+ function addPrompster() {
     const container = document.querySelector('textarea').parentElement;
-    container.appendChild(createPrompster());
+    const prompster = createPrompster();
+    container.appendChild(prompster);
     const textArea = document.querySelector('textarea');
     const selectorPromster = document.querySelector("#prompster");
     const selectorUlPromster = selectorPromster.querySelector("ul");
@@ -144,15 +188,250 @@ function addPrompster() {
     });
 }
 
-const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-        if (mutation.type === 'childList') {
-            const idPrompster = document.getElementById('prompster');
-            if (idPrompster == null || idPrompster == undefined) {
-                addPrompster();
+
+// observer обернуть функцией селать запрос после успешного запроса уже писать код   observer
+// 1. сделать запрос на бекенд
+// 2. получить ответ
+
+async function init  (){
+
+   const result = await  getPrompsterCommands()
+   concatPromsterBEAndBasePrompster = [...prompsterComands,...result] ;
+
+    const observer = new MutationObserver((mutations) => {
+        console.log('mutation__0');
+        for (const mutation of mutations) {        
+            if (mutation.type === 'childList') {
+                const idPrompster = document.getElementById('prompster');
+                if (idPrompster == null || idPrompster == undefined) {                
+                    addPrompster();
+                }
             }
         }
-    }
-});
+    });
+    
+    observer.observe(document.body, {childList: true, subtree: true});
+    
+}
 
-observer.observe(document.body, {childList: true, subtree: true});
+init();
+
+function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template }) {
+    console.log('createPromptDetailsPopup2');
+    const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
+  
+    const popup = document.createElement('div');
+    popup.classList.add('popup', 'prompt_details_popup', 'active');
+  
+    const closeSpan = document.createElement('span');
+    closeSpan.classList.add('close');
+    popup.appendChild(closeSpan);
+  
+    closeSpan.addEventListener('click', () => {
+    popup.classList.remove('active');
+    });
+  
+    const popupContent = document.createElement('div');
+    popupContent.classList.add('popup_content');
+    popup.appendChild(popupContent);
+  
+    const closePopupSpan = document.createElement('span');
+    closePopupSpan.classList.add('close_popup');
+    popupContent.appendChild(closePopupSpan);
+  
+    const closeImg = document.createElement('img');
+    closeImg.src = chrome.runtime.getURL('assets/images/close.svg');
+    closeImg.alt = '';
+  
+    closeImg.addEventListener('click', () => {
+      document.body.removeChild(popup);
+    });
+  
+    closePopupSpan.appendChild(closeImg);
+  
+  
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('title');
+    popupContent.appendChild(titleDiv);
+  
+    const titleHeading = document.createElement('h5');
+    titleHeading.textContent = 'Prompt details';
+    titleDiv.appendChild(titleHeading);
+  
+    const promptPopupContentDiv = document.createElement('div');
+    promptPopupContentDiv.classList.add('prompt_popup_content');
+    popupContent.appendChild(promptPopupContentDiv);
+  
+    const tabPromptContentDiv = document.createElement('div');
+    tabPromptContentDiv.classList.add('tab_prompt_content');
+    promptPopupContentDiv.appendChild(tabPromptContentDiv);
+  
+    const answerDiv = document.createElement('div');
+    answerDiv.classList.add('answer');
+    tabPromptContentDiv.appendChild(answerDiv);
+  
+    const answerHeading = document.createElement('h3');
+    answerHeading.textContent = name;
+    answerDiv.appendChild(answerHeading);
+  
+    const answerPara1 = document.createElement('p');
+    answerPara1.textContent = description;
+    answerDiv.appendChild(answerPara1);
+  
+    const statsList = document.createElement('ul');
+    statsList.classList.add('stats');
+    answerDiv.appendChild(statsList);
+  
+  
+  
+    let likeIcon = createElem("img", {
+      src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+    }, []);
+    
+  
+    let likeP = createElem("p", {
+     style: "margin: unset;"
+    }, []);
+  
+    likeP.textContent += ' ' + like_amount;
+  
+    let likes = createElem("li", {}, [
+      likeIcon,
+      likeP
+    ]);
+  
+    const likeBlock = document.createElement('li');
+    likeBlock.appendChild(likes);
+    statsList.appendChild(likeBlock);
+  
+  
+    let viewIcon = createElem("img", {
+      src: chrome.runtime.getURL("assets/images/eye.svg"),
+    }, []);
+  
+    let viewP = createElem("p", {
+      style: "margin: unset;"
+     }, []);
+   
+     viewP.textContent += ' ' + amount_of_lookups;
+   
+    let views = createElem("li", {}, [
+      viewIcon,
+      viewP
+    ]);
+  
+    
+    const viewBlock = document.createElement('li');
+  
+    viewBlock.appendChild(views);
+    statsList.appendChild(viewBlock);
+  
+  
+  
+  
+    const contentTopicDiv = document.createElement('div');
+    contentTopicDiv.classList.add('content_topic');
+    promptPopupContentDiv.appendChild(contentTopicDiv);
+  
+    const form = document.createElement('form');
+  
+    form.addEventListener('submit', async (event) => {
+      form.checkValidity();
+      console.log('form submit', event);
+      event.preventDefault();
+    });
+  
+    contentTopicDiv.appendChild(form);
+  
+  
+    function createInput(labelText, inputType, placeholder, onValueChange, inputValue) {
+      const inputDiv = document.createElement('div');
+      inputDiv.classList.add('input');
+  
+      const inputLabel = document.createElement('label');
+      inputLabel.textContent = labelText;
+      inputDiv.appendChild(inputLabel);
+  
+      const input = document.createElement('input');
+      input.type = inputType;
+      input.placeholder = placeholder;
+      input.required = true;
+      input.value = null;
+      input.name = labelText;
+      input.addEventListener('input', onValueChange);
+      inputDiv.appendChild(input);
+  
+      return inputDiv;
+    }
+  
+    const handleInputValueChange = (e) => {
+      const index = modalState.findIndex(({ variable_name }) => variable_name === e.target.name);
+      modalState[index].value = e.target.value;
+    }
+  
+    inputs.forEach(({ variable_name, placeholder }) => {
+      const inputDiv = createInput(variable_name, 'text', placeholder, handleInputValueChange);
+      form.appendChild(inputDiv);
+    });
+  
+    const bottomDiv = document.createElement('div');
+    bottomDiv.classList.add('bottom');
+    popupContent.appendChild(bottomDiv);
+  
+    const sendBtn = document.createElement('button');
+    sendBtn.classList.add('use_prompt');
+    sendBtn.textContent = 'Send prompt';
+  
+    sendBtn.addEventListener('click', (e) => {
+      const isValid = form.checkValidity();
+      console.log('isValid', isValid);
+      if (!isValid) {
+        form.reportValidity();
+      } else {
+        document.body.removeChild(popup);
+        sendInput(replaceVariables(modalState, prompt_template));
+  
+        const observer = new MutationObserver(() => {
+          const checkElements = () => {
+            const matches = [];
+            const divElements = document.querySelectorAll('.break-words');
+            
+            const divCount = divElements.length;
+            
+            for (let i = divCount - 5; i < divCount ; i++) {
+              const div = divElements[i];
+  
+              const childDiv = div.querySelector('div')      
+              const innerText = childDiv?.innerText ? childDiv?.innerText: '';                      
+  
+              if (innerText.includes(replaceVariables(modalState, prompt_template))) {                   
+              div.parentNode.parentNode.parentNode.parentNode.style.display = 'none';
+                // matches.push(div);
+              }
+            }
+  
+            // if (matches.some(div => div.getAttributeNames().length === 0)) {
+            //   console.log('matches___in');
+            //   const lastFiveItems = matches.slice(-5);
+            //   lastFiveItems.forEach(div => {
+            //     div.style.display = 'none';
+            //   });
+            // }
+          };
+  
+          checkElements();
+        });
+  
+        observer.observe(document.body, { childList: true, subtree: true });
+  
+  
+        // Ideally, we need to clear MutationObserver instance after prompt is sent but chatgpt can show our prompt in the chat after some time
+        // A lot of MutationObserver can be created, and it can cause performance issues
+        // 1 prompt template message = 1 MutationObserver listener
+      }
+    });
+  
+    bottomDiv.appendChild(sendBtn);
+  
+    return popup;
+  }

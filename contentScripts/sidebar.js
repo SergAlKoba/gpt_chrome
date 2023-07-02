@@ -413,7 +413,6 @@ function createSearch() {
     createPrompts(promptsResult?.results || [],promptBarContentList,'.drop_content.list');
     createPrompts(promptsResult?.results || [], promptBarContentGrid, '.drop_content.grid')
 
-    // createPrompts(promptsResult?.results || []);
   }
 
   const debouncedProcessInput = debounce(processInput, 500);
@@ -571,7 +570,7 @@ function createSinglePrompt(promptObj) {
     style: "margin: unset;"
    }, []);
  
-   viewP.textContent += ' ' + promptObj.like_amount;
+   viewP.textContent += ' ' + promptObj.amount_of_lookups;
  
   let views = createElem("li", {}, [
     viewIcon,
@@ -718,17 +717,13 @@ async function createPromptBar() {
 
 function createPrompts(prompts, parent, parentClass='.drop_content.list') {
   const promptsWrapper = document.querySelector(parentClass) || parent;
-  console.log('promptsWrapper____', promptsWrapper);
+  
   // const promptsWrapperGrid = document.querySelector('.drop_content.grid') || parent;
 
   while (promptsWrapper.firstChild) {
     promptsWrapper.removeChild(promptsWrapper.firstChild);
   }
 
-  
-  // while (promptsWrapperGrid.firstChild) {
-  //   promptsWrapperGrid.removeChild(promptsWrapperGrid.firstChild);
-  // }
 
   const onShowPromptPopupById = (prompt) => () => {
     document.body.appendChild(createPromptDetailsPopup(prompt));
@@ -749,6 +744,7 @@ function createPrompts(prompts, parent, parentClass='.drop_content.list') {
 }
 
 function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template }) {
+  console.log('createPromptDetailsPopup');
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement('div');

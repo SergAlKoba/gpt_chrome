@@ -604,20 +604,21 @@
 }
 
 #global .menu_content .promt_item .filter{
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
 }
 
 #global .menu_content .promt_item .filter_content{
     z-index: 4;
     cursor: pointer;
     position: relative;
+    padding-bottom: 10px;
 }
 
-#global .menu_content .promt_item .filter:hover .filter_title::after {
+#global .menu_content .promt_item .filter_content:hover .filter_title::after {
     transform: translate(0px, -50%) rotate(180deg);
 }
 
-#global .menu_content .promt_item .filter:hover .filter_drop{
+#global .menu_content .promt_item .filter_content:hover .filter_drop{
     display: block;
 }
 
@@ -639,6 +640,7 @@
     align-items: center;
     justify-content: space-between;
     background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
 }
 
 #global .menu_content .promt_item .filter_view .view_item{
