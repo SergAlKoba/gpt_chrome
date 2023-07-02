@@ -492,6 +492,8 @@ function addMicrophone() {
     microphoneDiv.appendChild(img);
     const textArea = document.querySelector('textarea');
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
+// create button with text send
+
 
     sendButton.addEventListener("click", () => {
         addSelectedCategoriesValueInEndTextareaValue();

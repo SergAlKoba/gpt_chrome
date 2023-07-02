@@ -910,6 +910,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   sendBtn.textContent = 'Send prompt';
 
   sendBtn.addEventListener('click', (e) => {
+    
     const isValid = form.checkValidity();
     console.log('isValid', isValid);
     if (!isValid) {
@@ -925,10 +926,14 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
           
           const divCount = divElements.length;
           
-          for (let i = divCount - 5; i < divCount ; i++) {
-            const div = divElements[i];
+          let count = divCount>= 5 ? divCount - 5 : 0;
 
-            const childDiv = div.querySelector('div')      
+
+          for (let i = count; i < divCount ; i++) {
+            const div = divElements[i];
+             
+
+            const childDiv = div.querySelector('div')  
             const innerText = childDiv?.innerText ? childDiv?.innerText: '';                      
 
             if (innerText.includes(replaceVariables(modalState, prompt_template))) {                   

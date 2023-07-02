@@ -396,12 +396,13 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
             const matches = [];
             const divElements = document.querySelectorAll('.break-words');
             
-            const divCount = divElements.length;
-            
-            for (let i = divCount - 5; i < divCount ; i++) {
+            const divCount = divElements.length;            
+            let count = divCount>= 5 ? divCount - 5 : 0;
+
+            for (let i = count; i < divCount ; i++) {
               const div = divElements[i];
   
-              const childDiv = div.querySelector('div')      
+              const childDiv = div.querySelector('div')                  
               const innerText = childDiv?.innerText ? childDiv?.innerText: '';                      
   
               if (innerText.includes(replaceVariables(modalState, prompt_template))) {                   
