@@ -65,6 +65,8 @@ function createUlFromItems(items) {
                 sendModalInput(li.getAttribute('data-command'));
             }
             else {
+                const textArea = document.querySelector('textarea');
+                textArea.value = '';
                 e.preventDefault();
                 e.stopPropagation();                
                 onShowPromptPopupById(item.related_prompt)
