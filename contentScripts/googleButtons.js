@@ -169,7 +169,7 @@ const createElem = (tag, attributes, children) => {
 
 
 async function createIdeaPopup(last_message) {
-
+console.log('createIdeaPopup')
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
     const ideaPopup = document.createElement('div');
     ideaPopup.className = 'idea_popup active';
@@ -197,9 +197,14 @@ async function createIdeaPopup(last_message) {
         listItem.textContent = el;
         listItem.addEventListener('click', () => {
             sendInput(listItem.textContent, true);
+
             for (let el of list.childNodes) {
                 el.remove();
             }
+
+            let ideaPopup = document.querySelector('.idea_popup');
+            ideaPopup.remove();
+    
         });
         list.appendChild(listItem);
     }
@@ -297,6 +302,7 @@ function createIdeaElement() {
         } 
         else if (ideaPopup) {
             ideaPopup.classList.toggle('active');
+            ideaPopup.remove();
         }
          else {
             console.error('ideaPopup element is undefined');
