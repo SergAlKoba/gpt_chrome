@@ -64,9 +64,7 @@ function createUlFromItems(items) {
             if (item?.related_prompt===null) {
                 sendModalInput(li.getAttribute('data-command'));
             }
-            else {
-                const textArea = document.querySelector('textarea');
-                textArea.value = '';
+            else {              
                 e.preventDefault();
                 e.stopPropagation();                
                 onShowPromptPopupById(item.related_prompt)
@@ -174,10 +172,22 @@ return prompster;
         }
     });
 
-
+    
     textArea.addEventListener("keydown", (e) => {
     if (e.code === 'Enter') {
+
+        let isCommandMessageByShowModal = concatPromsterBEAndBasePrompster.some(({command}) => command.includes(e?.target?.value.trim()))
+
+    if(isCommandMessageByShowModal){
+        e.preventDefault();
+        e.stopPropagation();  
+        const textArea = document.querySelector('textarea');
+        textArea.value = '';              
+    }
+
         addSelectedCategoriesValueInEndTextareaValue();
+        const textArea = document.querySelector('textarea');
+        textArea.value = '';
     }
 });
 
