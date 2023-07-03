@@ -53,14 +53,12 @@ function createUlFromItems(items) {
             'data-command': item.prompt
         }, [spanNode, textNode]);
 
-        function onShowPromptPopupById  (prompt)  {
-            console.log('prompt',prompt)
+        function onShowPromptPopupById  (prompt)  {            
             document.body.appendChild(createPromptDetailsPopup(prompt));
           };
 
 
-        li.onclick = (e) => {
-            console.log('li.onclick___')
+        li.onclick = (e) => {            
             if (item?.related_prompt===null) {
                 sendModalInput(li.getAttribute('data-command'));
             }
@@ -124,7 +122,6 @@ async function getPrompsterCommands() {
 
 
  function createPrompster() {
-console.log('concatPromsterBEAndBasePrompster',concatPromsterBEAndBasePrompster)
 
 const ul = createUlFromItems(concatPromsterBEAndBasePrompster);
 const prompster = createElementModal('div', {id: 'prompster', class: 'prompster'}, [ul]);
@@ -211,7 +208,7 @@ async function init  (){
    concatPromsterBEAndBasePrompster = [...prompsterComands,...result] ;
 
     const observer = new MutationObserver((mutations) => {
-        console.log('mutation__0');
+        
         for (const mutation of mutations) {        
             if (mutation.type === 'childList') {
                 const idPrompster = document.getElementById('prompster');
@@ -229,7 +226,7 @@ async function init  (){
 init();
 
 function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template }) {
-    console.log('createPromptDetailsPopup2');
+    
     const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
   
     const popup = document.createElement('div');
@@ -348,8 +345,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
     const form = document.createElement('form');
   
     form.addEventListener('submit', async (event) => {
-      form.checkValidity();
-      console.log('form submit', event);
+      form.checkValidity();    
       event.preventDefault();
     });
   
@@ -395,8 +391,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
     sendBtn.textContent = 'Send prompt';
   
     sendBtn.addEventListener('click', (e) => {
-      const isValid = form.checkValidity();
-      console.log('isValid', isValid);
+      const isValid = form.checkValidity();      
       if (!isValid) {
         form.reportValidity();
       } else {

@@ -147,7 +147,7 @@ async function getFavorites() {
     }
 
     let result = await response.json();
-    console.log(result);
+    
     return result;
   } catch (error) {
     console.error('An error occurred:', error);
@@ -166,7 +166,7 @@ const TOKEN = localStorage.getItem('token') || '';
       throw new Error('Failed to fetch prompts by category.');
     }
     const result = await response.json();
-    console.log(result);
+    
     return result;
   } catch (error) {
     console.error(error);
@@ -216,7 +216,7 @@ function processInput() {
         for (let i = 0; i < variable_names.length; i++) {
           selected_prompt = selected_prompt.replace(/{.*}/, variables[i]);
         }
-        console.log(selected_prompt);
+        
         input.value = selected_prompt;
         localStorage.removeItem('template');
         input.value = '';
@@ -267,7 +267,7 @@ function createCategory(id) {
   }, []);
 
   getPromptsByCategory(id).then((response) => {
-    console.log(response.length);
+    
     for (let i = 0; i < response.length; i++) {
       const promptParagraph = createElem("p", {}, [response[i].prompt_template]);
       const promptDiv = createElem("div", {
@@ -286,8 +286,7 @@ function createCategory(id) {
           localStorage.setItem('template', response[i].prompt_template);
           processInput();
         } else {
-          localStorage.setItem('template', selected_prompt);
-          console.log(selected_prompt);
+          localStorage.setItem('template', selected_prompt);          
           sendInput(selected_prompt, true);
         }
       });
@@ -611,7 +610,6 @@ function createSinglePrompt(promptObj) {
     class: promptObj.is_liked ? "active" : ""
   }, [likeIcon, likeHoverIcon]);
 
-  console.log('promptObj', promptObj);
 let isLiked = promptObj.is_liked;
 
   likeLi.addEventListener("click",async function (e) {
@@ -622,12 +620,8 @@ let isLiked = promptObj.is_liked;
         like: !isLiked
     }
 
-    // console.log(promptObj)
-
      createLike(favoriteRequestObj);
      isLiked = !isLiked;
-
-    console.log("click____after createLike");
 
         if (likeLi.classList.contains("active")) {
             likeLi.classList.remove("active");    
@@ -653,8 +647,7 @@ let isLiked = promptObj.is_liked;
     
     favouriteLi.addEventListener("click",async function (e) {
         e.stopPropagation();
-        console.log("click____");
-console.log('isFavorite',isFavorite)
+        
         const favoriteRequestObj = {
             prompt_id: promptObj.id,
             favourite: !isFavorite
@@ -733,8 +726,7 @@ function createPrompts(prompts, parent, parentClass='.drop_content.list') {
     let prompt = createSinglePrompt(prompts[i]);
     const promptId = prompts[i].id;
 
-    prompt.addEventListener('click', () => {
-      console.log('click___1', );
+    prompt.addEventListener('click', () => {      
       onShowPromptPopupById(prompts[i])()
     });
 
@@ -744,7 +736,7 @@ function createPrompts(prompts, parent, parentClass='.drop_content.list') {
 }
 
 function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template }) {
-  console.log('createPromptDetailsPopup');
+  
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement('div');
@@ -863,8 +855,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   const form = document.createElement('form');
 
   form.addEventListener('submit', async (event) => {
-    form.checkValidity();
-    console.log('form submit', event);
+    form.checkValidity();    
     event.preventDefault();
   });
 
@@ -911,8 +902,7 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
 
   sendBtn.addEventListener('click', (e) => {
     
-    const isValid = form.checkValidity();
-    console.log('isValid', isValid);
+    const isValid = form.checkValidity();    
     if (!isValid) {
       form.reportValidity();
     } else {
@@ -974,7 +964,7 @@ async function init() {
     processInput();
     const categoriesResponse = await getCategories();
     const categories = categoriesResponse.results;
-    console.log("categories".toLocaleUpperCase(), categories);
+    
     for (let i = 0; i < categories.length; i++) {
       const categoryId = categories[i].id;
       const categoryItems = createCategory(categoryId);
