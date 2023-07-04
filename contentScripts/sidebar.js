@@ -107,7 +107,7 @@ async function searchPrompts(text, categoryId, sort) {
 
 
   setIsLoading(true);
-  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId}&sort=${sort}`, requestOptions);
+  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId===4?'':categoryId}&sort=${sort}`, requestOptions);
   setIsLoading(false);
 
   return await response.json();
@@ -175,6 +175,25 @@ const TOKEN = localStorage.getItem('token') || '';
     return [];
   }
 }
+
+async function getFavoritesCategory() {
+  const TOKEN = localStorage.getItem('token') || '';
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${API_URL}/api/user/favorites`,{headers: {Authorization: `token ${TOKEN}`}});
+      setIsLoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch prompts by category.');
+      }
+      const result = await response.json();
+      
+      return result?.results;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
 
 const regex = /{([^}]+)}/g;
 
@@ -524,7 +543,13 @@ function createCategoryMenu(categories) {
     if (e.target.tagName === 'LI') {
       const categoryId = parseInt(e.target.getAttribute('data'));
       selectedCategoryId = categoryId;
-      const promptsResponse = await getPromptsByCategory(categoryId);
+      let promptsResponse = undefined
+      if(categoryId!==4){
+         promptsResponse = await getPromptsByCategory(categoryId);        
+      }
+      else {
+        promptsResponse = await getFavoritesCategory();        
+      }
 
       const { name: newTitleName } = categories.find(({ id }) => id === categoryId);
       document.querySelector('.filter_title span').textContent = newTitleName;
@@ -750,6 +775,9 @@ let isLiked = promptObj.is_liked;
 
 async function createPromptBar() {
   const categoriesResponse = await getCategories();
+  const defaultCategory = [{id: 4, name: "Favorite", icon: null, color: null}]
+  const categories = [ ...categoriesResponse?.results, ...defaultCategory ]  || defaultCategory;
+
   const promptsResponse = await getPromptsByCategory(categoriesResponse?.results[0]?.id);
 
   let promptBarContent = createElem("div", {
@@ -769,7 +797,7 @@ async function createPromptBar() {
   }, [ promptBarContent, promptBarContentGrid ]);
   let promptsCategoriesDiv = createElem("div", {
     class: "categories promt_item active"
-  }, [createCategoryMenu(categoriesResponse?.results || []), promptItemContent]);
+  }, [createCategoryMenu(categories), promptItemContent]);
   let promptBar = createElem("div", {
     class: "promt_bar"
   }, [createSearch(), promptsCategoriesDiv]);

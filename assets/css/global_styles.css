@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
 
 *{
     margin: 0;
@@ -3074,7 +3075,7 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .wrapper_form_and_sort_btn .sort_menu .sort_menu_item{
     cursor: pointer;
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
