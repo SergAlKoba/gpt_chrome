@@ -12,6 +12,15 @@ const styleItemData = [
     { title: 'Roboto Condensed', name: 'roboto_condensed' },
 ];
 
+function getUserSubscriptionTier() {
+    // Таких функции 2 это работает только здесь
+    const subscriptionTier =  localStorage.getItem('subscription_tier');
+    if(subscriptionTier===null) return 'free'
+    if(subscriptionTier==='1') return 'tier1'
+    if(subscriptionTier==='2') return 'tier2'
+    if(subscriptionTier==='3') return 'tier3'
+  }
+
 function createTabsDiv() {
     let tabsDiv = document.createElement('div');
     tabsDiv.className = 'tabs';
@@ -38,8 +47,18 @@ function createTabsDiv() {
     let toneItems = document.createElement('div');
     toneItems.setAttribute('class', 'tone_items');
 
-    for (let i = 0; i < toneItemsData.length; i++) {
-        const item = toneItemsData[i];
+    let getToneItemsDataBySubscriptionTier = {
+        'free': [...toneItemsData].filter((tone) => tone.name !== "colorful_gradient"),
+        "tier1": toneItemsData,
+        "tier2": toneItemsData,
+        "tier3": toneItemsData,
+    }
+
+    const subscriptionTier = getUserSubscriptionTier();
+    const toneItemsDataBySubscriptionTier = getToneItemsDataBySubscriptionTier[subscriptionTier];
+
+    for (let i = 0; i < toneItemsDataBySubscriptionTier.length; i++) {
+        const item = toneItemsDataBySubscriptionTier[i];
         let toneItem = document.createElement('div');
         toneItem.setAttribute('class', 'tone_item');
         toneItem.setAttribute('data-theme', item.name);

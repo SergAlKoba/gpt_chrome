@@ -20,6 +20,14 @@ function setIsLoading(value) {
   });
 }
 
+function getUserSubscriptionTier() {
+  const subscriptionTier =  localStorage.getItem('subscription_tier');
+  if(subscriptionTier===null) return 'free'
+  if(subscriptionTier==='1') return 'tier1'
+  if(subscriptionTier==='2') return 'tier2'
+  if(subscriptionTier==='3') return 'tier3'
+}
+
 addObserver(function(isLoading) {
   const loaderWrapper = document.querySelector('.loader-wrapper');
   if (isLoading) {

@@ -202,10 +202,7 @@ return prompster;
         const textArea = document.querySelector('textarea');
         textArea.value = '';              
     }
-
         addSelectedCategoriesValueInEndTextareaValue();
-        const textArea = document.querySelector('textarea');
-        textArea.value = '';
     }
 });
 

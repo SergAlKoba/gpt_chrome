@@ -50,6 +50,14 @@ const googleStyles = [{
     title: 'Business', name: 'name 10'
 }];
 
+const googleStylesSubscriptionTierFree = [
+    {
+        title: 'Default', name: 'name 1'
+    }, {
+        title: 'Narrative', name: 'name 1'
+    }, 
+]
+
 const googleTones = [{
     title: 'Default', name: 'name 1'
 }, {
@@ -77,6 +85,14 @@ const googleTones = [{
 }, {
     title: 'Serious', name: 'name 12'
 }];
+
+const googleTonesSubscriptionTierFree = [
+    {
+        title: 'Default', name: 'name 1'
+    }, {
+        title: 'Formal', name: 'name 1'
+    },
+]
 
 const languagesList = [{
     title: 'Default', name: 'name 1'
@@ -366,21 +382,22 @@ function createFollowUpDiv() {
         return mainList;
     };
 
-    const div = document.createElement('div');
-    div.classList.add('style');
-    div.id = 'follow_up';
-    div.appendChild(createFollowUpList());
-    return div;
+    const followUpDropDown = document.createElement('div');
+    followUpDropDown.classList.add('style');
+    followUpDropDown.id = 'follow_up';
+    followUpDropDown.appendChild(createFollowUpList());
+    return followUpDropDown;
 }
 
 
 function createLatestGoogle() {
-
     const latestGoogleContentDiv = document.createElement('div');
     latestGoogleContentDiv.className = 'latest_google_content';
 
+    const subscriptionTier = getUserSubscriptionTier();
     const latestGoogleDiv = document.createElement('div');
-    latestGoogleDiv.className = 'latest_google';
+    const classNameLatestGoogleDiv = subscriptionTier === 'tier2' || subscriptionTier === 'tier3' ? 'latest_google' : 'latest_google without_idea'; 
+    latestGoogleDiv.className = classNameLatestGoogleDiv;
 
     const latestDataDiv = document.createElement('div');
     latestDataDiv.className = 'latest_data';
@@ -397,8 +414,21 @@ function createLatestGoogle() {
         return span;
     });
 
+let getCategoriesBySubscriptionTier = {
+    'free': [...categories].map((category) => {
+        return {
+            ...category,
+            items: category.id === 'tone-google' ? googleTonesSubscriptionTierFree : category.id === 'style-google' ? googleStylesSubscriptionTierFree : category.items,
+        }      
+    }),
+    "tier1": categories,
+    "tier2": categories,
+    "tier3": categories,
+}
 
-    categories.forEach(category => {
+const categoriesBySubscriptionTier = getCategoriesBySubscriptionTier[subscriptionTier];
+
+categoriesBySubscriptionTier.forEach(category => {
         const div = document.createElement('div');
         div.classList.add('style');
         div.classList.add('style_grey'); 
@@ -541,16 +571,19 @@ function addMicrophone() {
 
 
 function addElementGoogle() {
+    const subscriptionTier = getUserSubscriptionTier();
+
     const latestGoogle = createLatestGoogle();
     var ideaElement = createIdeaElement();
 
     let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form");
 
     let latestGoogleContent = latestGoogle.querySelector('.latest_google_content');
-    latestGoogleContent.appendChild(createFollowUpDiv());
+    if(subscriptionTier !== 'free') latestGoogleContent.appendChild(createFollowUpDiv());
 
     $(latestGoogle).insertAfter(messageInput);
-    latestGoogle.prepend(ideaElement);
+    
+    if(subscriptionTier === 'tier2') latestGoogle.prepend(ideaElement);
 }
 
 setInterval(() => {

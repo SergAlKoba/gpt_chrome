@@ -1896,6 +1896,10 @@
     letter-spacing: -0.04em;
 }
 
+#global .latest_google.without_idea {
+   justify-content: flex-end;
+}
+
 #global .group.w-full.text-gray-800.dark\:text-gray-100.border-b.dark\:bg-gray-800:hover .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible{
     display: flex;
 }
