@@ -72,6 +72,27 @@ function createUlFromItems(items) {
             ul.classList.remove('active');
         };
 
+        li.addEventListener('touchstart', event => {
+            console.log('touchstart');            
+
+            // Обработчик события touchstart
+            // ...
+          });
+
+        // li.touchend = (e) => {
+        //     if (item?.related_prompt===null) {
+        //         sendModalInput(li.getAttribute('data-command'));
+        //     }
+        //     else {              
+        //         e.preventDefault();
+        //         e.stopPropagation();                
+        //         onShowPromptPopupById(item.related_prompt)
+        //     }
+                
+        //     prompster.classList.remove('active');
+        //     ul.classList.remove('active');
+        // };
+
         liItems.push(li);
     });
 
@@ -443,3 +464,27 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   
     return popup;
   }
+
+let body = document.querySelector('body');
+
+  body.addEventListener('touchstart', event => {
+    console.log('touchstart');            
+
+    // Обработчик события touchstart
+    // ...
+  });
+
+    body.addEventListener('touchend', event => {
+        console.log('touchend');
+        // Обработчик события touchend
+        // ...
+    });
+
+    body.addEventListener('touchmove', event => {
+        console.log('touchmove');
+        // Обработчик события touchmove
+        // ...
+    }
+    );
+
+    

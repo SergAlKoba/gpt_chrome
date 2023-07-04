@@ -109,7 +109,8 @@
         "assets/images/selected.svg",
         "assets/images/selected_hover.svg",
         "assets/images/unordered-list.svg",
-        "assets/images/grid.svg"
+        "assets/images/grid.svg",
+        "assets/images/sortIcon.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

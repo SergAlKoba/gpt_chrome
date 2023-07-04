@@ -5,6 +5,8 @@ const TOKEN = localStorage.getItem('token') || '';
 
 let isLoading = false;
 let selectedCategoryId = undefined;
+let selectedSort = undefined;
+let searchValue = undefined;
 const observers = [];
 
 function addObserver(callback) {
@@ -92,7 +94,7 @@ function normalizeString(string) {
 }
 
 
-async function searchPrompts(text, categoryId) {
+async function searchPrompts(text, categoryId, sort) {
 
 
   let myHeaders = new Headers();
@@ -105,7 +107,7 @@ async function searchPrompts(text, categoryId) {
 
 
   setIsLoading(true);
-  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId}`, requestOptions);
+  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId}&sort=${sort}`, requestOptions);
   setIsLoading(false);
 
   return await response.json();
@@ -203,6 +205,7 @@ function sendInput(selected_prompt, is_disabled = false) {
 
 
 function processInput() {
+  console.log('processInput___');
   let input = document.querySelector("input[type='search']");
   let variable_names = input.value.split(",");
   let send_button = document.querySelector('form > div > button');
@@ -397,22 +400,74 @@ function createRegistration() {
   return registration;
 }
 
-function createSearch() {
-  const searchInput = createElem("input", {
-    type: "search",
-    placeholder: "Search",
+function createSortBtn  ()  {
+  const sortIcon = createElem("img", {
+    src: chrome.runtime.getURL("assets/images/sortIcon.svg"),
   }, []);
 
-  async function processInput(e) {
-    const promptsResult = await searchPrompts(e.target.value, selectedCategoryId || 1);
+  const wrapperSortIcon = createElem("div", {class:"wrapper_sort_icon"}, [sortIcon]);
+  return wrapperSortIcon
+}
+
+
+function createSortMenuList() {
+
+  const sortMenuList = createElem("ul", {
+    class: "sort_menu"
+  }, [])
+
+  const list=[{text:'Most Liked',id:1},{text:'Most Viewed',id:2},{text:'Date',id:3}]
+
+  list.forEach(( item ) => {
+    const isActive = item?.id === selectedSort;
+    const sortMenuListItem = createElem("li", {
+    class: isActive ? "sort_menu_item active" : "sort_menu_item"
+  }, [item.text]);
+
+  sortMenuListItem.addEventListener('click', async()=>{
+    
+    selectedSort = item?.id;
+    
+    let sortMenuItemActive = document.querySelector('.sort_menu_item.active');
+    if(sortMenuItemActive) sortMenuItemActive.classList.remove('active')
+
+    sortMenuList.classList.toggle('active');
+    sortMenuListItem.classList.toggle('active');
+    const promptsResult = await searchPrompts(searchValue||'', selectedCategoryId || 1, selectedSort);
 
     const promptBarContentList = document.querySelector('.drop_content.list');
     const promptBarContentGrid = document.querySelector('.drop_content.grid');
-
+  
     createPrompts(promptsResult?.results || [],promptBarContentList,'.drop_content.list');
     createPrompts(promptsResult?.results || [], promptBarContentGrid, '.drop_content.grid')
 
-  }
+  })
+
+  sortMenuList.appendChild(sortMenuListItem);
+  })
+
+  return sortMenuList;
+}
+
+
+async function processInput(e) {
+  const promptsResult = await searchPrompts(e.target.value, selectedCategoryId || 1, selectedSort || 1);
+  searchValue = e.target.value;
+  const promptBarContentList = document.querySelector('.drop_content.list');
+  const promptBarContentGrid = document.querySelector('.drop_content.grid');
+
+  createPrompts(promptsResult?.results || [],promptBarContentList,'.drop_content.list');
+  createPrompts(promptsResult?.results || [], promptBarContentGrid, '.drop_content.grid')
+
+}
+
+
+function createSearch() {
+  const searchInput = createElem("input", {
+    type: "search",
+    id: "search",
+    placeholder: "Search",
+  }, []);
 
   const debouncedProcessInput = debounce(processInput, 500);
 
@@ -421,15 +476,25 @@ function createSearch() {
   let searchIcon = createElem("img", {
     src: chrome.runtime.getURL("assets/images/search.svg"),
   }, []);
+
   let searchButton = createElem("button", {}, [searchIcon]);
 
   const form = createElem("form", {}, [searchButton, searchInput]);
+  
+  const sortBtn = createSortBtn() 
+  const sortMenuList = createSortMenuList();
+  const wrapperFormAndSortBtn = createElem("div", {class:"wrapper_form_and_sort_btn"}, [form, sortBtn, sortMenuList]);
+
+  sortBtn.addEventListener('click', () => {
+    sortMenuList.classList.toggle('active');
+  });
+
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
   });
 
-  return form;
+  return wrapperFormAndSortBtn;
 }
 
 function createCategoryMenu(categories) {
@@ -559,6 +624,13 @@ function createSinglePrompt(promptObj) {
   title.textContent = promptObj.name;
   let description = createElem("p", {}, []);
   description.textContent = promptObj.description;
+  
+  let backgroundColor =  promptObj?.categories && promptObj?.categories[0]?.color ?"background-color: " + promptObj?.categories[0]?.color : "background-color: rgba(185, 159, 21, 1);";
+
+  let point = createElem("span", {
+    class: "point",
+    style: backgroundColor
+  }, []);
 
   
   let viewIcon = createElem("img", {
@@ -673,7 +745,7 @@ let isLiked = promptObj.is_liked;
 
   return createElem("div", {
     class: "answer"
-  }, [link, categories, title, description, stats, selected]);
+  }, [link, categories, title, description, stats, selected , point]);
 }
 
 async function createPromptBar() {
@@ -691,10 +763,6 @@ async function createPromptBar() {
 
   createPrompts(promptsResponse,promptBarContent,'.drop_content.list');
   createPrompts(promptsResponse, promptBarContentGrid, '.drop_content.grid')
-
-  // createPrompts(promptsResponse, promptBarContent)
-  // createPrompts(promptsResponse, promptBarContentGrid)
-
 
   let promptItemContent = createElem("div", {
     class: "promt_item_content"
@@ -731,7 +799,6 @@ function createPrompts(prompts, parent, parentClass='.drop_content.list') {
     });
 
     promptsWrapper.appendChild(prompt);
-    // promptsWrapperGrid.appendChild(prompt);
   }
 }
 
