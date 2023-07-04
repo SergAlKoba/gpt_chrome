@@ -1592,15 +1592,32 @@
     left: 0;
     z-index: 3;
     width: 100%;
-    bottom: 65px;
+    bottom: 45px;
     display: none;
     position: absolute;
     border-radius: 8px;
-    background: #272727;
-    padding: 10px 6px 5px 40px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    padding: 10px 6px 0px 0px;
+    /* box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16); */
     min-height: 50px;
+    overflow-x: scroll;
+    white-space: nowrap;
+
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent; 
 }
+  
+#global .idea_popup::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+#global .idea_popup::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+#global .idea_popup::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
 
 #global .idea_popup.active{
     display: block;
@@ -1615,8 +1632,9 @@
 
 #global .idea_popup ul{
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     align-items: flex-start;
+    display: inline-block;
 }
 
 #global .idea_popup ul li{
@@ -1627,11 +1645,21 @@
     color: #D8DADB;
     margin-right: 6px;
     line-height: 16px;
-    margin-bottom: 5px;
     border-radius: 4px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.1);
+    /* background: rgba(255, 255, 255, 0.1); */
+    background: #272727;
+
     box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.08);
+
+    display: inline-block;
+    min-width: 100px;
+    padding: 0px 10px;
+
+}
+
+.btn-response{
+    margin-bottom: 20px;
 }
 
 #global .microphone {

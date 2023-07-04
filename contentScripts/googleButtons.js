@@ -5,6 +5,7 @@ document.querySelector(':root').style.setProperty("--languageCaretDown", `url(${
 
 async function getTooltips(output) {
     console.log('getTooltips', output)
+    try {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
@@ -17,8 +18,13 @@ async function getTooltips(output) {
 
     let response = await fetch("https://gotgood.ai/api/chat/tooltip-search/", requestOptions)
     let result = await response.json();
-    console.log('response', result)
     return result;
+
+} catch (e) {
+    console.log('error getTooltips', e)
+    return {isError: true,message:'Unfortunately no prompts'};
+}
+    
 }
 
 
@@ -196,14 +202,20 @@ console.log('createIdeaPopup')
     ideaPopup.append(spinner)
     $(ideaPopup).insertAfter(sendButton);
 
-    const image = document.createElement('img');
-    image.src = chrome.runtime.getURL('assets/images/idea2.svg');
-    image.alt = '';
-    ideaPopup.appendChild(image);
+    // const image = document.createElement('img');
+    // image.src = chrome.runtime.getURL('assets/images/idea2.svg');
+    // image.alt = '';
+    // ideaPopup.appendChild(image);
 
     const list = document.createElement('ul');
 
     let data = await getTooltips(last_message);
+    if(data?.isError){
+        const listItem = document.createElement('li')
+        listItem.textContent = data.message;
+        list.appendChild(listItem);
+    }
+
     spinner.remove()
 
     ideaPopup.appendChild(list);
@@ -307,13 +319,14 @@ function createIdeaElement() {
 
     buttonIdea.addEventListener('click', async function () {
         let ideaPopup = document.querySelector('.idea_popup');
-
-        const isNotExistIdeaPopup = () => !ideaPopup && !isAddingIdeaPopup
+        // console.log('idea_popup',!idea_popup)
+        const isNotExistIdeaPopup = () => !ideaPopup 
         
         if (isNotExistIdeaPopup()) {
-            isAddingIdeaPopup = true;
+        // console.log('idea_popup',idea_popup)
+            // isAddingIdeaPopup = true;
             await addIdeaPopup();            
-            isAddingIdeaPopup = false;
+            // isAddingIdeaPopup = false;
             console.log("loaded");
         } 
         else if (ideaPopup) {
@@ -583,10 +596,29 @@ function addElementGoogle() {
 
     $(latestGoogle).insertAfter(messageInput);
     
-    if(subscriptionTier === 'tier2') latestGoogle.prepend(ideaElement);
+    // if(subscriptionTier === 'tier2') 
+    latestGoogle.prepend(ideaElement);
 }
 
+let isBtnResponseChangeClassName = false;
+
 setInterval(() => {
+    
+if(!isBtnResponseChangeClassName){
+    const searchText = 'Regenerate response';
+    const elements = document.querySelectorAll('button div');
+    
+for (const element of elements) {
+  if (element.textContent.includes(searchText)) {
+    console.log(element.parentNode);
+    const btnResponse = element.parentNode;
+    btnResponse.classList.add('btn-response');
+    isBtnResponseChangeClassName = true;
+    }
+   }
+}
+
+
     const element = document.querySelector(".latest_google");
     if (!element) {
         addElementGoogle();
