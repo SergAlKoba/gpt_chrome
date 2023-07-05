@@ -1793,6 +1793,14 @@
     transform: scale(1.1);
 }
 
+#global .latest_google .checklist.no_access_idea{
+    filter: brightness(0.4);
+}
+
+#global .latest_google .checklist.no_access_idea a{
+    transform: unset;
+}
+
 #global .latest_google .latest_google_content{
     display: flex;
     align-items: center;
@@ -3131,6 +3139,29 @@ ul[id^="headlessui-listbox-options"] li {
 #global .wrapper_form_and_sort_btn .sort_menu.active{
     display: flex;
 } 
-    
+
+
+#global .popup_content.upgrade {
+    width: 400px;
+}
+
+#global .upgrade_popup_content{
+    padding: 20px;
+}
+
+
+#global .no_access_dropdown_item_category{
+    filter: brightness(0.4);
+}
+
+#global .no_access_tone_item{
+    filter: brightness(0.4);
+}
+
+#global .no_access_follow_up_btn{
+    filter: brightness(0.4);
+}
+
+
 
 /* END Prompt library */

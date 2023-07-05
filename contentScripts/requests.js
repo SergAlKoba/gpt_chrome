@@ -59,9 +59,15 @@ async function getBookmarks() {
     };
 
     let response = await fetch("https://gotgood.ai/api/chat/get-bookmarks/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    .then(response => {            
+        if(response.status === 402) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+            document.body.appendChild(upgradeSubscriptionPopup)
+          }
+          return response
+    })
+    .catch(error => console.log('error', error));
+
     let result = await response.json();
     return result;
 }
@@ -83,9 +89,14 @@ async function createBookmark(output) {
     };
 
     await fetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    .then(response => {            
+        if(response.status === 402) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+            document.body.appendChild(upgradeSubscriptionPopup)
+          }
+          return response
+    })
+    .catch(error => console.log('error', error));
 }
 
 async function createFavourite(prompt) {
@@ -105,9 +116,14 @@ async function createFavourite(prompt) {
     };
 
     let response = await fetch("https://gotgood.ai/api/chat/prompt-favourite/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    .then(response => {            
+        if(response.status === 402) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+            document.body.appendChild(upgradeSubscriptionPopup)
+          }
+          return response
+    }).catch(error => console.log('error', error));
+
     let result = await response.json();
     return result;
 }
@@ -129,9 +145,15 @@ async function createLike(prompt) {
     };
 
     let response = await fetch("https://gotgood.ai/api/shop/prompt-like/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
+        .then(response => {            
+            if(response.status === 402) {
+                const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+                document.body.appendChild(upgradeSubscriptionPopup)
+              }
+              return response
+        })
         .catch(error => console.log('error', error));
+
     let result = await response.json();
     return result;
 }

@@ -4,31 +4,31 @@ let headerWasActive = false;
 
 let menuOpened = false;
 
-async function login(email, password) {
-  const response = await fetch("https://gotgood.ai/api/user/login/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email,
-      password
-    }),
-    redirect: 'follow'
-  });
+// async function login(email, password) {
+//   const response = await fetch("https://gotgood.ai/api/user/login/", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       email,
+//       password
+//     }),
+//     redirect: 'follow'
+//   });
 
-  const responseData = await response.json();
-  const {
-    auth_token
-  } = responseData;
+//   const responseData = await response.json();
+//   const {
+//     auth_token
+//   } = responseData;
 
-  if (auth_token) {
-    localStorage.setItem("token", auth_token);
-    console.log("Успешная аутентификация!");
-  } else {
-    throw new Error("Отсутствует токен аутентификации");
-  }
-}
+//   if (auth_token) {
+//     localStorage.setItem("token", auth_token);
+//     console.log("Успешная аутентификация!");
+//   } else {
+//     throw new Error("Отсутствует токен аутентификации");
+//   }
+// }
 
 async function doLogin() {
   try {

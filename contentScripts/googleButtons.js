@@ -3,6 +3,16 @@ document.querySelector(':root').style.setProperty("--toneCaretDown", `url(${chro
 document.querySelector(':root').style.setProperty("--styleCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 document.querySelector(':root').style.setProperty("--languageCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
 
+let accessSubscriptionTierForIdea = ['tier2','tier3']
+
+function getUserSubscriptionTier() {
+    const subscriptionTier =  localStorage.getItem('subscription_tier');
+    if(subscriptionTier===null||subscriptionTier==='0') return 'free'
+    if(subscriptionTier==='1') return 'tier1'
+    if(subscriptionTier==='2') return 'tier2'
+    if(subscriptionTier==='3') return 'tier3'
+  }
+
 async function getTooltips(output) {
     console.log('getTooltips', output)
     try {
@@ -17,6 +27,14 @@ async function getTooltips(output) {
     };
 
     let response = await fetch("https://gotgood.ai/api/chat/tooltip-search/", requestOptions)
+    .then(response => {            
+        if(response.status === 402) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+            document.body.appendChild(upgradeSubscriptionPopup)
+          }
+          return response
+    })
+
     let result = await response.json();
     return result;
 
@@ -33,72 +51,111 @@ const languages = {
 };
 
 const googleStyles = [{
-    title: 'Default', name: 'name 1'
+    title: 'Default',
+    name: 'name 1',
+    isAccess: true
 }, {
-    title: 'Narrative', name: 'name 1'
+    title: 'Narrative',
+    name: 'name 1',
+    isAccess: true
 }, {
-    title: 'Expository', name: 'name 2'
+    title: 'Expository',
+    name: 'name 2',
+    isAccess: true
 }, {
-    title: 'Descriptive', name: 'name 3'
+    title: 'Descriptive',
+    name: 'name 3',
+    isAccess: true
 }, {
-    title: 'Persuasive', name: 'name 4'
+    title: 'Persuasive',
+    name: 'name 4',
+    isAccess: true
 }, {
-    title: 'Creative', name: 'name 5'
+    title: 'Creative',
+    name: 'name 5',
+    isAccess: true
 }, {
-    title: 'Technical', name: 'name 6'
+    title: 'Technical',
+    name: 'name 6',
+    isAccess: true
 }, {
-    title: 'Review', name: 'name 7'
+    title: 'Review',
+    name: 'name 7',
+    isAccess: true
 }, {
-    title: 'Poetic', name: 'name 8'
+    title: 'Poetic',
+    name: 'name 8',
+    isAccess: true
 }, {
-    title: 'Academic', name: 'name 9'
+    title: 'Academic',
+    name: 'name 9',
+    isAccess: true
 }, {
-    title: 'Business', name: 'name 10'
+    title: 'Business',
+    name: 'name 10',
+    isAccess: true
 }];
 
-const googleStylesSubscriptionTierFree = [
-    {
-        title: 'Default', name: 'name 1'
-    }, {
-        title: 'Narrative', name: 'name 1'
-    }, 
-]
+
+
+
+const googleStylesSubscriptionTierFree = [ 'Default', 'Narrative']
 
 const googleTones = [{
-    title: 'Default', name: 'name 1'
+    title: 'Default',
+    name: 'name 1',
+    isAccess: true
 }, {
-    title: 'Formal', name: 'name 1'
+    title: 'Formal',
+    name: 'name 1',
+    isAccess: true
 }, {
-    title: 'Informal', name: 'name 2'
+    title: 'Informal',
+    name: 'name 2',
+    isAccess: true
 }, {
-    title: 'Optimistic', name: 'name 3'
+    title: 'Optimistic',
+    name: 'name 3',
+    isAccess: true
 }, {
-    title: 'Pessimistic', name: 'name 4'
+    title: 'Pessimistic',
+    name: 'name 4',
+    isAccess: true
 }, {
-    title: 'Joyful', name: 'name 5'
+    title: 'Joyful',
+    name: 'name 5',
+    isAccess: true
 }, {
-    title: 'Sad', name: 'name 6'
+    title: 'Sad',
+    name: 'name 6',
+    isAccess: true
 }, {
-    title: 'Sincere', name: 'name 7'
+    title: 'Sincere',
+    name: 'name 7',
+    isAccess: true
 }, {
-    title: 'Hypocritical', name: 'name 8'
+    title: 'Hypocritical',
+    name: 'name 8',
+    isAccess: true
 }, {
-    title: 'Fearful', name: 'name 9'
+    title: 'Fearful',
+    name: 'name 9',
+    isAccess: true
 }, {
-    title: 'Hopeful', name: 'name 10'
+    title: 'Hopeful',
+    name: 'name 10',
+    isAccess: true
 }, {
-    title: 'Humorous', name: 'name 11'
+    title: 'Humorous',
+    name: 'name 11',
+    isAccess: true
 }, {
-    title: 'Serious', name: 'name 12'
+    title: 'Serious',
+    name: 'name 12',
+    isAccess: true
 }];
 
-const googleTonesSubscriptionTierFree = [
-    {
-        title: 'Default', name: 'name 1'
-    }, {
-        title: 'Formal', name: 'name 1'
-    },
-]
+const googleTonesSubscriptionTierFree = ['Default', 'Formal']
 
 const languagesList = [{
     title: 'Default', name: 'name 1'
@@ -138,9 +195,19 @@ function createUlSFromCategory(category) {
 
     category.items.forEach(item => {
         const li = document.createElement('li');
+        if(!item.isAccess){
+            li.classList.add('no_access_dropdown_item_category');
+        }
         li.textContent = item.title;
         li.style.minWidth = '100%';
         li.onclick = function () {
+
+            if(!item.isAccess){
+                const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+                document.body.appendChild(upgradeSubscriptionPopup)
+                return;
+            }          
+
             itemClickHandler(category.className, category.displayName, item, li);
         };
         ul.appendChild(li);
@@ -315,19 +382,27 @@ function createIdeaElement() {
     linkIdea.appendChild(imgIdea);
     buttonIdea.appendChild(linkIdea);
 
-    let isAddingIdeaPopup = false;
 
     buttonIdea.addEventListener('click', async function () {
+        const subscriptionTier = getUserSubscriptionTier();
+        
+         if (!accessSubscriptionTierForIdea.includes(subscriptionTier)) {
+           const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+           document.body.appendChild(upgradeSubscriptionPopup)
+            return
+        }
+
+        let upgradeSubscriptionPopup = document.querySelector('.prompt_details_popup');
+        if (upgradeSubscriptionPopup) {
+            upgradeSubscriptionPopup.remove();
+        }
+        
+
         let ideaPopup = document.querySelector('.idea_popup');
-        // console.log('idea_popup',!idea_popup)
         const isNotExistIdeaPopup = () => !ideaPopup 
         
         if (isNotExistIdeaPopup()) {
-        // console.log('idea_popup',idea_popup)
-            // isAddingIdeaPopup = true;
             await addIdeaPopup();            
-            // isAddingIdeaPopup = false;
-            console.log("loaded");
         } 
         else if (ideaPopup) {
             ideaPopup.classList.toggle('active');
@@ -365,6 +440,13 @@ function createFollowUpDiv() {
         const li = document.createElement('li');
         li.textContent = text;
         li.onclick = () => {
+            const subscriptionTier = getUserSubscriptionTier();
+
+            if (subscriptionTier === 'free') {
+                const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+                document.body.appendChild(upgradeSubscriptionPopup);
+                return;
+            }
             const userInput = document.querySelector('textarea');
             userInput.value += ` ${text}`;
             console.log(text);
@@ -409,8 +491,8 @@ function createLatestGoogle() {
 
     const subscriptionTier = getUserSubscriptionTier();
     const latestGoogleDiv = document.createElement('div');
-    const classNameLatestGoogleDiv = subscriptionTier === 'tier2' || subscriptionTier === 'tier3' ? 'latest_google' : 'latest_google without_idea'; 
-    latestGoogleDiv.className = classNameLatestGoogleDiv;
+    
+    latestGoogleDiv.className = 'latest_google';
 
     const latestDataDiv = document.createElement('div');
     latestDataDiv.className = 'latest_data';
@@ -427,24 +509,26 @@ function createLatestGoogle() {
         return span;
     });
 
+    const changeCategories =(isAccessArr)=> (category) => isAccessArr.includes(category.title)?{...category,isAccess:true}:{...category, isAccess:false} 
+
 let getCategoriesBySubscriptionTier = {
     'free': [...categories].map((category) => {
         return {
             ...category,
-            items: category.id === 'tone-google' ? googleTonesSubscriptionTierFree : category.id === 'style-google' ? googleStylesSubscriptionTierFree : category.items,
+            items: category.items.map(changeCategories(category.id === 'tone-google'? googleTonesSubscriptionTierFree : googleStylesSubscriptionTierFree))
         }      
     }),
     "tier1": categories,
     "tier2": categories,
     "tier3": categories,
 }
-
+console.log('subscriptionTier', subscriptionTier);
 const categoriesBySubscriptionTier = getCategoriesBySubscriptionTier[subscriptionTier];
 
 categoriesBySubscriptionTier.forEach(category => {
         const div = document.createElement('div');
         div.classList.add('style');
-        div.classList.add('style_grey'); 
+        div.classList.add('style_grey');
 
         div.id = category.id;
         latestGoogleDiv.appendChild(div);
@@ -505,7 +589,7 @@ function addImdInSendButton(sendButton) {
     const imgSend = document.createElement('img');
     imgSend.src = chrome.runtime.getURL('assets/images/sendIcon.svg');
     imgSend.alt = '';
-    sendButton.appendChild(imgSend);
+    sendButton?.appendChild(imgSend);
 }
 
 function addSelectedCategoriesValueInEndTextareaValue() {
@@ -536,9 +620,11 @@ function addMicrophone() {
     const textArea = document.querySelector('textarea');
     const sendButton = document.querySelector('#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button');
 // create button with text send
+console.log('sendButton__', sendButton);
+// if(sendButton){
 
-
-    sendButton.addEventListener("click", () => {
+// }
+    sendButton?.addEventListener("click", () => {
         addSelectedCategoriesValueInEndTextareaValue();
     });
 
@@ -587,16 +673,30 @@ function addElementGoogle() {
     const subscriptionTier = getUserSubscriptionTier();
 
     const latestGoogle = createLatestGoogle();
-    var ideaElement = createIdeaElement();
+  
 
     let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form");
 
     let latestGoogleContent = latestGoogle.querySelector('.latest_google_content');
-    if(subscriptionTier !== 'free') latestGoogleContent.appendChild(createFollowUpDiv());
+    
+    const followUpBtn = createFollowUpDiv()
+
+    if (subscriptionTier === 'free') {
+        followUpBtn.classList.add('no_access_follow_up_btn')
+    }
+
+    latestGoogleContent.appendChild(followUpBtn);
 
     $(latestGoogle).insertAfter(messageInput);
+
+    var ideaElement = createIdeaElement();
     
-    // if(subscriptionTier === 'tier2') 
+    if (accessSubscriptionTierForIdea.includes(subscriptionTier)) {
+        ideaElement.classList.add('access_idea') 
+    } else {
+        ideaElement.classList.add('no_access_idea')
+    }
+
     latestGoogle.prepend(ideaElement);
 }
 
@@ -618,7 +718,6 @@ for (const element of elements) {
    }
 }
 
-
     const element = document.querySelector(".latest_google");
     if (!element) {
         addElementGoogle();
@@ -639,3 +738,58 @@ function handleKeyDown(e) {
 }
 
 document.addEventListener("keydown", handleKeyDown);
+
+
+function createUpgradeSubscriptionPopup() {
+  console.log('createUpgradeSubscriptionPopup');
+    const popup = document.createElement('div');
+    popup.classList.add('popup', 'prompt_details_popup', 'active');
+  
+    const closeSpan = document.createElement('span');
+    closeSpan.classList.add('close');
+    popup.appendChild(closeSpan);
+  
+    closeSpan.addEventListener('click', () => {
+    popup.classList.remove('active');
+    });
+  
+    const popupContent = document.createElement('div');
+    popupContent.classList.add('popup_content');
+    popupContent.classList.add('upgrade');
+    popup.appendChild(popupContent);
+  
+    const closePopupSpan = document.createElement('span');
+    closePopupSpan.classList.add('close_popup');
+    popupContent.appendChild(closePopupSpan);
+  
+    const closeImg = document.createElement('img');
+    closeImg.src = chrome.runtime.getURL('assets/images/close.svg');
+    closeImg.alt = '';
+  
+    closeImg.addEventListener('click', () => {
+      document.body.removeChild(popup);
+    });
+  
+    closePopupSpan.appendChild(closeImg);
+  
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('title');
+    popupContent.appendChild(titleDiv);
+  
+    const titleHeading = document.createElement('h5');
+    titleHeading.textContent = 'Don`t success';
+    titleDiv.appendChild(titleHeading);
+  
+    const promptPopupContentDiv = document.createElement('div');
+    promptPopupContentDiv.classList.add('upgrade_popup_content');
+    popupContent.appendChild(promptPopupContentDiv);
+  
+    const answerPara1 = document.createElement('p');
+    answerPara1.classList.add('upgrade_popup_content');
+
+    answerPara1.textContent = 'You need upgrade your subscription to this element';
+    promptPopupContentDiv.appendChild(answerPara1);
+  
+  
+    return popup;
+  }

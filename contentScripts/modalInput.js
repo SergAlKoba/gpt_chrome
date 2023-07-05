@@ -133,10 +133,17 @@ async function getPrompsterCommands() {
     };
 
     let response = await fetch("https://gotgood.ai/api/shop/get-commands/", requestOptions)
-        .catch(error => console.log('error', error));
+    .then(response => {            
+        if(response.status === 402) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+            document.body.appendChild(upgradeSubscriptionPopup)          
+          }
+          return response
+    })
+    .catch(error => console.log('error', error));
 
     let result = await response?.json();
-
+console.log("result", result)
     return result.results;
 }
 
@@ -191,7 +198,7 @@ return prompster;
     });
 
     
-    textArea.addEventListener("keydown", (e) => {
+    textArea.addEventListener("keydown", (e) => {        
     if (e.code === 'Enter') {
 
         let isCommandMessageByShowModal = concatPromsterBEAndBasePrompster.some(({command}) => command.includes(e?.target?.value.trim()))
@@ -202,6 +209,7 @@ return prompster;
         const textArea = document.querySelector('textarea');
         textArea.value = '';              
     }
+    // console.log('keydown Enter');
         addSelectedCategoriesValueInEndTextareaValue();
     }
 });
@@ -220,7 +228,7 @@ return prompster;
 // 1. сделать запрос на бекенд
 // 2. получить ответ
 
-async function init  (){
+async function init  (){  
 
    const result = await  getPrompsterCommands()
    concatPromsterBEAndBasePrompster = [...prompsterComands,...result] ;
@@ -230,7 +238,7 @@ async function init  (){
         for (const mutation of mutations) {        
             if (mutation.type === 'childList') {
                 const idPrompster = document.getElementById('prompster');
-                if (idPrompster == null || idPrompster == undefined) {                
+                if (idPrompster == null || idPrompster == undefined) {                             
                     addPrompster();
                 }
             }
@@ -461,27 +469,5 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   
     return popup;
   }
-
-let body = document.querySelector('body');
-
-  body.addEventListener('touchstart', event => {
-    console.log('touchstart');            
-
-    // Обработчик события touchstart
-    // ...
-  });
-
-    body.addEventListener('touchend', event => {
-        console.log('touchend');
-        // Обработчик события touchend
-        // ...
-    });
-
-    body.addEventListener('touchmove', event => {
-        console.log('touchmove');
-        // Обработчик события touchmove
-        // ...
-    }
-    );
 
     

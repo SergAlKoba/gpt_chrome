@@ -22,7 +22,7 @@ function setIsLoading(value) {
 
 function getUserSubscriptionTier() {
   const subscriptionTier =  localStorage.getItem('subscription_tier');
-  if(subscriptionTier===null) return 'free'
+  if(subscriptionTier===null||subscriptionTier==='0') return 'free'
   if(subscriptionTier==='1') return 'tier1'
   if(subscriptionTier==='2') return 'tier2'
   if(subscriptionTier==='3') return 'tier3'
@@ -548,16 +548,51 @@ function createCategoryMenu(categories) {
 
   filterDrop.addEventListener('click', async (e) => {
   
-    if (e.target.tagName === 'LI') {
-      const categoryId = parseInt(e.target.getAttribute('data'));
-      selectedCategoryId = categoryId;
-      let promptsResponse = undefined
-      if(categoryId!==4){
-         promptsResponse = await getPromptsByCategory(categoryId);        
-      }
-      else {
-        promptsResponse = await getFavoritesCategory();        
-      }
+    // if (e.target.tagName === 'LI') {
+
+    //   const categoryId = parseInt(e.target.getAttribute('data'));
+    //   selectedCategoryId = categoryId;
+    //   let promptsResponse = undefined
+    //   if(categoryId!==4){
+    //      promptsResponse = await getPromptsByCategory(categoryId);        
+    //   }
+    //   else {
+    //     promptsResponse = await getFavoritesCategory();        
+    //   }
+
+    //   const { name: newTitleName } = categories.find(({ id }) => id === categoryId);
+    //   document.querySelector('.filter_title span').textContent = newTitleName;
+
+    //   const promptBarContentList = document.querySelector('.drop_content.list');
+    //   const promptBarContentGrid = document.querySelector('.drop_content.grid');
+
+    //   createPrompts(promptsResponse,promptBarContentList,'.drop_content.list');
+    //   createPrompts(promptsResponse, promptBarContentGrid, '.drop_content.grid')
+    // }
+  });
+
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    let filterDropItem = createElem("li", {
+      data: category?.id,
+    }, []);
+
+filterDropItem.addEventListener('click', async (e) => {
+    if (!category.isAccess) {
+      const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+      document.body.appendChild(upgradeSubscriptionPopup)
+      return
+    }
+    else {
+       const categoryId = parseInt(e.target.getAttribute('data'));
+       selectedCategoryId = categoryId;
+       let promptsResponse = undefined
+        if (categoryId!==4){
+          promptsResponse = await getPromptsByCategory(categoryId);        
+        }
+        else {
+          promptsResponse = await getFavoritesCategory();        
+        }
 
       const { name: newTitleName } = categories.find(({ id }) => id === categoryId);
       document.querySelector('.filter_title span').textContent = newTitleName;
@@ -567,15 +602,14 @@ function createCategoryMenu(categories) {
 
       createPrompts(promptsResponse,promptBarContentList,'.drop_content.list');
       createPrompts(promptsResponse, promptBarContentGrid, '.drop_content.grid')
+}
+})
+
+    filterDropItem.textContent = category?.name;
+    if(!category.isAccess){
+      filterDropItem.classList.add('no_access_dropdown_item_category');
     }
-  });
 
-  for (let i = 0; i < categories.length; i++) {
-    let filterDropItem = createElem("li", {
-      data: categories[i].id,
-    }, []);
-
-    filterDropItem.textContent = categories[i].name;
     filterDrop.appendChild(filterDropItem);
   }
 
@@ -782,9 +816,28 @@ let isLiked = promptObj.is_liked;
 }
 
 async function createPromptBar() {
+  const subscriptionTier = getUserSubscriptionTier();
+
   const categoriesResponse = await getCategories();
-  const defaultCategory = [{id: 4, name: "Favorite", icon: null, color: null}]
-  const categories = [ ...categoriesResponse?.results, ...defaultCategory ]  || defaultCategory;
+  const categoriesWithIsAccessProperty = categoriesResponse?.results.map((category) => ({...category, isAccess: true}))
+
+  const defaultCategory = [{id: 4, name: "Favorite", icon: null, color: null ,isAccess: true}]
+
+  const categories = [ ...categoriesWithIsAccessProperty, ...defaultCategory ]  || defaultCategory;
+
+  const categoriesForSubscriptionTierFree = ['Playground']
+  const changeIsAccessCategory = (isAccessArr) => (category) => isAccessArr.includes(category.title)?{...category,isAccess:true}:{...category, isAccess:false} 
+  const categoriesBySubscriptionTierFree = categories.map(changeIsAccessCategory(categoriesForSubscriptionTierFree))
+console.log("categories",categories)
+  const getCategoriesBySubscriptionTier =  {
+    'free': categoriesBySubscriptionTierFree,
+    "tier1": categories,
+    "tier2": categories,
+    "tier3": categories,
+  }
+
+  const categoriesBySubscriptionTier = getCategoriesBySubscriptionTier[subscriptionTier];
+ console.log("categoriesBySubscriptionTier",categoriesBySubscriptionTier)
 
   const promptsResponse = await getPromptsByCategory(categoriesResponse?.results[0]?.id);
 
@@ -805,7 +858,7 @@ async function createPromptBar() {
   }, [ promptBarContent, promptBarContentGrid ]);
   let promptsCategoriesDiv = createElem("div", {
     class: "categories promt_item active"
-  }, [createCategoryMenu(categories), promptItemContent]);
+  }, [createCategoryMenu(categoriesBySubscriptionTier), promptItemContent]);
   let promptBar = createElem("div", {
     class: "promt_bar"
   }, [createSearch(), promptsCategoriesDiv]);
@@ -1091,3 +1144,58 @@ if (!localStorage.getItem('token')) {
     }
   });
 }
+
+
+function createUpgradeSubscriptionPopup() {
+  console.log('createUpgradeSubscriptionPopup');
+    const popup = document.createElement('div');
+    popup.classList.add('popup', 'prompt_details_popup', 'active');
+  
+    const closeSpan = document.createElement('span');
+    closeSpan.classList.add('close');
+    popup.appendChild(closeSpan);
+  
+    closeSpan.addEventListener('click', () => {
+    popup.classList.remove('active');
+    });
+  
+    const popupContent = document.createElement('div');
+    popupContent.classList.add('popup_content');
+    popupContent.classList.add('upgrade');
+    popup.appendChild(popupContent);
+  
+    const closePopupSpan = document.createElement('span');
+    closePopupSpan.classList.add('close_popup');
+    popupContent.appendChild(closePopupSpan);
+  
+    const closeImg = document.createElement('img');
+    closeImg.src = chrome.runtime.getURL('assets/images/close.svg');
+    closeImg.alt = '';
+  
+    closeImg.addEventListener('click', () => {
+      document.body.removeChild(popup);
+    });
+  
+    closePopupSpan.appendChild(closeImg);
+  
+    const titleDiv = document.createElement('div');
+    titleDiv.classList.add('title');
+    popupContent.appendChild(titleDiv);
+  
+    const titleHeading = document.createElement('h5');
+    titleHeading.textContent = 'Don`t success';
+    titleDiv.appendChild(titleHeading);
+  
+    const promptPopupContentDiv = document.createElement('div');
+    promptPopupContentDiv.classList.add('upgrade_popup_content');
+    popupContent.appendChild(promptPopupContentDiv);
+  
+    const answerPara1 = document.createElement('p');
+    answerPara1.classList.add('upgrade_popup_content');
+
+    answerPara1.textContent = 'You need upgrade your subscription to this element';
+    promptPopupContentDiv.appendChild(answerPara1);
+  
+  
+    return popup;
+  }

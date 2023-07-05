@@ -1,10 +1,11 @@
 const toneItemsData = [
-    { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme", name: "none" },
-    { url: 'assets/images/tone_item_2.png', title: "Blue ocean", name: "blue_ocean" },
-    { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic", name: "lime_vulcanic" },
-    { url: 'assets/images/tone_item_4.png', title: "Colorful gradient", name: "colorful_gradient" },
-    { url: 'assets/images/tone_item_5.png', title: "Textury art", name: "textury" },
-];
+    { url: 'assets/images/tone_item_1.png', title: "Monochrome scheme", name: "none", isAccess: true },
+    { url: 'assets/images/tone_item_2.png', title: "Blue ocean", name: "blue_ocean", isAccess: true },
+    { url: 'assets/images/tone_item_3.png', title: "Lime vulcanic", name: "lime_vulcanic", isAccess: true },
+    { url: 'assets/images/tone_item_4.png', title: "Colorful gradient", name: "colorful_gradient", isAccess: true },
+    { url: 'assets/images/tone_item_5.png', title: "Textury art", name: "textury", isAccess: true }
+    ];
+
 const styleItemData = [
     { title: 'Default', name: 'global_fonts' },
     { title: 'Roboto', name: 'roboto' },
@@ -15,7 +16,7 @@ const styleItemData = [
 function getUserSubscriptionTier() {
     // Таких функции 2 это работает только здесь
     const subscriptionTier =  localStorage.getItem('subscription_tier');
-    if(subscriptionTier===null) return 'free'
+    if(subscriptionTier===null||subscriptionTier==='0') return 'free'
     if(subscriptionTier==='1') return 'tier1'
     if(subscriptionTier==='2') return 'tier2'
     if(subscriptionTier==='3') return 'tier3'
@@ -48,7 +49,7 @@ function createTabsDiv() {
     toneItems.setAttribute('class', 'tone_items');
 
     let getToneItemsDataBySubscriptionTier = {
-        'free': [...toneItemsData].filter((tone) => tone.name !== "colorful_gradient"),
+        'free': [...toneItemsData].map((tone) => tone.name === "colorful_gradient"? {...tone, isAccess: false} : tone),
         "tier1": toneItemsData,
         "tier2": toneItemsData,
         "tier3": toneItemsData,
@@ -61,6 +62,11 @@ function createTabsDiv() {
         const item = toneItemsDataBySubscriptionTier[i];
         let toneItem = document.createElement('div');
         toneItem.setAttribute('class', 'tone_item');
+
+        if (!item.isAccess) {
+            toneItem.classList.add("no_access_tone_item");
+        }
+
         toneItem.setAttribute('data-theme', item.name);
         if (item.name == selectedTone) {
             toneItem.classList.add("active");
@@ -75,6 +81,12 @@ function createTabsDiv() {
         toneItemParagraph.textContent = 'by John Bolino';
 
         toneItem.onclick = () => {
+
+            if (!item.isAccess) {
+                const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
+                document.body.appendChild(upgradeSubscriptionPopup)
+                return
+            }
             selectedTone = item.name;
             applyCurrentTheme();
             Array.from(toneItems.children).forEach(item => {
