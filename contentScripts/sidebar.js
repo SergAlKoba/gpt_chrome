@@ -115,7 +115,8 @@ async function searchPrompts(text, categoryId, sort) {
 
 
   setIsLoading(true);
-  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId===4?'':categoryId}&sort=${sort}`, requestOptions);
+  const categoryFavoriteId = 0
+  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId=== categoryFavoriteId ?'':categoryId}&sort=${sort}`, requestOptions);
   setIsLoading(false);
 
   return await response.json();
@@ -167,6 +168,7 @@ async function getFavorites() {
 
 // Render functions
 async function getPromptsByCategory(categoryId) {
+
 const TOKEN = localStorage.getItem('token') || '';
   try {
     setIsLoading(true);
@@ -460,7 +462,8 @@ function createSortMenuList() {
 
     sortMenuList.classList.toggle('active');
     sortMenuListItem.classList.toggle('active');
-    const promptsResult = await searchPrompts(searchValue||'', selectedCategoryId || 1, selectedSort);
+    const playgroundCategoryId = 4
+    const promptsResult = await searchPrompts(searchValue||'', selectedCategoryId || playgroundCategoryId, selectedSort);
 
     const promptBarContentList = document.querySelector('.drop_content.list');
     const promptBarContentGrid = document.querySelector('.drop_content.grid');
@@ -525,17 +528,18 @@ function createSearch() {
 }
 
 function createCategoryMenu(categories) {
-  const isValidImg = !!categories[0]?.icon
+  const categoryPlayground = categories.find((item) => item.name === 'Playground');
+  const isValidImg = !!categoryPlayground?.icon
 
   let filterImage = createElem("img", {
-    src: categories[0].icon,
+    src: categoryPlayground?.icon,
   }, []);
 
   let filterText = createElem("span", {
-    data: categories[0].id,
+    data: categoryPlayground?.id,
   }, []);
 
-  filterText.textContent = categories[0].name;
+  filterText.textContent = categoryPlayground?.name;
   const childrenFilterTitle = isValidImg ? [filterImage, filterText] : [filterText];
 
   let filterTitle = createElem("div", {
@@ -545,31 +549,6 @@ function createCategoryMenu(categories) {
   let filterDrop = createElem("ul", {
     class: "filter_drop"
   }, []);
-
-  filterDrop.addEventListener('click', async (e) => {
-  
-    // if (e.target.tagName === 'LI') {
-
-    //   const categoryId = parseInt(e.target.getAttribute('data'));
-    //   selectedCategoryId = categoryId;
-    //   let promptsResponse = undefined
-    //   if(categoryId!==4){
-    //      promptsResponse = await getPromptsByCategory(categoryId);        
-    //   }
-    //   else {
-    //     promptsResponse = await getFavoritesCategory();        
-    //   }
-
-    //   const { name: newTitleName } = categories.find(({ id }) => id === categoryId);
-    //   document.querySelector('.filter_title span').textContent = newTitleName;
-
-    //   const promptBarContentList = document.querySelector('.drop_content.list');
-    //   const promptBarContentGrid = document.querySelector('.drop_content.grid');
-
-    //   createPrompts(promptsResponse,promptBarContentList,'.drop_content.list');
-    //   createPrompts(promptsResponse, promptBarContentGrid, '.drop_content.grid')
-    // }
-  });
 
   for (let i = 0; i < categories.length; i++) {
     const category = categories[i];
@@ -587,7 +566,7 @@ filterDropItem.addEventListener('click', async (e) => {
        const categoryId = parseInt(e.target.getAttribute('data'));
        selectedCategoryId = categoryId;
        let promptsResponse = undefined
-        if (categoryId!==4){
+        if (categoryId!== 0){
           promptsResponse = await getPromptsByCategory(categoryId);        
         }
         else {
@@ -821,14 +800,14 @@ async function createPromptBar() {
   const categoriesResponse = await getCategories();
   const categoriesWithIsAccessProperty = categoriesResponse?.results.map((category) => ({...category, isAccess: true}))
 
-  const defaultCategory = [{id: 4, name: "Favorite", icon: null, color: null ,isAccess: true}]
+  const defaultCategory = [{id: 0, name: "Favorite", icon: null, color: null ,isAccess: true}]
 
   const categories = [ ...categoriesWithIsAccessProperty, ...defaultCategory ]  || defaultCategory;
 
   const categoriesForSubscriptionTierFree = ['Playground']
-  const changeIsAccessCategory = (isAccessArr) => (category) => isAccessArr.includes(category.title)?{...category,isAccess:true}:{...category, isAccess:false} 
+  const changeIsAccessCategory = (isAccessArr) => (category) => isAccessArr.includes(category.name)?{...category,isAccess:true}:{...category, isAccess:false} 
   const categoriesBySubscriptionTierFree = categories.map(changeIsAccessCategory(categoriesForSubscriptionTierFree))
-console.log("categories",categories)
+
   const getCategoriesBySubscriptionTier =  {
     'free': categoriesBySubscriptionTierFree,
     "tier1": categories,
@@ -839,7 +818,8 @@ console.log("categories",categories)
   const categoriesBySubscriptionTier = getCategoriesBySubscriptionTier[subscriptionTier];
  console.log("categoriesBySubscriptionTier",categoriesBySubscriptionTier)
 
-  const promptsResponse = await getPromptsByCategory(categoriesResponse?.results[0]?.id);
+  const categoryPlaygroundId = categoriesResponse?.results.find((category) => category.name === "Playground")?.id;
+  const promptsResponse = await getPromptsByCategory(categoryPlaygroundId);
 
   let promptBarContent = createElem("div", {
     class: "drop_content list active"
