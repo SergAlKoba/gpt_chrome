@@ -6,7 +6,7 @@ document.querySelector(':root').style.setProperty("--languageCaretDown", `url(${
 let accessSubscriptionTierForIdea = ['tier2','tier3']
 
 function getUserSubscriptionTier() {
-    const subscriptionTier =  localStorage.getItem('subscription_tier');
+    const subscriptionTier =  sessionStorage.getItem('subscription_tier');
     if(subscriptionTier===null||subscriptionTier==='0') return 'free'
     if(subscriptionTier==='1') return 'tier1'
     if(subscriptionTier==='2') return 'tier2'

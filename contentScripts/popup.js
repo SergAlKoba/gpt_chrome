@@ -22,7 +22,7 @@ async function login(email, password) {
     if (result.auth_token || localStorage.getItem('token')) {
         console.log('result__login', result)
         localStorage.setItem('token', result.auth_token);
-        localStorage.setItem('subscription_tier', result.user?.subscription_tier);
+        sessionStorage.setItem('subscription_tier', result.user?.subscription_tier);
 
         const registrationElement = document.querySelector('.registration');
         const promptBarElement = document.querySelector('.promt_bar');
@@ -66,7 +66,7 @@ async function register(email, password, username) {
     if (response.ok) {
         console.log('result__registration', result)
         localStorage.setItem('token', result.auth_token);
-        localStorage.setItem('subscription_tier', result.user?.subscription_tier);
+        sessionStorage.setItem('subscription_tier', result.user?.subscription_tier);
         
         const registrationElement = document.querySelector('.registration');
         const promptBarElement = document.querySelector('.promt_bar');

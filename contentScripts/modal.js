@@ -14,8 +14,8 @@ const styleItemData = [
 ];
 
 function getUserSubscriptionTier() {
-    // Таких функции 2 это работает только здесь
-    const subscriptionTier =  localStorage.getItem('subscription_tier');
+    // Таких функции 3 это работает только здесь
+    const subscriptionTier =  sessionStorage.getItem('subscription_tier');
     if(subscriptionTier===null||subscriptionTier==='0') return 'free'
     if(subscriptionTier==='1') return 'tier1'
     if(subscriptionTier==='2') return 'tier2'

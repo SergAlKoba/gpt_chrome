@@ -3,6 +3,49 @@ let selectedStyle = localStorage.getItem("style");
 let isClickBookmark = false;
 console.log({ selectedTone, selectedStyle });
 
+
+
+
+
+
+async function getSubscriptionLevel() {
+    console.log('getSubscriptionLevel______________');
+    const API_URL = "https://gotgood.ai";
+
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+
+    let requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    let response = await fetch(API_URL + "/api/user/subscription-level/", requestOptions);
+  
+    let result = await response.json();
+
+    console.log('getSubscriptionLevel result', result);
+    sessionStorage.setItem("subscription_tier", result.subscription_level);
+    return result;
+  }
+
+async function init() {
+    console.log('init______________');
+
+    const token = localStorage.getItem('token');
+    if(token) {
+        console.log('token______________', token);
+
+    const res =  await getSubscriptionLevel();
+    console.log('res____', res);
+    }
+
+  }
+
+init();
+
 function applyCurrentTheme() {
     let body = $('body');
     body.attr('class', `${selectedTone} ${selectedStyle}`);
