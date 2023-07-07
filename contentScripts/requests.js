@@ -99,7 +99,7 @@ async function createBookmark(output) {
     .catch(error => console.log('error', error));
 }
 
-async function createFavourite(prompt) {
+async function createFavorite(prompt) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);

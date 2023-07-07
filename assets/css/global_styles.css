@@ -776,7 +776,7 @@
     background: radial-gradient(50% 50% at 50% 50%, rgba(186, 252, 60, 0.0768) 0%, rgba(63, 255, 37, 0.0768) 100%), rgba(255, 255, 255, 0.05);
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer:hover .selected{
+#global .prompt_details_popup .popup_content .answer:hover .selected{
     display: flex;
 }
 
@@ -855,16 +855,16 @@
     margin-right: 4px;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected{
+#global .prompt_details_popup .popup_content .answer .selected{
     z-index: 3;
-    right: 16px;
-    bottom: 16px;
+    top: 12px;
+    right: 12px;
     display: none;
     position: absolute;
     align-items: center;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected li{
+#global .prompt_details_popup .popup_content .answer .selected li{
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -883,7 +883,7 @@
     transition: all 0.3s;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected li:hover{
+#global .prompt_details_popup .popup_content .answer .selected li:hover{
     transform: scale(1.1);
 }
 
@@ -895,19 +895,28 @@
 }
 
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected li:last-child{
+#global .prompt_details_popup .popup_content .answer .selected li:last-child{
     background: rgba(250, 197, 21, 0.1);
     box-shadow: inset 0px 0px 0px 1px rgba(250, 197, 21, 0.2);
 }
 
 
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected li img{
+#global .prompt_details_popup .popup_content .answer .selected li img{
     width: 24px;
     display: block;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected li .hover{
+#global .prompt_details_popup .popup_content .answer .selected li img{
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s;
+}
+
+#global .prompt_details_popup .popup_content .answer .selected li .hover{
     top: 50%;
     left: 50%;
     z-index: 2;
@@ -917,7 +926,7 @@
     transition: all 0.3s;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .selected li.active .hover{
+#global .prompt_details_popup .popup_content .answer .selected li.active .hover{
     opacity: 1;
 }
 
@@ -982,7 +991,7 @@
     margin-left: 4px;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.grid .answer .selected{
+#global .prompt_details_popup .popup_content .answer .selected{
     display: none;
 }
 
@@ -2570,7 +2579,7 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .popup .popup_content .title{
     padding: 16px 60px 15px 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 #global .popup .popup_content .title h5{
@@ -2976,6 +2985,28 @@ ul[id^="headlessui-listbox-options"] li {
     align-items: center;
 }
 
+#global .prompt_details_popup .popup_content .answer .prompt_categories .prompt_category{
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(95, 233, 208, 0.16);
+    box-shadow: 0px 0px 0px 1px rgba(95, 233, 208, 0.2) inset;
+    background-color: rgba(95, 233, 208, 0.2);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    padding: 4px 8px 4px 8px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#global .prompt_details_popup .popup_content .answer .prompt_categories .prompt_category span{
+    color: rgba(95, 233, 208, 1);
+}
+
+
 #global .prompt_details_popup .popup_content .prompt_popup_content .tab_prompt_content .answer ul li img{
     width: 18px;
     display: block;
@@ -2991,7 +3022,7 @@ ul[id^="headlessui-listbox-options"] li {
 
 #global .prompt_details_popup .popup_content .prompt_popup_content form{
     padding: 16px;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 #global .prompt_details_popup .popup_content .prompt_popup_content form .input{
@@ -3034,7 +3065,7 @@ ul[id^="headlessui-listbox-options"] li {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 #global .prompt_details_popup .popup_content .bottom .use_prompt{
@@ -3162,6 +3193,26 @@ ul[id^="headlessui-listbox-options"] li {
     filter: brightness(0.4);
 }
 
+#global .prompt_categories{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 80%;
 
+}
+
+#global .prompt_categories .prompt_category .category_icon{
+    width: 9px;
+    height: 9px;
+    margin-right: 8px;
+}
+
+
+#global .prompt_detail_modal_textarea{
+    background-color: rgba(255, 255, 255, 0.16) !important;
+    width: 100%;
+    color: rgba(137, 143, 147, 1);   
+}
 
 /* END Prompt library */

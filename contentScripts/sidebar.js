@@ -116,7 +116,7 @@ async function searchPrompts(text, categoryId, sort) {
 
   setIsLoading(true);
   const categoryFavoriteId = 0
-  let response = await fetch(API_URL + `/api/shop/search?text=${text}&categories=${categoryId=== categoryFavoriteId ?'':categoryId}&sort=${sort}`, requestOptions);
+  let response = await fetch(API_URL + `/api/shop/search?text=${text}&${categoryId===categoryFavoriteId?"favorite=true":`categories=${categoryId}`}&sort=${sort}`, requestOptions);
   setIsLoading(false);
 
   return await response.json();
@@ -715,83 +715,83 @@ function createSinglePrompt(promptObj) {
     class: "stats"
   }, [likes, views]);
 
-  likeIcon = createElem("img", {
-    src: chrome.runtime.getURL("assets/images/like.svg"),
-  }, []);
+//   likeIcon = createElem("img", {
+//     src: chrome.runtime.getURL("assets/images/like.svg"),
+//   }, []);
 
-  let likeHoverIcon = createElem("img", {
-    src: chrome.runtime.getURL("assets/images/like_hover.svg"),
-    class: "hover",
-  }, []);
+//   let likeHoverIcon = createElem("img", {
+//     src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+//     class: "hover",
+//   }, []);
 
-  let likeLi = createElem("li", {
-    class: promptObj.is_liked ? "active" : ""
-  }, [likeIcon, likeHoverIcon]);
+//   let likeLi = createElem("li", {
+//     class: promptObj.is_liked ? "active" : ""
+//   }, [likeIcon, likeHoverIcon]);
 
-let isLiked = promptObj.is_liked;
+// let isLiked = promptObj.is_liked;
 
-  likeLi.addEventListener("click",async function (e) {
-    e.stopPropagation();
+//   likeLi.addEventListener("click",async function (e) {
+//     e.stopPropagation();
 
-    const favoriteRequestObj = {
-        prompt_id: promptObj.id,
-        like: !isLiked
-    }
+//     const favoriteRequestObj = {
+//         prompt_id: promptObj.id,
+//         like: !isLiked
+//     }
 
-     createLike(favoriteRequestObj);
-     isLiked = !isLiked;
+//      createLike(favoriteRequestObj);
+//      isLiked = !isLiked;
 
-        if (likeLi.classList.contains("active")) {
-            likeLi.classList.remove("active");    
-        } else {
-            likeLi.classList.add("active");                    
-        }});
+//         if (likeLi.classList.contains("active")) {
+//             likeLi.classList.remove("active");    
+//         } else {
+//             likeLi.classList.add("active");                    
+//         }});
 
 
-        let favouriteIcon = createElem("img", {
-          src: chrome.runtime.getURL("assets/images/selected.svg"),
-      }, []);
+//         let favouriteIcon = createElem("img", {
+//           src: chrome.runtime.getURL("assets/images/selected.svg"),
+//       }, []);
   
-      let favouriteHoverIcon = createElem("img", {
-          src: chrome.runtime.getURL("assets/images/selected_hover.svg"),
-          class: "hover"
-      }, []);
+//       let favouriteHoverIcon = createElem("img", {
+//           src: chrome.runtime.getURL("assets/images/selected_hover.svg"),
+//           class: "hover"
+//       }, []);
   
-      let favouriteLi = createElem("li", {
-        class: promptObj.is_favourite ? "active" : ""
-    }, [favouriteIcon, favouriteHoverIcon]);
+//       let favouriteLi = createElem("li", {
+//         class: promptObj.is_favourite ? "active" : ""
+//     }, [favouriteIcon, favouriteHoverIcon]);
 
-    let isFavorite = promptObj.is_favourite;
+//     let isFavorite = promptObj.is_favourite;
     
-    favouriteLi.addEventListener("click",async function (e) {
-        e.stopPropagation();
+//     favouriteLi.addEventListener("click",async function (e) {
+//         e.stopPropagation();
         
-        const favoriteRequestObj = {
-            prompt_id: promptObj.id,
-            favourite: !isFavorite
-        }
+//         const favoriteRequestObj = {
+//             prompt_id: promptObj.id,
+//             favourite: !isFavorite
+//         }
 
-        createFavourite(favoriteRequestObj)
+//         createFavourite(favoriteRequestObj)
 
-        isFavorite = !isFavorite;   
+//         isFavorite = !isFavorite;   
 
-        if (favouriteLi.classList.contains("active")) {            
-            favouriteLi.classList.remove("active");
+//         if (favouriteLi.classList.contains("active")) {            
+//             favouriteLi.classList.remove("active");
           
-        } else {          
-            favouriteLi.classList.add("active");      
-        }
+//         } else {          
+//             favouriteLi.classList.add("active");      
+//         }
       
-        // selected.appendChild(favouriteLi);
-    });
+//         // selected.appendChild(favouriteLi);
+//     });
     
-    let selected = createElem("ul", {
-        class: "selected"
-    }, [likeLi, favouriteLi]);
+//     let selected = createElem("ul", {
+//         class: "selected"
+//     }, [likeLi, favouriteLi]);
 
   return createElem("div", {
     class: "answer"
-  }, [link, categories, title, description, stats, selected , point]);
+  }, [link, categories, title, description, stats, point]);
 }
 
 async function createPromptBar() {
@@ -856,6 +856,7 @@ function createPrompts(prompts, parent, parentClass='.drop_content.list') {
 
 
   const onShowPromptPopupById = (prompt) => () => {
+    console.log('prompt______++');
     document.body.appendChild(createPromptDetailsPopup(prompt));
   };
 
@@ -871,7 +872,7 @@ function createPrompts(prompts, parent, parentClass='.drop_content.list') {
   }
 }
 
-function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template }) {
+function createPromptDetailsPopup({ name, description, amount_of_lookups, like_amount, inputs, prompt_template, categories, is_liked, is_favourite, id }) {
   
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
@@ -904,7 +905,6 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
 
   closePopupSpan.appendChild(closeImg);
 
-
   const titleDiv = document.createElement('div');
   titleDiv.classList.add('title');
   popupContent.appendChild(titleDiv);
@@ -925,6 +925,33 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   answerDiv.classList.add('answer');
   tabPromptContentDiv.appendChild(answerDiv);
 
+  const categoriesUl = document.createElement('ul');
+  categoriesUl.classList.add('prompt_categories');
+
+  categories.forEach((category) => {
+    const categoryLi = document.createElement('li');
+    categoryLi.classList.add('prompt_category');
+
+    const categoryIcon = document.createElement('img');
+    categoryIcon.classList.add('category_icon');
+    categoryIcon.src = chrome.runtime.getURL('assets/images/flames.svg');
+    console.log("categoryIcon",categoryIcon)
+    categoryIcon.alt = 'category icon';
+    categoryLi.appendChild(categoryIcon);
+
+    const categorySpan = document.createElement('span');
+    categorySpan.textContent = category?.name;
+    categoryLi.appendChild(categorySpan);
+
+    categoriesUl.appendChild(categoryLi);
+  });
+
+  answerDiv.appendChild(categoriesUl);
+
+  const likeAndFavoriteBlock = createPromptAction({is_liked, is_favourite, id })    
+
+  answerDiv.appendChild(likeAndFavoriteBlock);
+
   const answerHeading = document.createElement('h3');
   answerHeading.textContent = name;
   answerDiv.appendChild(answerHeading);
@@ -936,7 +963,6 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   const statsList = document.createElement('ul');
   statsList.classList.add('stats');
   answerDiv.appendChild(statsList);
-
 
 
   let likeIcon = createElem("img", {
@@ -975,14 +1001,10 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
     viewP
   ]);
 
-  
   const viewBlock = document.createElement('li');
 
   viewBlock.appendChild(views);
   statsList.appendChild(viewBlock);
-
-
-
 
   const contentTopicDiv = document.createElement('div');
   contentTopicDiv.classList.add('content_topic');
@@ -996,7 +1018,6 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
   });
 
   contentTopicDiv.appendChild(form);
-
 
   function createInput(labelText, inputType, placeholder, onValueChange, inputValue) {
     const inputDiv = document.createElement('div');
@@ -1018,14 +1039,42 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
     return inputDiv;
   }
 
+  function createTextarea(labelText, placeholder, onValueChange) {
+      const textareaDiv = document.createElement('div');
+      textareaDiv.classList.add('input');
+  
+      const textareaLabel = document.createElement('label');
+      textareaLabel.textContent = labelText;
+      textareaDiv.appendChild(textareaLabel);
+  
+      const textarea = document.createElement('textarea');
+      textarea.classList.add('prompt_detail_modal_textarea');
+      textarea.placeholder = placeholder;
+      textarea.required = true;
+      textarea.value = null;
+      textarea.name = labelText;
+      textarea.addEventListener('input', onValueChange);
+      textareaDiv.appendChild(textarea);
+  
+      return textareaDiv;
+    }
+
   const handleInputValueChange = (e) => {
     const index = modalState.findIndex(({ variable_name }) => variable_name === e.target.name);
     modalState[index].value = e.target.value;
   }
 
-  inputs.forEach(({ variable_name, placeholder }) => {
-    const inputDiv = createInput(variable_name, 'text', placeholder, handleInputValueChange);
-    form.appendChild(inputDiv);
+  inputs.forEach(({ variable_name, placeholder,is_textarea }) => {
+
+      if (is_textarea){
+          const textareaDiv = createTextarea(variable_name, placeholder, handleInputValueChange);
+          form.appendChild(textareaDiv);
+          
+      } else {
+          const inputDiv = createInput(variable_name, 'text', placeholder, handleInputValueChange);
+          form.appendChild(inputDiv);
+      }
+
   });
 
   const bottomDiv = document.createElement('div');
@@ -1054,10 +1103,8 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
           
           let count = divCount>= 5 ? divCount - 5 : 0;
 
-
           for (let i = count; i < divCount ; i++) {
-            const div = divElements[i];
-             
+            const div = divElements[i];            
 
             const childDiv = div.querySelector('div')  
             const innerText = childDiv?.innerText ? childDiv?.innerText: '';                      
@@ -1093,6 +1140,103 @@ function createPromptDetailsPopup({ name, description, amount_of_lookups, like_a
 
   return popup;
 }
+  
+
+
+  function createPromptAction({is_liked,is_favourite,id }){
+
+  const like = createLikeBlock({is_liked});
+
+  let isLiked = is_liked;
+  
+    like.addEventListener("click",async function (e) {
+      e.stopPropagation();
+  
+      const favoriteRequestObj = {
+          prompt_id: id,
+          like: !isLiked
+      }
+  
+       createLike(favoriteRequestObj);
+       isLiked = !isLiked;
+  
+          if (like.classList.contains("active")) {
+              like.classList.remove("active");    
+          } else {
+              like.classList.add("active");                    
+          }});   
+  
+      const favorite = createFavoriteBlock({is_favourite});
+  
+      let isFavorite = is_favourite;
+      
+      favorite.addEventListener("click",async function (e) {
+          e.stopPropagation();
+          
+          const favoriteRequestObj = {
+              prompt_id: id,
+              favourite: !isFavorite
+          }
+  
+          createFavorite(favoriteRequestObj)
+  
+          isFavorite = !isFavorite;   
+  
+          if (favorite.classList.contains("active")) {            
+              favorite.classList.remove("active");
+            
+          } else {          
+              favorite.classList.add("active");      
+          }
+        
+          // selected.appendChild(favouriteLi);
+      });
+      
+      let action = createElem("ul", {
+          class: "selected"
+      }, [ favorite, like ]);
+
+      return action;
+
+  }
+
+
+  function createLikeBlock({is_liked}) {
+
+      const icon = createElem("img", {
+          src: chrome.runtime.getURL("assets/images/like.svg"),
+        }, []);
+      
+        let iconHover = createElem("img", {
+          src: chrome.runtime.getURL("assets/images/like_hover.svg"),
+          class: "hover",
+        }, []);
+      
+        let like = createElem("li", {
+          class: is_liked ? "active" : ""
+        }, [icon, iconHover]);
+  
+        return like;
+    }
+  
+  
+    function createFavoriteBlock({is_favourite}) {
+      let icon = createElem("img", {
+          src: chrome.runtime.getURL("assets/images/selected.svg"),
+      }, []);
+  
+      let iconHover = createElem("img", {
+          src: chrome.runtime.getURL("assets/images/selected_hover.svg"),
+          class: "hover"
+      }, []);
+  
+      let favorite = createElem("li", {
+        class: is_favourite ? "active" : ""
+    }, [icon, iconHover]);
+  
+      return favorite;
+    }
+
 
 async function init() {
   await createMenuContent().then(async (children) => {
