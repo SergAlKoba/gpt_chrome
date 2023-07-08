@@ -655,36 +655,36 @@ function createCategoryMenu(categories) {
         );
 
         filterDropItem.addEventListener("click", async (e) => {
-          if (!category.isAccess) {
-            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-            document.body.appendChild(upgradeSubscriptionPopup);
-            return;
+          // if (!category.isAccess) {
+          // const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+          // document.body.appendChild(upgradeSubscriptionPopup);
+          // return;
+          // } else {
+          const categoryId = parseInt(e.target.getAttribute("data"));
+          selectedCategoryId = categoryId;
+          let promptsResponse = undefined;
+          if (categoryId !== 0) {
+            promptsResponse = await getPromptsByCategory(categoryId);
           } else {
-            const categoryId = parseInt(e.target.getAttribute("data"));
-            selectedCategoryId = categoryId;
-            let promptsResponse = undefined;
-            if (categoryId !== 0) {
-              promptsResponse = await getPromptsByCategory(categoryId);
-            } else {
-              promptsResponse = await getFavoritesCategory();
-            }
-
-            const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
-            document.querySelector(".filter_title span").textContent = newTitleName;
-
-            const promptBarContentList = document.querySelector(".drop_content.list");
-            const promptBarContentGrid = document.querySelector(".drop_content.grid");
-
-            createPrompts(promptsResponse, promptBarContentList, ".drop_content.list");
-            createPrompts(promptsResponse, promptBarContentGrid, ".drop_content.grid");
+            promptsResponse = await getFavoritesCategory();
           }
+
+          const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
+          document.querySelector(".filter_title span").textContent = newTitleName;
+
+          const promptBarContentList = document.querySelector(".drop_content.list");
+          const promptBarContentGrid = document.querySelector(".drop_content.grid");
+
+          createPrompts(promptsResponse, promptBarContentList, ".drop_content.list");
+          createPrompts(promptsResponse, promptBarContentGrid, ".drop_content.grid");
+          // }
         });
 
         filterDropItem.textContent = category?.name;
 
-        if (!category.isAccess) {
-          filterDropItem.classList.add("no_access_dropdown_item_category");
-        }
+        // if (!category.isAccess) {
+        //   filterDropItem.classList.add("no_access_dropdown_item_category");
+        // }
 
         filterDrop.appendChild(filterDropItem);
       }
@@ -967,6 +967,7 @@ function createPromptDetailsPopup({
   is_favourite,
   id,
 }) {
+  console.log("categories", categories);
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement("div");
@@ -1041,11 +1042,7 @@ function createPromptDetailsPopup({
 
   answerDiv.appendChild(categoriesUl);
 
-  const likeAndFavoriteBlock = createPromptAction({
-    is_liked,
-    is_favourite,
-    id,
-  });
+  const likeAndFavoriteBlock = createPromptAction({ is_liked, is_favourite, id, categories });
 
   answerDiv.appendChild(likeAndFavoriteBlock);
 
@@ -1061,9 +1058,21 @@ function createPromptDetailsPopup({
   statsList.classList.add("stats");
   answerDiv.appendChild(statsList);
 
-  let likeIcon = createElem("img", { src: chrome.runtime.getURL("assets/images/thumbs-up.svg") }, []);
+  let likeIcon = createElem(
+    "img",
+    {
+      src: chrome.runtime.getURL("assets/images/thumbs-up.svg"),
+    },
+    []
+  );
 
-  let likeP = createElem("p", { style: "margin: unset;" }, []);
+  let likeP = createElem(
+    "p",
+    {
+      style: "margin: unset;",
+    },
+    []
+  );
 
   likeP.textContent += " " + like_amount;
 
@@ -1223,12 +1232,21 @@ function createPromptDetailsPopup({
     }
   });
 
-  bottomDiv.appendChild(sendBtn);
+  const subscriptionTier = getUserSubscriptionTier();
+  const isPlaygroundCategory = categories.some((category) => category?.name === "Playground");
+
+  if (subscriptionTier === "free") {
+    if (isPlaygroundCategory) {
+      bottomDiv.appendChild(sendBtn);
+    }
+  } else {
+    bottomDiv.appendChild(sendBtn);
+  }
 
   return popup;
 }
 
-function createPromptAction({ is_liked, is_favourite, id }) {
+function createPromptAction({ is_liked, is_favourite, id, categories }) {
   const like = createLikeBlock({ is_liked });
 
   let isLiked = is_liked;
@@ -1272,17 +1290,21 @@ function createPromptAction({ is_liked, is_favourite, id }) {
     } else {
       favorite.classList.add("active");
     }
-
-    // selected.appendChild(favouriteLi);
   });
 
-  let action = createElem(
-    "ul",
-    {
-      class: "selected",
-    },
-    [favorite, like]
-  );
+  const subscriptionTier = getUserSubscriptionTier();
+
+  let action;
+
+  if (subscriptionTier === "free") {
+    if (categories.some((category) => category?.name === "Playground")) {
+      action = createElem("ul", { class: "selected" }, [like]);
+    } else {
+      action = createElem("ul", { class: "selected" }, []);
+    }
+  } else {
+    action = createElem("ul", { class: "selected" }, [favorite, like]);
+  }
 
   return action;
 }
@@ -1317,7 +1339,13 @@ function createLikeBlock({ is_liked }) {
 }
 
 function createFavoriteBlock({ is_favourite }) {
-  let icon = createElem("img", { src: chrome.runtime.getURL("assets/images/selected.svg") }, []);
+  let icon = createElem(
+    "img",
+    {
+      src: chrome.runtime.getURL("assets/images/selected.svg"),
+    },
+    []
+  );
 
   let iconHover = createElem(
     "img",

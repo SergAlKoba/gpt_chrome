@@ -262,6 +262,7 @@ function createPromptDetailsPopup({
   is_favourite,
   id,
 }) {
+  console.log("categories", categories);
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement("div");
@@ -336,7 +337,7 @@ function createPromptDetailsPopup({
 
   answerDiv.appendChild(categoriesUl);
 
-  const likeAndFavoriteBlock = createPromptAction({ is_liked, is_favourite, id });
+  const likeAndFavoriteBlock = createPromptAction({ is_liked, is_favourite, id, categories });
 
   answerDiv.appendChild(likeAndFavoriteBlock);
 
@@ -526,12 +527,21 @@ function createPromptDetailsPopup({
     }
   });
 
-  bottomDiv.appendChild(sendBtn);
+  const subscriptionTier = getUserSubscriptionTier();
+  const isPlaygroundCategory = categories.some((category) => category?.name === "Playground");
+
+  if (subscriptionTier === "free") {
+    if (isPlaygroundCategory) {
+      bottomDiv.appendChild(sendBtn);
+    }
+  } else {
+    bottomDiv.appendChild(sendBtn);
+  }
 
   return popup;
 }
 
-function createPromptAction({ is_liked, is_favourite, id }) {
+function createPromptAction({ is_liked, is_favourite, id, categories }) {
   const like = createLikeBlock({ is_liked });
 
   let isLiked = is_liked;
@@ -578,10 +588,15 @@ function createPromptAction({ is_liked, is_favourite, id }) {
   });
 
   const subscriptionTier = getUserSubscriptionTier();
+
   let action;
 
   if (subscriptionTier === "free") {
-    action = createElem("ul", { class: "selected" }, [like]);
+    if (categories.some((category) => category?.name === "Playground")) {
+      action = createElem("ul", { class: "selected" }, [like]);
+    } else {
+      action = createElem("ul", { class: "selected" }, []);
+    }
   } else {
     action = createElem("ul", { class: "selected" }, [favorite, like]);
   }
