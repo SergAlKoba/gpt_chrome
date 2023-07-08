@@ -4,12 +4,8 @@ let isClickBookmark = false;
 console.log({ selectedTone, selectedStyle });
 
 
-
-
-
-
 async function getSubscriptionLevel() {
-    console.log('getSubscriptionLevel______________');
+    
     const API_URL = "https://gotgood.ai";
 
     let myHeaders = new Headers();
@@ -28,18 +24,17 @@ async function getSubscriptionLevel() {
 
     console.log('getSubscriptionLevel result', result);
     sessionStorage.setItem("subscription_tier", result.subscription_level);
+
     return result;
   }
 
 async function init() {
-    console.log('init______________');
 
     const token = localStorage.getItem('token');
-    if(token) {
-        console.log('token______________', token);
 
+    if(token) {
     const res =  await getSubscriptionLevel();
-    console.log('res____', res);
+    $('body').addClass('subscription_tier_loaded');
     }
 
   }

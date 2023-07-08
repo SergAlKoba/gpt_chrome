@@ -34,11 +34,7 @@
         "contentScripts/modalInput.js",
         "contentScripts/scriptFront.js"
       ],
-      "css": [
-        "./assets/css/global_styles.css",
-        "./assets/css/custom_styles.css",
-        "./assets/css/vadym_styles.css"
-      ]
+      "css": ["./assets/css/global_styles.css", "./assets/css/custom_styles.css", "./assets/css/vadym_styles.css"]
     }
   ],
   "icons": {
@@ -111,7 +107,8 @@
         "assets/images/unordered-list.svg",
         "assets/images/grid.svg",
         "assets/images/sortIcon.svg",
-        "assets/images/flames.svg"
+        "assets/images/flames.svg",
+        "assets/images/logo.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]
