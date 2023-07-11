@@ -1,15 +1,17 @@
+function handleCredentialResponse(response) {
+    // Вы можете использовать response для получения данных пользователя.
+    // Например, вы можете использовать response.credential для получения токена ID.
+    console.log('Token ID: ' + response.credential);
+}
+
 async function login(email, password) {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify({
-            "email": email,
-            "password": password
-        }),
-        redirect: 'follow'
+        method: 'POST', headers: myHeaders, body: JSON.stringify({
+            "email": email, "password": password
+        }), redirect: 'follow'
     };
 
     let response = await fetch("https://gotgood.ai/api/user/login/", requestOptions)
@@ -20,7 +22,7 @@ async function login(email, password) {
     console.log(localStorage.getItem('token'));
 
     if (result.auth_token || localStorage.getItem('token')) {
-        console.log('result__login', result)
+        console.log('result__login', result);
         localStorage.setItem('token', result.auth_token);
         sessionStorage.setItem('subscription_tier', result.user?.subscription_tier);
 
@@ -43,20 +45,15 @@ async function login(email, password) {
 }
 
 async function register(email, password, username) {
-    console.log('register___2')
+    console.log('register___2');
 
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify({
-            "email": email,
-            "password": password,
-            "username": username
-        }),
-        redirect: 'follow'
+        method: 'POST', headers: myHeaders, body: JSON.stringify({
+            "email": email, "password": password, "username": username
+        }), redirect: 'follow'
     };
 
     let response = await fetch("https://gotgood.ai/api/user/register/", requestOptions)
@@ -64,10 +61,10 @@ async function register(email, password, username) {
     let result = await response.json();
 
     if (response.ok) {
-        console.log('result__registration', result)
+        console.log('result__registration', result);
         localStorage.setItem('token', result.auth_token);
         sessionStorage.setItem('subscription_tier', result.user?.subscription_tier);
-        
+
         const registrationElement = document.querySelector('.registration');
         const promptBarElement = document.querySelector('.promt_bar');
         const popupSignUp = document.querySelector('.sign_up_popup');
@@ -100,12 +97,12 @@ function createForm(type, submitFunction) {
     const form = document.createElement('form');
     const emailInput = createInput('email', 'acme@corp.ai');
     const passwordInput = createInput('password', 'Enter password here');
-    const  usernameInput = createInput('text', 'Enter username here', 'Username');
+    const usernameInput = createInput('text', 'Enter username here', 'Username');
 
     form.appendChild(emailInput);
     if (type === 'sign_up') {
         form.appendChild(usernameInput);
-    }   
+    }
     form.appendChild(passwordInput);
 
 
@@ -128,7 +125,7 @@ function createForm(type, submitFunction) {
 
         const email = emailInput.children[1].value;
         const password = passwordInput.children[1].value;
-        const username =usernameInput.children[1].value;
+        const username = usernameInput.children[1].value;
 
         let result;
         if (type === 'sign_up') {
@@ -158,32 +155,31 @@ function createPopup(type) {
 
     const isSignUp = type === 'sign_up';
 
-    async function afterAuthorization(email, password,username){
-        if(isSignUp) {
+    async function afterAuthorization(email, password, username) {
+        if (isSignUp) {
             await register(email, password, username);
-        }
-        else {
+        } else {
             await login(email, password)
         }
 
-        const  registrationElement = document.querySelector('.registration');
+        const registrationElement = document.querySelector('.registration');
         registrationElement.classList.remove('active');
-        
+
         createSignedMenuContent().then((children) => {
             document.body.appendChild(children);
             const promptBarElement = document.querySelector('.promt_bar');
             if (promptBarElement) {
-              promptBarElement.classList.add('active');
-              promptBarElement.appendChild(createLoader());
+                promptBarElement.classList.add('active');
+                promptBarElement.appendChild(createLoader());
             }
-          });
+        });
 
-          const  closePopup = document.querySelector('.close_popup');
-          closePopup.click();
+        const closePopup = document.querySelector('.close_popup');
+        closePopup.click();
 
-     }
+    }
 
-    const submitFunction = afterAuthorization
+    const submitFunction = afterAuthorization;
     const form = createForm(type, submitFunction);
 
     const div = document.createElement('div');
@@ -217,19 +213,25 @@ function createPopup(type) {
     const orSpan = document.createElement('span');
     orSpan.innerText = 'or';
 
-    const signGoogleLink = document.createElement('a');
+    const signGoogleLink = document.createElement('div');
     signGoogleLink.href = 'javascript:void(0)';
-    signGoogleLink.className = 'sign_google';
     const signGoogleImg = document.createElement('img');
     signGoogleImg.src = chrome.runtime.getURL('assets/images/sign_google.png');
     signGoogleImg.alt = '';
+    signGoogleLink.setAttribute('class', 'g_id_signin sign_google');
+    signGoogleLink.setAttribute('data-client_id', '855810422972-rnj3fvs55se2fbklll064ha30pp4fuca.apps.googleusercontent.com');
+    signGoogleLink.setAttribute('data-callback', 'handleCredentialResponse');
     signGoogleLink.appendChild(signGoogleImg);
     signGoogleLink.appendChild(document.createTextNode(' Sign up with Google'));
-
+    let googleScript = document.createElement('script');
+    googleScript.src = 'https://accounts.google.com/gsi/client';
+    googleScript.async = true;
+    googleScript.defer = true;
+    document.body.appendChild(googleScript);
     const existingAccountText = document.createElement('p');
-    const footerText = isSignUp ? 'Already registered? <a class="sign_in_js" href="javascript:void(0)">Sign in</a> to your account.' : `Don't have an account? 'Already registered? <a class="sign_up_js" href="javascript:void(0)">Sign up</a> your account.';`;
+    const footerText = isSignUp ? 'Already registered? <a class="sign_in_js" href="javascript:void(0)">Sign in</a> to your account.' : `Don't have an account? 'Already registered? <a class="sign_up_js" href="javascript:void(0)">Sign up</a> your account.`;
 
-    existingAccountText.innerHTML = footerText
+    existingAccountText.innerHTML = footerText;
 
     form.appendChild(orSpan);
     form.appendChild(signGoogleLink);
