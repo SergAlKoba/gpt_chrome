@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;900&display=swap');
 
 *{
     margin: 0;
@@ -272,22 +272,22 @@
     margin-bottom: 3px;
 }
 
-#global .flex.flex-col.gap-2.pb-2.text-gray-100.text-sm ol a{
+/* #global .flex.flex-col.gap-2.pb-2.text-gray-100.text-sm ol a{
     border-radius: 6px;
     padding: 10px 40px 10px 17px;
-}
+} */
 
-#global .flex.flex-col.gap-2.pb-2.text-gray-100.text-sm ol a:hover{
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
-}
+/* #global .flex.flex-col.gap-2.pb-2.text-gray-100.text-sm ol a:hover{ */
+    /* background: rgba(255, 255, 255, 0.1); */
+    /* box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16); */
+/* } */
 
-#global .flex.flex-col.gap-2.pb-2.text-gray-100.text-sm ol a .text-ellipsis {
+/* #global .flex.flex-col.gap-2.pb-2.text-gray-100.text-sm ol a .text-ellipsis {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
+ */
 
 
 
@@ -320,7 +320,7 @@
     align-items: center;
 }
 
-.absolute.flex.right-1.z-10.text-gray-300.visible {
+/* .absolute.flex.right-1.z-10.text-gray-300.visible {
     top: 50%;
     right: 5px;
     position: absolute;
@@ -336,7 +336,7 @@
 
 .absolute.flex.right-1.z-10.text-gray-300.visible button svg {
     width: 100%;
-}
+} */
 
 
 #global .space-y-1 .items-center.gap-3.relative.rounded-md .overflow-hidden.break-all.relative{
@@ -391,12 +391,11 @@
     line-height: 18px;
     text-align: center;
     padding: 11px 32px 12px;
-    /* padding-left: 20px; */
     justify-content: center;
     letter-spacing: -0.04em;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px 1px, rgba(255, 255, 255, 0.16) 0px 0px 0px 0.5px inset;
     background: radial-gradient(120.76% 197.5% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #6633EE 78.65%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-
+    border:unset
 }
 
 #global .group.relative .flex.w-full.items-center.rounded-md.px-3.py-3.text-sm{
@@ -777,7 +776,12 @@
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer:hover{
-    background: radial-gradient(50% 50% at 50% 50%, rgba(186, 252, 60, 0.0768) 0%, rgba(63, 255, 37, 0.0768) 100%), rgba(255, 255, 255, 0.05);
+    /* background: radial-gradient(50% 50% at 50% 50%, rgba(186, 252, 60, 0.0768) 0%, rgba(63, 255, 37, 0.0768) 100%), rgba(255, 255, 255, 0.05); */
+    /* background: linear-gradient(0deg, #181B1E, #181B1E), */
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 126.25%);
+    /* linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)); */
+    
+
 }
 
 #global .prompt_details_popup .popup_content .answer:hover .selected{
@@ -796,7 +800,7 @@
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .designation{
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     align-items: center;
 }
 
@@ -815,6 +819,67 @@
     background: rgba(185, 159, 21, 0.1);
     box-shadow: inset 0px 0px 0px 1px rgba(185, 159, 21, 0.2);
 }
+
+#global .badge{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 9999px;
+    box-shadow: 0px 0px 0px 1px rgba(185, 159, 21, 0.2) inset, 0px 0px 0px 0px #fff inset;
+    font-size: 12px;
+    font-weight: var(--font-medium);
+    line-height: 16px;
+    width: fit-content;
+    margin-right: 58px;
+    margin-bottom: 4px;
+}
+
+#global  .badge::after {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 99%;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(120.45deg, rgba(255, 255, 255, 0.04) 13.15%, rgba(255, 255, 255, 0) 75.74%), rgb(24, 27, 30);
+    transform: translate(-24px, -50%);
+    z-index: -1;
+  }
+
+  #global  .answer:hover .designation .badge::after {
+    /* background: #2c382a;  */
+    /* background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 126.25%); */
+
+  }
+
+  #global .prompt_details_popup .answer .badge::after {
+    background: #1e2124; 
+  }
+
+
+
+#global .badge .badge_subcategory{
+    position: absolute;
+    z-index: -1;
+    padding: 4px 8px 4px 15px;
+    transform: translateX(-11px);
+    top: 0;
+    left: 100%;
+    border-radius: 0 9999px 9999px 0;
+
+    color: #b99f15;
+    background-color: rgba(185, 159, 21, 0.1);
+    box-shadow: 0px 0px 0px 1px rgba(185, 159, 21, 0.2) inset, 0px 0px 0px 0px #fff inset;
+    font-size: 12px;
+    font-weight: var(--font-medium);
+    line-height: 16px;
+    width: fit-content;
+}
+
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer h3{
     font-size: 16px;
@@ -1217,6 +1282,7 @@
 #global .flex.h-full.w-full.flex-col.p-2{
     overflow: hidden;
     padding: 14px 0 24px;
+    padding-bottom: 5px;
 }
 
 #global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3{
@@ -1660,14 +1726,15 @@
     line-height: 16px;
     border-radius: 4px;
     text-align: center;
-    /* background: rgba(255, 255, 255, 0.1); */
-    background: #272727;
-
-    box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08);
 
     display: inline-block;
     min-width: 100px;
     padding: 0px 10px;
+    padding-left: 20px;
+    padding-top: 4px;
+    position: relative;
+    height: 24px;
 
 }
 
@@ -1709,12 +1776,12 @@
     /* background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%); */
     background: radial-gradient(120.76% 197.5% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #6633EE 78.65%) !important;
     transform: translate(0, -50%);
-    transition: all 0.3s;
+    /* transition: all 0.3s; */
 }
 
-#global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40:hover{
+/* #global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40:hover{
     transform: translate(0, -50%) scale(1.1);
-}
+} */
 
 #global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40::after {
     content: '';
@@ -1736,9 +1803,9 @@
     fill: #000;
 }
 
-#global .microphone:hover{
+/* #global .microphone:hover{
     transform: translate(0, -50%) scale(1.1);
-}
+} */
 
 #global .microphone:hover svg path{
     fill: #000;
@@ -1800,12 +1867,12 @@
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
-    transition: all 0.3s;
+    /* transition: all 0.3s; */
 }
 
-#global .latest_google .checklist:hover a{
+/* #global .latest_google .checklist:hover a{
     transform: scale(1.1);
-}
+} */
 
 #global .latest_google .checklist.no_access_idea{
     filter: brightness(0.4);
@@ -2007,7 +2074,7 @@
     background: url('../images/CaretDown.svg') no-repeat 50% 50%;
     background-size: cover;
     transform: translate(0, -50%);
-    transition: all 0.3s;
+    /* transition: all 0.3s; */
 }
 
 #global .latest_google .style_violet ul{    
@@ -2034,7 +2101,7 @@
     background: url('../images/CaretDown3.svg') no-repeat 50% 50%;
     background-size: cover;
     transform: translate(0, -50%);
-    transition: all 0.3s;
+    /* transition: all 0.3s; */
 }
 
 #global .latest_google .style ul li{
@@ -2075,7 +2142,7 @@
     color: #FFFFFF;
     border-radius: 6px;
     margin-bottom: 4px;
-    transition: all 0.4s;
+    /* transition: all 0.4s; */
 }
 
 #global .latest_google .style ul li ul li:hover{
@@ -3230,4 +3297,22 @@ ul[id^="headlessui-listbox-options"] li {
     padding-left: 20px;
     margin-bottom: 20px;
 }
+
+#global .idea_star{
+    position: absolute;
+    top: 50% !important;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    left: 0px !important;
+    /* margin-right: 5px; */
+}
+
+
+#global .markdown ol>li{
+    padding-left: 1.375em;
+}
+
+
+
 /* END Prompt library */

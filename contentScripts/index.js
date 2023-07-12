@@ -106,6 +106,13 @@ function createChatMessageButtons(container, isClickBookmark) {
   button4.onclick = async (e) => {
     e.preventDefault();
 
+    const subscriptionTier = getUserSubscriptionTier();
+    if (subscriptionTier === "free") {
+      const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+      document.body.appendChild(upgradeSubscriptionPopup);
+      return;
+    }
+
     const getMessageChatGpt = () => $(container).parent().parent().find(".break-words");
     const isExistMessageChatGpt = () => getMessageChatGpt().length > 0;
 
@@ -124,10 +131,7 @@ function createChatMessageButtons(container, isClickBookmark) {
   // container.appendChild(button3);
 
   if (!isClickBookmark) {
-    const subscriptionTier = getUserSubscriptionTier();
-    if (subscriptionTier !== "free") {
-      container.appendChild(button4);
-    }
+    container.appendChild(button4);
   }
 }
 

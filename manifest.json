@@ -108,7 +108,8 @@
         "assets/images/grid.svg",
         "assets/images/sortIcon.svg",
         "assets/images/flames.svg",
-        "assets/images/logo.svg"
+        "assets/images/logo.svg",
+        "assets/images/idea_starts.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

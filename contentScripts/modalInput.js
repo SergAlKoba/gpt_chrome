@@ -317,23 +317,71 @@ function createPromptDetailsPopup({
   const categoriesUl = document.createElement("ul");
   categoriesUl.classList.add("prompt_categories");
 
-  categories.forEach((category) => {
-    const categoryLi = document.createElement("li");
-    categoryLi.classList.add("prompt_category");
+  categories.forEach((categoryObj) => {
+    const isHasColor = !!categoryObj?.color;
+    let category = null;
+    let svg = null;
 
-    const categoryIcon = document.createElement("img");
-    categoryIcon.classList.add("category_icon");
-    categoryIcon.src = chrome.runtime.getURL("assets/images/flames.svg");
-    console.log("categoryIcon", categoryIcon);
-    categoryIcon.alt = "category icon";
-    categoryLi.appendChild(categoryIcon);
+    if (isHasColor) {
+      const color = categoryObj?.color;
+      category = createElem("div", { class: "badge", style: `background-color: ${color}; color: ${color};` }, []);
+    } else {
+      category = createElem(
+        "div",
+        { class: "badge", style: `background-color: rgba(185, 159, 21, 0.1); color: #b99f15;` },
+        []
+      );
+    }
 
-    const categorySpan = document.createElement("span");
-    categorySpan.textContent = category?.name;
-    categoryLi.appendChild(categorySpan);
+    const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgElement.setAttribute("width", "10");
+    svgElement.setAttribute("height", "12");
+    svgElement.setAttribute("viewBox", "0 0 10 12");
+    svgElement.setAttribute("fill", "none");
 
-    categoriesUl.appendChild(categoryLi);
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathElement.setAttribute(
+      "d",
+      "M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z"
+    );
+    pathElement.setAttribute("stroke", "#b99f15");
+    pathElement.setAttribute("stroke-linecap", "round");
+    pathElement.setAttribute("stroke-linejoin", "round");
+    svgElement.appendChild(pathElement);
+
+    const svgWrapper = document.createElement("div");
+    svgWrapper.appendChild(svgElement);
+
+    category.appendChild(svgWrapper);
+
+    const categorySpan = document.createElement("div");
+    categorySpan.textContent = categoryObj?.name;
+    category.appendChild(categorySpan);
+    const subCategory = createElem("div", { class: "badge_subcategory" }, []);
+    subCategory.textContent = "Apple";
+    category.appendChild(subCategory);
+
+    // category.textContent = categoryObj.name;
+    categoriesUl.appendChild(category);
   });
+
+  // categories.forEach((category) => {
+  //   const categoryLi = document.createElement("li");
+  //   categoryLi.classList.add("prompt_category");
+
+  //   const categoryIcon = document.createElement("img");
+  //   categoryIcon.classList.add("category_icon");
+  //   categoryIcon.src = chrome.runtime.getURL("assets/images/flames.svg");
+  //   console.log("categoryIcon", categoryIcon);
+  //   categoryIcon.alt = "category icon";
+  //   categoryLi.appendChild(categoryIcon);
+
+  //   const categorySpan = document.createElement("span");
+  //   categorySpan.textContent = category?.name;
+  //   categoryLi.appendChild(categorySpan);
+
+  //   categoriesUl.appendChild(categoryLi);
+  // });
 
   answerDiv.appendChild(categoriesUl);
 

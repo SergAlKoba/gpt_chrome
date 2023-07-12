@@ -324,7 +324,6 @@ const createElem = (tag, attributes, children) => {
 };
 
 async function createIdeaPopup(last_message) {
-  console.log("createIdeaPopup");
   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
   sendButton.classList.add("send_button");
   const ideaPopup = document.createElement("div");
@@ -335,11 +334,6 @@ async function createIdeaPopup(last_message) {
 
   ideaPopup.append(spinner);
   $(ideaPopup).insertAfter(sendButton);
-
-  // const image = document.createElement('img');
-  // image.src = chrome.runtime.getURL('assets/images/idea2.svg');
-  // image.alt = '';
-  // ideaPopup.appendChild(image);
 
   const list = document.createElement("ul");
 
@@ -356,7 +350,17 @@ async function createIdeaPopup(last_message) {
 
   for (let el of data["ideas"]) {
     const listItem = document.createElement("li");
-    listItem.textContent = el;
+    const imageStar = document.createElement("img");
+    imageStar.src = chrome.runtime.getURL("assets/images/idea_starts.svg");
+    imageStar.className = "idea_star";
+    imageStar.alt = "";
+
+    listItem.appendChild(imageStar);
+    const div = document.createElement("div");
+    div.className = "idea_text";
+    div.textContent = el;
+    listItem.appendChild(div);
+    // listItem.textContent = el;
     listItem.addEventListener("click", () => {
       sendInput(listItem.textContent, true);
 
@@ -369,41 +373,6 @@ async function createIdeaPopup(last_message) {
     });
     list.appendChild(listItem);
   }
-
-  // const listItem1 = document.createElement('li');
-  // listItem1.textContent = 'History of Turkey';
-  // listItem1.addEventListener('click', () => {
-  //     sendInput(listItem1.textContent, true);
-  // });
-  // list.appendChild(listItem1);
-  //
-  // const listItem2 = document.createElement('li');
-  // listItem2.textContent = 'checkout time w hotel cdmx';
-  // listItem2.addEventListener('click', () => {
-  //     sendInput(listItem2.textContent, true);
-  // });
-  // list.appendChild(listItem2);
-  //
-  // const listItem3 = document.createElement('li');
-  // listItem3.textContent = 'd/dx x^2 y^4, d/dy x^2 y4';
-  // listItem3.addEventListener('click', () => {
-  //     sendInput(listItem3.textContent, true);
-  // });
-  // list.appendChild(listItem3);
-  //
-  // const listItem4 = document.createElement('li');
-  // listItem4.textContent = 'brown dog name ideas';
-  // listItem4.addEventListener('click', () => {
-  //     sendInput(listItem4.textContent, true);
-  // });
-  // list.appendChild(listItem4);
-  //
-  // const listItem5 = document.createElement('li');
-  // listItem5.textContent = 'how to center a div idk';
-  // listItem5.addEventListener('click', () => {
-  //     sendInput(listItem5.textContent, true);
-  // });
-  // list.appendChild(listItem5);
 
   return ideaPopup;
 }
@@ -478,20 +447,10 @@ function createIdeaElement() {
 
 async function addIdeaPopup() {
   let last_message = $("div.flex.flex-grow.flex-col.gap-3 > div > div > p").last().text();
-  console.log(last_message);
   const ideaPopup = await createIdeaPopup(last_message);
 
   return ideaPopup; // return the ideaPopup so you can wait for it in the event listener
 }
-
-// addIdeaPopup();
-//
-// setInterval(() => {
-//     let ideaPopup = document.querySelector('.idea_popup');
-//     if (!ideaPopup) {
-//         addIdeaPopup();
-//     }
-// }, 1000);
 
 function createFollowUpDiv() {
   const createListItem = (text) => {
@@ -595,9 +554,9 @@ function createLatestGoogle() {
     div.id = category.id;
     latestGoogleDiv.appendChild(div);
 
-    const p = document.createElement("p");
+    // const p = document.createElement("p");
     // p.textContent = `${category.className} :`;
-    div.appendChild(p);
+    // div.appendChild(p);
 
     const ul = document.createElement("ul");
     div.appendChild(ul);
@@ -775,7 +734,7 @@ setInterval(() => {
   if (!micro) {
     addMicrophone();
   }
-}, 1000);
+}, 50);
 
 addElementGoogle();
 addMicrophone();
@@ -865,6 +824,27 @@ function changeNewChatBtn() {
     const span = document.createElement("span");
     span.textContent = "Add new chat";
     a.appendChild(span);
+
+    $(a)
+      .off("click")
+      .on("click", () => {
+        let isMenuContentActive = $(".menu_content").hasClass("active");
+        if (isMenuContentActive) {
+          let intervalId = null;
+
+          intervalId = setInterval(() => {
+            console.log("_____isMenuContentActive");
+            let isMenuContentActive = $(".menu_content").hasClass("active");
+
+            if (!isMenuContentActive) {
+              $("#global .flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
+              clearInterval(intervalId);
+            } else {
+              $("#global .flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
+            }
+          }, 200);
+        }
+      });
   }
 }
 
