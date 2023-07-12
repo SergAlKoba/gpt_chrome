@@ -953,7 +953,7 @@
 }
 
 #global .prompt_details_popup .popup_content .answer .selected li:hover{
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content .answer .designation{
