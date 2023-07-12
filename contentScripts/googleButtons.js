@@ -833,7 +833,7 @@ function changeNewChatBtn() {
           let intervalId = null;
 
           intervalId = setInterval(() => {
-            console.log("_____isMenuContentActive");
+            // console.log("_____isMenuContentActive");
             let isMenuContentActive = $(".menu_content").hasClass("active");
 
             if (!isMenuContentActive) {
