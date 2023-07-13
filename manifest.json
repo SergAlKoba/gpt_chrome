@@ -3,24 +3,14 @@
   "name": "ChatGPT Theme Customizer",
   "version": "1.0",
   "description": "A Chrome extension to customize ChatGPT themes.",
-  "permissions": [
-    "contextMenus",
-    "activeTab",
-    "tabs",
-    "scripting"
-  ],
-  "host_permissions": [
-    "http://*/",
-    "https://*/"
-  ],
+  "permissions": ["contextMenus", "activeTab", "tabs", "scripting"],
+  "host_permissions": ["http://*/", "https://*/"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.openai.com/*"
-      ],
+      "matches": ["*://*.openai.com/*"],
       "js": [
         "contentScripts/jquery.min.js",
         "contentScripts/googleLib.js",
@@ -37,11 +27,7 @@
         "contentScripts/modalInput.js",
         "contentScripts/scriptFront.js"
       ],
-      "css": [
-        "./assets/css/global_styles.css",
-        "./assets/css/custom_styles.css",
-        "./assets/css/vadym_styles.css"
-      ]
+      "css": ["./assets/css/global_styles.css", "./assets/css/custom_styles.css", "./assets/css/vadym_styles.css"]
     }
   ],
   "icons": {
@@ -116,12 +102,11 @@
         "assets/images/sortIcon.svg",
         "assets/images/flames.svg",
         "assets/images/logo.svg",
-        "assets/images/idea_starts.svg"
+        "assets/images/idea_starts.svg",
+        "assets/images/dashboard2.svg"
       ],
       "use_dynamic_url": false,
-      "matches": [
-        "<all_urls>"
-      ]
+      "matches": ["<all_urls>"]
     }
   ]
 }

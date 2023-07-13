@@ -3315,6 +3315,9 @@ ul[id^="headlessui-listbox-options"] li {
     padding-left: 1.375em;
 }
 
+.dashboard_link{
+    margin-top: 1px;
+}
 
 
 /* END Prompt library */
