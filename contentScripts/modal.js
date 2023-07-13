@@ -61,11 +61,11 @@ function createTabsDiv() {
   li1.textContent = "Tone";
   ul.appendChild(li1);
 
-  let li2 = document.createElement("li");
-  li2.setAttribute("data-tabs", "style");
-  li2.className = "tabs_item";
-  li2.textContent = "Style";
-  ul.appendChild(li2);
+  // let li2 = document.createElement("li");
+  // li2.setAttribute("data-tabs", "style");
+  // li2.className = "tabs_item";
+  // li2.textContent = "Style";
+  // ul.appendChild(li2);
 
   let tabsNavContentTone = document.createElement("div");
   tabsNavContentTone.setAttribute("class", "tabs_nav_content tone active");
@@ -183,16 +183,16 @@ function createTabsDiv() {
 
   li1.onclick = () => {
     li1.classList.add("active");
-    li2.classList.remove("active");
+    // li2.classList.remove("active");
     tabsNavContentTone.classList.add("active");
     tabsNavContentStyle.classList.remove("active");
   };
-  li2.onclick = () => {
-    li1.classList.remove("active");
-    li2.classList.add("active");
-    tabsNavContentTone.classList.remove("active");
-    tabsNavContentStyle.classList.add("active");
-  };
+  // li2.onclick = () => {
+  //   li1.classList.remove("active");
+  //   li2.classList.add("active");
+  //   tabsNavContentTone.classList.remove("active");
+  //   tabsNavContentStyle.classList.add("active");
+  // };
 
   tabsDiv.appendChild(tabsNavContentTone);
   tabsDiv.appendChild(tabsNavContentStyle);

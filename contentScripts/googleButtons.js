@@ -324,10 +324,14 @@ const createElem = (tag, attributes, children) => {
 };
 
 async function createIdeaPopup(last_message) {
+  console.log("createIdeaPopup__________");
   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
+  const parentElement = sendButton.parentNode;
+
   sendButton.classList.add("send_button");
   const ideaPopup = document.createElement("div");
-  ideaPopup.className = "idea_popup active";
+  ideaPopup.className = "idea_popup";
+  ideaPopup.classList.add("active");
 
   const spinner = createLoader();
   spinner.classList.add("idea_loader");
@@ -431,6 +435,8 @@ function createIdeaElement() {
 
     let ideaPopup = document.querySelector(".idea_popup");
     const isNotExistIdeaPopup = () => !ideaPopup;
+    console.log("isNotExistIdeaPopup", isNotExistIdeaPopup());
+    console.log("ideaPopup", ideaPopup);
 
     if (isNotExistIdeaPopup()) {
       await addIdeaPopup();

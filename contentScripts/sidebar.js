@@ -852,14 +852,23 @@ function createSinglePrompt(promptObj) {
 
     category.appendChild(svgWrapper);
 
-    const categorySpan = document.createElement("div");
-    categorySpan.textContent = categoryObj?.name;
-    category.appendChild(categorySpan);
-    const subCategory = createElem("div", { class: "badge_subcategory" }, []);
-    subCategory.textContent = "Apple";
-    category.appendChild(subCategory);
+    const categoryIsHasParent = !!categoryObj?.parent;
 
-    // category.textContent = categoryObj.name;
+    if (categoryIsHasParent) {
+      const categorySpan = document.createElement("div");
+      categorySpan.textContent = categoryObj?.parent;
+      category.appendChild(categorySpan);
+
+      const subCategory = createElem("div", { class: "badge_subcategory" }, []);
+      subCategory.textContent = categoryObj?.name;
+      category.appendChild(subCategory);
+    } else {
+      const categorySpan = document.createElement("div");
+      categorySpan.textContent = categoryObj?.name;
+      category.appendChild(categorySpan);
+      category.style.marginRight = "10px";
+    }
+
     categories.appendChild(category);
   });
 
