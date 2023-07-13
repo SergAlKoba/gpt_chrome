@@ -33,9 +33,9 @@ const toneItemsData = [
 
 const styleItemData = [
   { title: "Default", name: "global_fonts" },
-  { title: "Roboto", name: "roboto" },
-  { title: "Montserrat", name: "montserrat" },
-  { title: "Roboto Condensed", name: "roboto_condensed" },
+  // { title: "Roboto", name: "roboto" },
+  // { title: "Montserrat", name: "montserrat" },
+  // { title: "Roboto Condensed", name: "roboto_condensed" },
 ];
 
 function getUserSubscriptionTier() {
@@ -74,9 +74,7 @@ function createTabsDiv() {
   toneItems.setAttribute("class", "tone_items");
 
   let getToneItemsDataBySubscriptionTier = {
-    free: [...toneItemsData].map((tone) =>
-      tone.name === "colorful_gradient" ? { ...tone, isAccess: false } : tone
-    ),
+    free: [...toneItemsData].map((tone) => (tone.name === "colorful_gradient" ? { ...tone, isAccess: false } : tone)),
     tier1: toneItemsData,
     tier2: toneItemsData,
     tier3: toneItemsData,
@@ -90,8 +88,7 @@ function createTabsDiv() {
   function createListToneItem() {
     const subscriptionTier = getUserSubscriptionTier();
 
-    const toneItemsDataBySubscriptionTier =
-      getToneItemsDataBySubscriptionTier[subscriptionTier];
+    const toneItemsDataBySubscriptionTier = getToneItemsDataBySubscriptionTier[subscriptionTier];
 
     let body = document.querySelector("body");
 
@@ -109,10 +106,7 @@ function createTabsDiv() {
         if (item.name == selectedTone) {
           toneItem.classList.add("active");
         }
-        toneItem.style.setProperty(
-          "--checkIcon",
-          `url(${chrome.runtime.getURL("assets/images/tone_item_check.svg")})`
-        );
+        toneItem.style.setProperty("--checkIcon", `url(${chrome.runtime.getURL("assets/images/tone_item_check.svg")})`);
         let toneItemImg = document.createElement("img");
         toneItemImg.setAttribute("src", chrome.runtime.getURL(item.url));
         toneItemImg.setAttribute("alt", "");
@@ -239,24 +233,20 @@ function createForm(tabsDiv) {
 
     const searchRegExp = new RegExp(normalizeText(searchText), "g");
 
-    Array.from(document.querySelectorAll(".tone_item, .style_item")).forEach(
-      (item) => {
-        const titleElement = item.querySelector("h4");
-        const itemText = titleElement
-          ? normalizeText(titleElement.textContent)
-          : "";
+    Array.from(document.querySelectorAll(".tone_item, .style_item")).forEach((item) => {
+      const titleElement = item.querySelector("h4");
+      const itemText = titleElement ? normalizeText(titleElement.textContent) : "";
 
-        if (normalizeText(searchText).length < 2) {
-          item.style.display = "block";
+      if (normalizeText(searchText).length < 2) {
+        item.style.display = "block";
+      } else {
+        if (!itemText.match(searchRegExp)) {
+          item.style.display = "none";
         } else {
-          if (!itemText.match(searchRegExp)) {
-            item.style.display = "none";
-          } else {
-            item.style.display = "block";
-          }
+          item.style.display = "block";
         }
       }
-    );
+    });
   }
 
   input.oninput = (e) => {
@@ -279,9 +269,7 @@ function createSettingsDiv() {
     e.preventDefault();
     localStorage.setItem("tone", selectedTone);
     localStorage.setItem("style", selectedStyle);
-    document
-      .querySelector("#global .theme_settings_content")
-      ?.classList.remove("active");
+    document.querySelector("#global .theme_settings_content")?.classList.remove("active");
 
     return false;
   };
@@ -304,24 +292,20 @@ function createModal() {
     selectedTone = selectedToneTmp;
     selectedStyle = selectedStyleTmp;
 
-    document
-      .querySelectorAll(".theme_settings_content [data-theme]")
-      .forEach((item) => {
-        item.classList.remove("active");
-      });
+    document.querySelectorAll(".theme_settings_content [data-theme]").forEach((item) => {
+      item.classList.remove("active");
+    });
 
-    document
-      .querySelectorAll(".theme_settings_content [data-font]")
-      .forEach((item) => {
-        item.classList.remove("active");
-      });
+    document.querySelectorAll(".theme_settings_content [data-font]").forEach((item) => {
+      item.classList.remove("active");
+    });
 
-    document
-      .querySelector(`.theme_settings_content [data-theme="${selectedTone}"]`)
-      .classList.add("active");
-    document
-      .querySelector(`.theme_settings_content [data-font="${selectedStyle}"]`)
-      .classList.add("active");
+    if (selectedTone)
+      document.querySelector(`.theme_settings_content [data-theme="${selectedTone}"]`).classList.add("active");
+
+    if (selectedStyle)
+      document.querySelector(`.theme_settings_content [data-font="${selectedStyle}"]`).classList.add("active");
+
     div.classList.remove("active");
 
     applyCurrentTheme();

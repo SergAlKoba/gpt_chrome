@@ -316,6 +316,7 @@ function createCategory(id) {
 
   getPromptsByCategory(id)
     .then((response) => {
+      console.log("getPromptsByCategory_________-1111");
       for (let i = 0; i < response.length; i++) {
         const promptParagraph = createElem("p", {}, [response[i].prompt_template]);
         const promptDiv = createElem(
@@ -461,15 +462,15 @@ function createRegistration() {
 }
 
 function createSortBtn() {
-  const sortIcon = createElem(
-    "img",
-    {
-      src: chrome.runtime.getURL("assets/images/sortIcon.svg"),
-    },
-    []
-  );
+  // const sortIcon = createElem(
+  //   "img",
+  //   {
+  //     src: chrome.runtime.getURL("assets/images/sortIcon.svg"),
+  //   },
+  //   []
+  // );
 
-  const wrapperSortIcon = createElem("div", { class: "wrapper_sort_icon" }, [sortIcon]);
+  const wrapperSortIcon = createElem("div", { class: "wrapper_sort_icon" }, []);
   return wrapperSortIcon;
 }
 
@@ -527,7 +528,9 @@ function createSortMenuList() {
 }
 
 async function processInput(e) {
-  const promptsResult = await searchPrompts(e.target.value, selectedCategoryId || 1, selectedSort || 1);
+  console.log("processInput_________");
+  console.log("selectedCategoryId", selectedCategoryId);
+  const promptsResult = await searchPrompts(e.target.value, selectedCategoryId ?? 1, selectedSort || 1);
   searchValue = e.target.value;
   const promptBarContentList = document.querySelector(".drop_content.list");
   const promptBarContentGrid = document.querySelector(".drop_content.grid");
@@ -564,12 +567,31 @@ function createSearch() {
   const form = createElem("form", {}, [searchButton, searchInput]);
 
   const sortBtn = createSortBtn();
+  const sortIcon = createElem(
+    "img",
+    {
+      src: chrome.runtime.getURL("assets/images/sortIcon.svg"),
+    },
+    []
+  );
+  sortBtn.appendChild(sortIcon);
   const sortMenuList = createSortMenuList();
   const wrapperFormAndSortBtn = createElem("div", { class: "wrapper_form_and_sort_btn" }, [
     form,
     sortBtn,
     sortMenuList,
   ]);
+
+  // start get body and if  i click not sortBtn and not sortMenuList and not sortIcon then remove class active
+
+  const body = document.querySelector("body");
+  body.addEventListener("click", (e) => {
+    if (e.target !== sortBtn && e.target !== sortMenuList && e.target !== sortIcon) {
+      sortMenuList.classList.remove("active");
+    }
+  });
+
+  //end  get body and if  i click not sortBtn and not sortMenuList and not sortIcon then remove class active
 
   sortBtn.addEventListener("click", () => {
     sortMenuList.classList.toggle("active");
@@ -666,6 +688,7 @@ function createCategoryMenu(categories) {
           if (categoryId !== 0) {
             promptsResponse = await getPromptsByCategory(categoryId);
           } else {
+            console.log("getFavoritesCategory____");
             promptsResponse = await getFavoritesCategory();
           }
 
@@ -789,8 +812,54 @@ function createSinglePrompt(promptObj) {
   );
 
   promptObj.categories.forEach((categoryObj) => {
-    let category = createElem("span", {}, []);
-    category.textContent = categoryObj.name;
+    const isHasColor = !!categoryObj?.color;
+    let category = null;
+    let svg = null;
+
+    if (isHasColor) {
+      const color = categoryObj?.color;
+      category = createElem("div", { class: "badge", style: `background-color: ${color}; color: ${color};` }, []);
+      svg = `<svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z" stroke="#5FE9D0" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      `;
+    } else {
+      category = createElem(
+        "div",
+        { class: "badge", style: `background-color: rgba(185, 159, 21, 0.1); color: #b99f15;` },
+        []
+      );
+    }
+
+    const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgElement.setAttribute("width", "10");
+    svgElement.setAttribute("height", "12");
+    svgElement.setAttribute("viewBox", "0 0 10 12");
+    svgElement.setAttribute("fill", "none");
+
+    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    pathElement.setAttribute(
+      "d",
+      "M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z"
+    );
+    pathElement.setAttribute("stroke", "#b99f15");
+    pathElement.setAttribute("stroke-linecap", "round");
+    pathElement.setAttribute("stroke-linejoin", "round");
+    svgElement.appendChild(pathElement);
+
+    const svgWrapper = document.createElement("div");
+    svgWrapper.appendChild(svgElement);
+
+    category.appendChild(svgWrapper);
+
+    const categorySpan = document.createElement("div");
+    categorySpan.textContent = categoryObj?.name;
+    category.appendChild(categorySpan);
+    const subCategory = createElem("div", { class: "badge_subcategory" }, []);
+    subCategory.textContent = "Apple";
+    category.appendChild(subCategory);
+
+    // category.textContent = categoryObj.name;
     categories.appendChild(category);
   });
 
@@ -967,7 +1036,7 @@ function createPromptDetailsPopup({
   is_favourite,
   id,
 }) {
-  console.log("categories", categories);
+  console.log("createPromptDetailsPopup_______");
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement("div");
@@ -1029,7 +1098,7 @@ function createPromptDetailsPopup({
     const categoryIcon = document.createElement("img");
     categoryIcon.classList.add("category_icon");
     categoryIcon.src = chrome.runtime.getURL("assets/images/flames.svg");
-    console.log("categoryIcon", categoryIcon);
+
     categoryIcon.alt = "category icon";
     categoryLi.appendChild(categoryIcon);
 
