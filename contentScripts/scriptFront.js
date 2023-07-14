@@ -32,10 +32,12 @@ var $doc = $(document);
     });
 
     $(".idea_js").on("click", function () {
-      $(".idea_popup").toggleClass("active");
+      console.log("idea_js____");
+      // $(".idea_popup").toggleClass("active");
     });
 
     $(".idea_popup li").on("click", function () {
+      console.log("idea_popup li____");
       $(".idea_popup").removeClass("active");
     });
 

@@ -715,13 +715,10 @@ function addElementGoogle() {
   latestGoogle.prepend(ideaElement);
 }
 
-// let isBtnResponseChangeClassName = false;
-
 setInterval(() => {
   let isBtnResponseChangeClassName = document.querySelector(".btn-response");
 
   if (!isBtnResponseChangeClassName) {
-    // const searchText = "Regenerate response";
     const btnArr = ["Regenerate response", "Stop generating"];
     const elements = document.querySelectorAll("form button div");
     console.log("elements", elements);
@@ -731,7 +728,6 @@ setInterval(() => {
         console.log(element.parentNode);
         const btnResponse = element.parentNode;
         btnResponse.classList.add("btn-response");
-        // isBtnResponseChangeClassName = true;
       }
     }
   }
