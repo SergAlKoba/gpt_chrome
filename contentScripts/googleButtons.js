@@ -733,7 +733,10 @@ setInterval(() => {
   }
 
   const element = document.querySelector(".latest_google");
-  if (!element) {
+  let body = document.querySelector("body");
+  let isLoadedSubscription = body.classList.contains("subscription_tier_loaded");
+
+  if (!element && isLoadedSubscription) {
     addElementGoogle();
   }
   const micro = document.querySelector(".microphone");
