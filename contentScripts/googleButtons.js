@@ -715,19 +715,23 @@ function addElementGoogle() {
   latestGoogle.prepend(ideaElement);
 }
 
-let isBtnResponseChangeClassName = false;
+// let isBtnResponseChangeClassName = false;
 
 setInterval(() => {
+  let isBtnResponseChangeClassName = document.querySelector(".btn-response");
+
   if (!isBtnResponseChangeClassName) {
-    const searchText = "Regenerate response";
-    const elements = document.querySelectorAll("button div");
+    // const searchText = "Regenerate response";
+    const btnArr = ["Regenerate response", "Stop generating"];
+    const elements = document.querySelectorAll("form button div");
+    console.log("elements", elements);
 
     for (const element of elements) {
-      if (element.textContent.includes(searchText)) {
+      if (btnArr.some((btnText) => btnText?.includes(element?.textContent))) {
         console.log(element.parentNode);
         const btnResponse = element.parentNode;
         btnResponse.classList.add("btn-response");
-        isBtnResponseChangeClassName = true;
+        // isBtnResponseChangeClassName = true;
       }
     }
   }
