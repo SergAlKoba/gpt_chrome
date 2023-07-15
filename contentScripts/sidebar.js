@@ -9,6 +9,29 @@ let selectedSort = undefined;
 let searchValue = undefined;
 const observers = [];
 
+const defaultCategoryNameEnum = {
+  FAVORITE: "Favorite prompts",
+  CUSTOM: "Custom prompts",
+};
+
+const defaultCategoryIdEnum = {
+  FAVORITE: 0,
+  CUSTOM: 100,
+};
+
+const categoryFavoriteId = 0;
+
+const defaultCategory = [
+  {
+    id: defaultCategoryIdEnum.FAVORITE,
+    name: defaultCategoryNameEnum.FAVORITE,
+    icon: null,
+    color: null,
+    isAccess: true,
+  },
+  { id: defaultCategoryIdEnum.CUSTOM, name: defaultCategoryNameEnum.CUSTOM, icon: null, color: null, isAccess: true },
+];
+
 function addObserver(callback) {
   observers.push(callback);
 }
@@ -113,11 +136,13 @@ async function searchPrompts(text, categoryId, sort) {
   };
 
   setIsLoading(true);
-  const categoryFavoriteId = 0;
+
+  const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE, defaultCategoryIdEnum.CUSTOM];
+
   let response = await fetch(
     API_URL +
       `/api/shop/search?text=${text}&${
-        categoryId === categoryFavoriteId ? "favorite=true" : `categories=${categoryId}`
+        categoriesUseFavoriteRoute.includes(categoryId) ? "favorite=true" : `categories=${categoryId}`
       }&sort=${sort}`,
     requestOptions
   );
@@ -671,25 +696,32 @@ function createCategoryMenu(categories) {
         let filterDropItem = createElem(
           "li",
           {
-            data: category?.id,
+            // data: category?.id,
+            class: "filter_drop_item",
           },
           []
         );
 
+        const proCategoryArr = [defaultCategoryNameEnum.FAVORITE, defaultCategoryNameEnum.CUSTOM];
+        const isProCategory = proCategoryArr.includes(category?.name);
+        const isSubscriptionTierFree = subscriptionTier === "free";
+
         filterDropItem.addEventListener("click", async (e) => {
-          // if (!category.isAccess) {
-          // const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-          // document.body.appendChild(upgradeSubscriptionPopup);
-          // return;
-          // } else {
-          const categoryId = parseInt(e.target.getAttribute("data"));
+          if (isProCategory && isSubscriptionTierFree) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+            document.body.appendChild(upgradeSubscriptionPopup);
+            return;
+          }
+
+          const categoryId = category?.id;
           selectedCategoryId = categoryId;
           let promptsResponse = undefined;
-          if (categoryId !== 0) {
-            promptsResponse = await getPromptsByCategory(categoryId);
-          } else {
-            console.log("getFavoritesCategory____");
+          const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE, defaultCategoryIdEnum.CUSTOM];
+
+          if (categoriesUseFavoriteRoute.includes(categoryId)) {
             promptsResponse = await getFavoritesCategory();
+          } else {
+            promptsResponse = await getPromptsByCategory(categoryId);
           }
 
           const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
@@ -700,10 +732,19 @@ function createCategoryMenu(categories) {
 
           createPrompts(promptsResponse, promptBarContentList, ".drop_content.list");
           createPrompts(promptsResponse, promptBarContentGrid, ".drop_content.grid");
-          // }
         });
 
-        filterDropItem.textContent = category?.name;
+        const spanName = createElem("span", {}, [category?.name]);
+        const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
+        filterDropItem.appendChild(spanName);
+
+        if (isProCategory) {
+          filterDropItem.appendChild(spanProCategory);
+          spanProCategory.classList.add("pro_category");
+          if (isSubscriptionTierFree) {
+            spanProCategory.classList.add("no_access_pro_category");
+          }
+        }
 
         // if (!category.isAccess) {
         //   filterDropItem.classList.add("no_access_dropdown_item_category");
@@ -954,8 +995,6 @@ async function createPromptBar() {
     ...category,
     isAccess: true,
   }));
-
-  const defaultCategory = [{ id: 0, name: "Favorite", icon: null, color: null, isAccess: true }];
 
   const categories = [...categoriesWithIsAccessProperty, ...defaultCategory] || defaultCategory;
 

@@ -721,7 +721,6 @@ setInterval(() => {
   if (!isBtnResponseChangeClassName) {
     const btnArr = ["Regenerate response", "Stop generating"];
     const elements = document.querySelectorAll("form button div");
-    console.log("elements", elements);
 
     for (const element of elements) {
       if (btnArr.some((btnText) => btnText?.includes(element?.textContent))) {
