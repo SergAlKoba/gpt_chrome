@@ -141,7 +141,7 @@ async function searchPrompts(text, categoryId, sort) {
 
   let response = await fetch(
     API_URL +
-      `/api/shop/search?text=${text}&${
+      `/api/shop/search/?text=${text}&${
         categoriesUseFavoriteRoute.includes(categoryId) ? "favorite=true" : `categories=${categoryId}`
       }&sort=${sort}`,
     requestOptions
@@ -552,16 +552,97 @@ function createSortMenuList() {
   return sortMenuList;
 }
 
+function createSingleSearchPrompt(promptObj, searchValue) {
+  let wrapperSearchPrompt = createElem("div", { class: "search_propmt_item" }, []);
+
+  let categories = createElem(
+    "div",
+    {
+      class: "designation",
+    },
+    []
+  );
+
+  promptObj.categories.forEach((categoryObj) => {
+    let category = createElem("div", { class: "badge_search" }, []);
+
+    const categorySpan = document.createElement("div");
+    categorySpan.textContent = categoryObj?.name;
+    category.appendChild(categorySpan);
+    category.style.marginRight = "10px";
+
+    categories.appendChild(category);
+  });
+
+  let title = createElem("h3", {}, []);
+  // const changedProptName=
+
+  const regex = new RegExp(searchValue, "gi");
+  const titleWithSelectedSearchWord = promptObj?.name.replace(
+    regex,
+    `<span class="selected_search_value">${searchValue}</span>`
+  );
+
+  const descriptionWithSelectedSearchWord = promptObj?.description.replace(
+    regex,
+    `<span class="selected_search_value">${searchValue}</span>`
+  );
+
+  title.innerHTML = titleWithSelectedSearchWord;
+  let description = createElem("p", {}, []);
+  description.innerHTML = descriptionWithSelectedSearchWord;
+
+  wrapperSearchPrompt.appendChild(categories);
+  wrapperSearchPrompt.appendChild(title);
+  wrapperSearchPrompt.appendChild(description);
+
+  return wrapperSearchPrompt;
+}
+
 async function processInput(e) {
-  console.log("processInput_________");
-  console.log("selectedCategoryId", selectedCategoryId);
   const promptsResult = await searchPrompts(e.target.value, selectedCategoryId ?? 1, selectedSort || 1);
   searchValue = e.target.value;
-  const promptBarContentList = document.querySelector(".drop_content.list");
-  const promptBarContentGrid = document.querySelector(".drop_content.grid");
 
-  createPrompts(promptsResult?.results || [], promptBarContentList, ".drop_content.list");
-  createPrompts(promptsResult?.results || [], promptBarContentGrid, ".drop_content.grid");
+  const wrapperFormAndSortBtn = document.querySelector(".wrapper_form_and_sort_btn");
+  if (searchValue.trim() === "") {
+    const searchWrapper = wrapperFormAndSortBtn.querySelector(".search_wrapper");
+    if (searchWrapper) searchWrapper.remove();
+    return;
+  }
+
+  const searchWrapper = wrapperFormAndSortBtn.querySelector(".search_wrapper") || document.createElement("div");
+
+  while (searchWrapper.firstChild) {
+    searchWrapper.removeChild(searchWrapper.firstChild);
+  }
+
+  searchWrapper.classList.add("search_wrapper");
+  const searchList = document.createElement("ul");
+
+  searchList.classList.add("search_list");
+
+  const onShowPromptPopupById = (prompt) => () => {
+    document.body.appendChild(createPromptDetailsPopup(prompt));
+  };
+  const prompts = promptsResult?.results || [];
+
+  for (let i = 0; i < prompts?.length; i++) {
+    let prompt = createSingleSearchPrompt(prompts[i], searchValue);
+    prompt.addEventListener("click", () => {
+      onShowPromptPopupById(prompts[i])();
+    });
+
+    searchList.appendChild(prompt);
+  }
+
+  searchWrapper.appendChild(searchList);
+  wrapperFormAndSortBtn.appendChild(searchWrapper);
+
+  // const promptBarContentList = document.querySelector(".drop_content.list");
+  // const promptBarContentGrid = document.querySelector(".drop_content.grid");
+
+  // createPrompts(promptsResult?.results || [], promptBarContentList, ".drop_content.list");
+  // createPrompts(promptsResult?.results || [], promptBarContentGrid, ".drop_content.grid");
 }
 
 function createSearch() {
@@ -918,7 +999,7 @@ function createSinglePrompt(promptObj) {
   let description = createElem("p", {}, []);
   description.textContent = promptObj.description;
 
-  let backgroundColor =
+  let pointBackgroundColor =
     promptObj?.categories && promptObj?.categories[0]?.color
       ? "background-color: " + promptObj?.categories[0]?.color
       : "background-color: rgba(185, 159, 21, 1);";
@@ -927,7 +1008,7 @@ function createSinglePrompt(promptObj) {
     "span",
     {
       class: "point",
-      style: backgroundColor,
+      style: pointBackgroundColor,
     },
     []
   );
