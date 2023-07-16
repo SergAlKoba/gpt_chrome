@@ -36,3 +36,7 @@
         width: 20px;
         height: 20px;
 }
+
+div.flex-1.overflow-hidden > div > div > div.px-2.relative.w-full.flex.flex-col.h-full.py-2 > div > div {
+    z-index: 5;
+}
