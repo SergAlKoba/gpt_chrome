@@ -1077,7 +1077,7 @@ async function createPromptBar() {
     isAccess: true,
   }));
 
-  const categories = [...categoriesWithIsAccessProperty, ...defaultCategory] || defaultCategory;
+  const categories = [...defaultCategory, ...categoriesWithIsAccessProperty] || defaultCategory;
 
   const categoryPlaygroundId = categoriesResponse?.results.find((category) => category.name === "Playground")?.id;
 
