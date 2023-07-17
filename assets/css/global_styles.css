@@ -1125,8 +1125,23 @@
 }
 
 #global .flex-col.text-sm.dark\:bg-gray-800 > div {
-  width: 60vw;
+  /* width: 60vw; */
+  width: 100%;
  }
+
+
+ #global .flex-col.text-sm.dark\:bg-gray-800 > div:nth-child(odd) {
+    background: rgb(35, 41, 45);
+   }
+
+ #global .flex-col.text-sm.dark\:bg-gray-800 > div:nth-child(even) {
+    background-color: rgba(29, 34, 37, 1);
+   }
+
+
+ #global .flex-col.text-sm.dark\:bg-gray-800 > div > div{
+    width: 60vw;
+   }
 
 
  #global .w-full.mb-4.rounded-lg.border.border-gray-100.dark\:border-gray-700.overflow-hidden.bg-gray-50 > div{
@@ -1248,7 +1263,10 @@
 }
 
 #__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden > div > div{
-    padding: 0px 100px 20px !important;
+    /* padding: 0px 100px 20px !important; */
+    padding-left: unset !important;
+    padding-right: unset !important;
+
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li span{
@@ -1296,9 +1314,10 @@
     color: #FFFFFF;
     line-height: 24px;
     padding: 16px 24px;
-    background: #33383D;
+    background-color: rgba(29, 34, 37, 1);
     letter-spacing: -0.04em;
     border-radius: 0px 8px 8px 8px;
+
 }
 
 #global .relative.transition-width .w-full.text-gray-800 .lg\:w-\[calc\(100\%-115px\)\]{
@@ -1314,8 +1333,9 @@
 #global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3{
     color: white;
     padding: 16px 24px;
-    background: radial-gradient(120.76% 197.5% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #6633EE 78.65%);
+    background: rgba(35, 41, 45, 1);
     border-radius: 0px 8px 8px 8px;
+
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative textarea{
