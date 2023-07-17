@@ -1402,9 +1402,18 @@ function createPromptDetailsPopup({
             const div = divElements[i];
 
             const childDiv = div.querySelector("div");
-            const innerText = childDiv?.innerText ? childDiv?.innerText : "";
+            let innerText = childDiv?.innerText ? childDiv?.innerText : "";
 
-            if (innerText.includes(replaceVariables(modalState, prompt_template))) {
+            innerText = innerText.replace(/\r\n|\r|\n/g, "\n");
+            prompt_template = prompt_template.replace(/\r\n|\r|\n/g, "\n");
+
+            const isEmptyModalState = modalState.length === 0;
+
+            if (isEmptyModalState) {
+              if (innerText == prompt_template) {
+                div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+              }
+            } else if (innerText == replaceVariables(modalState, prompt_template)) {
               div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
               // matches.push(div);
             }
