@@ -184,9 +184,9 @@
 
 #global .flex.overflow-hidden.relative .dark.bg-gray-900{
     z-index: 9;
-    width: 280px;
-    position: relative;
-    overflow-x: initial;
+    /* width: 280px; */
+    /* position: relative; */
+    /* overflow-x: initial; */
     background: #181B1E;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -1358,9 +1358,9 @@
     /* display: none; */
 }
 
-#global .w-\[260px\]{
+/* #global .w-\[260px\]{
     width: 100%;
-}
+} */
 
 .flex.py-3.px-3.items-center.gap-3.relative.rounded-md.cursor-pointer.break-all.pr-14 {
     max-width: 97%;
