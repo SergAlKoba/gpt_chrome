@@ -622,7 +622,15 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
 
     createLike(favoriteRequestObj);
     isLiked = !isLiked;
+    localPrompts = localPrompts.map((prompt) => (prompt?.id === id ? { ...prompt, is_liked: !is_liked } : prompt));
 
+    const promptBarContentList = document.querySelector(".drop_content.list");
+    const promptBarContentGrid = document.querySelector(".drop_content.grid");
+
+    createPrompts(localPrompts || [], promptBarContentList, ".drop_content.list");
+    createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
+
+    console.log("localPrompts__modal__input");
     if (like.classList.contains("active")) {
       like.classList.remove("active");
     } else {
@@ -645,6 +653,16 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
     createFavorite(favoriteRequestObj);
 
     isFavorite = !isFavorite;
+
+    localPrompts = localPrompts.map((prompt) =>
+      prompt?.id === id ? { ...prompt, is_favourite: !is_favourite } : prompt
+    );
+
+    const promptBarContentList = document.querySelector(".drop_content.list");
+    const promptBarContentGrid = document.querySelector(".drop_content.grid");
+
+    createPrompts(localPrompts || [], promptBarContentList, ".drop_content.list");
+    createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
 
     if (favorite.classList.contains("active")) {
       favorite.classList.remove("active");

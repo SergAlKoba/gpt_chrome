@@ -8,6 +8,7 @@ let selectedCategoryId = undefined;
 let selectedSort = undefined;
 let searchValue = undefined;
 const observers = [];
+let localPrompts = [];
 
 const listSortMenu = [
   { text: "Most Liked", id: 1 },
@@ -1190,6 +1191,8 @@ async function createPromptBar() {
 }
 
 function createPrompts(prompts, parent, parentClass = ".drop_content.list") {
+  localPrompts = prompts;
+
   const promptsWrapper = document.querySelector(parentClass) || parent;
 
   // const promptsWrapperGrid = document.querySelector('.drop_content.grid') || parent;
@@ -1202,12 +1205,12 @@ function createPrompts(prompts, parent, parentClass = ".drop_content.list") {
     document.body.appendChild(createPromptDetailsPopup(prompt));
   };
 
-  for (let i = 0; i < prompts.length; i++) {
-    let prompt = createSinglePrompt(prompts[i]);
-    const promptId = prompts[i].id;
+  for (let i = 0; i < localPrompts.length; i++) {
+    let prompt = createSinglePrompt(localPrompts[i]);
+    const promptId = localPrompts[i].id;
 
     prompt.addEventListener("click", () => {
-      onShowPromptPopupById(prompts[i])();
+      onShowPromptPopupById(localPrompts[i])();
     });
 
     promptsWrapper.appendChild(prompt);
@@ -1529,6 +1532,13 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
 
     createLike(favoriteRequestObj);
     isLiked = !isLiked;
+    localPrompts = localPrompts.map((prompt) => (prompt?.id === id ? { ...prompt, is_liked: !is_liked } : prompt));
+
+    const promptBarContentList = document.querySelector(".drop_content.list");
+    const promptBarContentGrid = document.querySelector(".drop_content.grid");
+
+    createPrompts(localPrompts || [], promptBarContentList, ".drop_content.list");
+    createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
 
     if (like.classList.contains("active")) {
       like.classList.remove("active");
@@ -1552,6 +1562,15 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
     createFavorite(favoriteRequestObj);
 
     isFavorite = !isFavorite;
+    localPrompts = localPrompts.map((prompt) =>
+      prompt?.id === id ? { ...prompt, is_favourite: !is_favourite } : prompt
+    );
+
+    const promptBarContentList = document.querySelector(".drop_content.list");
+    const promptBarContentGrid = document.querySelector(".drop_content.grid");
+
+    createPrompts(localPrompts || [], promptBarContentList, ".drop_content.list");
+    createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
 
     if (favorite.classList.contains("active")) {
       favorite.classList.remove("active");
