@@ -9,6 +9,12 @@ let selectedSort = undefined;
 let searchValue = undefined;
 const observers = [];
 
+const listSortMenu = [
+  { text: "Most Liked", id: 1 },
+  { text: "Most Viewed", id: 2 },
+  { text: "Date", id: 3 },
+];
+
 const defaultCategoryNameEnum = {
   FAVORITE: "Favorite prompts",
   CUSTOM: "Custom prompts",
@@ -137,18 +143,28 @@ async function searchPrompts(text, categoryId, sort) {
 
   setIsLoading(true);
 
-  const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE, defaultCategoryIdEnum.CUSTOM];
+  const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE];
 
-  let response = await fetch(
-    API_URL +
-      `/api/shop/search/?text=${text}&${
-        categoriesUseFavoriteRoute.includes(categoryId) ? "favorite=true" : `categories=${categoryId}`
-      }&sort=${sort}`,
-    requestOptions
-  );
-  setIsLoading(false);
+  if (categoryId === defaultCategoryIdEnum.CUSTOM) {
+    let response = await fetch(
+      API_URL + `/api/shop/get-custom-user-prompts/?text=${text}&sort=${sort}`,
+      requestOptions
+    );
+    setIsLoading(false);
 
-  return await response.json();
+    return await response.json();
+  } else {
+    let response = await fetch(
+      API_URL +
+        `/api/shop/search/?text=${text}&${
+          categoriesUseFavoriteRoute.includes(categoryId) ? "favorite=true" : `categories=${categoryId}`
+        }&sort=${sort}`,
+      requestOptions
+    );
+    setIsLoading(false);
+
+    return await response.json();
+  }
 }
 
 async function getCategories() {
@@ -221,6 +237,27 @@ async function getFavoritesCategory() {
   try {
     setIsLoading(true);
     const response = await fetch(`${API_URL}/api/user/favorites`, {
+      headers: { Authorization: `token ${TOKEN}` },
+    });
+    setIsLoading(false);
+    if (!response.ok) {
+      throw new Error("Failed to fetch prompts by category.");
+    }
+    const result = await response.json();
+
+    return result?.results;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
+async function getCustomsCategory() {
+  const TOKEN = localStorage.getItem("token") || "";
+  try {
+    setIsLoading(true);
+
+    const response = await fetch(API_URL + `/api/shop/get-custom-user-prompts/`, {
       headers: { Authorization: `token ${TOKEN}` },
     });
     setIsLoading(false);
@@ -499,7 +536,17 @@ function createSortBtn() {
   return wrapperSortIcon;
 }
 
-function createSortMenuList() {
+function rerenderSortMenuByNewList(list = []) {
+  const wrapperFormAndSortBtn = document.querySelector(`.wrapper_form_and_sort_btn`);
+
+  const sort_menu = wrapperFormAndSortBtn.querySelector(".sort_menu");
+  if (sort_menu) sort_menu.remove();
+
+  const sortMenuList = createSortMenuList(list);
+  wrapperFormAndSortBtn.appendChild(sortMenuList);
+}
+
+function createSortMenuList(listSortMenu) {
   const sortMenuList = createElem(
     "ul",
     {
@@ -508,13 +555,7 @@ function createSortMenuList() {
     []
   );
 
-  const list = [
-    { text: "Most Liked", id: 1 },
-    { text: "Most Viewed", id: 2 },
-    { text: "Date", id: 3 },
-  ];
-
-  list.forEach((item) => {
+  listSortMenu.forEach((item) => {
     const isActive = item?.id === selectedSort;
     const sortMenuListItem = createElem(
       "li",
@@ -535,7 +576,7 @@ function createSortMenuList() {
       const playgroundCategoryId = 4;
       const promptsResult = await searchPrompts(
         searchValue || "",
-        selectedCategoryId || playgroundCategoryId,
+        selectedCategoryId ?? playgroundCategoryId,
         selectedSort
       );
 
@@ -575,17 +616,16 @@ function createSingleSearchPrompt(promptObj, searchValue) {
   });
 
   let title = createElem("h3", {}, []);
-  // const changedProptName=
 
   const regex = new RegExp(searchValue, "gi");
   const titleWithSelectedSearchWord = promptObj?.name.replace(
     regex,
-    `<span class="selected_search_value">${searchValue}</span>`
+    (match) => `<span class="selected_search_value">${match}</span>`
   );
 
   const descriptionWithSelectedSearchWord = promptObj?.description.replace(
     regex,
-    `<span class="selected_search_value">${searchValue}</span>`
+    (match) => `<span class="selected_search_value">${match}</span>`
   );
 
   title.innerHTML = titleWithSelectedSearchWord;
@@ -601,6 +641,7 @@ function createSingleSearchPrompt(promptObj, searchValue) {
 
 async function processInput(e) {
   const promptsResult = await searchPrompts(e.target.value, selectedCategoryId ?? 1, selectedSort || 1);
+  const prompts = promptsResult?.results || [];
   searchValue = e.target.value;
 
   const wrapperFormAndSortBtn = document.querySelector(".wrapper_form_and_sort_btn");
@@ -611,12 +652,22 @@ async function processInput(e) {
   }
 
   const searchWrapper = wrapperFormAndSortBtn.querySelector(".search_wrapper") || document.createElement("div");
+  searchWrapper.classList.add("search_wrapper");
+  const isEmptyData = prompts.length === 0;
 
   while (searchWrapper.firstChild) {
     searchWrapper.removeChild(searchWrapper.firstChild);
   }
 
-  searchWrapper.classList.add("search_wrapper");
+  if (isEmptyData) {
+    const emptyDataBlock = document.createElement("div");
+    emptyDataBlock.classList.add("is_empty_data");
+    emptyDataBlock.textContent = "No results found";
+    searchWrapper.appendChild(emptyDataBlock);
+    wrapperFormAndSortBtn.appendChild(searchWrapper);
+    return;
+  }
+
   const searchList = document.createElement("ul");
 
   searchList.classList.add("search_list");
@@ -624,7 +675,6 @@ async function processInput(e) {
   const onShowPromptPopupById = (prompt) => () => {
     document.body.appendChild(createPromptDetailsPopup(prompt));
   };
-  const prompts = promptsResult?.results || [];
 
   for (let i = 0; i < prompts?.length; i++) {
     let prompt = createSingleSearchPrompt(prompts[i], searchValue);
@@ -681,7 +731,7 @@ function createSearch() {
     []
   );
   sortBtn.appendChild(sortIcon);
-  const sortMenuList = createSortMenuList();
+  const sortMenuList = createSortMenuList(listSortMenu);
   const wrapperFormAndSortBtn = createElem("div", { class: "wrapper_form_and_sort_btn" }, [
     form,
     sortBtn,
@@ -692,6 +742,7 @@ function createSearch() {
 
   const body = document.querySelector("body");
   body.addEventListener("click", (e) => {
+    const sortMenuList = document.querySelector(".sort_menu");
     if (e.target !== sortBtn && e.target !== sortMenuList && e.target !== sortIcon) {
       sortMenuList.classList.remove("active");
     }
@@ -700,6 +751,8 @@ function createSearch() {
   //end  get body and if  i click not sortBtn and not sortMenuList and not sortIcon then remove class active
 
   sortBtn.addEventListener("click", () => {
+    const sortMenuList = document.querySelector(".sort_menu");
+    console.log("sortMenuList", sortMenuList);
     sortMenuList.classList.toggle("active");
   });
 
@@ -796,13 +849,21 @@ function createCategoryMenu(categories) {
 
           const categoryId = category?.id;
           selectedCategoryId = categoryId;
-          let promptsResponse = undefined;
-          const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE, defaultCategoryIdEnum.CUSTOM];
 
-          if (categoriesUseFavoriteRoute.includes(categoryId)) {
-            promptsResponse = await getFavoritesCategory();
+          let promptsResponse = await searchPrompts(
+            searchValue || "",
+            selectedCategoryId ?? playgroundCategoryId,
+            selectedSort ?? 1
+          );
+
+          // promptsResponse = await getCustomsCategory();
+
+          if (categoryId === defaultCategoryIdEnum.CUSTOM) {
+            const listSortMenuByCustomsCategory = [{ text: "Date", id: 3 }];
+            rerenderSortMenuByNewList(listSortMenuByCustomsCategory);
           } else {
-            promptsResponse = await getPromptsByCategory(categoryId);
+            // promptsResponse = await getPromptsByCategory(categoryId);
+            rerenderSortMenuByNewList(listSortMenu);
           }
 
           const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
@@ -811,8 +872,8 @@ function createCategoryMenu(categories) {
           const promptBarContentList = document.querySelector(".drop_content.list");
           const promptBarContentGrid = document.querySelector(".drop_content.grid");
 
-          createPrompts(promptsResponse, promptBarContentList, ".drop_content.list");
-          createPrompts(promptsResponse, promptBarContentGrid, ".drop_content.grid");
+          createPrompts(promptsResponse?.results, promptBarContentList, ".drop_content.list");
+          createPrompts(promptsResponse?.results, promptBarContentGrid, ".drop_content.grid");
         });
 
         const spanName = createElem("span", {}, [category?.name]);
