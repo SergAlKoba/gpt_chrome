@@ -1134,16 +1134,19 @@ function createSinglePrompt(promptObj) {
 
 async function createPromptBar() {
   const categoriesResponse = await getCategories();
+  console.log("categoriesResponse", categoriesResponse);
+
   const categoriesWithIsAccessProperty = categoriesResponse?.results.map((category) => ({
     ...category,
     isAccess: true,
   }));
 
   const categories = [...defaultCategory, ...categoriesWithIsAccessProperty] || defaultCategory;
-
+  console.log("categories___", categories);
   const categoryPlaygroundId = categoriesResponse?.results.find((category) => category.name === "Playground")?.id;
 
   const promptsResponse = await getPromptsByCategory(categoryPlaygroundId);
+  console.log("promptsResponse", promptsResponse);
 
   let promptBarContent = createElem(
     "div",
