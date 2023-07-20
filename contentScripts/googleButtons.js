@@ -630,6 +630,65 @@ function addSelectedCategoriesValueInEndTextareaValue() {
   });
 }
 
+// function addMicrophone() {
+//   console.log("addMicrophone");
+//   const microphoneDiv = document.createElement("div");
+//   microphoneDiv.className = "microphone";
+//   microphoneDiv.id = "microphone";
+//   const img = document.createElement("img");
+//   img.src = chrome.runtime.getURL(`assets/images/microphone.svg`);
+//   microphoneDiv.appendChild(img);
+//   const textArea = document.querySelector("textarea");
+//   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
+
+//   sendButton?.addEventListener("click", () => {
+//     addSelectedCategoriesValueInEndTextareaValue();
+//   });
+
+//   addImdInSendButton(sendButton);
+
+//   $(microphoneDiv).insertAfter(sendButton);
+
+//   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+//   let recognition;
+
+//   microphoneDiv.addEventListener("click", () => {
+//     console.log("microphoneDiv");
+//     navigator &&
+//       navigator.mediaDevices
+//         .getUserMedia({
+//           audio: true,
+//         })
+//         .then(() => {
+//           if (microphoneDiv.classList.contains("microphone-is-listening")) {
+//             microphoneDiv.classList.remove("microphone-is-listening");
+//             // recognition && recognition.stop();
+//           } else {
+//             microphoneDiv.classList.add("microphone-is-listening");
+
+//             if (SpeechRecognition !== undefined && textArea) {
+//               recognition = new SpeechRecognition();
+//               if (localStorage.getItem("Language") && localStorage.getItem("Language") !== "Default") {
+//                 let language = localStorage.getItem("Language");
+//                 recognition.lang = languages[language];
+//               }
+//               recognition.start();
+
+//               recognition.onresult = (result) => {
+//                 console.log("result.results[0][0].transcript", result.results[0][0].transcript);
+//                 textArea.value += ` ${result.results[0][0].transcript}`;
+//                 // sendButton.removeAttribute("disabled");
+//                 // microphoneDiv.classList.remove("microphone-is-listening");
+//               };
+//             }
+//           }
+//         })
+//         .catch(() => {
+//           alert("Microphone access denied");
+//         });
+//   });
+// }
+
 function addMicrophone() {
   const microphoneDiv = document.createElement("div");
   microphoneDiv.className = "microphone";
@@ -639,7 +698,7 @@ function addMicrophone() {
   microphoneDiv.appendChild(img);
   const textArea = document.querySelector("textarea");
   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
-
+  let stopRecord = false;
   sendButton?.addEventListener("click", () => {
     addSelectedCategoriesValueInEndTextareaValue();
   });
@@ -651,7 +710,56 @@ function addMicrophone() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition;
 
+  function startRecognition() {
+    if (SpeechRecognition !== undefined && textArea) {
+      recognition = new SpeechRecognition();
+      if (localStorage.getItem("Language") && localStorage.getItem("Language") !== "Default") {
+        let language = localStorage.getItem("Language");
+
+        recognition.lang = languages[language];
+      }
+
+      recognition.onresult = (result) => {
+        const value = result.results[0][0].transcript.trim();
+        textArea.value += `${value}`;
+
+        if (value.toLowerCase().includes("stop")) {
+          console.log("SEND_________");
+          stopRecognition();
+          microphoneDiv.classList.remove("microphone-is-listening");
+          sendButton.removeAttribute("disabled");
+          // const enterEvent = new KeyboardEvent("keydown", {
+          //   key: "Enter",
+          //   code: "Enter",
+          //   keyCode: 13,
+          //   which: 13,
+          //   bubbles: true,
+          //   cancelable: true,
+          // });
+
+          // Dispatch the 'Enter' key event on the textarea
+          // textArea.focus();
+          // textArea.dispatchEvent(enterEvent);
+        }
+      };
+      recognition.onend = () => {
+        // Распознавание завершилось, перезапускаем его
+        if (!stopRecord) startRecognition();
+      };
+      recognition.start();
+    }
+  }
+
+  function stopRecognition() {
+    if (recognition) {
+      console.log("stopRecognition___");
+      recognition.stop();
+      recognition.onend = null; // Отключаем обработчик onend, чтобы он не перезапускал распознавание
+    }
+  }
+
   microphoneDiv.addEventListener("click", () => {
+    console.log("microphoneDiv");
     navigator &&
       navigator.mediaDevices
         .getUserMedia({
@@ -659,24 +767,13 @@ function addMicrophone() {
         })
         .then(() => {
           if (microphoneDiv.classList.contains("microphone-is-listening")) {
+            console.log("stopRecognition__1");
             microphoneDiv.classList.remove("microphone-is-listening");
-            recognition && recognition.stop();
+            // stopRecord = true;
+            stopRecognition();
           } else {
             microphoneDiv.classList.add("microphone-is-listening");
-
-            if (SpeechRecognition !== undefined && textArea) {
-              recognition = new SpeechRecognition();
-              if (localStorage.getItem("Language") && localStorage.getItem("Language") !== "Default") {
-                let language = localStorage.getItem("Language");
-                recognition.lang = languages[language];
-              }
-              recognition.start();
-              recognition.onresult = (result) => {
-                textArea.value += ` ${result.results[0][0].transcript}`;
-                sendButton.removeAttribute("disabled");
-                microphoneDiv.classList.remove("microphone-is-listening");
-              };
-            }
+            startRecognition();
           }
         })
         .catch(() => {
