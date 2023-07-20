@@ -47,7 +47,7 @@
 .header_global {
     top: 0;
     left: 0;
-    z-index: 4;
+    z-index: 22;
     width: 100%;
     position: fixed;
     display: flex;
@@ -184,7 +184,7 @@
 }
 
 #global .flex.overflow-hidden.relative .dark.bg-gray-900{
-    z-index: 9;
+    z-index: 24;
     /* width: 280px; */
     /* position: relative; */
     /* overflow-x: initial; */
@@ -365,6 +365,7 @@
 
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block{
     top: 14px;
+    z-index: 24;
 }
 
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block button{
