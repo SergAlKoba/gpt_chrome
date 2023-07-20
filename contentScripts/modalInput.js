@@ -135,19 +135,26 @@ function filterPrompsterItems(searchText) {
     if (!itemText.match(searchRegExp)) {
       item.style.display = "none";
       item.classList.remove("visible");
-      console.log("itemCommand", itemCommand);
-      changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) => {
-        // debugger;
-        return p.command.includes(searchText);
-      });
-      console.log("changedConcatPromsterBEAndBasePrompster_____", changedConcatPromsterBEAndBasePrompster);
+
+      changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) =>
+        p.command.includes(searchText)
+      );
+      currHoverPrompsterIndex = 0;
     } else {
       item.style.display = "list-item";
       item.classList.add("visible");
-      // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter(
-      //   (p) => !p.command.includes(searchText)
-      // );
+      if (searchText === "") {
+        changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
+      } else {
+        changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter(
+          (p) => !p.command.includes(searchText)
+        );
+      }
+
+      currHoverPrompsterIndex = 0;
     }
+    const selectorPromster = document.querySelector("#prompster");
+    selectorPromster.remove();
   });
 }
 
@@ -186,7 +193,6 @@ function createPrompster() {
 }
 
 function addPrompster() {
-  console.log("addPrompster");
   const container = document.querySelector("textarea").parentElement;
   const prompster = createPrompster();
   container.appendChild(prompster);
@@ -194,105 +200,15 @@ function addPrompster() {
   const selectorPromster = document.querySelector("#prompster");
   const selectorUlPromster = selectorPromster.querySelector("ul");
   const childs = selectorUlPromster.querySelectorAll(".prompster-item.visible");
-  // li.getAttribute("data-command")
-  // let correctlyArrChild = [];
-  // childs?.forEach((p, idx) => {
-  //   const obj = { prompt: p?.getAttribute("data-command") };
-  //   correctlyArrChild[idx] = obj;
-  // });
-
-  // console.log("correctlyArrChild", correctlyArrChild);
-
-  // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) =>
-  //   correctlyArrChild?.some((pd) => pd?.prompt == p.prompt)
-  // );
 
   if (isShowCommandPopup) {
     selectorPromster.classList.add("active");
     selectorUlPromster.classList.add("active");
   }
-  // selectorPromster.classList.add("active");
-  // selectorUlPromster.classList.add("active");
 
   // Прокручиваем контейнер до целевого ребенка
-  selectorUlPromster.scrollTop = childs[currHoverPrompsterIndex].offsetTop;
-  childs[currHoverPrompsterIndex].focus();
-
-  $(textArea)
-    .off("keydown")
-    .on("keydown", function (e) {
-      console.log("e.key", e.key);
-      // selectorPromster.classList.add("active");
-      // selectorUlPromster.classList.add("active");
-      if (e.keyCode === 38) {
-        console.log("UP___");
-        if (currHoverPrompsterIndex === 0) {
-          console.log("UP___firstIndex");
-
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
-          prompster.remove();
-          // const newPrompster = createPrompster();
-          // console.log("prompster___=", newPrompster);
-          // container.appendChild(newPrompster);
-          // const selectorPromster = document.querySelector("#prompster");
-          // const selectorUlPromster = selectorPromster.querySelector("ul");
-          // selectorPromster.classList.add("active");
-          // selectorUlPromster.classList.add("active");
-        } else {
-          console.log("UP___otherIndex");
-          currHoverPrompsterIndex = currHoverPrompsterIndex - 1;
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
-          prompster.remove();
-          // const prompster = createPrompster();
-          // container.appendChild(prompster);
-        }
-      }
-
-      if (e.keyCode === 40) {
-        console.log("DOWN___");
-
-        const lastIndex = changedConcatPromsterBEAndBasePrompster.length - 1;
-        if (currHoverPrompsterIndex === lastIndex) {
-          console.log("down___lastIndex");
-
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
-          prompster.remove();
-          // const prompster = createPrompster();
-          // container.appendChild(prompster);
-        } else {
-          console.log("down___otherIndex");
-
-          currHoverPrompsterIndex = currHoverPrompsterIndex + 1;
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
-          prompster.remove();
-          // const prompster = createPrompster();
-          // container.appendChild(prompster);
-        }
-      }
-
-      if (e.key === "/" && textArea.value.length == 0) {
-        console.log("e.keyCode".toLocaleUpperCase(), e.keyCode);
-        e.preventDefault();
-
-        // selectorPromster.classList.add("active");
-        // selectorUlPromster.classList.add("active");
-        selectorPromster.classList.toggle("active");
-        selectorUlPromster.classList.toggle("active");
-
-        if (selectorPromster.classList.contains("active")) {
-          textArea.value = "";
-          filterPrompsterItems("");
-        }
-      }
-    });
+  selectorUlPromster.scrollTop = childs[currHoverPrompsterIndex]?.offsetTop;
+  childs[currHoverPrompsterIndex]?.focus();
 
   $(textArea)
     .off("input")
@@ -306,88 +222,47 @@ function addPrompster() {
   $(textArea)
     .off("keydown")
     .on("keydown", function (e) {
-      console.log("e.key_1", e.key);
-
-      if (e.key == "Enter" && selectorPromster.classList.contains("active")) {
-        e.preventDefault();
-        const visibleItems = document.querySelectorAll(".prompster-item.visible");
-        if (visibleItems.length > 0) {
-          visibleItems[currHoverPrompsterIndex].click();
-          selectorPromster.classList.remove("active");
-          selectorUlPromster.classList.remove("active");
-        }
-      }
-    });
-
-  $(textArea)
-    .off("keydown")
-    .on("keydown", function (e) {
       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> first  start
-      console.log("e.key", e.key);
-      // selectorPromster.classList.add("active");
-      // selectorUlPromster.classList.add("active");
-      if (e.keyCode === 38) {
-        console.log("UP___");
-        if (currHoverPrompsterIndex === 0) {
-          console.log("UP___firstIndex");
 
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
+      if (e.keyCode === 27) {
+        selectorPromster.classList.remove("active");
+        selectorUlPromster.classList.remove("active");
+      }
+
+      function willChangeHoverItem(currHoverPrompsterIndex) {
+        changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+          idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+        );
+      }
+
+      if (e.keyCode === 38) {
+        if (currHoverPrompsterIndex === 0) {
+          willChangeHoverItem(currHoverPrompsterIndex);
           prompster.remove();
-          // const newPrompster = createPrompster();
-          // console.log("prompster___=", newPrompster);
-          // container.appendChild(newPrompster);
-          // const selectorPromster = document.querySelector("#prompster");
-          // const selectorUlPromster = selectorPromster.querySelector("ul");
-          // selectorPromster.classList.add("active");
-          // selectorUlPromster.classList.add("active");
         } else {
-          console.log("UP___otherIndex");
           currHoverPrompsterIndex = currHoverPrompsterIndex - 1;
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
+          willChangeHoverItem(currHoverPrompsterIndex);
           prompster.remove();
-          // const prompster = createPrompster();
-          // container.appendChild(prompster);
         }
       }
 
       if (e.keyCode === 40) {
-        console.log("DOWN___");
-
         const lastIndex = changedConcatPromsterBEAndBasePrompster.length - 1;
         if (currHoverPrompsterIndex === lastIndex) {
-          console.log("down___lastIndex");
-
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
+          willChangeHoverItem(currHoverPrompsterIndex);
           prompster.remove();
-          // const prompster = createPrompster();
-          // container.appendChild(prompster);
         } else {
-          console.log("down___otherIndex");
-
           currHoverPrompsterIndex = currHoverPrompsterIndex + 1;
-          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
-            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
-          );
+          willChangeHoverItem(currHoverPrompsterIndex);
           prompster.remove();
-          // const prompster = createPrompster();
-          // container.appendChild(prompster);
         }
       }
 
       if (e.key === "/" && textArea.value.length == 0) {
-        console.log("e.keyCode", e.keyCode);
         e.preventDefault();
         isShowCommandPopup = true;
         selectorPromster.classList.add("active");
         selectorUlPromster.classList.add("active");
-        // selectorPromster.classList.toggle("active");
-        // selectorUlPromster.classList.toggle("active");
 
         if (selectorPromster.classList.contains("active")) {
           textArea.value = "";
@@ -423,14 +298,8 @@ function addPrompster() {
           const textArea = document.querySelector("textarea");
           textArea.value = "";
         }
-        // console.log('keydown Enter');
         addSelectedCategoriesValueInEndTextareaValue();
       }
-
-      // if (selectorPromster.classList.contains("active") && e.target.value.trim() == "") {
-      //   selectorPromster.classList.remove("active");
-      //   selectorUlPromster.classList.remove("active");
-      // }
     });
 
   $(textArea)
@@ -439,8 +308,6 @@ function addPrompster() {
       setTimeout(() => {
         selectorPromster.classList.remove("active");
         selectorUlPromster.classList.remove("active");
-        // isShowCommandPopup = false;
-        // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
       }, 100);
     });
 }
