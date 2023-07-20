@@ -1,24 +1,31 @@
 let isGetCommandRequest = false;
+
 let concatPromsterBEAndBasePrompster = [];
+let changedConcatPromsterBEAndBasePrompster = [];
+let currHoverPrompsterIndex = 0;
+let isShowCommandPopup = false;
 
 const prompsterComands = [
   {
     prompt: "Make this more consistent",
     command: "/ask",
     related_prompt: null,
+    isHover: false,
   },
   {
     prompt: "Tell me more about this",
     command: "/tell",
     related_prompt: null,
+    isHover: false,
   },
-  { prompt: "Expand details", command: "/expand", related_prompt: null },
+  { prompt: "Expand details", command: "/expand", related_prompt: null, isHover: false },
   {
     prompt: "Give me better suggestions",
     command: "/suggest",
     related_prompt: null,
+    isHover: false,
   },
-  { prompt: "Wrap this up", command: "/wrap", related_prompt: null },
+  { prompt: "Wrap this up", command: "/wrap", related_prompt: null, isHover: false },
 ];
 
 function createElementModal(tag, attributes, children) {
@@ -48,6 +55,7 @@ function sendModalInput(selected_prompt) {
 }
 
 function createUlFromItems(items) {
+  console.log("items", items);
   const liItems = [];
   items.forEach((item) => {
     const spanNode = createElementModal("span", { style: "color: #ACFFA6;" }, [document.createTextNode(item.command)]);
@@ -61,6 +69,11 @@ function createUlFromItems(items) {
       },
       [spanNode, textNode]
     );
+
+    if (item?.isHover) {
+      console.log("item?.isHover", item?.isHover);
+      li.classList.add("item_hover");
+    }
 
     function onShowPromptPopupById(prompt) {
       document.body.appendChild(createPromptDetailsPopup(prompt));
@@ -122,9 +135,17 @@ function filterPrompsterItems(searchText) {
     if (!itemText.match(searchRegExp)) {
       item.style.display = "none";
       item.classList.remove("visible");
+      // console.log("itemCommand", itemCommand);
+      // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) => {
+      //   p.command == itemCommand;
+      // });
+      // console.log("changedConcatPromsterBEAndBasePrompster_____", changedConcatPromsterBEAndBasePrompster);
     } else {
       item.style.display = "list-item";
       item.classList.add("visible");
+      // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter(
+      //   (p) => p.command != itemCommand
+      // );
     }
   });
 }
@@ -156,74 +177,268 @@ async function getPrompsterCommands() {
 }
 
 function createPrompster() {
-  const ul = createUlFromItems(concatPromsterBEAndBasePrompster);
+  console.log("changedConcatPromsterBEAndBasePrompster", changedConcatPromsterBEAndBasePrompster);
+  const ul = createUlFromItems(changedConcatPromsterBEAndBasePrompster);
   const prompster = createElementModal("div", { id: "prompster", class: "prompster" }, [ul]);
 
   return prompster;
 }
 
 function addPrompster() {
+  console.log("addPrompster");
   const container = document.querySelector("textarea").parentElement;
   const prompster = createPrompster();
   container.appendChild(prompster);
   const textArea = document.querySelector("textarea");
   const selectorPromster = document.querySelector("#prompster");
   const selectorUlPromster = selectorPromster.querySelector("ul");
+  const childs = selectorUlPromster.querySelectorAll(".prompster-item.visible");
+  // li.getAttribute("data-command")
+  // let correctlyArrChild = [];
+  // childs?.forEach((p, idx) => {
+  //   const obj = { prompt: p?.getAttribute("data-command") };
+  //   correctlyArrChild[idx] = obj;
+  // });
 
-  textArea.addEventListener("keydown", function (e) {
-    if (e.key === "/" && textArea.value.length == 0) {
-      e.preventDefault();
-      selectorPromster.classList.toggle("active");
-      selectorUlPromster.classList.toggle("active");
+  // console.log("correctlyArrChild", correctlyArrChild);
 
-      if (selectorPromster.classList.contains("active")) {
-        textArea.value = "";
-        filterPrompsterItems("");
+  // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) =>
+  //   correctlyArrChild?.some((pd) => pd?.prompt == p.prompt)
+  // );
+
+  if (isShowCommandPopup) {
+    selectorPromster.classList.add("active");
+    selectorUlPromster.classList.add("active");
+  }
+  // selectorPromster.classList.add("active");
+  // selectorUlPromster.classList.add("active");
+
+  // Прокручиваем контейнер до целевого ребенка
+  selectorUlPromster.scrollTop = childs[currHoverPrompsterIndex].offsetTop;
+  childs[currHoverPrompsterIndex].focus();
+
+  $(textArea)
+    .off("keydown")
+    .on("keydown", function (e) {
+      console.log("e.key", e.key);
+      // selectorPromster.classList.add("active");
+      // selectorUlPromster.classList.add("active");
+      if (e.keyCode === 38) {
+        console.log("UP___");
+        if (currHoverPrompsterIndex === 0) {
+          console.log("UP___firstIndex");
+
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const newPrompster = createPrompster();
+          // console.log("prompster___=", newPrompster);
+          // container.appendChild(newPrompster);
+          // const selectorPromster = document.querySelector("#prompster");
+          // const selectorUlPromster = selectorPromster.querySelector("ul");
+          // selectorPromster.classList.add("active");
+          // selectorUlPromster.classList.add("active");
+        } else {
+          console.log("UP___otherIndex");
+          currHoverPrompsterIndex = currHoverPrompsterIndex - 1;
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const prompster = createPrompster();
+          // container.appendChild(prompster);
+        }
       }
-    }
-  });
 
-  textArea.addEventListener("input", (e) => {
-    if (selectorPromster.classList.contains("active")) {
-      filterPrompsterItems(e.target.value);
-    }
-  });
+      if (e.keyCode === 40) {
+        console.log("DOWN___");
 
-  textArea.addEventListener("keydown", (e) => {
-    if (e.key == "Enter" && selectorPromster.classList.contains("active")) {
-      e.preventDefault();
-      const visibleItems = document.querySelectorAll(".prompster-item.visible");
-      if (visibleItems.length > 0) {
-        visibleItems[0].click();
+        const lastIndex = changedConcatPromsterBEAndBasePrompster.length - 1;
+        if (currHoverPrompsterIndex === lastIndex) {
+          console.log("down___lastIndex");
+
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const prompster = createPrompster();
+          // container.appendChild(prompster);
+        } else {
+          console.log("down___otherIndex");
+
+          currHoverPrompsterIndex = currHoverPrompsterIndex + 1;
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const prompster = createPrompster();
+          // container.appendChild(prompster);
+        }
+      }
+
+      if (e.key === "/" && textArea.value.length == 0) {
+        console.log("e.keyCode".toLocaleUpperCase(), e.keyCode);
+        e.preventDefault();
+
+        // selectorPromster.classList.add("active");
+        // selectorUlPromster.classList.add("active");
+        selectorPromster.classList.toggle("active");
+        selectorUlPromster.classList.toggle("active");
+
+        if (selectorPromster.classList.contains("active")) {
+          textArea.value = "";
+          filterPrompsterItems("");
+        }
+      }
+    });
+
+  $(textArea)
+    .off("input")
+    .on("input", function (e) {
+      console.log("e.target.value", e.target.value);
+      if (selectorPromster.classList.contains("active")) {
+        filterPrompsterItems(e.target.value);
+      }
+    });
+
+  $(textArea)
+    .off("keydown")
+    .on("keydown", function (e) {
+      console.log("e.key_1", e.key);
+
+      if (e.key == "Enter" && selectorPromster.classList.contains("active")) {
+        e.preventDefault();
+        const visibleItems = document.querySelectorAll(".prompster-item.visible");
+        if (visibleItems.length > 0) {
+          visibleItems[currHoverPrompsterIndex].click();
+          selectorPromster.classList.remove("active");
+          selectorUlPromster.classList.remove("active");
+        }
+      }
+    });
+
+  $(textArea)
+    .off("keydown")
+    .on("keydown", function (e) {
+      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> first  start
+      console.log("e.key", e.key);
+      // selectorPromster.classList.add("active");
+      // selectorUlPromster.classList.add("active");
+      if (e.keyCode === 38) {
+        console.log("UP___");
+        if (currHoverPrompsterIndex === 0) {
+          console.log("UP___firstIndex");
+
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const newPrompster = createPrompster();
+          // console.log("prompster___=", newPrompster);
+          // container.appendChild(newPrompster);
+          // const selectorPromster = document.querySelector("#prompster");
+          // const selectorUlPromster = selectorPromster.querySelector("ul");
+          // selectorPromster.classList.add("active");
+          // selectorUlPromster.classList.add("active");
+        } else {
+          console.log("UP___otherIndex");
+          currHoverPrompsterIndex = currHoverPrompsterIndex - 1;
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const prompster = createPrompster();
+          // container.appendChild(prompster);
+        }
+      }
+
+      if (e.keyCode === 40) {
+        console.log("DOWN___");
+
+        const lastIndex = changedConcatPromsterBEAndBasePrompster.length - 1;
+        if (currHoverPrompsterIndex === lastIndex) {
+          console.log("down___lastIndex");
+
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const prompster = createPrompster();
+          // container.appendChild(prompster);
+        } else {
+          console.log("down___otherIndex");
+
+          currHoverPrompsterIndex = currHoverPrompsterIndex + 1;
+          changedConcatPromsterBEAndBasePrompster = changedConcatPromsterBEAndBasePrompster.map((p, idx) =>
+            idx === currHoverPrompsterIndex ? { ...p, isHover: true } : { ...p, isHover: false }
+          );
+          prompster.remove();
+          // const prompster = createPrompster();
+          // container.appendChild(prompster);
+        }
+      }
+
+      if (e.key === "/" && textArea.value.length == 0) {
+        console.log("e.keyCode", e.keyCode);
+        e.preventDefault();
+        isShowCommandPopup = true;
+        selectorPromster.classList.add("active");
+        selectorUlPromster.classList.add("active");
+        // selectorPromster.classList.toggle("active");
+        // selectorUlPromster.classList.toggle("active");
+
+        if (selectorPromster.classList.contains("active")) {
+          textArea.value = "";
+          filterPrompsterItems("");
+        }
+      }
+      //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> first end
+      // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>second start
+
+      if (e.key == "Enter" && selectorPromster.classList.contains("active")) {
+        e.preventDefault();
+        const visibleItems = document.querySelectorAll(".prompster-item.visible");
+        if (visibleItems.length > 0) {
+          visibleItems[currHoverPrompsterIndex].click();
+          selectorPromster.classList.remove("active");
+          selectorUlPromster.classList.remove("active");
+        }
+      }
+
+      // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>second end
+
+      if (e.code === "Enter") {
+        let isCommandMessageByShowModal = changedConcatPromsterBEAndBasePrompster.some(({ command }) =>
+          command.includes(e?.target?.value.trim())
+        );
+
+        if (isCommandMessageByShowModal) {
+          e.preventDefault();
+          e.stopPropagation();
+          const textArea = document.querySelector("textarea");
+          textArea.value = "";
+        }
+        // console.log('keydown Enter');
+        addSelectedCategoriesValueInEndTextareaValue();
+      }
+
+      // if (selectorPromster.classList.contains("active") && e.target.value.trim() == "") {
+      //   selectorPromster.classList.remove("active");
+      //   selectorUlPromster.classList.remove("active");
+      // }
+    });
+
+  $(textArea)
+    .off("blur")
+    .on("blur", function () {
+      setTimeout(() => {
         selectorPromster.classList.remove("active");
         selectorUlPromster.classList.remove("active");
-      }
-    }
-  });
-
-  textArea.addEventListener("keydown", (e) => {
-    if (e.code === "Enter") {
-      let isCommandMessageByShowModal = concatPromsterBEAndBasePrompster.some(({ command }) =>
-        command.includes(e?.target?.value.trim())
-      );
-
-      if (isCommandMessageByShowModal) {
-        e.preventDefault();
-        e.stopPropagation();
-        const textArea = document.querySelector("textarea");
-        textArea.value = "";
-      }
-      // console.log('keydown Enter');
-      addSelectedCategoriesValueInEndTextareaValue();
-    }
-  });
-
-  textArea.addEventListener("blur", () => {
-    setTimeout(() => {
-      selectorPromster.classList.remove("active");
-      selectorUlPromster.classList.remove("active");
-    }, 100);
-  });
+        // isShowCommandPopup = false;
+        // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
+      }, 100);
+    });
 }
 
 // observer обернуть функцией селать запрос после успешного запроса уже писать код   observer
@@ -231,8 +446,12 @@ function addPrompster() {
 // 2. получить ответ
 
 async function init() {
+  let isCreatePromster = false;
   const result = await getPrompsterCommands();
-  concatPromsterBEAndBasePrompster = [...prompsterComands, ...result];
+
+  const propmsterBEWithIsHoverProperty = result.map((p) => ({ ...p, isHover: false }));
+  concatPromsterBEAndBasePrompster = [...prompsterComands, ...propmsterBEWithIsHoverProperty];
+  changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
 
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
@@ -240,6 +459,7 @@ async function init() {
         const idPrompster = document.getElementById("prompster");
         if (idPrompster == null || idPrompster == undefined) {
           addPrompster();
+          isCreatePromster = true;
         }
       }
     }

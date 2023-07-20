@@ -358,6 +358,8 @@
     height: 40px;
     right: 15px;
     position: absolute;
+    z-index: 22;
+    padding: unset;
 }
 
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block{
@@ -3509,6 +3511,17 @@ color: #30FF21;
 
 .selected_search_value{
     color:  #FFE500;
+}
+
+
+#global .left_sidebar_icon{
+    width: 20px;
+    height: 20px;
+}
+
+.item_hover{
+    color: rgb(255, 255, 255) !important;
+    background: rgb(52, 53, 65) !important;
 }
 
 /* END Prompt library */

@@ -814,6 +814,8 @@ function updateApp() {
   setInterval(() => {
     addLogo();
     changeNewChatBtn();
+    changeLeftSideBarIcon();
+    changeOpenLeftSidebar();
     // changeSendButton();
   }, 100);
 }
@@ -889,4 +891,39 @@ function changeSendButton() {
         sendButton.classList.add("transition-colors", "disabled:opacity-40");
       });
   }
+}
+
+function changeLeftSideBarIcon() {
+  const leftSideBarIcon = document.querySelector(
+    "#global nav .flex.p-3.gap-3.transition-colors.duration-200.text-white.cursor-pointer.text-sm.rounded-md.border.h-11.w-11.flex-shrink-0.items-center.justify-center"
+  );
+
+  if (leftSideBarIcon && leftSideBarIcon.querySelector("svg")) {
+    const svg = leftSideBarIcon.querySelector("svg");
+    const span = leftSideBarIcon.querySelector("span");
+    svg.remove();
+    const leftSideBarImg = createLeftSideBarImg();
+
+    leftSideBarIcon.prepend(leftSideBarImg);
+  }
+}
+
+function changeOpenLeftSidebar() {
+  const openLeftSidebar = document.querySelector(".absolute.left-2.top-2.z-10.hidden");
+
+  if (openLeftSidebar && openLeftSidebar.querySelector("svg")) {
+    const svg = openLeftSidebar.querySelector("svg");
+    svg.remove();
+    const leftSideBarImg = createLeftSideBarImg();
+    const button = openLeftSidebar.querySelector("button");
+
+    button.appendChild(leftSideBarImg);
+  }
+}
+
+function createLeftSideBarImg() {
+  const leftSideBarImg = document.createElement("img");
+  leftSideBarImg.classList.add("left_sidebar_icon");
+  leftSideBarImg.src = chrome.runtime.getURL("assets/images/iconLeftSideBar.svg");
+  return leftSideBarImg;
 }
