@@ -135,16 +135,17 @@ function filterPrompsterItems(searchText) {
     if (!itemText.match(searchRegExp)) {
       item.style.display = "none";
       item.classList.remove("visible");
-      // console.log("itemCommand", itemCommand);
-      // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) => {
-      //   p.command == itemCommand;
-      // });
-      // console.log("changedConcatPromsterBEAndBasePrompster_____", changedConcatPromsterBEAndBasePrompster);
+      console.log("itemCommand", itemCommand);
+      changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter((p) => {
+        // debugger;
+        return p.command.includes(searchText);
+      });
+      console.log("changedConcatPromsterBEAndBasePrompster_____", changedConcatPromsterBEAndBasePrompster);
     } else {
       item.style.display = "list-item";
       item.classList.add("visible");
       // changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster.filter(
-      //   (p) => p.command != itemCommand
+      //   (p) => !p.command.includes(searchText)
       // );
     }
   });
@@ -403,6 +404,9 @@ function addPrompster() {
           visibleItems[currHoverPrompsterIndex].click();
           selectorPromster.classList.remove("active");
           selectorUlPromster.classList.remove("active");
+          changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
+          isShowCommandPopup = false;
+          prompster.remove();
         }
       }
 
