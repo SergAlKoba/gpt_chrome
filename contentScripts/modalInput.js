@@ -321,7 +321,10 @@ async function init() {
   const result = await getPrompsterCommands();
 
   const propmsterBEWithIsHoverProperty = result.map((p) => ({ ...p, isHover: false }));
-  concatPromsterBEAndBasePrompster = [...prompsterComands, ...propmsterBEWithIsHoverProperty];
+  const propmsterBEWithSlash = propmsterBEWithIsHoverProperty.map((p) =>
+    p.command.includes("/") ? p : { ...p, command: `/${p.command}` }
+  );
+  concatPromsterBEAndBasePrompster = [...prompsterComands, ...propmsterBEWithSlash];
   changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
 
   const observer = new MutationObserver((mutations) => {
