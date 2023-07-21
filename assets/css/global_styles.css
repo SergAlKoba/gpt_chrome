@@ -4,6 +4,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap');
 
+html{
+    overflow-x: hidden;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -190,6 +194,10 @@
     /* overflow-x: initial; */
     background: #181B1E;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    left: 0px;
+    height: 100%;
+
 }
 
 #global .dark.hidden.flex-shrink-0.bg-gray-900 {
@@ -413,7 +421,7 @@
 }
 
 #global .flex.h-full.max-w-full.flex-1.flex-col.active{
-    padding-right: 360px;
+    /* padding-right: 360px; */
 }
 
 #global .menu_content{
@@ -428,6 +436,10 @@
     border-left: 1px solid rgba(255, 255, 255, 0.2);
     transform: translate(105%, 0);
     transition: all 0.1s;
+
+
+    position: absolute;
+
 }
 
 #global .menu_content.active{
@@ -1120,6 +1132,8 @@
     width: 100%;
     border: none;
     background: #23292D;
+    /* padding-left: 260px; */
+    /* padding-right: 360px; */
 }
 
 #global .flex-col.text-sm.dark\:bg-gray-800 {
@@ -1145,7 +1159,10 @@
 
 
  #global .flex-col.text-sm.dark\:bg-gray-800 > div > div{
-    width: 60vw;
+    /* width: calc(100vw - 620px); */
+    width: 100%;
+    padding-left: 265px;
+    padding-right: 360px;
    }
 
 
@@ -1177,6 +1194,9 @@
     flex-direction: column;
     background-image: linear-gradient(180deg,rgba(53,55,64,0),#353740 90%);
     transition: all 0.4s;
+
+    padding-left: 260px;
+    padding-right: 360px;
 }
 
 #global .flex.ml-1.md\:w-full.md\:m-auto.md\:mb-2.gap-0.md\:gap-2.justify-center{
@@ -1305,12 +1325,15 @@
     width: 40px !important;
     height: 40px !important;
     border-radius: 50%;
+    margin-left: 10px;
 }
 
 #global .text-base.gap-4.md\:gap-6 .rounded-sm{
     width: 40px !important;
     height: 40px !important;
     border-radius: 50%;
+    margin-left: 10px;
+
 }
 
 #global .relative.transition-width .w-full.text-gray-800 .flex.flex-grow.flex-col.gap-3{
@@ -1904,6 +1927,8 @@
     background: #181B1E;
     justify-content: space-between;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 260px;
+    padding-right: 360px;
 }
 
 #global .latest_google .checklist{
@@ -2099,7 +2124,7 @@
 
 #global .text-gray-400.flex.self-end.lg\:self-center.justify-center.mt-2.gap-2.visible{
     top: -15px;
-    right: -15px;
+    right: -3px;
     display: none;
     padding: 2px 5px;
     align-items: center;
@@ -3547,5 +3572,10 @@ color: #30FF21;
     color: rgb(255, 255, 255) !important;
     background: rgb(52, 53, 65) !important;
 }
+
+
+/* width: calc( 100vw - 620px);
+    left: 50%;
+    transform: translateX(-50%); */
 
 /* END Prompt library */
