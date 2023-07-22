@@ -1141,7 +1141,7 @@ html{
    display: flex;
    flex-direction: column;
    align-items: center;
-   justify-content: center;
+   justify-content: flex-start;
 }
 
 #global .flex-col.text-sm.dark\:bg-gray-800 > div {
@@ -1150,18 +1150,19 @@ html{
  }
 
 
- #global .flex-col.text-sm.dark\:bg-gray-800 > div:nth-child(odd) {
-    background: rgb(35, 41, 45);
+ /*#global .flex-col.text-sm.dark\:bg-gray-800 > div:nth-child(odd) {*/
+ /*   background-color: rgb(35, 41, 45);*/
+ /*  }*/
+
+
+/*#global .flex-col.text-sm.dark\:bg-gray-800 > div > div:nth-child(even){*/
+/*    background-color: rgba(29, 34, 37, 1);*/
+
+/*   }*/
+ #global .flex-col.text-sm > div.bg-gray-50 {
+    background-color: rgba(29, 34, 37, 1) ;
    }
 
- #global .flex-col.text-sm.dark\:bg-gray-800 > div:nth-child(even) {
-    background-color: rgba(29, 34, 37, 1);
-   }
-
-#global .flex-col.text-sm.dark\:bg-gray-800 > div > div:nth-child(even){
-    background-color: rgba(29, 34, 37, 1);
-
-   }
 
  #global .flex-col.text-sm.dark\:bg-gray-800 > div > div{
     /* width: calc(100vw - 620px); */
