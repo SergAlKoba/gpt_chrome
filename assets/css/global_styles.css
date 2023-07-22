@@ -1157,6 +1157,10 @@ html{
     background-color: rgba(29, 34, 37, 1);
    }
 
+#global .flex-col.text-sm.dark\:bg-gray-800 > div > div:nth-child(even){
+    background-color: rgba(29, 34, 37, 1);
+
+   }
 
  #global .flex-col.text-sm.dark\:bg-gray-800 > div > div{
     /* width: calc(100vw - 620px); */
@@ -1855,11 +1859,9 @@ html{
     /* transition: all 0.3s; */
 }
 
-
 #global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40 .text-2xl{
     display: none;
 }
-
 
 /* #global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40:hover{
     transform: translate(0, -50%) scale(1.1);
