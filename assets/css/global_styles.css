@@ -1855,6 +1855,12 @@ html{
     /* transition: all 0.3s; */
 }
 
+
+#global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40 .text-2xl{
+    display: none;
+}
+
+
 /* #global .absolute.p-1.rounded-md.md\:right-3.right-2.text-white.transition-colors.disabled\:opacity-40:hover{
     transform: translate(0, -50%) scale(1.1);
 } */

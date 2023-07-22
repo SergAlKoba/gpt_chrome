@@ -193,12 +193,12 @@ function createPrompster() {
 }
 
 function addPrompster() {
-  const container = document.querySelector("textarea").parentElement;
+  const container = document.querySelector("textarea")?.parentElement;
   const prompster = createPrompster();
-  container.appendChild(prompster);
+  container?.appendChild(prompster);
   const textArea = document.querySelector("textarea");
   const selectorPromster = document.querySelector("#prompster");
-  const selectorUlPromster = selectorPromster.querySelector("ul");
+  const selectorUlPromster = selectorPromster?.querySelector("ul");
   const childs = selectorUlPromster.querySelectorAll(".prompster-item.visible");
 
   if (isShowCommandPopup) {

@@ -689,6 +689,104 @@ function addSelectedCategoriesValueInEndTextareaValue() {
 //   });
 // }
 
+//вторая версия
+// function addMicrophone() {
+//   const microphoneDiv = document.createElement("div");
+//   microphoneDiv.className = "microphone";
+//   microphoneDiv.id = "microphone";
+//   const img = document.createElement("img");
+//   img.src = chrome.runtime.getURL(`assets/images/microphone.svg`);
+//   microphoneDiv.appendChild(img);
+//   const textArea = document.querySelector("textarea");
+//   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
+//   let stopRecord = false;
+//   sendButton?.addEventListener("click", () => {
+//     addSelectedCategoriesValueInEndTextareaValue();
+//   });
+
+//   addImdInSendButton(sendButton);
+
+//   $(microphoneDiv).insertAfter(sendButton);
+
+//   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+//   let recognition;
+
+//   function startRecognition() {
+//     if (SpeechRecognition !== undefined && textArea) {
+//       recognition = new SpeechRecognition();
+//       if (localStorage.getItem("Language") && localStorage.getItem("Language") !== "Default") {
+//         let language = localStorage.getItem("Language");
+
+//         recognition.lang = languages[language];
+//       }
+//       recognition.continuous = true;
+//       recognition.interimResults = true;
+
+//       recognition.onresult = (result) => {
+//         console.log("result", result);
+//         const value = result.results[0][0].transcript.trim();
+//         textArea.value += `${value}`;
+
+//         if (value.toLowerCase().includes("stop")) {
+//           console.log("SEND_________");
+//           stopRecognition();
+//           microphoneDiv.classList.remove("microphone-is-listening");
+//           sendButton.removeAttribute("disabled");
+//           // const enterEvent = new KeyboardEvent("keydown", {
+//           //   key: "Enter",
+//           //   code: "Enter",
+//           //   keyCode: 13,
+//           //   which: 13,
+//           //   bubbles: true,
+//           //   cancelable: true,
+//           // });
+
+//           // Dispatch the 'Enter' key event on the textarea
+//           // textArea.focus();
+//           // textArea.dispatchEvent(enterEvent);
+//         }
+//       };
+//       recognition.onend = () => {
+//         // Распознавание завершилось, перезапускаем его
+//         if (!stopRecord) startRecognition();
+//       };
+//       recognition.start();
+//     }
+//   }
+
+//   function stopRecognition() {
+//     if (recognition) {
+//       console.log("stopRecognition___");
+//       recognition.stop();
+//       recognition.onend = null; // Отключаем обработчик onend, чтобы он не перезапускал распознавание
+//     }
+//   }
+
+//   microphoneDiv.addEventListener("click", () => {
+//     console.log("microphoneDiv");
+//     navigator &&
+//       navigator.mediaDevices
+//         .getUserMedia({
+//           audio: true,
+//         })
+//         .then(() => {
+//           if (microphoneDiv.classList.contains("microphone-is-listening")) {
+//             console.log("stopRecognition__1");
+//             microphoneDiv.classList.remove("microphone-is-listening");
+//             // stopRecord = true;
+//             stopRecognition();
+//           } else {
+//             microphoneDiv.classList.add("microphone-is-listening");
+//             startRecognition();
+//           }
+//         })
+//         .catch(() => {
+//           alert("Microphone access denied");
+//         });
+//   });
+// }
+// вторая версия
+
 function addMicrophone() {
   const microphoneDiv = document.createElement("div");
   microphoneDiv.className = "microphone";
@@ -699,6 +797,10 @@ function addMicrophone() {
   const textArea = document.querySelector("textarea");
   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
   let stopRecord = false;
+  let lastRecognizedWord = ""; // New variable to store the last recognized word
+  let lastIndex = 1;
+  let isAlisa = false;
+
   sendButton?.addEventListener("click", () => {
     addSelectedCategoriesValueInEndTextareaValue();
   });
@@ -718,48 +820,98 @@ function addMicrophone() {
 
         recognition.lang = languages[language];
       }
+      recognition.continuous = true;
+      recognition.interimResults = true;
 
-      recognition.onresult = (result) => {
-        const value = result.results[0][0].transcript.trim();
-        textArea.value += `${value}`;
+      recognition.onresult = (event) => {
+        const newIndex = event.results.length;
 
-        if (value.toLowerCase().includes("stop")) {
-          console.log("SEND_________");
-          stopRecognition();
-          microphoneDiv.classList.remove("microphone-is-listening");
-          sendButton.removeAttribute("disabled");
-          // const enterEvent = new KeyboardEvent("keydown", {
-          //   key: "Enter",
-          //   code: "Enter",
-          //   keyCode: 13,
-          //   which: 13,
-          //   bubbles: true,
-          //   cancelable: true,
-          // });
+        let result = event.results[newIndex - 1];
 
-          // Dispatch the 'Enter' key event on the textarea
-          // textArea.focus();
-          // textArea.dispatchEvent(enterEvent);
+        const transcript = result[0].transcript.trim();
+
+        const recognizedWord = transcript;
+
+        const isFinalRes = event.results[newIndex - 1]?.isFinal;
+        const finalRes = event.results[newIndex - 1][0].transcript.trim();
+
+        const recognizedWordArr = recognizedWord.toLowerCase().split(/\s+/);
+        const lastRecognizedWordArr = lastRecognizedWord.toLowerCase().split(/\s+/);
+
+        let isHasWord = recognizedWordArr.some((newWord) =>
+          lastRecognizedWordArr.some((oldWord) =>
+            oldWord == "" ? false : newWord.includes(oldWord) || newWord == oldWord
+          )
+        );
+
+        let textAreaValueArr = textArea.value.trim().toLowerCase().split(/\s+/);
+
+        let isTextAreaHasString = recognizedWordArr.some((newWord) =>
+          textAreaValueArr.some((oldWord) => (oldWord == "" ? false : newWord.includes(oldWord) || newWord == oldWord))
+        );
+
+        if (recognizedWord.toLowerCase().includes("алиса") || isAlisa) {
+          isAlisa = true;
+
+          if (recognizedWord.toLowerCase().includes("конец записи")) {
+            microphoneDiv.classList.remove("microphone-is-listening");
+            sendInput(textArea?.value, true);
+            recognition.stop();
+            recognition.onend = null;
+            recognition = null;
+          }
+
+          if (recognizedWord.toLowerCase().includes("удалить")) {
+            isAlisa = false;
+            textArea.value = "";
+            recognition.stop();
+            recognition.onend = null;
+            recognition = null;
+
+            startRecognition();
+          }
+
+          return;
+        }
+
+        if (isFinalRes) {
+          for (let i = 0; event.results.length >= i; i++) {
+            const finalRes = event.results[i]?.[0]?.transcript.trim();
+
+            if (!finalRes) return;
+            if (i == 0) {
+              textArea.value = ` ${finalRes?.toLowerCase()} `;
+            } else {
+              textArea.value += ` ${finalRes?.toLowerCase()} `;
+            }
+          }
+        } else if (recognizedWord.toLowerCase() !== lastRecognizedWord.toLowerCase() && !isHasWord) {
+          lastRecognizedWord = recognizedWord;
+
+          textArea.value += ` ${recognizedWord.toLowerCase()} `;
+          lastIndex = newIndex;
         }
       };
+
       recognition.onend = () => {
-        // Распознавание завершилось, перезапускаем его
-        if (!stopRecord) startRecognition();
+        if (!stopRecord) {
+          // startRecognition();
+          recognition.start();
+        }
       };
+
       recognition.start();
     }
   }
 
   function stopRecognition() {
     if (recognition) {
-      console.log("stopRecognition___");
       recognition.stop();
-      recognition.onend = null; // Отключаем обработчик onend, чтобы он не перезапускал распознавание
+      recognition.onend = null;
     }
   }
 
   microphoneDiv.addEventListener("click", () => {
-    console.log("microphoneDiv");
     navigator &&
       navigator.mediaDevices
         .getUserMedia({
@@ -769,10 +921,12 @@ function addMicrophone() {
           if (microphoneDiv.classList.contains("microphone-is-listening")) {
             console.log("stopRecognition__1");
             microphoneDiv.classList.remove("microphone-is-listening");
-            // stopRecord = true;
+            stopRecord = true;
             stopRecognition();
+            sendInput(textArea?.value, true);
           } else {
             microphoneDiv.classList.add("microphone-is-listening");
+            stopRecord = false;
             startRecognition();
           }
         })
@@ -913,7 +1067,7 @@ function updateApp() {
     changeNewChatBtn();
     changeLeftSideBarIcon();
     changeOpenLeftSidebar();
-    // changeSendButton();
+    changeSendButton();
   }, 100);
 }
 
@@ -973,20 +1127,24 @@ function addLogo() {
 
 function changeSendButton() {
   const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
+  const loadBlock = sendButton?.querySelector(".text-2xl");
+
   const isExistClass = sendButton?.classList.contains("disabled:opacity-40");
   console.log("sendButton__________", sendButton);
+  console.log("isExistClass", isExistClass);
 
   if (sendButton && !isExistClass) {
-    $(sendButton)
-      .off("click")
-      .on("click", function () {
-        console.log("sendButton".toUpperCase(), sendButton);
-        // Удаляем классы из второй строки
-        sendButton.classList.remove("disabled:bottom-0.5", "md:disabled:bottom-0");
+    // $(sendButton)
+    // .off("click")
+    // .on("click", function () {
+    console.log("sendButton".toUpperCase(), sendButton);
+    // Удаляем классы из второй строки
+    sendButton.classList.remove("disabled:bottom-0.5", "md:disabled:bottom-0");
 
-        // Добавляем классы из первой строки
-        sendButton.classList.add("transition-colors", "disabled:opacity-40");
-      });
+    // Добавляем классы из первой строки
+    sendButton.classList.add("transition-colors", "disabled:opacity-40");
+    // loadBlock.remove();
+    // });
   }
 }
 
