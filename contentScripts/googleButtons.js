@@ -1130,8 +1130,8 @@ function changeSendButton() {
   const loadBlock = sendButton?.querySelector(".text-2xl");
 
   const isExistClass = sendButton?.classList.contains("disabled:opacity-40");
-  console.log("sendButton__________", sendButton);
-  console.log("isExistClass", isExistClass);
+  // console.log("sendButton__________", sendButton);
+  // console.log("isExistClass", isExistClass);
 
   if (sendButton && !isExistClass) {
     // $(sendButton)
