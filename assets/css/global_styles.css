@@ -1302,6 +1302,11 @@ html{
 
 }
 
+#__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden > div > div::-webkit-scrollbar {
+    display: none;
+}
+
+
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li span{
     display: block;
     font-size: 14px;

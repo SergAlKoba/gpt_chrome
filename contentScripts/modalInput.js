@@ -4,6 +4,7 @@ let concatPromsterBEAndBasePrompster = [];
 let changedConcatPromsterBEAndBasePrompster = [];
 let currHoverPrompsterIndex = 0;
 let isShowCommandPopup = false;
+let isBlurCommandPopup = false;
 
 const prompsterComands = [
   {
@@ -154,7 +155,7 @@ function filterPrompsterItems(searchText) {
       currHoverPrompsterIndex = 0;
     }
     const selectorPromster = document.querySelector("#prompster");
-    selectorPromster.remove();
+    selectorPromster?.remove();
   });
 }
 
@@ -204,6 +205,9 @@ function addPrompster() {
   if (isShowCommandPopup) {
     selectorPromster.classList.add("active");
     selectorUlPromster.classList.add("active");
+  } else {
+    selectorPromster.classList.remove("active");
+    selectorUlPromster.classList.remove("active");
   }
 
   // Прокручиваем контейнер до целевого ребенка
@@ -308,6 +312,7 @@ function addPrompster() {
       setTimeout(() => {
         selectorPromster.classList.remove("active");
         selectorUlPromster.classList.remove("active");
+        isShowCommandPopup = false;
       }, 100);
     });
 }
