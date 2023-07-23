@@ -1431,13 +1431,13 @@ function createPromptDetailsPopup({
   };
 
   inputs.forEach(({ variable_name, placeholder, is_textarea }) => {
-    if (is_textarea) {
-      const textareaDiv = createTextarea(variable_name, placeholder, handleInputValueChange);
-      form.appendChild(textareaDiv);
-    } else {
-      const inputDiv = createInput(variable_name, "text", placeholder, handleInputValueChange);
-      form.appendChild(inputDiv);
-    }
+    // if (is_textarea) {
+    const textareaDiv = createTextarea(variable_name, placeholder, handleInputValueChange);
+    form.appendChild(textareaDiv);
+    // } else {
+    //   const inputDiv = createInput(variable_name, "text", placeholder, handleInputValueChange);
+    //   form.appendChild(inputDiv);
+    // }
   });
 
   const bottomDiv = document.createElement("div");
