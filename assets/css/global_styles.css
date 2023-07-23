@@ -159,10 +159,17 @@ html{
     border-radius: 8px;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
-    transition: all 0.3s;
+    /* background: rgba(255, 255, 255, 0.1); */
+    /* box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16); */
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+    /* transition: all 0.3s; */
+    transition: unset;
+
     z-index: 22 !important;
+}
+
+.header_global .settings .menu:hover{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.00) 100%), rgba(255, 255, 255, 0.10);
 }
 
 .header_global .settings .menu img{
@@ -370,6 +377,10 @@ html{
     position: absolute;
     z-index: 22;
     padding: unset;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px 1px, rgba(255, 255, 255, 0.16) 0px 0px 0px 0.5px inset;
+    background: rgba(255, 255, 255, 0.1);
+    border-width:   0px;
+    z-index: 22;
 }
 
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block{
@@ -384,11 +395,20 @@ html{
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px 1px, rgba(255, 255, 255, 0.16) 0px 0px 0px 0.5px inset;
+    /* box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px 1px, rgba(255, 255, 255, 0.16) 0px 0px 0px 0.5px inset; */
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease 0s;
+    /* background: rgba(255, 255, 255, 0.1); */
+    background: unset;
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+
+    transition: unset;
 }
+
+
+#global .absolute.left-2.top-2.z-10.hidden.md\:inline-block button:hover{
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.00) 100%), rgba(255, 255, 255, 0.10);
+}
+
 
 #global .mb-1.flex.flex-row.gap-2{
     padding: 0px 15px;
