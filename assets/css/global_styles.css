@@ -6,7 +6,7 @@
 
 html{
     overflow-x: hidden;
-    height: unset !important;
+    /* height: unset !important; */
 }
 
 *{
@@ -375,6 +375,7 @@ html{
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block{
     top: 14px;
     z-index: 24;
+    position: fixed;
 }
 
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block button{
@@ -1135,6 +1136,7 @@ html{
     background: #23292D;
     /* padding-left: 260px; */
     /* padding-right: 360px; */
+    /* position: fixed; */
 }
 
 #global .flex-col.text-sm.dark\:bg-gray-800 {
