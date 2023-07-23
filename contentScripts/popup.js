@@ -24,7 +24,11 @@ async function login(email, password) {
   );
   let result = await response.json();
   console.warn(result || localStorage.getItem("token"));
-  console.log(result);
+  console.log("result", result);
+  const languagePreference = result?.user?.language_preference;
+
+  if (languagePreference) localStorage.setItem("Language", languagePreference);
+
   console.log(localStorage.getItem("token"));
 
   if (result?.auth_token || localStorage.getItem("token")) {
@@ -81,6 +85,10 @@ async function register(email, password, username) {
     console.log("result__registration", result);
     localStorage.setItem("token", result.auth_token);
     sessionStorage.setItem("subscription_tier", result.user?.subscription_tier);
+
+    const languagePreference = result?.user?.language_preference;
+
+    if (languagePreference) localStorage.setItem("Language", languagePreference);
 
     const registrationElement = document.querySelector(".registration");
     const promptBarElement = document.querySelector(".promt_bar");

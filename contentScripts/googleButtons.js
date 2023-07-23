@@ -815,11 +815,15 @@ function addMicrophone() {
   function startRecognition() {
     if (SpeechRecognition !== undefined && textArea) {
       recognition = new SpeechRecognition();
-      if (localStorage.getItem("Language") && localStorage.getItem("Language") !== "Default") {
-        let language = localStorage.getItem("Language");
 
+      if (localStorage.getItem("Language")) {
+        let language = localStorage.getItem("Language");
         recognition.lang = languages[language];
+      } else {
+        console.log("Language____");
+        recognition.lang = languages["English"];
       }
+
       recognition.continuous = true;
       recognition.interimResults = true;
 
@@ -850,29 +854,37 @@ function addMicrophone() {
           textAreaValueArr.some((oldWord) => (oldWord == "" ? false : newWord.includes(oldWord) || newWord == oldWord))
         );
 
-        if (recognizedWord.toLowerCase().includes("алиса") || isAlisa) {
+        const turnOnAssistantWord = ["got good", "gotgood", " got good", "got good "];
+
+        if (turnOnAssistantWord.some((word) => recognizedWord.toLowerCase().includes(word)) || isAlisa) {
           isAlisa = true;
 
-          if (recognizedWord.toLowerCase().includes("конец записи")) {
+          if (recognizedWord.toLowerCase().includes("stop")) {
             microphoneDiv.classList.remove("microphone-is-listening");
+            isAlisa = false;
+
+            stopRecord = true;
+
+            stopRecognition();
             sendInput(textArea?.value, true);
-            recognition.stop();
-            recognition.onend = null;
-            recognition = null;
+            lastRecognizedWord = "";
           }
 
-          if (recognizedWord.toLowerCase().includes("удалить")) {
+          if (recognizedWord.toLowerCase().includes("delete")) {
             isAlisa = false;
-            textArea.value = "";
-            recognition.stop();
-            recognition.onend = null;
-            recognition = null;
 
+            stopRecord = true;
+
+            stopRecognition();
+
+            textArea.value = "";
             startRecognition();
           }
 
           return;
         }
+
+        // debugger;
 
         if (isFinalRes) {
           for (let i = 0; event.results.length >= i; i++) {
@@ -886,6 +898,10 @@ function addMicrophone() {
             }
           }
         } else if (recognizedWord.toLowerCase() !== lastRecognizedWord.toLowerCase() && !isHasWord) {
+          console.log("_______________________________________");
+          console.log("_______________________________________");
+          console.log("_______________________________________");
+
           lastRecognizedWord = recognizedWord;
 
           textArea.value += ` ${recognizedWord.toLowerCase()} `;
@@ -912,12 +928,15 @@ function addMicrophone() {
   }
 
   microphoneDiv.addEventListener("click", () => {
+    console.log("microphoneDiv click_____");
     navigator &&
       navigator.mediaDevices
         .getUserMedia({
           audio: true,
         })
         .then(() => {
+          console.log("microphoneDiv click_____22");
+
           if (microphoneDiv.classList.contains("microphone-is-listening")) {
             console.log("stopRecognition__1");
             microphoneDiv.classList.remove("microphone-is-listening");

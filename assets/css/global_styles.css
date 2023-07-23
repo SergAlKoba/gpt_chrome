@@ -2143,6 +2143,7 @@ html{
     z-index: 30;
 }
 
+
 #global .group.w-full.text-gray-800.dark\:text-gray-100.border-b.bg-gray-50:hover .text-gray-400.flex.self-end.lg\:self-center.justify-center.mt-2.gap-2.visible{
     display: flex;
 }
@@ -3609,6 +3610,11 @@ color: #30FF21;
 .item_hover{
     color: rgb(255, 255, 255) !important;
     background: rgb(52, 53, 65) !important;
+}
+
+#global  .cursor-pointer.absolute.right-6.bottom-\[124px\].md\:bottom-\[120px\].z-10.rounded-full.border.border-gray-200.bg-gray-50.text-gray-600.dark\:border-white\/10.dark\:bg-white\/10.dark\:text-gray-200{
+    right: 362px;
+    bottom: 182px !important;  
 }
 
 
