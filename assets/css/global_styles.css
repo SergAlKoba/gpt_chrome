@@ -1159,6 +1159,12 @@ html{
     /* position: fixed; */
 }
 
+
+#global .absolute.inset-0 .overflow-auto.bg-white.dark\:bg-gray-800{
+    overflow-x: hidden;
+
+}
+
 #global .flex-col.text-sm.dark\:bg-gray-800 {
    display: flex;
    flex-direction: column;
@@ -3616,6 +3622,12 @@ color: #30FF21;
     right: 362px;
     bottom: 182px !important;  
 }
+
+
+#global .flex.p-4.gap-4.text-base.md\:gap-6.md\:max-w-2xl.lg\:max-w-\[38rem\].xl\:max-w-3xl.md\:py-6.lg\:px-0.pl-0.pr-4.ml-5 {
+    padding-left: 0px;
+    padding-right: 1rem;
+  }
 
 
 /* width: calc( 100vw - 620px);
