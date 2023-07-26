@@ -354,7 +354,7 @@ function createPromptDetailsPopup({
   description,
   amount_of_lookups,
   like_amount,
-  inputs,
+  inputs = [],
   prompt_template,
   categories,
   is_liked,
@@ -531,7 +531,7 @@ function createPromptDetailsPopup({
 
   const likeBlock = document.createElement("li");
   likeBlock.appendChild(likes);
-  statsList.appendChild(likeBlock);
+  if (like_amount) statsList.appendChild(likeBlock);
 
   let viewIcon = createElem(
     "img",
@@ -556,7 +556,7 @@ function createPromptDetailsPopup({
   const viewBlock = document.createElement("li");
 
   viewBlock.appendChild(views);
-  statsList.appendChild(viewBlock);
+  if (amount_of_lookups) statsList.appendChild(viewBlock);
 
   const contentTopicDiv = document.createElement("div");
   contentTopicDiv.classList.add("content_topic");
@@ -615,7 +615,7 @@ function createPromptDetailsPopup({
     const index = modalState.findIndex(({ variable_name }) => variable_name === e.target.name);
     modalState[index].value = e.target.value;
   };
-
+  console.log("inputs", inputs);
   inputs.forEach(({ variable_name, placeholder, is_textarea }) => {
     // if (is_textarea) {
     const textareaDiv = createTextarea(variable_name, placeholder, handleInputValueChange);

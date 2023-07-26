@@ -1,14 +1,14 @@
 async function getCategories() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
+  var requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
 
-    let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
-    let result = await response.json();
-    console.log(result);
-    sessionStorage.setItem("categories", JSON.stringify(result.results));
-    return result;
+  let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions);
+  let result = await response.json();
+  console.log(result);
+  sessionStorage.setItem("categories", JSON.stringify(result.results));
+  return result;
 }
 
 //     let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions)
@@ -30,153 +30,203 @@ async function getCategories() {
 // }
 
 async function getFavorites() {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
 
-    let response = await fetch("https://gotgood.ai//api/chat/get-favorites/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-    let result = await response.json();
-    return result;
-
+  let response = await fetch("https://gotgood.ai//api/chat/get-favorites/", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
+  let result = await response.json();
+  return result;
 }
 
 async function getBookmarks() {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
 
-    let response = await fetch("https://gotgood.ai/api/chat/get-bookmarks/", requestOptions)
-    .then(response => {            
-        if(response.status === 402) {
-            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
-            document.body.appendChild(upgradeSubscriptionPopup)
-          }
-          return response
+  let response = await fetch("https://gotgood.ai/api/chat/get-bookmarks/", requestOptions)
+    .then((response) => {
+      if (response.status === 402) {
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+        document.body.appendChild(upgradeSubscriptionPopup);
+      }
+      return response;
     })
-    .catch(error => console.log('error', error));
+    .catch((error) => console.log("error", error));
 
-    let result = await response.json();
-    return result;
+  let result = await response.json();
+  return result;
 }
 
 async function createBookmark(output) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
 
-    var raw = JSON.stringify({
-        "output": output
-    });
+  var raw = JSON.stringify({
+    output: output,
+  });
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
 
-    await fetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
-    .then(response => {            
-        if(response.status === 402) {
-            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
-            document.body.appendChild(upgradeSubscriptionPopup)
-          }
-          return response
+  await fetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
+    .then((response) => {
+      if (response.status === 402) {
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+        document.body.appendChild(upgradeSubscriptionPopup);
+      }
+      return response;
     })
-    .catch(error => console.log('error', error));
+    .catch((error) => console.log("error", error));
+}
+
+async function createNewBookmarkDocument(data) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
+
+  //   var raw = JSON.stringify({ data });
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify(data),
+    redirect: "follow",
+  };
+
+  await fetch("https://gotgood.ai/api/shop/create-document/", requestOptions)
+    .then((response) => {
+      if (response.status === 402) {
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+        document.body.appendChild(upgradeSubscriptionPopup);
+      }
+      return response;
+    })
+    .catch((error) => console.log("error", error));
+}
+
+async function searchBookmark(text = "") {
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
+
+  let requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  let response = await fetch(API_URL + `/api/shop/get-recent-documents/?search=${text}`, requestOptions);
+
+  return await response.json();
+}
+
+async function replaceExitingDocumentBookmark(newBookmarkObj, id) {
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify(newBookmarkObj),
+    redirect: "follow",
+  };
+  let response = await fetch(API_URL + `/api/shop/replace-exiting-document/${id}`, requestOptions);
+
+  return await response.json();
 }
 
 async function createFavorite(prompt) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
 
-    var raw = JSON.stringify(
-         prompt
-    );
+  var raw = JSON.stringify(prompt);
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
 
-    let response = await fetch("https://gotgood.ai/api/chat/prompt-favourite/", requestOptions)
-    .then(response => {            
-        if(response.status === 402) {
-            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
-            document.body.appendChild(upgradeSubscriptionPopup)
-          }
-          return response
-    }).catch(error => console.log('error', error));
+  let response = await fetch("https://gotgood.ai/api/chat/prompt-favourite/", requestOptions)
+    .then((response) => {
+      if (response.status === 402) {
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+        document.body.appendChild(upgradeSubscriptionPopup);
+      }
+      return response;
+    })
+    .catch((error) => console.log("error", error));
 
-    let result = await response.json();
-    return result;
+  let result = await response.json();
+  return result;
 }
 
 async function createLike(prompt) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
 
-    var raw = JSON.stringify(
-         prompt
-    );
+  var raw = JSON.stringify(prompt);
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
 
-    let response = await fetch("https://gotgood.ai/api/shop/prompt-like/", requestOptions)
-        .then(response => {            
-            if(response.status === 402) {
-                const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup()
-                document.body.appendChild(upgradeSubscriptionPopup)
-              }
-              return response
-        })
-        .catch(error => console.log('error', error));
+  let response = await fetch("https://gotgood.ai/api/shop/prompt-like/", requestOptions)
+    .then((response) => {
+      if (response.status === 402) {
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+        document.body.appendChild(upgradeSubscriptionPopup);
+      }
+      return response;
+    })
+    .catch((error) => console.log("error", error));
 
-    let result = await response.json();
-    return result;
+  let result = await response.json();
+  return result;
 }
 
-
 async function logout() {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", `token ${localStorage.getItem('token')}`);
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
 
+  var requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
 
-
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    let response = await fetch(API_URL + "/api/user/logout/", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-    let result = await response.json();
-    return result;
+  let response = await fetch(API_URL + "/api/user/logout/", requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
+  let result = await response.json();
+  return result;
 }
 
 // async function login(email, password) {
@@ -220,38 +270,35 @@ async function logout() {
 //     return result;
 // }
 
-function send_gpt_request(){
-    let input = document.querySelector('textarea')
-    input.value = 'test';
-    let send_button = document.querySelector('form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button')
-    send_button.click()
+function send_gpt_request() {
+  let input = document.querySelector("textarea");
+  input.value = "test";
+  let send_button = document.querySelector("form > div > div.flex.flex-col.w-full.py-2.flex-grow.rounded-md> button");
+  send_button.click();
 }
 
+async function setPromptText(style = none, text = none, tone = none, result_amount = none, iclude_google_data = false) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
+  var raw = JSON.stringify({
+    style: style,
+    tone: tone,
+    result_amount: result_amount,
+    text: text,
+    iclude_google_data: iclude_google_data,
+  });
 
-async function setPromptText(style = none, text = none, tone = none, result_amount = none, iclude_google_data=false) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
 
-    var raw = JSON.stringify({
-        "style": style,
-        "tone": tone,
-        "result_amount": result_amount,
-        "text": text,
-        "iclude_google_data": iclude_google_data
-    });
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-
-    let response = await fetch(API_URL + "/api/shop/get-result-prompt/", requestOptions)
-    let result = await response.json();
-    console.log(response);
-    localStorage.setItem('token', result.auth_token);
-    return result;
+  let response = await fetch(API_URL + "/api/shop/get-result-prompt/", requestOptions);
+  let result = await response.json();
+  console.log(response);
+  localStorage.setItem("token", result.auth_token);
+  return result;
 }
-

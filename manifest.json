@@ -104,7 +104,9 @@
         "assets/images/logo.svg",
         "assets/images/idea_starts.svg",
         "assets/images/dashboard2.svg",
-        "assets/images/iconLeftSideBar.svg"
+        "assets/images/iconLeftSideBar.svg",
+        "assets/images/document.svg",
+        "assets/images/file_plus.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

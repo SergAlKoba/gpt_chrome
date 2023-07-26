@@ -1,7 +1,16 @@
 let selectedTone = localStorage.getItem("tone");
 let selectedStyle = localStorage.getItem("style");
 let isClickBookmark = false;
+let selectedDocumentBookmark = null;
 console.log({ selectedTone, selectedStyle });
+
+const bookmarks = [
+  "Marketing site redesign",
+  "Greek Mythology 101",
+  "The Art of Culinary Fusion: Blending Flavors from Around the World",
+  "Hello world",
+  "The marketing of Apple Design",
+];
 
 async function getSubscriptionLevel() {
   const API_URL = "https://gotgood.ai";
@@ -79,7 +88,7 @@ function createChatMessageButtons(container, isClickBookmark) {
   // const button2 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/thumbs-up2.svg');
   // const button3 = createButton('p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible', '', '', '', '', '', '', 'assets/images/thumbs-down2.svg');
 
-  const button4 = createButton(
+  const bookmark = createButton(
     "p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible",
     "",
     "",
@@ -99,11 +108,25 @@ function createChatMessageButtons(container, isClickBookmark) {
     "",
     "assets/images/bookmarkYellow.svg"
   );
+
+  const addNewDocumentButton = createButton(
+    "p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "assets/images/file_plus.svg"
+  );
+
+  addNewDocumentButton.classList.add("btn_1");
+
   bookmarkYellow.classList.add("btn_1");
 
-  button4.classList.add("saveBtn");
-  button4.classList.add("btn_1");
-  button4.onclick = async (e) => {
+  bookmark.classList.add("saveBtn");
+  bookmark.classList.add("btn_1");
+  bookmark.onclick = async (e) => {
     e.preventDefault();
 
     const subscriptionTier = getUserSubscriptionTier();
@@ -118,9 +141,50 @@ function createChatMessageButtons(container, isClickBookmark) {
 
     if (isExistMessageChatGpt()) {
       const textChatGpt = getMessageChatGpt().text();
-      button4.remove();
+      bookmark.remove();
       container.appendChild(bookmarkYellow);
       await createBookmark(textChatGpt);
+    }
+
+    isClickBookmark = true;
+  };
+
+  addNewDocumentButton.onclick = async (e) => {
+    e.preventDefault();
+
+    const subscriptionTier = getUserSubscriptionTier();
+    if (subscriptionTier === "free") {
+      const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+      document.body.appendChild(upgradeSubscriptionPopup);
+      return;
+    }
+
+    const getMessageChatGpt = () => $(container).parent().parent().find(".break-words");
+    const isExistMessageChatGpt = () => getMessageChatGpt().length > 0;
+
+    if (isExistMessageChatGpt()) {
+      const textChatGpt = getMessageChatGpt().text();
+
+      function afterSuccessSavedBookmark() {
+        bookmark.remove();
+        container.insertBefore(bookmarkYellow, addNewDocumentButton);
+      }
+      // await createBookmark(textChatGpt);
+
+      const smallPopup = createPopupBookmark(textChatGpt, afterSuccessSavedBookmark);
+
+      const body = document.querySelector("body");
+      body.addEventListener("click", (e) => {
+        if (
+          e.target !== smallPopup &&
+          e.target !== addNewDocumentButton &&
+          e.target !== addNewDocumentButton.children[0]
+        ) {
+          smallPopup.remove();
+        }
+      });
+
+      container?.parentNode?.parentNode?.appendChild(smallPopup);
     }
 
     isClickBookmark = true;
@@ -131,8 +195,9 @@ function createChatMessageButtons(container, isClickBookmark) {
   // container.appendChild(button3);
 
   if (!isClickBookmark) {
-    container.appendChild(button4);
+    container.appendChild(bookmark);
   }
+  container.appendChild(addNewDocumentButton);
 }
 
 function checkAndUpdateChatMessageButtons(isClickBookmark) {
@@ -188,4 +253,366 @@ createSpinner = () => {
   $("body").append(spinner);
   return spinner;
 };
-console.log("createSpinner", createSpinner());
+
+function createPopupBookmark(bookmark, afterSuccessSavedBookmark) {
+  console.log("createPopupBookmark");
+
+  const ul = document.createElement("ul");
+  ul.classList.add("bookMark_small_popup");
+
+  const newDocument = document.createElement("li");
+  newDocument.classList.add("bookMark_small_popup_li");
+  newDocument.textContent = "New document";
+
+  newDocument.onclick = () => {
+    const newDocumentPopup = createNewDocumentPopup(bookmark, afterSuccessSavedBookmark);
+    document.body.appendChild(newDocumentPopup);
+    ul.remove();
+  };
+
+  ul.appendChild(newDocument);
+
+  const saveToExisting = document.createElement("li");
+  saveToExisting.classList.add("bookMark_small_popup_li");
+  saveToExisting.textContent = "Save to existing";
+
+  saveToExisting.onclick = async () => {
+    const saveBookmarkPopup = await createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark);
+    document.body.appendChild(saveBookmarkPopup);
+    ul.remove();
+  };
+
+  ul.appendChild(saveToExisting);
+
+  return ul;
+}
+
+function createUpgradeSubscriptionPopup() {
+  console.log("createUpgradeSubscriptionPopup");
+  const popup = document.createElement("div");
+  popup.classList.add("popup", "prompt_details_popup", "active");
+
+  const closeSpan = document.createElement("span");
+  closeSpan.classList.add("close");
+  popup.appendChild(closeSpan);
+
+  closeSpan.addEventListener("click", () => {
+    popup.classList.remove("active");
+  });
+
+  const popupContent = document.createElement("div");
+  popupContent.classList.add("popup_content");
+  popupContent.classList.add("upgrade");
+  popup.appendChild(popupContent);
+
+  const closePopupSpan = document.createElement("span");
+  closePopupSpan.classList.add("close_popup");
+  popupContent.appendChild(closePopupSpan);
+
+  const closeImg = document.createElement("img");
+  closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
+  closeImg.alt = "";
+
+  closeImg.addEventListener("click", () => {
+    document.body.removeChild(popup);
+  });
+
+  closePopupSpan.appendChild(closeImg);
+
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("title");
+  popupContent.appendChild(titleDiv);
+
+  const titleHeading = document.createElement("h5");
+  titleHeading.textContent = "Don`t success";
+  titleDiv.appendChild(titleHeading);
+
+  const promptPopupContentDiv = document.createElement("div");
+  promptPopupContentDiv.classList.add("upgrade_popup_content");
+  popupContent.appendChild(promptPopupContentDiv);
+
+  const answerPara1 = document.createElement("p");
+  answerPara1.classList.add("upgrade_popup_content");
+
+  answerPara1.textContent = "You need upgrade your subscription to this element";
+  promptPopupContentDiv.appendChild(answerPara1);
+
+  return popup;
+}
+
+function createNewDocumentPopup(bookmark, afterSuccessSavedBookmark) {
+  console.log("createPromptDetailsPopup_______");
+
+  const popup = document.createElement("div");
+  popup.classList.add("popup", "prompt_details_popup", "active");
+
+  const closeSpan = document.createElement("span");
+  closeSpan.classList.add("close");
+  popup.appendChild(closeSpan);
+
+  closeSpan.addEventListener("click", () => {
+    popup.classList.remove("active");
+  });
+
+  const popupContent = document.createElement("div");
+  popupContent.classList.add("popup_content", "bookmark_new_document_popup");
+  popup.appendChild(popupContent);
+
+  const closePopupSpan = document.createElement("span");
+  closePopupSpan.classList.add("close_popup");
+  popupContent.appendChild(closePopupSpan);
+
+  const closeImg = document.createElement("img");
+  closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
+  closeImg.alt = "";
+
+  closeImg.addEventListener("click", () => {
+    document.body.removeChild(popup);
+  });
+
+  closePopupSpan.appendChild(closeImg);
+
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("title");
+  popupContent.appendChild(titleDiv);
+
+  const titleHeading = document.createElement("h5");
+  titleHeading.textContent = "Create new document";
+  titleDiv.appendChild(titleHeading);
+
+  const promptPopupContentDiv = document.createElement("div");
+  promptPopupContentDiv.classList.add("bookmark_new_document");
+  popupContent.appendChild(promptPopupContentDiv);
+
+  const input = document.createElement("input");
+  input.classList.add("new_document_input");
+  input.placeholder = "New document name";
+  input.type = "text";
+
+  promptPopupContentDiv.appendChild(input);
+
+  const bottomDiv = document.createElement("div");
+  bottomDiv.classList.add("bottom");
+  popupContent.appendChild(bottomDiv);
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.classList.add("bookmark_new_document_btn");
+  cancelBtn.classList.add("bookmark_new_document_cancel_btn");
+  cancelBtn.textContent = "Cancel";
+
+  const createBtn = document.createElement("button");
+  createBtn.classList.add("bookmark_new_document_btn");
+  createBtn.classList.add("bookmark_new_document_create_btn");
+
+  createBtn.textContent = "Create";
+
+  cancelBtn.addEventListener("click", (e) => {
+    document.body.removeChild(popup);
+  });
+
+  createBtn.addEventListener("click", async (e) => {
+    const requestData = {
+      name: input?.value,
+      file: bookmark,
+    };
+    await createNewBookmarkDocument(requestData);
+    afterSuccessSavedBookmark();
+    document.body.removeChild(popup);
+  });
+
+  bottomDiv.appendChild(cancelBtn);
+  bottomDiv.appendChild(createBtn);
+
+  return popup;
+}
+
+async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
+  const popup = document.createElement("div");
+  popup.classList.add("popup", "prompt_details_popup", "active");
+
+  const closeSpan = document.createElement("span");
+  closeSpan.classList.add("close");
+  popup.appendChild(closeSpan);
+
+  closeSpan.addEventListener("click", () => {
+    popup.remove();
+  });
+
+  const popupContent = document.createElement("div");
+  popupContent.classList.add("popup_content", "bookmark_new_document_popup");
+  popup.appendChild(popupContent);
+
+  const closePopupSpan = document.createElement("span");
+  closePopupSpan.classList.add("close_popup");
+  popupContent.appendChild(closePopupSpan);
+
+  const closeImg = document.createElement("img");
+  closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
+  closeImg.alt = "";
+
+  closeImg.addEventListener("click", () => {
+    document.body.removeChild(popup);
+  });
+
+  closePopupSpan.appendChild(closeImg);
+
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("title");
+  popupContent.appendChild(titleDiv);
+
+  const titleHeading = document.createElement("h5");
+  titleHeading.textContent = "Save to exisiting";
+  titleDiv.appendChild(titleHeading);
+
+  const promptPopupContentDiv = document.createElement("div");
+  promptPopupContentDiv.classList.add("bookmark_new_document");
+  popupContent.appendChild(promptPopupContentDiv);
+
+  // first load bookmark
+  const bookmarks = await searchBookmark();
+  console.log("bookmarks", bookmarks);
+
+  const recentText = document.createElement("div");
+  const search = createSearchByBookmark(bookmarks, recentText);
+  recentText.textContent = "Recent";
+  recentText.classList.add("recent_text");
+
+  const bookmarkList = createBookmarkList(bookmarks);
+  console.log("bookmarkList", bookmarkList);
+
+  promptPopupContentDiv.appendChild(search);
+  promptPopupContentDiv.appendChild(recentText);
+  promptPopupContentDiv.appendChild(bookmarkList);
+
+  const bottomDiv = document.createElement("div");
+  bottomDiv.classList.add("bottom");
+  popupContent.appendChild(bottomDiv);
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.classList.add("bookmark_new_document_btn");
+  cancelBtn.classList.add("bookmark_new_document_cancel_btn");
+  cancelBtn.textContent = "Cancel";
+
+  const saveBtn = document.createElement("button");
+  saveBtn.classList.add("bookmark_new_document_btn", "bookmark_btn_disabled");
+  saveBtn.setAttribute("disabled", "true");
+
+  saveBtn.onclick = async () => {
+    if (!selectedDocumentBookmark) return;
+    const requestObj = { name: selectedDocumentBookmark?.name, file: bookmark };
+    const id = selectedDocumentBookmark?.id;
+    await replaceExitingDocumentBookmark(requestObj, id);
+    afterSuccessSavedBookmark();
+    popup.remove();
+  };
+
+  saveBtn.classList.add("bookmark_new_document_save_btn");
+
+  saveBtn.textContent = "Save";
+
+  cancelBtn.addEventListener("click", (e) => {
+    popup.remove();
+  });
+
+  saveBtn.addEventListener("click", (e) => {});
+
+  bottomDiv.appendChild(cancelBtn);
+  bottomDiv.appendChild(saveBtn);
+  console.log("popup", popup);
+  return popup;
+}
+
+function createSearchByBookmark(bookmarks = [], renderBeforeBlock) {
+  const searchInput = createElem(
+    "input",
+    {
+      type: "search",
+      id: "search",
+      placeholder: "Search",
+      class: "search_by_bookmark",
+    },
+    []
+  );
+
+  // const debouncedProcessInput = debounce(processInput, 500);
+
+  const filterByBookmark = async (e) => {
+    // const searchValueLoverCase = e.target?.value.toLowerCase();
+
+    const filteredBookmark = await searchBookmark(e.target?.value);
+
+    // let filteredBookmark = bookmarks.filter((bookmarkText) =>
+    //   bookmarkText.toLowerCase().includes(searchValueLoverCase)
+    // );
+    console.log("bookmarks", bookmarks);
+    const existBookmarkList = document.querySelector(".bookmark_list");
+    console.log("existBookmarkList", existBookmarkList);
+    if (existBookmarkList) existBookmarkList.remove();
+
+    const newBookmarkList = createBookmarkList(filteredBookmark);
+    renderBeforeBlock.insertAdjacentElement("afterend", newBookmarkList);
+  };
+
+  const debouncedProcessInput = debounce(filterByBookmark, 500);
+
+  searchInput.addEventListener("input", debouncedProcessInput);
+
+  let searchIcon = createElem(
+    "img",
+    {
+      src: chrome.runtime.getURL("assets/images/search.svg"),
+    },
+    []
+  );
+
+  let searchButton = createElem("button", { class: "search_bookmark_btn" }, [searchIcon]);
+
+  const search = createElem("div", { class: "search" }, [searchButton, searchInput]);
+
+  const wrapperSearch = createElem("div", { class: "wrapper_search" }, [search]);
+
+  search.addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
+
+  return wrapperSearch;
+}
+
+function createBookmarkList(bookmarks) {
+  const bookmarksUl = document.createElement("ul");
+  bookmarksUl.classList.add("bookmark_list");
+
+  bookmarks.forEach((bookmarkObj) => {
+    const bookmark = document.createElement("li");
+    bookmark.classList.add("wrapper_bookmark_text");
+    bookmark.onclick = () => {
+      const activeDocumentBookmark = document.querySelector(".active_document_bookmark");
+      if (activeDocumentBookmark) activeDocumentBookmark.classList.remove("active_document_bookmark");
+      bookmark.classList.add("active_document_bookmark");
+      selectedDocumentBookmark = bookmarkObj;
+
+      const saveBtn = document.querySelector(".bookmark_new_document_save_btn");
+      saveBtn.removeAttribute("disabled");
+      saveBtn.classList.remove("bookmark_btn_disabled");
+    };
+
+    const bookmarkIcon = createBookmarkIcon();
+    const text = document.createElement("span");
+    text.textContent = bookmarkObj?.name;
+
+    text.classList.add("bookmark_text");
+
+    bookmark.appendChild(bookmarkIcon);
+    bookmark.appendChild(text);
+
+    bookmarksUl.appendChild(bookmark);
+  });
+  return bookmarksUl;
+}
+
+function createBookmarkIcon() {
+  const iconDocument = document.createElement("img");
+  iconDocument.classList.add("bookmark_document");
+  iconDocument.src = chrome.runtime.getURL("assets/images/document.svg");
+  return iconDocument;
+}
