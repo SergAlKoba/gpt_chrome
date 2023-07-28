@@ -1856,6 +1856,10 @@ html{
 
 .btn-response{
     margin-bottom: 20px;
+    position: absolute;
+    top: -73px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #global .microphone {
@@ -3813,5 +3817,7 @@ color: #30FF21;
 #global .share_block {
     margin-right:50px;
 }
+
+
 
 /* END Prompt library */

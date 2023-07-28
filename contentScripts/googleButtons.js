@@ -996,7 +996,8 @@ setInterval(() => {
       if (btnArr.some((btnText) => btnText?.includes(element?.textContent))) {
         console.log(element.parentNode);
         const btnResponse = element.parentNode;
-        btnResponse.classList.add("btn-response");
+        // btnResponse.classList.add("btn-response");
+        btnResponse.parentElement.classList.add("btn-response");
       }
     }
   }
