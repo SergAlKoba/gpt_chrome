@@ -59,7 +59,7 @@ function createUlFromItems(items) {
   console.log("items", items);
   const liItems = [];
   items.forEach((item) => {
-    const spanNode = createElementModal("span", { style: "color: #ACFFA6;" }, [document.createTextNode(item.command)]);
+    const spanNode = createElementModal("span", {}, [document.createTextNode(item.command)]);
     const textNode = document.createTextNode(" " + item.prompt);
     const li = createElementModal(
       "li",

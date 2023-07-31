@@ -107,7 +107,8 @@
         "assets/images/iconLeftSideBar.svg",
         "assets/images/document.svg",
         "assets/images/file_plus.svg",
-        "assets/images/right_sidebar_icon.svg"
+        "assets/images/right_sidebar_icon.svg",
+        "assets/images/not_result_icon_full.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

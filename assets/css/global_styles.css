@@ -639,7 +639,11 @@ html{
 #global .menu_content .promt_item .promt_item_content{
     height: auto;
     overflow-x: scroll;
-    padding: 0 5px 0 0px;
+    padding: 0px
+}
+
+#global .menu_content .promt_item .promt_item_content::-webkit-scrollbar {
+    display: none;
 }
 
 #global .menu_content .promt_item .filter{
@@ -722,15 +726,15 @@ html{
 }
 
 #global .menu_content .promt_item .filter_title::after {
-    content: "";
+    content: '';
     top: 50%;
-    right: 14px;
-    width: 24px;
-    height: 24px;
+    right: 20px;
+    width: 8px;
+    height: 4px;
     position: absolute;
-    transform: translate(0px, -50%);
-    background: url('../images/CaretDown2_hover.svg') 50% 50% / cover no-repeat;
-    transition: all 0.3s ease 0s;
+    background: var(--styleCaretDown) no-repeat 50% 50%;
+    background-size: cover;
+    transform: translate(0, -50%);
 }
 
 #global .menu_content .promt_item .filter_title img{
@@ -754,32 +758,46 @@ html{
     z-index: 3;
     left: 0;
     top: 48px;
-    width: 328px;
+    width: 247px;
     display: none;
     padding: 8px 4px;
     position: absolute;
     border-radius: 8px;
-    background: #2f3134;
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    /* background: #2f3134; */
+    /* box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16); */
+    /* box-shadow: 0px 12px 30px 12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px); */
     overflow: auto;
     max-height: 500px;
+    border: 1px solid rgba(64, 67, 70, 0.25);
+
+    border-radius: 8px;
+    background:  rgba(33, 36, 39, 0.56);
+    box-shadow: 0px 12px 30px 12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px);
+}
+
+#global .menu_content .promt_item .filter_drop::-webkit-scrollbar {
+    display: none;
 }
 
 #global .menu_content .promt_item .filter_drop li{
     display: flex;
     cursor: pointer;
     padding: 9px 10px;
-    border-radius: 6px;
     align-items: center;
     transition: all 0.3s;
+    border-radius: 8px;
+    
 }
 
-#global .menu_content .promt_item .filter_drop li:hover{
-    background: #434548;
+#global .menu_content .promt_item .filter_drop li:hover{    
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.00) 100%)
 }
 
 #global .menu_content .promt_item .filter_drop li:hover span{
-    color: rgba(172, 255, 166, 1);
+    /* color: rgba(172, 255, 166, 1); */
 }
 
 #global .menu_content .promt_item .filter_drop li img{
@@ -789,10 +807,12 @@ html{
 }
 
 #global .menu_content .promt_item .filter_drop li span{
+    font-family: 'Inter', sans-serif;
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #D8DADB;
+    color: #F3F4F5;
+    
     overflow: hidden;
     line-height: 20px;
     white-space: nowrap;
@@ -874,11 +894,11 @@ html{
     border-radius: 9999px;
     box-shadow: 0px 0px 0px 1px rgba(185, 159, 21, 0.2) inset, 0px 0px 0px 0px #fff inset;
     font-size: 12px;
-    font-weight: var(--font-medium);
     line-height: 16px;
     width: fit-content;
     margin-right: 58px;
     margin-bottom: 4px;
+    font-weight: 500;
 }
 
 #global  .badge::after {
@@ -926,17 +946,17 @@ html{
 
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer h3{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    color: #FFFFFF;
+    color:  #FFF;
     line-height: 24px;
     margin-bottom: 8px;
     padding-top: 16px;
     border-top: 1px solid #33383D;
 }
 
-#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer p{
-    color: #B1B4B7;
+#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer p{    
+    color:#898F93;
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
@@ -955,7 +975,7 @@ html{
     color: #B1B4B7;
     padding: 4px 8px;
     line-height: 16px;
-    margin-right: 4px;
+    margin-right: 15px;
     align-items: center;
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.1);
@@ -1303,22 +1323,29 @@ html{
     display: none;
     position: absolute;
     border-radius: 8px;
-    background: #393E42;
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    /* background: #393E42; */
+    /* box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16); */
+    
+    border-radius: 8px;
+    background: rgba(33, 36, 39, 0.56);
+
+    backdrop-filter: blur(16px);
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li{
     padding: 8px;
     cursor: pointer;
-    font-weight: 400;
-    color: #D8DADB;
+    font-weight: 400;    
+    color: #B1B4B7;
     font-size: 12px;
     line-height: 16px;
     border-radius: 6px;
     margin-bottom: 8px;
     letter-spacing: -0.04em;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    /* background: rgba(255, 255, 255, 0.1); */
+    /* box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16); */
+
+    border-radius: 6px;
 }
 
 #__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden > div > div{
@@ -1337,7 +1364,7 @@ html{
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #D8DADB;
+    color: #B1B4B7;
     line-height: 20px;
     margin-bottom: 2px;
 }
@@ -1348,8 +1375,14 @@ html{
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li:hover{
-    color: #FFFFFF;
-    background: #343541;
+    color: #D8DADB;
+    /* background: #343541; */
+    background: linear-gradient(180deg, rgba(49, 49, 49, 0.50) 0%, #313131 40.94%, #313131 64.37%, rgba(49, 49, 49, 0.50) 100%);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+}
+
+#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li:hover span{
+    color: #FFF;
 }
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative .prompster ul li:last-child{
@@ -1785,7 +1818,7 @@ html{
     left: 0;
     z-index: 3;
     width: 100%;
-    bottom: 45px;
+    bottom: 49px;
     display: none;
     position: absolute;
     border-radius: 8px;
@@ -2742,7 +2775,10 @@ ul[id^="headlessui-listbox-options"] li {
     display: none;
     height: 100vh;
     position: fixed;
-    background: rgba(255, 255, 255, 0.28);
+    /* background: rgba(255, 255, 255, 0.28); */
+
+    background: rgba(0, 0, 0, 0.60);
+    backdrop-filter: blur(6px);
 }
 
 #global .popup.active{
@@ -3168,6 +3204,7 @@ ul[id^="headlessui-listbox-options"] li {
     color: #FFFFFF;
     line-height: 24px;
     margin-bottom: 8px;
+    margin-top: 8px;
 }
 
 #global .prompt_details_popup .popup_content .prompt_popup_content .tab_prompt_content .answer p{
@@ -3350,6 +3387,14 @@ ul[id^="headlessui-listbox-options"] li {
     justify-content: center;
     align-items: center;
     z-index: 100;
+    border: 1px solid rgba(64, 67, 70, 0.25);
+
+
+    border-radius: 8px;
+    background:  rgba(33, 36, 39, 0.56);
+    box-shadow: 0px 12px 30px 12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px);
+
 } 
 
 #global .wrapper_form_and_sort_btn .sort_menu .sort_menu_item{
@@ -3364,18 +3409,21 @@ ul[id^="headlessui-listbox-options"] li {
     height: 38px;
     padding: 9px 10px 9px 10px;
     border-radius: 6px;
-    color: rgba(216, 218, 219, 1);
+    color: #F3F4F5;
 }
 
 #global .wrapper_form_and_sort_btn .sort_menu .sort_menu_item.active {
-    background: rgba(0, 0, 0, 0.25);
-    color: rgba(172, 255, 166, 1);
+    border-radius: 8px;
+    background:  linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.00) 100%);
+    border: 1px solid rgba(64, 67, 70, 0.25);
+    border-bottom: transparent;
 }
 
-#global .wrapper_form_and_sort_btn .sort_menu .sort_menu_item:hover{
-    background: rgba(0, 0, 0, 0.25);
-    color: rgba(172, 255, 166, 1);
-    
+#global .wrapper_form_and_sort_btn .sort_menu .sort_menu_item:hover{    
+    border-radius: 8px;
+    background:  linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.00) 100%);
+    border: 1px solid rgba(64, 67, 70, 0.25);
+    border-bottom: transparent;
 }
 
 #global .wrapper_form_and_sort_btn .sort_menu.active{
@@ -3518,7 +3566,11 @@ color: #30FF21;
 
     z-index: 100;
     border-radius: 8px;
-    background-color: #7445ee;
+
+    background:  rgba(33, 36, 39, 0.56);
+    box-shadow: 0px 12px 30px 12px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px);
+
 }
 
 #global .search_wrapper::-webkit-scrollbar {
@@ -3557,11 +3609,7 @@ color: #30FF21;
 }
 
 #global .search_list .search_propmt_item  h3{
-    /* overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical; */
+
 
     font-family: 'Inter', sans-serif;
     font-size: 14px;
@@ -3570,6 +3618,8 @@ color: #30FF21;
     line-height: 20px;
     margin-top: 8px;
     margin-bottom: 4px;
+
+    color:  #F3F4F5
 }
 
 #global .search_list .search_propmt_item  p{
@@ -3584,10 +3634,18 @@ color: #30FF21;
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
+
+    color:  #898F93
 }
 
-#global .search_list .search_propmt_item:hover {
-    background-color: rgba(87, 30, 234, 1);
+#global .search_list .search_propmt_item:hover p{    
+    color:  #D8DADB
+} 
+
+#global .search_list .search_propmt_item:hover {    
+    border-radius: 6px;
+    background:  linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.00) 100%);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
 } 
 
 .badge_search{
@@ -3609,7 +3667,7 @@ color: #30FF21;
 }
 
 .selected_search_value{
-    color:  #FFE500;
+    color: #00D3C1;
 }
 
 
@@ -3619,8 +3677,14 @@ color: #30FF21;
 }
 
 .item_hover{
-    color: rgb(255, 255, 255) !important;
-    background: rgb(52, 53, 65) !important;
+    color: #D8DADB !important;
+    background: linear-gradient(180deg, rgba(49, 49, 49, 0.50) 0%, #313131 40.94%, #313131 64.37%, rgba(49, 49, 49, 0.50) 100%) !important;
+
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25) !important;
+}
+
+.item_hover span {
+    color: #FFF !important;
 }
 
 #global  .cursor-pointer.absolute.right-6.bottom-\[124px\].md\:bottom-\[120px\].z-10.rounded-full.border.border-gray-200.bg-gray-50.text-gray-600.dark\:border-white\/10.dark\:bg-white\/10.dark\:text-gray-200{

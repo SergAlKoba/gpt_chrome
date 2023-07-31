@@ -664,7 +664,11 @@ async function processInput(e) {
   if (isEmptyData) {
     const emptyDataBlock = document.createElement("div");
     emptyDataBlock.classList.add("is_empty_data");
-    emptyDataBlock.textContent = "No results found";
+
+    const imgNotResult = document.createElement("img");
+    imgNotResult.src = chrome.runtime.getURL("assets/images/not_result_icon_full.svg");
+
+    emptyDataBlock.appendChild(imgNotResult);
     searchWrapper.appendChild(emptyDataBlock);
     wrapperFormAndSortBtn.appendChild(searchWrapper);
     return;
@@ -843,11 +847,11 @@ function createCategoryMenu(categories) {
         const isSubscriptionTierFree = subscriptionTier === "free";
 
         filterDropItem.addEventListener("click", async (e) => {
-          if (isProCategory && isSubscriptionTierFree) {
-            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-            document.body.appendChild(upgradeSubscriptionPopup);
-            return;
-          }
+          // if (isProCategory && isSubscriptionTierFree) {
+          //   const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+          //   document.body.appendChild(upgradeSubscriptionPopup);
+          //   return;
+          // }
 
           const categoryId = category?.id;
           selectedCategoryId = categoryId;
@@ -879,16 +883,16 @@ function createCategoryMenu(categories) {
         });
 
         const spanName = createElem("span", {}, [category?.name]);
-        const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
+        // const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
         filterDropItem.appendChild(spanName);
 
-        if (isProCategory) {
-          filterDropItem.appendChild(spanProCategory);
-          spanProCategory.classList.add("pro_category");
-          if (isSubscriptionTierFree) {
-            spanProCategory.classList.add("no_access_pro_category");
-          }
-        }
+        // if (isProCategory) {
+        // filterDropItem.appendChild(spanProCategory);
+        // spanProCategory.classList.add("pro_category");
+        // if (isSubscriptionTierFree) {
+        //   spanProCategory.classList.add("no_access_pro_category");
+        // }
+        // }
 
         // if (!category.isAccess) {
         //   filterDropItem.classList.add("no_access_dropdown_item_category");
