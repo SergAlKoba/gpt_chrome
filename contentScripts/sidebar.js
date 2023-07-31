@@ -428,7 +428,7 @@ function createMenuButton() {
       createElem(
         "img",
         {
-          src: chrome.runtime.getURL("assets/images/menu.svg"),
+          src: chrome.runtime.getURL("assets/images/right_sidebar_icon.svg"),
         },
         []
       ),
@@ -454,7 +454,7 @@ async function createMenuContent() {
   const menuContent = createElem(
     "div",
     {
-      class: "menu_content",
+      class: "menu_content active",
     },
     [
       createElem("div", {}, [
@@ -475,7 +475,7 @@ async function createSignedMenuContent() {
   const menuContent = createElem(
     "div",
     {
-      class: "menu_content",
+      class: "menu_content active",
     },
     [createElem("div", {}, [menuButton, createElem("h2", {}, ["Prompt bar"]), await createPromptBar()])]
   );
