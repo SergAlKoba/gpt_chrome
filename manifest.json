@@ -73,6 +73,7 @@
         "assets/images/theme_settings_img1.png",
         "assets/images/share.svg",
         "assets/images/search.svg",
+        "assets/images/search_gray.svg",
         "assets/images/purchased_prompts_img.svg",
         "assets/images/PencilSimple.svg",
         "assets/images/menu.svg",
@@ -108,7 +109,8 @@
         "assets/images/document.svg",
         "assets/images/file_plus.svg",
         "assets/images/right_sidebar_icon.svg",
-        "assets/images/not_result_icon_full.svg"
+        "assets/images/not_result_icon_full.svg",
+        "assets/images/stop_record.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

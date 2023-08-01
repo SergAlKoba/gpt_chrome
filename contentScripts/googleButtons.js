@@ -940,11 +940,13 @@ function addMicrophone() {
           if (microphoneDiv.classList.contains("microphone-is-listening")) {
             console.log("stopRecognition__1");
             microphoneDiv.classList.remove("microphone-is-listening");
+            replaceStopIconWithMicrophoneIcon();
             stopRecord = true;
             stopRecognition();
             sendInput(textArea?.value, true);
           } else {
             microphoneDiv.classList.add("microphone-is-listening");
+            replaceMicrophoneIconWithStopIcon();
             stopRecord = false;
             startRecognition();
           }
@@ -953,6 +955,24 @@ function addMicrophone() {
           alert("Microphone access denied");
         });
   });
+}
+
+function replaceMicrophoneIconWithStopIcon() {
+  const microphoneDiv = document.getElementById("microphone");
+  const imgMicrophone = microphoneDiv.querySelector("img");
+  imgMicrophone.remove();
+  const stopRecordImg = document.createElement("img");
+  stopRecordImg.src = chrome.runtime.getURL("assets/images/stop_record.svg");
+  microphoneDiv.appendChild(stopRecordImg);
+}
+
+function replaceStopIconWithMicrophoneIcon() {
+  const microphoneDiv = document.getElementById("microphone");
+  const stopRecordImg = microphoneDiv.querySelector("img");
+  stopRecordImg.remove();
+  const imgMicrophone = document.createElement("img");
+  imgMicrophone.src = chrome.runtime.getURL(`assets/images/microphone.svg`);
+  microphoneDiv.appendChild(imgMicrophone);
 }
 
 function addElementGoogle() {
@@ -1089,6 +1109,7 @@ function updateApp() {
     changeOpenLeftSidebar();
     changeSendButton();
     changeShareIcon();
+    changeChatGptText();
   }, 100);
 }
 
@@ -1132,7 +1153,7 @@ function changeNewChatBtn() {
 
 function changeShareIcon() {
   const shareButton = document.querySelector('[aria-label="Share chat"]')?.parentElement?.parentElement?.parentElement;
-  const isExistClass = shareButton.classList.contains("share_block");
+  const isExistClass = shareButton?.classList.contains("share_block");
   if (!isExistClass) shareButton.classList.add("share_block");
 }
 
@@ -1208,4 +1229,19 @@ function createLeftSideBarImg() {
   leftSideBarImg.classList.add("left_sidebar_icon");
   leftSideBarImg.src = chrome.runtime.getURL("assets/images/iconLeftSideBar.svg");
   return leftSideBarImg;
+}
+
+function changeChatGptText() {
+  let isBtnResponseChangeClassName = document.querySelector(".wrapper_default_text_gpt");
+
+  if (!isBtnResponseChangeClassName) {
+    const elements = document.querySelectorAll("header span");
+
+    for (const element of elements) {
+      if ("Default (GPT-3.5)" === element?.textContent) {
+        const wrapperTextChatGpt = element.parentNode;
+        wrapperTextChatGpt.classList.add("wrapper_default_text_gpt");
+      }
+    }
+  }
 }

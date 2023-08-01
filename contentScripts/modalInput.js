@@ -730,10 +730,10 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
     createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
 
     console.log("localPrompts__modal__input");
-    if (like.classList.contains("active")) {
-      like.classList.remove("active");
+    if (like.classList.contains("active_like")) {
+      like.classList.remove("active_like");
     } else {
-      like.classList.add("active");
+      like.classList.add("active_like");
     }
   });
 
@@ -763,10 +763,10 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
     createPrompts(localPrompts || [], promptBarContentList, ".drop_content.list");
     createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
 
-    if (favorite.classList.contains("active")) {
-      favorite.classList.remove("active");
+    if (favorite.classList.contains("active_favorite")) {
+      favorite.classList.remove("active_favorite");
     } else {
-      favorite.classList.add("active");
+      favorite.classList.add("active_favorite");
     }
   });
 
@@ -788,6 +788,7 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
 }
 
 function createLikeBlock({ is_liked }) {
+  console.log("createLikeBlock".toUpperCase());
   const icon = createElem(
     "img",
     {
@@ -808,7 +809,7 @@ function createLikeBlock({ is_liked }) {
   let like = createElem(
     "li",
     {
-      class: is_liked ? "active" : "",
+      class: is_liked ? "active_like" : "",
     },
     [icon, iconHover]
   );
@@ -837,7 +838,7 @@ function createFavoriteBlock({ is_favourite }) {
   let favorite = createElem(
     "li",
     {
-      class: is_favourite ? "active" : "",
+      class: is_favourite ? "active_favorite" : "",
     },
     [icon, iconHover]
   );

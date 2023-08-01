@@ -847,11 +847,11 @@ function createCategoryMenu(categories) {
         const isSubscriptionTierFree = subscriptionTier === "free";
 
         filterDropItem.addEventListener("click", async (e) => {
-          // if (isProCategory && isSubscriptionTierFree) {
-          //   const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-          //   document.body.appendChild(upgradeSubscriptionPopup);
-          //   return;
-          // }
+          if (isProCategory && isSubscriptionTierFree) {
+            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+            document.body.appendChild(upgradeSubscriptionPopup);
+            return;
+          }
 
           const categoryId = category?.id;
           selectedCategoryId = categoryId;
@@ -883,20 +883,20 @@ function createCategoryMenu(categories) {
         });
 
         const spanName = createElem("span", {}, [category?.name]);
-        // const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
+        const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
         filterDropItem.appendChild(spanName);
 
-        // if (isProCategory) {
-        // filterDropItem.appendChild(spanProCategory);
-        // spanProCategory.classList.add("pro_category");
-        // if (isSubscriptionTierFree) {
-        //   spanProCategory.classList.add("no_access_pro_category");
-        // }
-        // }
+        if (isProCategory) {
+          filterDropItem.appendChild(spanProCategory);
+          spanProCategory.classList.add("pro_category");
+          if (isSubscriptionTierFree) {
+            spanProCategory.classList.add("no_access_pro_category");
+          }
+        }
 
-        // if (!category.isAccess) {
-        //   filterDropItem.classList.add("no_access_dropdown_item_category");
-        // }
+        if (!category.isAccess) {
+          filterDropItem.classList.add("no_access_dropdown_item_category");
+        }
 
         filterDrop.appendChild(filterDropItem);
       }
@@ -1634,7 +1634,7 @@ function createLikeBlock({ is_liked }) {
   let like = createElem(
     "li",
     {
-      class: is_liked ? "active" : "",
+      class: is_liked ? "active_like" : "",
     },
     [icon, iconHover]
   );
@@ -1663,7 +1663,7 @@ function createFavoriteBlock({ is_favourite }) {
   let favorite = createElem(
     "li",
     {
-      class: is_favourite ? "active" : "",
+      class: is_favourite ? "active_favorite" : "",
     },
     [icon, iconHover]
   );
