@@ -2,6 +2,7 @@ let selectedTone = localStorage.getItem("tone");
 let selectedStyle = localStorage.getItem("style");
 let isClickBookmark = false;
 let selectedDocumentBookmark = null;
+let selectedMessageChatGPTBookmark = null;
 console.log({ selectedTone, selectedStyle });
 
 const bookmarks = [
@@ -430,6 +431,7 @@ function createNewDocumentPopup(bookmark, afterSuccessSavedBookmark) {
 }
 
 async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
+  selectedMessageChatGPTBookmark = bookmark;
   const popup = document.createElement("div");
   popup.classList.add("popup", "prompt_details_popup", "active");
 
@@ -487,18 +489,25 @@ async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
   const newDocumentImg = document.createElement("img");
   newDocumentImg.src = chrome.runtime.getURL("assets/images/file_plus.svg");
 
-  const createNewDocumentDivText = document.createElement("div");
-  createNewDocumentDivText.classList.add("create_new_document_text");
-  createNewDocumentDivText.textContent = "Create new document";
+  const createNewDocumentDivText1 = document.createElement("div");
+  const createNewDocumentDivContent = document.createElement("div");
+  createNewDocumentDivContent.classList.add("create_new_document_content");
+
+  createNewDocumentDivText1.classList.add("create_new_document_text_1");
+  createNewDocumentDivText1.textContent = "Create new document";
+
+  const createNewDocumentDivText2 = document.createElement("div");
+  createNewDocumentDivText2.classList.add("create_new_document_text_2");
+  createNewDocumentDivText2.textContent = "Lorem ipsum dolor sit amet";
+
+  createNewDocumentDivContent.appendChild(createNewDocumentDivText1);
+  createNewDocumentDivContent.appendChild(createNewDocumentDivText2);
 
   wrapperNewDocumentImg.appendChild(newDocumentImg);
   createNewDocumentDiv.appendChild(wrapperNewDocumentImg);
-  createNewDocumentDiv.appendChild(createNewDocumentDivText);
+  createNewDocumentDiv.appendChild(createNewDocumentDivContent);
   wrapperCreateNewDocumentDiv.appendChild(createNewDocumentDiv);
 
-  // const titleHeading = document.createElement("h5");
-  // titleHeading.textContent = "Save to exisiting";
-  // first load bookmark
   const bookmarks = await searchBookmark();
 
   const recentText = document.createElement("div");
@@ -512,10 +521,6 @@ async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
   promptPopupContentDiv.classList.add("bookmark_new_document");
   popupContent.appendChild(promptPopupContentDiv);
 
-  console.log("bookmarks", bookmarks);
-
-  // const search = createSearchByBookmark(bookmarks, recentText);
-
   const bookmarkList = createBookmarkList(bookmarks);
   console.log("bookmarkList", bookmarkList);
 
@@ -527,33 +532,32 @@ async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
   // bottomDiv.classList.add("bottom");
   // popupContent.appendChild(bottomDiv);
 
-  const cancelBtn = document.createElement("button");
-  cancelBtn.classList.add("bookmark_new_document_btn");
-  cancelBtn.classList.add("bookmark_new_document_cancel_btn");
-  cancelBtn.textContent = "Cancel";
+  // const cancelBtn = document.createElement("button");
+  // cancelBtn.classList.add("bookmark_new_document_btn");
+  // cancelBtn.classList.add("bookmark_new_document_cancel_btn");
+  // cancelBtn.textContent = "Cancel";
 
-  const saveBtn = document.createElement("button");
-  saveBtn.classList.add("bookmark_new_document_btn", "bookmark_btn_disabled");
-  saveBtn.setAttribute("disabled", "true");
+  // const saveBtn = document.createElement("button");
+  // saveBtn.classList.add("bookmark_new_document_btn", "bookmark_btn_disabled");
+  // saveBtn.setAttribute("disabled", "true");
 
-  saveBtn.onclick = async () => {
-    if (!selectedDocumentBookmark) return;
-    const requestObj = { name: selectedDocumentBookmark?.name, file: bookmark };
-    const id = selectedDocumentBookmark?.id;
-    await replaceExitingDocumentBookmark(requestObj, id);
-    afterSuccessSavedBookmark();
-    popup.remove();
-  };
+  // saveBtn.onclick = async () => {
+  //   if (!selectedDocumentBookmark) return;
+  //   console.log("selectedDocumentBookmark", selectedDocumentBookmark);
+  //   const requestObj = { name: selectedDocumentBookmark?.name, file: bookmark };
+  //   const id = selectedDocumentBookmark?.id;
+  //   await replaceExitingDocumentBookmark(requestObj, id);
+  //   afterSuccessSavedBookmark();
+  //   popup.remove();
+  // };
 
-  saveBtn.classList.add("bookmark_new_document_save_btn");
+  // saveBtn.classList.add("bookmark_new_document_save_btn");
 
-  saveBtn.textContent = "Save";
+  // saveBtn.textContent = "Save";
 
-  cancelBtn.addEventListener("click", (e) => {
-    popup.remove();
-  });
-
-  saveBtn.addEventListener("click", (e) => {});
+  // cancelBtn.addEventListener("click", (e) => {
+  //   popup.remove();
+  // });
 
   // bottomDiv.appendChild(cancelBtn);
   // bottomDiv.appendChild(saveBtn);
@@ -623,15 +627,25 @@ function createBookmarkList(bookmarks) {
   bookmarks.forEach((bookmarkObj) => {
     const bookmark = document.createElement("li");
     bookmark.classList.add("wrapper_bookmark_text");
-    bookmark.onclick = () => {
-      const activeDocumentBookmark = document.querySelector(".active_document_bookmark");
-      if (activeDocumentBookmark) activeDocumentBookmark.classList.remove("active_document_bookmark");
-      bookmark.classList.add("active_document_bookmark");
-      selectedDocumentBookmark = bookmarkObj;
+    bookmark.onclick = async () => {
+      // const activeDocumentBookmark = document.querySelector(".active_document_bookmark");
+      // if (activeDocumentBookmark) activeDocumentBookmark.classList.remove("active_document_bookmark");
+      // bookmark.classList.add("active_document_bookmark");
 
-      const saveBtn = document.querySelector(".bookmark_new_document_save_btn");
-      saveBtn.removeAttribute("disabled");
-      saveBtn.classList.remove("bookmark_btn_disabled");
+      // if (!bookmarkObj) return;
+      if (!selectedMessageChatGPTBookmark) return;
+
+      const requestObj = { name: bookmarkObj?.name, file: selectedMessageChatGPTBookmark };
+      const id = bookmarkObj?.id;
+      await replaceExitingDocumentBookmark(requestObj, id);
+
+      const popup = document.querySelector(".popup.prompt_details_popup.active");
+      popup.remove();
+
+      selectedMessageChatGPTBookmark = null;
+      // const saveBtn = document.querySelector(".bookmark_new_document_save_btn");
+      // saveBtn.removeAttribute("disabled");
+      // saveBtn.classList.remove("bookmark_btn_disabled");
     };
 
     const bookmarkIcon = createBookmarkIcon();
