@@ -521,6 +521,7 @@ function createPromptDetailsPopup({
     "p",
     {
       style: "margin: unset;",
+      class: "modal_like_amount",
     },
     []
   );
@@ -721,7 +722,35 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
 
     createLike(favoriteRequestObj);
     isLiked = !isLiked;
-    localPrompts = localPrompts.map((prompt) => (prompt?.id === id ? { ...prompt, is_liked: !is_liked } : prompt));
+
+    const changeLikeAmount = (like_amount) => {
+      let likeAmount;
+      const likeAmountText = document.querySelector(".modal_like_amount");
+      if (like_amount === 0 && !isLiked) {
+        likeAmount = 0;
+        console.log("likeAmount", likeAmount);
+
+        likeAmountText.textContent = likeAmount;
+      } else if (isLiked) {
+        likeAmount = like_amount + 1;
+        console.log("likeAmount", likeAmount);
+
+        likeAmountText.textContent = likeAmount;
+        // return likeAmount;
+      } else {
+        likeAmount = like_amount - 1;
+        console.log("likeAmount", likeAmount);
+        likeAmountText.textContent = likeAmount;
+        // return likeAmount;
+      }
+      return likeAmount;
+    };
+
+    localPrompts = localPrompts.map((prompt) =>
+      prompt?.id === id
+        ? { ...prompt, is_liked: !is_liked, like_amount: changeLikeAmount(prompt?.like_amount) }
+        : prompt
+    );
 
     const promptBarContentList = document.querySelector(".drop_content.list");
     const promptBarContentGrid = document.querySelector(".drop_content.grid");
