@@ -362,6 +362,7 @@ function createPromptDetailsPopup({
   id,
 }) {
   console.log("categories", categories);
+  console.log("1111111");
   const modalState = deepClone(inputs); // [{variable_name: "variable2", placeholder: "variable2", value: "some value"}] as example
 
   const popup = document.createElement("div");
@@ -531,8 +532,11 @@ function createPromptDetailsPopup({
   let likes = createElem("li", {}, [likeIcon, likeP]);
 
   const likeBlock = document.createElement("li");
+  likeBlock.classList.add("modal_like_block");
   likeBlock.appendChild(likes);
-  if (like_amount) statsList.appendChild(likeBlock);
+  statsList.appendChild(likeBlock);
+
+  if (!like_amount || like_amount === 0) likeBlock.classList.add("modal_like_block_hidden");
 
   let viewIcon = createElem(
     "img",
@@ -725,23 +729,23 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
 
     const changeLikeAmount = (like_amount) => {
       let likeAmount;
+      const likeBlock = document.querySelector(".modal_like_block");
       const likeAmountText = document.querySelector(".modal_like_amount");
-      if (like_amount === 0 && !isLiked) {
-        likeAmount = 0;
-        console.log("likeAmount", likeAmount);
 
+      if (like_amount === 0 && !isLiked) {
+        likeBlock.classList.add("modal_like_block_hidden");
+        likeAmount = 0;
         likeAmountText.textContent = likeAmount;
       } else if (isLiked) {
+        likeBlock.classList.remove("modal_like_block_hidden");
         likeAmount = like_amount + 1;
-        console.log("likeAmount", likeAmount);
-
         likeAmountText.textContent = likeAmount;
-        // return likeAmount;
       } else {
         likeAmount = like_amount - 1;
-        console.log("likeAmount", likeAmount);
         likeAmountText.textContent = likeAmount;
-        // return likeAmount;
+        if (likeAmount === 0) {
+          likeBlock.classList.add("modal_like_block_hidden");
+        } else likeBlock.classList.remove("modal_like_block_hidden");
       }
       return likeAmount;
     };
@@ -758,7 +762,6 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
     createPrompts(localPrompts || [], promptBarContentList, ".drop_content.list");
     createPrompts(localPrompts || [], promptBarContentGrid, ".drop_content.grid");
 
-    console.log("localPrompts__modal__input");
     if (like.classList.contains("active_like")) {
       like.classList.remove("active_like");
     } else {
