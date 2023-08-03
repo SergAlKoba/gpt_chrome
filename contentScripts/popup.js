@@ -260,8 +260,8 @@ function createPopup(type) {
   document.body.appendChild(googleScript);
   const existingAccountText = document.createElement("p");
   const footerText = isSignUp
-    ? 'Already registered? <a class="sign_in_js" href="javascript:void(0)">Sign in</a> to your account.'
-    : `Don't have an account? 'Already registered? <a class="sign_up_js" href="javascript:void(0)">Sign up</a> your account.`;
+    ? 'Already registered? <a class="sign_in_js sign_in_text" href="javascript:void(0)">Sign in</a> to your account.'
+    : `Don't have an account? <a class="sign_up_js sign_up_text" href="javascript:void(0)">Sign up</a> for free.`;
 
   existingAccountText.innerHTML = footerText;
 

@@ -2926,9 +2926,11 @@ ul[id^="headlessui-listbox-options"] li {
     transition: all 0.3s;
     letter-spacing: -0.04em;
     justify-content: center;
-    box-shadow: inset 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08);
-    background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:  radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+    box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset, 0px 0px 0px 1px rgba(255, 255, 255, 0.12);
     transition: all 0.5s;
+    color:  #FFF;
 }
 
 #global .popup .popup_content form span {
@@ -2996,7 +2998,7 @@ ul[id^="headlessui-listbox-options"] li {
 }
 
 #global .popup .popup_content form p a{
-    color: #EBECED;
+    color:  #6346EC;
 }
 
 
@@ -4137,12 +4139,15 @@ ul[id^="headlessui-listbox-options"] li {
     line-height: 20px; 
 }
 
-.sign_in_text{
-    color:  #6346EC;
+.sign_in_text,
+.sign_up_text{
+    color: rgb(99, 70, 236);
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
 }
+
+
 /* END Prompt library */
