@@ -110,7 +110,8 @@
         "assets/images/file_plus.svg",
         "assets/images/right_sidebar_icon.svg",
         "assets/images/not_result_icon_full.svg",
-        "assets/images/stop_record.svg"
+        "assets/images/stop_record.svg",
+        "assets/images/sign_icon.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

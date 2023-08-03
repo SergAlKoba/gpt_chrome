@@ -482,7 +482,7 @@ html{
 
 #global .menu_content .registration{
     display: none;
-    padding: 23px;
+    padding: 16px;
 }
 
 #global .menu_content .registration span{
@@ -500,7 +500,7 @@ html{
     display: flex;
     font-size: 16px;
     font-weight: 500;
-    color: #0F1110;
+    color:  #FFF;
     line-height: 18px;
     padding: 12px 15px;
     border-radius: 8px;
@@ -508,9 +508,12 @@ html{
     transition: all 0.3s;
     letter-spacing: -0.04em;
     justify-content: center;
-    box-shadow: inset 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08);
-    background: linear-gradient(180deg, #30FF21 0%, #D6FB41 100%);
+    
     transition: all 0.5s;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:  radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+    box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset, 0px 0px 0px 1px rgba(255, 255, 255, 0.12);
+
 }
 
 #global .menu_content .registration .sign_up:hover{
@@ -1449,8 +1452,22 @@ html{
     padding: 16px 24px;
     background: rgba(35, 41, 45, 1);
     border-radius: 0px 8px 8px 8px;
-
 }
+
+#global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 .text-center.mt-2.flex.justify-center{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 .text-center.mt-2.flex.justify-center button{
+    border-radius: 8px;
+}
+
+#global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3 .text-center.mt-2.flex.justify-center button:first-child{    
+    background:  radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+    box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset;
+}
+
 
 #global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative textarea{
     font-size: 14px;
@@ -4056,5 +4073,76 @@ ul[id^="headlessui-listbox-options"] li {
     line-height: 20px; 
 }
 
+/* #global .wrapper_save_and_cancel_btn{
+    justify-content: flex-end;
+} */
 
+/* #global .my_message_save_btn{
+    background: radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+    box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset;
+} */
+
+
+#global .relative.transition-width .w-full.text-gray-800.dark\:bg-gray-800 .flex.flex-grow.flex-col.gap-3{
+    justify-content: flex-end !important;
+}
+
+#global .relative.transition-width.w-full.text-gray-800.lg\:w-\[calc\(100\%-115px\)\] .flex.flex-grow.flex-col.gap-3 .text-center.mt-2.flex.justify-center{
+}
+
+.registration_wrapper_img_and_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 16px;
+    padding-bottom: 48px;
+}
+
+.registration_img{
+    margin: unset;
+    margin-bottom: 16px;
+}
+
+.registration_text_header{
+    color:  #FFF;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; 
+}
+
+.registration_text_footer{
+    color:  #898F93;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.registration_sign_in_text{
+    margin-top: 16px;
+    text-align: center;
+
+    color:  #898F93;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; 
+}
+
+.sign_in_text{
+    color:  #6346EC;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
 /* END Prompt library */

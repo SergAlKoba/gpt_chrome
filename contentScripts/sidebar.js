@@ -484,6 +484,47 @@ async function createSignedMenuContent() {
 }
 
 function createRegistration() {
+  const registrationImg = createElem(
+    "img",
+    {
+      class: "registration_img",
+      src: chrome.runtime.getURL("assets/images/sign_icon.svg"),
+      alt: "",
+    },
+    []
+  );
+  const textHeader = createElem(
+    "div",
+    {
+      class: "registration_text_header",
+    },
+    ["Lorem ipsum title"]
+  );
+
+  const textFooter = createElem(
+    "div",
+    {
+      class: "registration_text_footer",
+    },
+    ["Lorem ipsum and save the responses provided by the AI for later use."]
+  );
+
+  const wrapperRegistrationText = createElem(
+    "div",
+    {
+      class: "wrapper_registration_text",
+    },
+    [textHeader, textFooter]
+  );
+
+  const wrapperImgAndText = createElem(
+    "div",
+    {
+      class: "registration_wrapper_img_and_text",
+    },
+    [registrationImg, wrapperRegistrationText]
+  );
+
   const signUpLink = createElem(
     "a",
     {
@@ -503,7 +544,7 @@ function createRegistration() {
   const signInLink = createElem(
     "a",
     {
-      class: "sign_in sign_in_js",
+      class: "sign_in_text",
       href: "javascript:void(0)",
     },
     ["Sign In"]
@@ -514,12 +555,17 @@ function createRegistration() {
     $(".sign_in_popup").addClass("active");
   });
 
+  const singInText = document.createElement("p");
+  singInText.classList.add("registration_sign_in_text");
+  singInText.innerHTML = `Already have an account? `;
+  singInText.appendChild(signInLink);
+
   const registration = createElem(
     "div",
     {
       class: "registration active",
     },
-    [signUpLink, orText, signInLink]
+    [wrapperImgAndText, signUpLink, singInText]
   );
 
   return registration;
