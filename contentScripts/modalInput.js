@@ -805,15 +805,26 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
   const subscriptionTier = getUserSubscriptionTier();
 
   let action;
+  // selectedCategoryId
 
   if (subscriptionTier === "free") {
-    if (categories.some((category) => category?.name === "Playground")) {
+    console.log("selectedCategoryId", selectedCategoryId);
+    console.log("defaultCategoryIdEnum.CUSTOM", defaultCategoryIdEnum.CUSTOM);
+    if (selectedCategoryId === defaultCategoryIdEnum.CUSTOM) {
+      action = createElem("ul", { class: "selected" }, []);
+    } else if (categories.some((category) => category?.name === "Playground")) {
       action = createElem("ul", { class: "selected" }, [like]);
     } else {
       action = createElem("ul", { class: "selected" }, []);
     }
   } else {
-    action = createElem("ul", { class: "selected" }, [favorite, like]);
+    console.log("selectedCategoryId", selectedCategoryId);
+    console.log("defaultCategoryIdEnum.CUSTOM", defaultCategoryIdEnum.CUSTOM);
+    if (selectedCategoryId === defaultCategoryIdEnum.CUSTOM) {
+      action = createElem("ul", { class: "selected" }, []);
+    } else {
+      action = createElem("ul", { class: "selected" }, [favorite, like]);
+    }
   }
 
   return action;
