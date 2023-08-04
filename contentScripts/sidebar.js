@@ -1422,12 +1422,32 @@ function createPrompts(prompts, parent, parentClass = ".drop_content.list") {
   while (promptsWrapper.firstChild) {
     promptsWrapper.removeChild(promptsWrapper.firstChild);
   }
+  const isGridTab = parentClass === ".drop_content.grid";
+  if (isGridTab) {
+    createPromptLoadersForGridTab();
+  } else {
+    createPromptLoadersForListTab();
+  }
 
-  for (let i = 0; i < 3; i++) {
-    const img = document.createElement("img");
-    img.src = chrome.runtime.getURL("assets/images/promptBar_loader.svg");
-    img.classList.add("prompt_bar_loader");
-    promptsWrapper.appendChild(img);
+  function createPromptLoadersForGridTab() {
+    const amountLoader = 1;
+    const srcLoader = "assets/images/promptBar_loader_grid.svg";
+    renderLoaderPromptComponent(amountLoader, srcLoader);
+  }
+
+  function createPromptLoadersForListTab() {
+    const amountLoader = 3;
+    const srcLoader = "assets/images/promptBar_loader.svg";
+    renderLoaderPromptComponent(amountLoader, srcLoader);
+  }
+
+  function renderLoaderPromptComponent(amount, src) {
+    for (let i = 0; i < amount; i++) {
+      const img = document.createElement("img");
+      img.src = chrome.runtime.getURL(src);
+      img.classList.add("prompt_bar_loader");
+      promptsWrapper.appendChild(img);
+    }
   }
 
   const onShowPromptPopupById = (prompt) => () => {

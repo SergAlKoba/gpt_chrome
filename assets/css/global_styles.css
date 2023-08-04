@@ -4187,6 +4187,11 @@ ul[id^="headlessui-listbox-options"] li {
     display: block;
 }
 
+.prompt_bar_loader_active .answer {
+    display: none;
+}
+
+
 .wrapper_search_inp_with_loader{
     width: 100%;
     height: 100%;
