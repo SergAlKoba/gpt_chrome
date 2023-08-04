@@ -1868,13 +1868,19 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
   let action;
 
   if (subscriptionTier === "free") {
-    if (categories.some((category) => category?.name === "Playground")) {
+    if (selectedCategoryId === defaultCategoryIdEnum.CUSTOM) {
+      action = createElem("ul", { class: "selected" }, []);
+    } else if (categories.some((category) => category?.name === "Playground")) {
       action = createElem("ul", { class: "selected" }, [like]);
     } else {
       action = createElem("ul", { class: "selected" }, []);
     }
   } else {
-    action = createElem("ul", { class: "selected" }, [favorite, like]);
+    if (selectedCategoryId === defaultCategoryIdEnum.CUSTOM) {
+      action = createElem("ul", { class: "selected" }, []);
+    } else {
+      action = createElem("ul", { class: "selected" }, [favorite, like]);
+    }
   }
 
   return action;

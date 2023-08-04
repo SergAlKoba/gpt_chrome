@@ -808,8 +808,6 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
   // selectedCategoryId
 
   if (subscriptionTier === "free") {
-    console.log("selectedCategoryId", selectedCategoryId);
-    console.log("defaultCategoryIdEnum.CUSTOM", defaultCategoryIdEnum.CUSTOM);
     if (selectedCategoryId === defaultCategoryIdEnum.CUSTOM) {
       action = createElem("ul", { class: "selected" }, []);
     } else if (categories.some((category) => category?.name === "Playground")) {
@@ -818,8 +816,6 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
       action = createElem("ul", { class: "selected" }, []);
     }
   } else {
-    console.log("selectedCategoryId", selectedCategoryId);
-    console.log("defaultCategoryIdEnum.CUSTOM", defaultCategoryIdEnum.CUSTOM);
     if (selectedCategoryId === defaultCategoryIdEnum.CUSTOM) {
       action = createElem("ul", { class: "selected" }, []);
     } else {
