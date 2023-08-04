@@ -2219,6 +2219,10 @@ html{
 }
 
 
+#global .group.w-full.text-token-text-primary.border-b.border-black\/10.dark\:border-gray-900\/50.bg-gray-50:hover .text-gray-400.flex.self-end.lg\:self-center.justify-center.mt-2.gap-2.visible{
+    display: flex;
+}
+
 #global .group.w-full.text-gray-800.dark\:text-gray-100.border-b.bg-gray-50:hover .text-gray-400.flex.self-end.lg\:self-center.justify-center.mt-2.gap-2.visible{
     display: flex;
 }
