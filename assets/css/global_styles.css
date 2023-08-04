@@ -3777,6 +3777,11 @@ ul[id^="headlessui-listbox-options"] li {
     width: 100% ;
   }
 
+  #global .bookmark_new_document_popup .bookmark_new_document{
+    padding: 16px;
+  }
+
+
   #global .bookmark_popup{
     max-width: 640px;
   }
