@@ -39,16 +39,20 @@ async function doLogin() {
 }
 
 function createMenu() {
+  console.log("createMenu____");
   $(".header_global").remove();
 
   const createElement = (tagName, className) => {
     const element = $("<" + tagName + ">").addClass(className);
     return element;
   };
+  const TOKEN = localStorage.getItem("token") || "";
+  const header = createElement("header", TOKEN ? "header_global active" : "header_global");
 
-  const header = createElement("header", "header_global active");
   const global = document.querySelector("#global .flex.h-full.max-w-full.flex-1.flex-col");
-  global.classList.add("active");
+  if (TOKEN) {
+    global.classList.add("active");
+  }
   const account = createElement("div", "account");
   const accountUser = createElement("div", "user");
   const accountSettings = createElement("div", "settings");

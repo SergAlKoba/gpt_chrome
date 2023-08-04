@@ -111,7 +111,11 @@
         "assets/images/right_sidebar_icon.svg",
         "assets/images/not_result_icon_full.svg",
         "assets/images/stop_record.svg",
-        "assets/images/sign_icon.svg"
+        "assets/images/sign_icon.svg",
+        "assets/images/category_loader.svg",
+        "assets/images/promptBar_loader.svg",
+        "assets/images/promptBar_loader_grid.svg",
+        "assets/images/search_loader.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

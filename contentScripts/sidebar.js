@@ -60,10 +60,18 @@ function getUserSubscriptionTier() {
 
 addObserver(function (isLoading) {
   const loaderWrapper = document.querySelector(".loader-wrapper");
+  const promptContent = document.querySelector(".promt_item_content");
+  const formSearch = document.querySelector(".wrapper_form_and_sort_btn");
+
   if (isLoading) {
-    loaderWrapper && (loaderWrapper.style.display = "flex");
+    promptContent && promptContent.classList.add("prompt_bar_loader_active");
+    formSearch && formSearch.classList.add("search_loader_active");
+    // loaderWrapper && (loaderWrapper.style.display = "flex");
   } else {
-    loaderWrapper && (loaderWrapper.style.display = "none");
+    promptContent && promptContent.classList.remove("prompt_bar_loader_active");
+    formSearch && formSearch.classList.remove("search_loader_active");
+
+    // loaderWrapper && (loaderWrapper.style.display = "none");
   }
 });
 
@@ -170,10 +178,18 @@ async function searchPrompts(text, categoryId, sort) {
 }
 
 async function getCategories() {
+  console.log("getCategories__");
   var requestOptions = {
     method: "GET",
     redirect: "follow",
   };
+  const filterContent = document.querySelector(".filter_content");
+  console.log("filterContent", filterContent);
+  if (filterContent) {
+    const filterTitle = filterContent?.querySelector(".filter_title");
+    filterTitle.classList.add("re");
+    filterTitle.style.opacity = "0";
+  }
 
   setIsLoading(true);
   let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions);
@@ -449,12 +465,13 @@ function createMenuButton() {
 }
 
 async function createMenuContent() {
+  console.log("createMenuContent");
   const menuButton = createMenuButton();
 
   const menuContent = createElem(
     "div",
     {
-      class: "menu_content active",
+      class: TOKEN ? "menu_content active" : "menu_content",
     },
     [
       createElem("div", {}, [
@@ -470,12 +487,14 @@ async function createMenuContent() {
 }
 
 async function createSignedMenuContent() {
+  console.log("createSignedMenuContent");
+
   const menuButton = createMenuButton();
 
   const menuContent = createElem(
     "div",
     {
-      class: "menu_content active",
+      class: TOKEN ? "menu_content active" : "menu_content",
     },
     [createElem("div", {}, [menuButton, createElem("h2", {}, ["Prompt bar"]), await createPromptBar()])]
   );
@@ -758,6 +777,32 @@ function createSearch() {
     []
   );
 
+  const searchLoader = createElem(
+    "img",
+    {
+      src: chrome.runtime.getURL("assets/images/search_loader.svg"),
+      class: "search_loader",
+    },
+    []
+  );
+
+  const searchLoaderInp = createElem(
+    "div",
+    {
+      src: chrome.runtime.getURL("assets/images/search_loader.svg"),
+      class: "search_loader_input",
+    },
+    [searchLoader]
+  );
+
+  const searchInpWithLoader = createElem(
+    "div",
+    {
+      class: "wrapper_search_inp_with_loader",
+    },
+    [searchInput, searchLoaderInp]
+  );
+
   const debouncedProcessInput = debounce(processInput, 500);
 
   searchInput.addEventListener("input", debouncedProcessInput);
@@ -772,7 +817,7 @@ function createSearch() {
 
   let searchButton = createElem("button", {}, [searchIcon]);
 
-  const form = createElem("form", {}, [searchButton, searchInput]);
+  const form = createElem("form", {}, [searchButton, searchInpWithLoader]);
 
   const sortBtn = createSortBtn();
   const sortIcon = createElem(
@@ -815,7 +860,8 @@ function createSearch() {
   return wrapperFormAndSortBtn;
 }
 
-function createCategoryMenu(categories) {
+function createCategoryMenu(categories, categoryLoader) {
+  console.log("categoryLoader__", categoryLoader);
   const categoryPlayground = categories.find((item) => item.name === "Playground");
   const isValidImg = !!categoryPlayground?.icon;
 
@@ -928,9 +974,25 @@ function createCategoryMenu(categories) {
           createPrompts(promptsResponse?.results, promptBarContentGrid, ".drop_content.grid");
         });
 
-        const spanName = createElem("span", {}, [category?.name]);
+        if (category?.icon) {
+          const div = document.createElement("div");
+          div.classList.add("wrapper_icon_and_text_category");
+          const svgWrapper = document.createElement("div");
+          const icon = document.createElement("img");
+          icon.src = category?.icon;
+          svgWrapper.appendChild(icon);
+          div.appendChild(svgWrapper);
+          const spanName = createElem("span", {}, [category?.name]);
+          div.appendChild(spanName);
+          filterDropItem.appendChild(div);
+        } else {
+          const div = document.createElement("div");
+          const spanName = createElem("span", {}, [category?.name]);
+          div.appendChild(spanName);
+          filterDropItem.appendChild(spanName);
+        }
+
         const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
-        filterDropItem.appendChild(spanName);
 
         if (isProCategory) {
           filterDropItem.appendChild(spanProCategory);
@@ -1025,6 +1087,46 @@ function createCategoryMenu(categories) {
     },
     [filterElem, filterView]
   );
+  if (categoryLoader) categoryLoader.remove();
+  return filterWrapper;
+}
+
+function createCategoryLoader() {
+  const img = document.createElement("img");
+  img.src = chrome.runtime.getURL("assets/images/category_loader.svg");
+  img.classList.add("category_loader_img");
+
+  let filterTitle = createElem(
+    "div",
+    {
+      class: "filter_title",
+    },
+    [img]
+  );
+
+  let filterDrop = createElem(
+    "ul",
+    {
+      class: "filter_drop",
+    },
+    []
+  );
+
+  let filterElem = createElem(
+    "div",
+    {
+      class: "filter_content",
+    },
+    [filterTitle, filterDrop]
+  );
+
+  let filterWrapper = createElem(
+    "div",
+    {
+      class: "filter",
+    },
+    [filterElem]
+  );
 
   return filterWrapper;
 }
@@ -1047,43 +1149,53 @@ function createSinglePrompt(promptObj) {
   );
 
   promptObj.categories.forEach((categoryObj) => {
-    const isHasColor = !!categoryObj?.color;
+    const backgroundColor = categoryObj?.background_color ? categoryObj?.background_color : "rgba(185, 159, 21, 0.1)";
+    const color = categoryObj?.color ? categoryObj?.color : "#b99f15";
+
     let category = null;
-    let svg = null;
 
-    if (isHasColor) {
-      const color = categoryObj?.color;
-      category = createElem("div", { class: "badge", style: `background-color: ${color}; color: ${color};` }, []);
-      svg = `<svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z" stroke="#5FE9D0" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      `;
-    } else {
-      category = createElem(
-        "div",
-        { class: "badge", style: `background-color: rgba(185, 159, 21, 0.1); color: #b99f15;` },
-        []
-      );
-    }
-
-    const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svgElement.setAttribute("width", "10");
-    svgElement.setAttribute("height", "12");
-    svgElement.setAttribute("viewBox", "0 0 10 12");
-    svgElement.setAttribute("fill", "none");
-
-    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    pathElement.setAttribute(
-      "d",
-      "M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z"
+    // if (isHasColor) {
+    category = createElem(
+      "div",
+      { class: "badge", style: `background-color: ${backgroundColor}; color: ${color};` },
+      []
     );
-    pathElement.setAttribute("stroke", "#b99f15");
-    pathElement.setAttribute("stroke-linecap", "round");
-    pathElement.setAttribute("stroke-linejoin", "round");
-    svgElement.appendChild(pathElement);
+    // svg = `<svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    // <path d="M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z" stroke="#5FE9D0" stroke-linecap="round" stroke-linejoin="round"/>
+    // </svg>
+    // `;
+    // } else {
+    //   category = createElem(
+    //     "div",
+    //     { class: "badge", style: `background-color: rgba(185, 159, 21, 0.1); color: #b99f15;` },
+    //     []
+    //   );
+    // }
+
+    // const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    // svgElement.setAttribute("width", "10");
+    // svgElement.setAttribute("height", "12");
+    // svgElement.setAttribute("viewBox", "0 0 10 12");
+    // svgElement.setAttribute("fill", "none");
+
+    // const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    // pathElement.setAttribute(
+    //   "d",
+    //   "M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z"
+    // );
+    // pathElement.setAttribute("stroke", "#b99f15");
+    // pathElement.setAttribute("stroke-linecap", "round");
+    // pathElement.setAttribute("stroke-linejoin", "round");
+    // svgElement.appendChild(pathElement);
 
     const svgWrapper = document.createElement("div");
-    svgWrapper.appendChild(svgElement);
+
+    if (categoryObj?.icon) {
+      const icon = document.createElement("img");
+      icon.classList.add("prompt_category_img");
+      icon.src = categoryObj?.icon;
+      svgWrapper.appendChild(icon);
+    }
 
     category.appendChild(svgWrapper);
 
@@ -1192,8 +1304,21 @@ function createSinglePrompt(promptObj) {
 }
 
 async function createPromptBar() {
+  console.log("createPromptBar____");
+
+  const categoryLoader = createCategoryLoader();
+
+  let promptsCategoriesDiv = createElem(
+    "div",
+    {
+      class: "categories promt_item active",
+    },
+    [categoryLoader]
+  );
+
   const categoriesResponse = await getCategories();
   console.log("categoriesResponse", categoriesResponse);
+  // categoryLoader.remove();
 
   const categoriesWithIsAccessProperty = categoriesResponse?.results.map((category) => ({
     ...category,
@@ -1233,14 +1358,25 @@ async function createPromptBar() {
     },
     [promptBarContent, promptBarContentGrid]
   );
+  // setTimeout(() => {
+  const categoryList = createCategoryMenu(categories, categoryLoader);
 
-  let promptsCategoriesDiv = createElem(
-    "div",
-    {
-      class: "categories promt_item active",
-    },
-    [createCategoryMenu(categories), promptItemContent]
-  );
+  console.log("categoryList", categoryList);
+
+  promptsCategoriesDiv.appendChild(categoryList);
+  promptsCategoriesDiv.appendChild(promptItemContent);
+
+  // Создаем новый экземпляр MutationObserver
+
+  // }, 500);
+
+  // let promptsCategoriesDiv = createElem(
+  //   "div",
+  //   {
+  //     class: "categories promt_item active",
+  //   },
+  //   [createCategoryMenu(categories), promptItemContent]
+  // );
 
   let promptBar = createElem(
     "div",
@@ -1252,6 +1388,30 @@ async function createPromptBar() {
   return promptBar;
 }
 
+// const observer = new MutationObserver((mutationsList, observer) => {
+//   console.log("mutation");
+//   console.log("  mutationsList", mutationsList);
+
+//   const filter = document.getElementsByClassName("filter");
+//   console.log("filter", filter);
+
+//   // Проверяем, произошла ли мутация, которая относится к элементу categoryList
+//   for (const mutation of mutationsList) {
+//     if (mutation.type === "childList" && mutation.addedNodes.contains(filter)) {
+//       // Элемент categoryList отрендерился и добавился в promptsCategoriesDiv
+//       // Удалите лоадер здесь
+//       console.log("end___render____");
+//       // categoryLoader.remove();
+//       // Остановить слежение за мутациями после того, как элемент отрендерится
+//       observer.disconnect();
+//     }
+//   }
+// });
+
+// Начинаем слежение за мутациями для элемента promptsCategoriesDiv
+// observer.observe(promptsCategoriesDiv, { childList: true });
+// observer.observe(document.body, { childList: true, subtree: true });
+
 function createPrompts(prompts, parent, parentClass = ".drop_content.list") {
   localPrompts = prompts;
 
@@ -1261,6 +1421,13 @@ function createPrompts(prompts, parent, parentClass = ".drop_content.list") {
 
   while (promptsWrapper.firstChild) {
     promptsWrapper.removeChild(promptsWrapper.firstChild);
+  }
+
+  for (let i = 0; i < 3; i++) {
+    const img = document.createElement("img");
+    img.src = chrome.runtime.getURL("assets/images/promptBar_loader.svg");
+    img.classList.add("prompt_bar_loader");
+    promptsWrapper.appendChild(img);
   }
 
   const onShowPromptPopupById = (prompt) => () => {
@@ -1752,6 +1919,8 @@ function createFavoriteBlock({ is_favourite }) {
 }
 
 async function init() {
+  console.log("init___");
+
   await createMenuContent().then(async (children) => {
     document.body.appendChild(children);
     processInput();
