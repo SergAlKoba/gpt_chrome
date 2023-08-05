@@ -1154,7 +1154,7 @@ function changeNewChatBtn() {
 function changeShareIcon() {
   const shareButton = document.querySelector('[aria-label="Share chat"]')?.parentElement?.parentElement?.parentElement;
   const isExistClass = shareButton?.classList.contains("share_block");
-  if (!isExistClass) shareButton.classList.add("share_block");
+  if (!isExistClass) shareButton && shareButton?.classList.add("share_block");
 }
 
 function addLogo() {

@@ -601,7 +601,10 @@ function createPromptDetailsPopup({
     textareaDiv.classList.add("input");
 
     const textareaLabel = document.createElement("label");
-    textareaLabel.textContent = labelText;
+    // const span = document.createElement("span");
+    // span.classList.add("form_inp_required");
+    // span.textContent = " *";
+    textareaLabel.innerHTML = `${labelText} <span class='form_inp_required'> *</span>`;
     textareaDiv.appendChild(textareaLabel);
 
     const textarea = document.createElement("textarea");

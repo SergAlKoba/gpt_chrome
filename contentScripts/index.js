@@ -65,6 +65,7 @@ $("body").attr("id", "global");
 
 $("body").css("--dropdown-icon", `url("${chrome.runtime.getURL(`assets/images/CaretDown2.svg`)}")`);
 $("body").css("--dropdown-icon-hover", `url("${chrome.runtime.getURL(`assets/images/CaretDown2_hover.svg`)}")`);
+
 function createChatMessageButtons(container, isClickBookmark) {
   const button1 = createButton(
     "p-1 rounded-md hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 disabled:dark:hover:text-gray-400 md:invisible md:group-hover:visible",
@@ -143,7 +144,7 @@ function createChatMessageButtons(container, isClickBookmark) {
     if (isExistMessageChatGpt()) {
       const textChatGpt = getMessageChatGpt().text();
       bookmark.remove();
-      container.appendChild(bookmarkYellow);
+      container.insertBefore(bookmarkYellow, addNewDocumentButton);
       await createBookmark(textChatGpt);
     }
 

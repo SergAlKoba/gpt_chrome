@@ -62,12 +62,15 @@ addObserver(function (isLoading) {
   const loaderWrapper = document.querySelector(".loader-wrapper");
   const promptContent = document.querySelector(".promt_item_content");
   const formSearch = document.querySelector(".wrapper_form_and_sort_btn");
+  const filter = document.querySelector(".categories.promt_item");
 
   if (isLoading) {
+    filter && filter.classList.add("fitler_loader_active");
     promptContent && promptContent.classList.add("prompt_bar_loader_active");
     formSearch && formSearch.classList.add("search_loader_active");
     // loaderWrapper && (loaderWrapper.style.display = "flex");
   } else {
+    filter && filter.classList.remove("fitler_loader_active");
     promptContent && promptContent.classList.remove("prompt_bar_loader_active");
     formSearch && formSearch.classList.remove("search_loader_active");
 
@@ -860,8 +863,7 @@ function createSearch() {
   return wrapperFormAndSortBtn;
 }
 
-function createCategoryMenu(categories, categoryLoader) {
-  console.log("categoryLoader__", categoryLoader);
+function createCategoryMenu(categories) {
   const categoryPlayground = categories.find((item) => item.name === "Playground");
   const isValidImg = !!categoryPlayground?.icon;
 
@@ -1087,7 +1089,7 @@ function createCategoryMenu(categories, categoryLoader) {
     },
     [filterElem, filterView]
   );
-  if (categoryLoader) categoryLoader.remove();
+  // if (categoryLoader) categoryLoader.remove();
   return filterWrapper;
 }
 
@@ -1123,7 +1125,7 @@ function createCategoryLoader() {
   let filterWrapper = createElem(
     "div",
     {
-      class: "filter",
+      class: "filter filter_loader",
     },
     [filterElem]
   );
@@ -1307,6 +1309,7 @@ async function createPromptBar() {
   console.log("createPromptBar____");
 
   const categoryLoader = createCategoryLoader();
+  categoryLoader.classList.add("category_loader");
 
   let promptsCategoriesDiv = createElem(
     "div",
@@ -1317,8 +1320,6 @@ async function createPromptBar() {
   );
 
   const categoriesResponse = await getCategories();
-  console.log("categoriesResponse", categoriesResponse);
-  // categoryLoader.remove();
 
   const categoriesWithIsAccessProperty = categoriesResponse?.results.map((category) => ({
     ...category,
@@ -1359,7 +1360,7 @@ async function createPromptBar() {
     [promptBarContent, promptBarContentGrid]
   );
   // setTimeout(() => {
-  const categoryList = createCategoryMenu(categories, categoryLoader);
+  const categoryList = createCategoryMenu(categories);
 
   console.log("categoryList", categoryList);
 
