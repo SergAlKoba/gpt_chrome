@@ -49,6 +49,7 @@ var $doc = $(document);
       $(".menu_content").addClass("active");
       $(".header_global").addClass("active");
       $("#global .flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
+      sessionStorage.setItem("menuOpened", true);
     });
 
     // // start click on chat
@@ -101,6 +102,7 @@ var $doc = $(document);
       $(".menu_content").removeClass("active");
       $(".header_global").removeClass("active");
       $("#global .flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
+      sessionStorage.setItem("menuOpened", false);
     });
   });
 })(jQuery);

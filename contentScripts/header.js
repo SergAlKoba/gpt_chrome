@@ -3,6 +3,8 @@ let headerStatus = null;
 let headerWasActive = false;
 
 let menuOpened = false;
+sessionStorage.setItem("menuOpened", true);
+console.log("header______________");
 
 // async function login(email, password) {
 //   const response = await fetch("https://gotgood.ai/api/user/login/", {
@@ -47,11 +49,17 @@ function createMenu() {
     return element;
   };
   const TOKEN = localStorage.getItem("token") || "";
-  const header = createElement("header", TOKEN ? "header_global active" : "header_global");
+  const menuOpened = sessionStorage.getItem("menuOpened");
+  const header = createElement("header", "header_global");
 
   const global = document.querySelector("#global .flex.h-full.max-w-full.flex-1.flex-col");
-  if (TOKEN) {
+  const menuContent = document.querySelector(".menu_content");
+
+  if (TOKEN && !menuOpened) {
+    console.log("SET_GLOCBAL");
     global.classList.add("active");
+    header.classList.add("active");
+    menuContent.classList.add("active");
   }
   const account = createElement("div", "account");
   const accountUser = createElement("div", "user");
@@ -84,6 +92,7 @@ function createMenu() {
       $(".flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
       $(".header_global").addClass("active");
       $(".flex h-full max-w-full flex-1.flex-col").addClass("active");
+      sessionStorage.setItem("menuOpened", true);
       // headerWasActive = true;
       try {
         await getCategories();
@@ -97,6 +106,7 @@ function createMenu() {
       $(".flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
       $(".header_global").removeClass("active");
       $(".flex h-full max-w-full flex-1 flex-col").removeClass("active");
+      sessionStorage.setItem("menuOpened", false);
       // headerWasActive = false;
       // menuOpened = false;
     }

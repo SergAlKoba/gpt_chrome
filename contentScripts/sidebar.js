@@ -462,6 +462,7 @@ function createMenuButton() {
     menuContent.classList.remove("active");
     headerGlobal.classList.remove("active");
     global.classList.remove("active");
+    sessionStorage.setItem("menuOpened", false);
   });
 
   return menuButton;
