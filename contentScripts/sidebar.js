@@ -76,6 +76,21 @@ addObserver(function (isLoading) {
 
     // loaderWrapper && (loaderWrapper.style.display = "none");
   }
+
+  const list = document.querySelector(".drop_content.list");
+  const grid = document.querySelector(".drop_content.grid");
+
+  if (list) {
+    list.querySelectorAll(".answer").forEach((oldPrompt) => {
+      oldPrompt.remove();
+    });
+  }
+
+  if (grid) {
+    grid.querySelectorAll(".answer").forEach((oldPrompt) => {
+      oldPrompt.remove();
+    });
+  }
 });
 
 function debounce(func, delay) {
