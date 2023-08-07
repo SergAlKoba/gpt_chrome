@@ -795,7 +795,11 @@ function addMicrophone() {
   img.src = chrome.runtime.getURL(`assets/images/microphone.svg`);
   microphoneDiv.appendChild(img);
   const textArea = document.querySelector("textarea");
-  const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
+  const sendButton = document.querySelector(
+    ".absolute.p-1.rounded-md.md\\:bottom-3.md\\:p-2.md\\:right-3.dark\\:hover\\:bg-gray-900.dark\\:disabled\\:hover\\:bg-transparent.right-2.disabled\\:text-gray-400.enabled\\:bg-brand-purple.text-white.bottom-1\\.5.transition-colors.disabled\\:opacity-40"
+  );
+
+  // const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
   let stopRecord = false;
   let lastRecognizedWord = ""; // New variable to store the last recognized word
   let lastIndex = 1;
@@ -1009,11 +1013,12 @@ setInterval(() => {
   let isBtnResponseChangeClassName = document.querySelector(".btn-response");
 
   if (!isBtnResponseChangeClassName) {
-    const btnArr = ["Regenerate response", "Stop generating"];
+    const btnArr = ["Regenerate", "Stop generating"];
     const elements = document.querySelectorAll("form button div");
 
     for (const element of elements) {
-      if (btnArr.some((btnText) => btnText?.includes(element?.textContent))) {
+      console.log("element?.textContent", element?.textContent);
+      if (btnArr.some((btnText) => btnText === element?.textContent)) {
         console.log(element.parentNode);
         const btnResponse = element.parentNode;
         // btnResponse.classList.add("btn-response");
@@ -1174,25 +1179,17 @@ function addLogo() {
 }
 
 function changeSendButton() {
-  const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
-  const loadBlock = sendButton?.querySelector(".text-2xl");
+  const sendButton = document.querySelector(
+    ".absolute.p-1.rounded-md.md\\:bottom-3.md\\:p-2.md\\:right-3.dark\\:hover\\:bg-gray-900.dark\\:disabled\\:hover\\:bg-transparent.right-2.disabled\\:text-gray-400.enabled\\:bg-brand-purple.text-white.bottom-1\\.5"
+  );
 
   const isExistClass = sendButton?.classList.contains("disabled:opacity-40");
-  // console.log("sendButton__________", sendButton);
-  // console.log("isExistClass", isExistClass);
 
   if (sendButton && !isExistClass) {
-    // $(sendButton)
-    // .off("click")
-    // .on("click", function () {
-    console.log("sendButton".toUpperCase(), sendButton);
     // Удаляем классы из второй строки
     sendButton.classList.remove("disabled:bottom-0.5", "md:disabled:bottom-0");
-
     // Добавляем классы из первой строки
     sendButton.classList.add("transition-colors", "disabled:opacity-40");
-    // loadBlock.remove();
-    // });
   }
 }
 
