@@ -43,10 +43,10 @@ function addObserver(callback) {
   observers.push(callback);
 }
 
-function setIsLoading(value) {
+function setIsLoading(value, type = "") {
   isLoading = value;
   observers.forEach((callback) => {
-    callback(isLoading);
+    callback(isLoading, type);
   });
 }
 
@@ -58,7 +58,7 @@ function getUserSubscriptionTier() {
   if (subscriptionTier === "3") return "tier3";
 }
 
-addObserver(function (isLoading) {
+addObserver(function (isLoading, type = "") {
   const loaderWrapper = document.querySelector(".loader-wrapper");
   const promptContent = document.querySelector(".promt_item_content");
   const formSearch = document.querySelector(".wrapper_form_and_sort_btn");
@@ -76,20 +76,27 @@ addObserver(function (isLoading) {
 
     // loaderWrapper && (loaderWrapper.style.display = "none");
   }
+  console.log("_______type_____", type);
+  const isSearchLoading = type === "search";
 
-  const list = document.querySelector(".drop_content.list");
-  const grid = document.querySelector(".drop_content.grid");
+  if (!isSearchLoading) {
+    console.log("isSearchLoading", isSearchLoading);
+    // if change category or chanhe sort I delete  old prompt list
+    // but if change search text I dont delete old prompt list
+    const list = document.querySelector(".drop_content.list");
+    const grid = document.querySelector(".drop_content.grid");
 
-  if (list) {
-    list.querySelectorAll(".answer").forEach((oldPrompt) => {
-      oldPrompt.remove();
-    });
-  }
+    if (list) {
+      list.querySelectorAll(".answer").forEach((oldPrompt) => {
+        oldPrompt.remove();
+      });
+    }
 
-  if (grid) {
-    grid.querySelectorAll(".answer").forEach((oldPrompt) => {
-      oldPrompt.remove();
-    });
+    if (grid) {
+      grid.querySelectorAll(".answer").forEach((oldPrompt) => {
+        oldPrompt.remove();
+      });
+    }
   }
 });
 
@@ -157,7 +164,8 @@ function normalizeString(string) {
   return string.replace(/\s+/g, " ").trim();
 }
 
-async function searchPrompts(text, categoryId, sort) {
+async function searchPrompts(text, categoryId, sort, type = "") {
+  // type = search || ....''
   let myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
@@ -167,8 +175,8 @@ async function searchPrompts(text, categoryId, sort) {
     headers: myHeaders,
     redirect: "follow",
   };
-
-  setIsLoading(true);
+  // type this need for dont delete old list prompt by change search value
+  setIsLoading(true, type);
 
   const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE];
 
@@ -177,7 +185,7 @@ async function searchPrompts(text, categoryId, sort) {
       API_URL + `/api/shop/get-custom-user-prompts/?text=${text}&sort=${sort}`,
       requestOptions
     );
-    setIsLoading(false);
+    setIsLoading(false, type);
     let result = await response.json();
     console.log("result_____", result);
     return result;
@@ -189,7 +197,7 @@ async function searchPrompts(text, categoryId, sort) {
         }&sort=${sort}`,
       requestOptions
     );
-    setIsLoading(false);
+    setIsLoading(false, type);
 
     return await response.json();
   }
@@ -726,7 +734,7 @@ function createSingleSearchPrompt(promptObj, searchValue) {
 }
 
 async function processInput(e) {
-  const promptsResult = await searchPrompts(e.target.value, selectedCategoryId ?? 1, selectedSort || 1);
+  const promptsResult = await searchPrompts(e.target.value, selectedCategoryId ?? 1, selectedSort || 1, "search");
   const prompts = promptsResult?.results || [];
   searchValue = e.target.value;
 
@@ -739,6 +747,15 @@ async function processInput(e) {
 
   const searchWrapper = wrapperFormAndSortBtn.querySelector(".search_wrapper") || document.createElement("div");
   searchWrapper.classList.add("search_wrapper");
+
+  document.onclick = (e) => {
+    const searchInp = document.getElementById("search");
+    if (e.target !== searchWrapper && searchInp && e.target !== searchInp) {
+      searchInp.value = "";
+      if (searchWrapper) searchWrapper.remove();
+    }
+  };
+
   const isEmptyData = prompts.length === 0;
 
   while (searchWrapper.firstChild) {
@@ -763,6 +780,7 @@ async function processInput(e) {
   searchList.classList.add("search_list");
 
   const onShowPromptPopupById = (prompt) => () => {
+    searchWrapper.remove();
     document.body.appendChild(createPromptDetailsPopup(prompt));
   };
 
@@ -957,6 +975,9 @@ function createCategoryMenu(categories) {
         const isSubscriptionTierFree = subscriptionTier === "free";
 
         filterDropItem.addEventListener("click", async (e) => {
+          filterDrop.classList.remove("active");
+          e.stopPropagation();
+
           if (isProCategory && isSubscriptionTierFree) {
             const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
             document.body.appendChild(upgradeSubscriptionPopup);
@@ -1038,6 +1059,17 @@ function createCategoryMenu(categories) {
     },
     [filterTitle, filterDrop]
   );
+
+  filterElem.onclick = (e) => {
+    filterDrop.classList.toggle("active");
+    e.stopPropagation();
+  };
+
+  document.onclick = (e) => {
+    if (e.target !== filterElem) {
+      filterDrop.classList.remove("active");
+    }
+  };
 
   const img1 = createElem(
     "img",
@@ -1240,6 +1272,7 @@ function createSinglePrompt(promptObj) {
   let title = createElem("h3", {}, []);
   title.textContent = promptObj.name;
   let description = createElem("p", {}, []);
+  description.classList.add("prompt_description");
   description.textContent = promptObj.description;
 
   let pointBackgroundColor =

@@ -37,7 +37,8 @@ const styleItemData = [
   // { title: "Montserrat", name: "montserrat" },
   // { title: "Roboto Condensed", name: "roboto_condensed" },
 ];
-
+let body = document.querySelector("body");
+body.classList.add("global_fonts");
 function getUserSubscriptionTier() {
   // Таких функции 3 это работает только здесь
   const subscriptionTier = sessionStorage.getItem("subscription_tier");

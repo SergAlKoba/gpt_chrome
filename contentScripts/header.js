@@ -4,7 +4,7 @@ let headerWasActive = false;
 
 let menuOpened = false;
 sessionStorage.setItem("menuOpened", true);
-console.log("header______________");
+initialActiveForGlobal = false;
 
 // async function login(email, password) {
 //   const response = await fetch("https://gotgood.ai/api/user/login/", {
@@ -53,13 +53,22 @@ function createMenu() {
   const header = createElement("header", "header_global");
 
   const global = document.querySelector("#global .flex.h-full.max-w-full.flex-1.flex-col");
+
+  if (menuOpened == "true") {
+    console.log("global_add_active");
+    global.classList.add("active");
+  } else {
+    console.log("global_remove_active");
+    global.classList.remove("active");
+  }
+
   const menuContent = document.querySelector(".menu_content");
 
   if (TOKEN && !menuOpened) {
     console.log("SET_GLOCBAL");
-    global.classList.add("active");
-    header.classList.add("active");
-    menuContent.classList.add("active");
+    // global.classList.add("active");
+    header && header?.classList.add("active");
+    menuContent && menuContent?.classList.add("active");
   }
   const account = createElement("div", "account");
   const accountUser = createElement("div", "user");

@@ -512,7 +512,7 @@ function createLatestGoogle() {
 
   const subscriptionTier = getUserSubscriptionTier();
   const latestGoogleDiv = document.createElement("div");
-
+  // const wrapperlatestGoogleDiv = document.createElement("div");
   latestGoogleDiv.className = "latest_google";
 
   const latestDataDiv = document.createElement("div");
@@ -983,6 +983,9 @@ function addElementGoogle() {
   const subscriptionTier = getUserSubscriptionTier();
 
   const latestGoogle = createLatestGoogle();
+  const wrapperlatestGoogleDiv = document.createElement("div");
+  wrapperlatestGoogleDiv.appendChild(latestGoogle);
+  wrapperlatestGoogleDiv.classList.add("wrapper_latest_google");
 
   let messageInput = document.querySelector("main > div.absolute.bottom-0.left-0.w-full.border-t > form");
 
@@ -996,7 +999,7 @@ function addElementGoogle() {
 
   latestGoogleContent.appendChild(followUpBtn);
 
-  $(latestGoogle).insertAfter(messageInput);
+  $(wrapperlatestGoogleDiv).insertAfter(messageInput);
 
   var ideaElement = createIdeaElement();
 
