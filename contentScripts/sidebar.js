@@ -67,12 +67,12 @@ addObserver(function (isLoading, type = "") {
   if (isLoading) {
     filter && filter.classList.add("fitler_loader_active");
     promptContent && promptContent.classList.add("prompt_bar_loader_active");
-    formSearch && formSearch.classList.add("search_loader_active");
+    // formSearch && formSearch.classList.add("search_loader_active");
     // loaderWrapper && (loaderWrapper.style.display = "flex");
   } else {
     filter && filter.classList.remove("fitler_loader_active");
     promptContent && promptContent.classList.remove("prompt_bar_loader_active");
-    formSearch && formSearch.classList.remove("search_loader_active");
+    // formSearch && formSearch.classList.remove("search_loader_active");
 
     // loaderWrapper && (loaderWrapper.style.display = "none");
   }
@@ -752,6 +752,7 @@ async function processInput(e) {
     const searchInp = document.getElementById("search");
     if (e.target !== searchWrapper && searchInp && e.target !== searchInp) {
       searchInp.value = "";
+      searchValue = "";
       if (searchWrapper) searchWrapper.remove();
     }
   };
@@ -976,6 +977,8 @@ function createCategoryMenu(categories) {
 
         filterDropItem.addEventListener("click", async (e) => {
           filterDrop.classList.remove("active");
+          filterTitle.classList.remove("active_arrow");
+
           e.stopPropagation();
 
           if (isProCategory && isSubscriptionTierFree) {
@@ -1061,20 +1064,23 @@ function createCategoryMenu(categories) {
   );
 
   filterElem.onclick = (e) => {
+    console.log("filterElem.onclick");
     filterDrop.classList.toggle("active");
+    filterTitle.classList.toggle("active_arrow");
     e.stopPropagation();
   };
-
+  filterElem.classList.remove("active_arrow");
   document.onclick = (e) => {
     if (e.target !== filterElem) {
       filterDrop.classList.remove("active");
+      filterTitle.classList.remove("active_arrow");
     }
   };
 
   const img1 = createElem(
     "img",
     {
-      src: chrome.runtime.getURL("assets/images/unordered-list.svg"),
+      src: chrome.runtime.getURL("assets/images/grid.svg"),
       alt: "",
     },
     []
@@ -1083,7 +1089,7 @@ function createCategoryMenu(categories) {
   const img2 = createElem(
     "img",
     {
-      src: chrome.runtime.getURL("assets/images/grid.svg"),
+      src: chrome.runtime.getURL("assets/images/unordered-list.svg"),
       alt: "",
     },
     []
@@ -1201,13 +1207,16 @@ function createSinglePrompt(promptObj) {
   promptObj.categories.forEach((categoryObj) => {
     const backgroundColor = categoryObj?.background_color ? categoryObj?.background_color : "rgba(185, 159, 21, 0.1)";
     const color = categoryObj?.color ? categoryObj?.color : "#b99f15";
-
+    const borderColor = categoryObj?.stroke_color ? categoryObj?.stroke_color : "rgba(185, 159, 21, 0.2)";
     let category = null;
 
     // if (isHasColor) {
     category = createElem(
       "div",
-      { class: "badge", style: `background-color: ${backgroundColor}; color: ${color};` },
+      {
+        class: "badge",
+        style: `background-color: ${backgroundColor}; color: ${color}; border: 1px solid ${borderColor} `,
+      },
       []
     );
     // svg = `<svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">

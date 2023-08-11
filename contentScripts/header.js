@@ -45,20 +45,27 @@ function createMenu() {
   $(".header_global").remove();
 
   const createElement = (tagName, className) => {
-    const element = $("<" + tagName + ">").addClass(className);
+    const element = document.createElement(tagName);
+    element.classList.add(className);
+    // const element = $("<" + tagName + ">").addClass(className);
     return element;
   };
   const TOKEN = localStorage.getItem("token") || "";
   const menuOpened = sessionStorage.getItem("menuOpened");
-  const header = createElement("header", "header_global");
+  // const header = createElement("header", "header_global");
+  const header = document.createElement("header");
+  header.classList.add("header_global");
+  console.log("header______________________", header);
 
   const global = document.querySelector("#global .flex.h-full.max-w-full.flex-1.flex-col");
 
   if (menuOpened == "true") {
     console.log("global_add_active");
     global.classList.add("active");
+    header && header?.classList.add("active");
   } else {
     console.log("global_remove_active");
+    header && header?.classList.remove("active");
     global.classList.remove("active");
   }
 
@@ -75,8 +82,8 @@ function createMenu() {
   const accountSettings = createElement("div", "settings");
   const settingsMenuLink = createElement("a", "menu");
   const settingsMenuImg = createElement("img");
-  settingsMenuImg.attr("src", chrome.runtime.getURL("assets/images/right_sidebar_icon.svg"));
-  settingsMenuImg.attr("alt", "");
+  settingsMenuImg.src = chrome.runtime.getURL("assets/images/right_sidebar_icon.svg");
+  settingsMenuImg.alt = "";
 
   account.append(accountUser);
   settingsMenuLink.append(settingsMenuImg);
@@ -90,36 +97,38 @@ function createMenu() {
     "#__next > div.overflow-hidden.w-full.h-full.relative.flex.z-0 > div.relative.flex.h-full.max-w-full.flex-1.overflow-hidden > div > main > div.flex-1.overflow-hidden "
   ).css("padding-top", "60px");
 
-  settingsMenuLink.off("click").on("click", async () => {
-    console.log("Клик по settingsMenuLink");
-    const $element = $(".menu");
-    const isOpenedMenu = $element.hasClass("active");
+  $(settingsMenuLink)
+    .off("click")
+    .on("click", async () => {
+      console.log("Клик по settingsMenuLink");
+      const $element = $(".menu");
+      const isOpenedMenu = $element.hasClass("active");
 
-    if (!isOpenedMenu) {
-      console.log("Сайдбар был закрыт, открываем его");
-      $(".menu_content").addClass("active");
-      $(".flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
-      $(".header_global").addClass("active");
-      $(".flex h-full max-w-full flex-1.flex-col").addClass("active");
-      sessionStorage.setItem("menuOpened", true);
-      // headerWasActive = true;
-      try {
-        await getCategories();
-      } catch (error) {
-        console.error(error);
+      if (!isOpenedMenu) {
+        console.log("Сайдбар был закрыт, открываем его");
+        $(".menu_content").addClass("active");
+        $(".flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
+        $(".header_global").addClass("active");
+        $(".flex h-full max-w-full flex-1.flex-col").addClass("active");
+        sessionStorage.setItem("menuOpened", true);
+        // headerWasActive = true;
+        try {
+          await getCategories();
+        } catch (error) {
+          console.error(error);
+        }
+        // menuOpened = true;
+      } else {
+        console.log("Сайдбар был открыт, закрываем его");
+        $(".menu_content").removeClass("active");
+        $(".flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
+        $(".header_global").removeClass("active");
+        $(".flex h-full max-w-full flex-1 flex-col").removeClass("active");
+        sessionStorage.setItem("menuOpened", false);
+        // headerWasActive = false;
+        // menuOpened = false;
       }
-      // menuOpened = true;
-    } else {
-      console.log("Сайдбар был открыт, закрываем его");
-      $(".menu_content").removeClass("active");
-      $(".flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
-      $(".header_global").removeClass("active");
-      $(".flex h-full max-w-full flex-1 flex-col").removeClass("active");
-      sessionStorage.setItem("menuOpened", false);
-      // headerWasActive = false;
-      // menuOpened = false;
-    }
-  });
+    });
 }
 
 setInterval(() => {

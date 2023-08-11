@@ -49,6 +49,12 @@ html{
     background: #23292D;
 }
 
+[class='relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1'] [class='flex-1 overflow-hidden']{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+
 .header_global {
     top: 0;
     /* left: 0; */
@@ -56,7 +62,7 @@ html{
     z-index: 22;
     /* width: 100%; */
     width: max-content;
-    position: fixed;
+    /* position: fixed; */
     display: flex;
     /* padding: 14px 10px; */
     align-items: center;
@@ -66,6 +72,7 @@ html{
 
 .header_global.active{
     padding: 14px 376px 14px 0;
+    display: none;
 }
 
 .header_global .settings {
@@ -400,7 +407,7 @@ html{
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block{
     /* top: 14px; */
     z-index: 24;
-    position: fixed;
+    position: unset;
 }
 
 #global .absolute.left-2.top-2.z-10.hidden.md\:inline-block button{
@@ -459,6 +466,8 @@ html{
 #global .flex.h-full.max-w-full.flex-1.flex-col.active{
     padding-right: 360px;
 }
+
+
 
 #global .menu_content{
     right: 0;
@@ -674,7 +683,7 @@ html{
     padding-bottom: 10px;
 }
 
-#global .menu_content .promt_item .filter_content:hover .filter_title::after {
+#global .menu_content .promt_item .filter_content .filter_title.active_arrow::after {
     transform: translate(0px, -50%) rotate(180deg);
 }
 
@@ -910,7 +919,7 @@ html{
     gap: 4px;
     padding: 4px 8px;
     border-radius: 9999px;
-    box-shadow: 0px 0px 0px 1px rgba(185, 159, 21, 0.2) inset, 0px 0px 0px 0px #fff inset;
+    /* box-shadow: 0px 0px 0px 1px rgba(185, 159, 21, 0.2) inset, 0px 0px 0px 0px #fff inset; */
     font-size: 12px;
     line-height: 16px;
     width: fit-content;
@@ -986,6 +995,15 @@ html{
     align-items: center;
 }
 
+#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .stats p{
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .stats li{
     display: flex;
     font-size: 12px;
@@ -998,10 +1016,12 @@ html{
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.2);
+    min-width: 59px;
+    height: 24px;
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .stats li img{
-    width: 18px;
+    width: 16px;
     display: block;
     margin-right: 4px;
 }
@@ -4391,6 +4411,17 @@ ul[id^="headlessui-listbox-options"] li {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-right: 65px !important;
+  }
+
+/* question icon */
+  [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"]  [class='group absolute bottom-5 right-4 z-10 flex flex-row items-center gap-3']{
+    margin-right: -10px;
+  }
+
+
+  #global [class="flex h-full max-w-full flex-1 flex-col active"] [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] {
+    padding-right: 0px !important;
   }
 
   [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] [class="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"]{
@@ -4425,7 +4456,12 @@ ul[id^="headlessui-listbox-options"] li {
     width: 100% !important;
   }
 
+/* closed left sidebar */
+  [class="overflow-hidden w-full h-full relative flex z-0"] [class='absolute left-2 top-2 z-10 hidden md:inline-block']{
 
+  }
+  
+  
 
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 

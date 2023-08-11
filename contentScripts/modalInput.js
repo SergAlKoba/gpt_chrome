@@ -194,10 +194,10 @@ function createPrompster() {
 }
 
 function addPrompster() {
-  const container = document.querySelector("textarea")?.parentElement;
+  const container = document.querySelector("#prompt-textarea")?.parentElement;
   const prompster = createPrompster();
   container?.appendChild(prompster);
-  const textArea = document.querySelector("textarea");
+  const textArea = document.querySelector("#prompt-textarea");
   const selectorPromster = document.querySelector("#prompster");
   const selectorUlPromster = selectorPromster?.querySelector("ul");
   const childs = selectorUlPromster.querySelectorAll(".prompster-item.visible");
@@ -422,35 +422,42 @@ function createPromptDetailsPopup({
     let category = null;
     let svg = null;
 
-    if (isHasColor) {
-      const color = categoryObj?.color;
-      category = createElem("div", { class: "badge", style: `background-color: ${color}; color: ${color};` }, []);
-    } else {
-      category = createElem(
-        "div",
-        { class: "badge", style: `background-color: rgba(185, 159, 21, 0.1); color: #b99f15;` },
-        []
-      );
-    }
-
-    const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svgElement.setAttribute("width", "10");
-    svgElement.setAttribute("height", "12");
-    svgElement.setAttribute("viewBox", "0 0 10 12");
-    svgElement.setAttribute("fill", "none");
-
-    const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    pathElement.setAttribute(
-      "d",
-      "M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z"
+    const color = categoryObj?.color ? categoryObj?.color : "#b99f15";
+    const backgroundColor = categoryObj?.background_color ? categoryObj?.background_color : "rgba(185, 159, 21, 0.1)";
+    const borderColor = categoryObj?.stroke_color ? categoryObj?.stroke_color : "rgba(185, 159, 21, 0.2)";
+    category = createElem(
+      "div",
+      {
+        class: "badge",
+        style: `background-color: ${backgroundColor}; color: ${color}; border: 1px solid ${borderColor}`,
+      },
+      []
     );
-    pathElement.setAttribute("stroke", "#b99f15");
-    pathElement.setAttribute("stroke-linecap", "round");
-    pathElement.setAttribute("stroke-linejoin", "round");
-    svgElement.appendChild(pathElement);
+
+    // const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    // svgElement.setAttribute("width", "10");
+    // svgElement.setAttribute("height", "12");
+    // svgElement.setAttribute("viewBox", "0 0 10 12");
+    // svgElement.setAttribute("fill", "none");
+
+    // const pathElement = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    // pathElement.setAttribute(
+    //   "d",
+    //   "M9.16655 7.33268C9.16655 9.99935 7.33325 10.8327 4.99988 10.8327C2.33325 10.8327 0.833252 8.93268 0.833252 7.33268C0.833252 5.73268 1.66659 4.27713 2.33325 3.83268C2.33325 5.69935 4.111 6.88824 4.99988 6.83268C3.39988 4.43268 4.77766 1.77713 5.66655 1.16602C5.66655 4.16602 9.16655 4.66602 9.16655 7.33268Z"
+    // );
+    // pathElement.setAttribute("stroke", "#b99f15");
+    // pathElement.setAttribute("stroke-linecap", "round");
+    // pathElement.setAttribute("stroke-linejoin", "round");
+    // svgElement.appendChild(pathElement);
 
     const svgWrapper = document.createElement("div");
-    svgWrapper.appendChild(svgElement);
+
+    if (categoryObj?.icon) {
+      const icon = document.createElement("img");
+      icon.classList.add("prompt_category_img");
+      icon.src = categoryObj?.icon;
+      svgWrapper.appendChild(icon);
+    }
 
     category.appendChild(svgWrapper);
 
