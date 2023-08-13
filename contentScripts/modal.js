@@ -52,15 +52,15 @@ function createTabsDiv() {
   let tabsDiv = document.createElement("div");
   tabsDiv.className = "tabs";
 
-  let ul = document.createElement("ul");
-  ul.className = "tabs_nav";
-  tabsDiv.appendChild(ul);
+  // let ul = document.createElement("ul");
+  // ul.className = "tabs_nav";
+  // tabsDiv.appendChild(ul);
 
   let li1 = document.createElement("li");
   li1.setAttribute("data-tabs", "tone");
   li1.className = "tabs_item active";
   li1.textContent = "Tone";
-  ul.appendChild(li1);
+  // ul.appendChild(li1);
 
   // let li2 = document.createElement("li");
   // li2.setAttribute("data-tabs", "style");
@@ -73,6 +73,18 @@ function createTabsDiv() {
 
   let toneItems = document.createElement("div");
   toneItems.setAttribute("class", "tone_items");
+
+  const toneTitle = document.createElement("div");
+  toneTitle.classList.add("tone_title");
+  toneTitle.textContent = "Interface theme";
+
+  const toneSubTitle = document.createElement("div");
+  toneSubTitle.classList.add("tone_sub_title");
+
+  toneSubTitle.textContent = "Customise you application theme";
+
+  toneItems.appendChild(toneTitle);
+  toneItems.appendChild(toneSubTitle);
 
   let getToneItemsDataBySubscriptionTier = {
     free: [...toneItemsData].map((tone) => (tone.name === "colorful_gradient" ? { ...tone, isAccess: false } : tone)),
@@ -277,7 +289,31 @@ function createSettingsDiv() {
 
   const tabsDiv = createTabsDiv();
 
-  settingsDiv.appendChild(createForm(tabsDiv));
+  // settingsDiv.appendChild(createForm(tabsDiv));
+  // const
+
+  const closePopupSpan = document.createElement("span");
+  closePopupSpan.classList.add("close_popup");
+  settingsDiv.appendChild(closePopupSpan);
+
+  const closeImg = document.createElement("img");
+  closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
+  closeImg.alt = "";
+
+  closeImg.addEventListener("click", () => {
+    document.body.removeChild(popup);
+  });
+
+  closePopupSpan.appendChild(closeImg);
+
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("title");
+  settingsDiv.appendChild(titleDiv);
+
+  const titleHeading = document.createElement("h5");
+  titleHeading.textContent = "Appearance";
+  titleDiv.appendChild(titleHeading);
+
   settingsDiv.appendChild(tabsDiv.element);
   settingsDiv.appendChild(applyLink);
   return settingsDiv;
