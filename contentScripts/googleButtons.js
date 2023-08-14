@@ -1168,8 +1168,10 @@ function changeShareIcon() {
 function addLogo() {
   const nav = document?.querySelector("nav");
   const isExistLogo = nav?.querySelector(".logo_chatGpt");
+
   if (nav && !isExistLogo) {
-    console.log("addLogo___111");
+    document.querySelector("main").style.opacity = 0;
+
     const logo = document.createElement("div");
     logo.classList.add("logo_chatGpt");
     const img = document.createElement("img");
@@ -1178,6 +1180,11 @@ function addLogo() {
     logo.appendChild(img);
     const firstChild = nav.firstChild;
     nav.insertBefore(logo, firstChild);
+    // setTimeout better for smooth operation of the appearance of main when switching chats
+    setTimeout(() => {
+      document.body.classList.add("loaded");
+      document.querySelector("main").style.opacity = 1;
+    }, 700);
   }
 }
 

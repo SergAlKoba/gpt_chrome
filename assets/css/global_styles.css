@@ -468,6 +468,15 @@ html{
     padding-right: 360px;
 }
 
+body main{
+    opacity: 0;
+}
+
+body.loaded main {
+    transition: opacity ease 0.2s;
+}
+
+
 #global .flex.h-full.max-w-full.flex-1.flex-col.active [class='relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1'] > div > div{
     padding-right: 0px !important;
 }
