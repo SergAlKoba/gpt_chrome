@@ -392,10 +392,10 @@ html{
 }
 
 #global .flex.p-3.gap-3.transition-colors.duration-200.text-white.cursor-pointer.text-sm.rounded-md.border.h-11.w-11.flex-shrink-0.items-center.justify-center{
-    top: 14px;
+    top: 24px;
     width: 40px;
     height: 40px;
-    right: 15px;
+    right: 24px;
     position: absolute;
     z-index: 22;
     padding: unset;
@@ -432,8 +432,17 @@ html{
 }
 
 
-#global .mb-1.flex.flex-row.gap-2{
-    padding: 0px 15px;
+#global nav .mb-1.flex.flex-row.gap-2{
+    padding: 0px 16px;
+    margin-bottom: 24px;
+}
+
+#global nav li {
+    height: 40px !important;
+}
+
+#global nav li a{
+    height: 40px !important;
 }
 
 #global .flex.p-3.items-center.gap-3.transition-colors.duration-200.text-white.cursor-pointer.text-sm.rounded-md.border.h-11.flex-shrink-0.flex-grow{
@@ -1544,7 +1553,7 @@ body.loaded main {
 
 #global .flex.h-full.w-full.flex-col.p-2{
     overflow: hidden;
-    padding: 14px 0 24px;
+    padding: 24px 0 24px;
     padding-bottom: 5px;
 }
 
@@ -3741,8 +3750,10 @@ ul[id^="headlessui-listbox-options"] li {
 }
 
 #global .logo_chatGpt{
-    padding-left: 20px;
-    margin-bottom: 20px;
+    padding-left: 24px;
+    margin-bottom: 24px;
+    height: 40px;
+    display: flex;
 }
 
 #global .idea_star{
