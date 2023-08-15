@@ -1015,6 +1015,11 @@ body.loaded main {
     margin-bottom: 8px;
     padding-top: 16px;
     border-top: 1px solid #33383D;
+
+    width: 295px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer p{    

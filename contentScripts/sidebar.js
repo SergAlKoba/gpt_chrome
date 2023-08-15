@@ -1797,7 +1797,14 @@ function createPromptDetailsPopup({
                 div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
               }
             } else if (innerText == replaceVariables(modalState, prompt_template)) {
-              div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+              // div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+
+              let text = modalState
+                .reverse()
+                .map((obj) => obj?.variable_name + " = " + obj?.value)
+                .join("; ");
+
+              childDiv.textContent = text;
               // matches.push(div);
             }
           }
