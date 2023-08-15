@@ -505,6 +505,7 @@ body.loaded main {
     transition: all 0.1s;
 
 
+
     /* position: absolute; */
 
 }
@@ -596,13 +597,13 @@ body.loaded main {
     color: #D8DADB;
     font-weight: 600;
     line-height: 28px;
-    padding: 20px 15px 20px 70px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 28px 15px 28px 70px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 #global .menu_content .menu {
-    top: 14px;
-    left: 15px;
+    top: 24px;
+    left: 16px;
     z-index: 3;
     width: 40px;
     height: 40px;
@@ -626,7 +627,7 @@ body.loaded main {
 #global .menu_content form input{
     z-index: 1;
     width: 100%;
-    height: 41px;
+    height: 40px;
     font-size: 14px;
     font-weight: 600;
     color: #FFFFFF;
@@ -682,6 +683,18 @@ body.loaded main {
 
 #global .menu_content .promt_item {
     padding: 15px 15px 0;
+    padding-top: 16px;
+    position: relative;
+}
+
+#global .menu_content .promt_item::before {
+    content: '';
+    width: 100%;
+    position: absolute;
+    top: 72px;
+    height:1px;
+    background-color: rgba(255, 255, 255, 0.04);
+    left: 0px;
 }
 
 #global .menu_content .promt_item .promt_item_content{
@@ -694,9 +707,6 @@ body.loaded main {
     display: none;
 }
 
-#global .menu_content .promt_item .filter{
-    /* padding-bottom: 10px; */
-}
 
 #global .menu_content .promt_item .filter_content{
     z-index: 4;
@@ -721,6 +731,7 @@ body.loaded main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: 23px;
 }
 
 #global .menu_content .promt_item .filter_content{
@@ -882,10 +893,12 @@ body.loaded main {
     cursor: pointer;
     position: relative;
     border-radius: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: linear-gradient(120.45deg, rgba(255, 255, 255, 0.04) 13.15%, rgba(255, 255, 255, 0) 75.74%), #181B1E;
+    max-height: 216px;
+
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer:hover{
@@ -1331,6 +1344,11 @@ body.loaded main {
     padding: 16px 24px;
    }
 
+   #global .flex-col.text-sm.dark\:bg-gray-800 > div > div pre {
+        max-width: calc(100vw - 6vw - 360px - 260px - 50px);
+        /* max-width: 47vw; */
+   }
+
 
  #global .w-full.mb-4.rounded-lg.border.border-gray-100.dark\:border-gray-700.overflow-hidden.bg-gray-50 > div{
   width: 100%;
@@ -1687,7 +1705,8 @@ body.loaded main {
 }
 
 #global .theme_settings_content .settings_content{
-    width: 592px;
+    width: 784px;
+    height: max-content;
     position: relative;
     border-radius: 16px;
     background: #171918;
@@ -1851,33 +1870,49 @@ body.loaded main {
 
 
 #global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item{
-    width: 50%;
+    width: 240px;
     cursor: pointer;
     margin-bottom: 5px;
     position: relative;
-    padding: 10px 46px 10px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: #23292D;
+    height: max-content;
+    margin-right: 16px;
+
+}
+
+#global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item:last-child {
+    margin-right: 0px;
+}
+
+#global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item.active{
+    border-radius: 8px;
+    border: 1px solid rgba(102, 74, 246, 0.40);
+    background: #23292D;
+    box-shadow: 0px 0px 0px 4px rgba(102, 74, 246, 0.05);
 }
 
 #global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item.active::after{
     content: '';
-    top: 50%;
-    right: 20px;
+    right: 8px;
+    bottom: 0px;
     width: 16px;
     height: 16px;
     position: absolute;
-    background: url('../images/tone_item_check.svg') no-repeat 50% 50%;
+    border: 1px solid rgba(144, 251, 63, 1);
+    border-radius: 50%;
+    background: url('../images/check_2.svg') no-repeat 50% 50%;
     background-size: cover;
     transform: translate(0, -50%);
 }
 
 #global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item img{
-    top: 50%;
-    left: 16px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    position: absolute;
-    transform: translate(0, -50%);
+    width: 216px;
+    height: 144px;
+    margin: 24px 0px 0px 24px;
+
+    /* position: absolute; */
 }
 
 #global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item h4{
@@ -1885,9 +1920,11 @@ body.loaded main {
     font-weight: 500;
     color: #FFFFFF;
     line-height: 18px;
-    margin-left: 56px;
-    margin-bottom: 5px;
+    padding-top: 8px;
+    padding-left: 8px;
+    padding-bottom: 8px;
     letter-spacing: -0.04em;
+    border-top: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 #global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item p{
@@ -1967,7 +2004,7 @@ body.loaded main {
 }
 
 #global .theme_settings_content .settings_content .apply{
-    width: auto;
+    /* width: auto;
     height: 48px;
     font-size: 14px;
     display: flex;
@@ -1982,13 +2019,42 @@ body.loaded main {
     letter-spacing: -0.04em;
     justify-content: center;
     border: 1px solid #B4F573;
-    transition: all 0.3s;
+    transition: all 0.3s; */
+    display: flex;
+    width: 157px;
+    padding: 8px 15px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--button-stroke, rgba(255, 255, 255, 0.08));
+    background: radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+    box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset, 0px 0px 0px 1px rgba(255, 255, 255, 0.12);
 }
 
 #global .theme_settings_content .settings_content .apply:hover{
-    color: #B4F573;
-    background: transparent;
+    /* color: #B4F573; */
+    /* background: transparent; */
 }
+
+#global .theme_settings_content .settings_content .wrapper_btn{
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+#global .theme_settings_content .settings_content .wrapper_btn .cancel_btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid  rgba(255, 255, 255, 0.08);
+    background:  rgba(255, 255, 255, 0.04);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+    margin-right: 12px;
+}
+
+
+
 
 #global .button_wait{
     top: 0px;
@@ -2888,6 +2954,14 @@ ul[id^="headlessui-listbox-options"] li {
     background: var(--checkIcon) no-repeat 50% 50%;
 }
 
+#global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_items_content {
+    display: flex;
+    height: max-content;
+    margin-top: 16.5px;
+}
+
+
+
 #global .menu_content .categories li::after {
     background: var(--icon) no-repeat 50% 50%;
     background-size: cover;
@@ -3583,13 +3657,13 @@ ul[id^="headlessui-listbox-options"] li {
     height: 50px;
 }
 
-#global  .wrapper_form_and_sort_btn{
+#global .wrapper_form_and_sort_btn {
     position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 16px;
 }
 
 #global .wrapper_sort_icon {
@@ -3602,7 +3676,7 @@ ul[id^="headlessui-listbox-options"] li {
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.16);
     cursor: pointer;
-    margin-left: 10px;    
+    margin-left: 8px;    
 }
 
 #global .wrapper_form_and_sort_btn .sort_menu{

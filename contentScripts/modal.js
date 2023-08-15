@@ -1,34 +1,34 @@
 const toneItemsData = [
   {
-    url: "assets/images/tone_item_1.png",
-    title: "Monochrome scheme",
+    url: "assets/images/theme_avacado_alien.svg",
+    title: "Avacado Alien",
     name: "none",
     isAccess: true,
   },
   {
-    url: "assets/images/tone_item_2.png",
-    title: "Blue ocean",
+    url: "assets/images/theme_rainbow_candy.svg",
+    title: "Rainbow Candy",
     name: "blue_ocean",
     isAccess: true,
   },
   {
-    url: "assets/images/tone_item_3.png",
-    title: "Lime vulcanic",
+    url: "assets/images/theme_honeydew_punch.svg",
+    title: "Honeydew Punch",
     name: "lime_vulcanic",
     isAccess: true,
   },
-  {
-    url: "assets/images/tone_item_4.png",
-    title: "Colorful gradient",
-    name: "colorful_gradient",
-    isAccess: true,
-  },
-  {
-    url: "assets/images/tone_item_5.png",
-    title: "Textury art",
-    name: "textury",
-    isAccess: true,
-  },
+  // {
+  //   url: "assets/images/tone_item_4.png",
+  //   title: "Colorful gradient",
+  //   name: "colorful_gradient",
+  //   isAccess: true,
+  // },
+  // {
+  //   url: "assets/images/tone_item_5.png",
+  //   title: "Textury art",
+  //   name: "textury",
+  //   isAccess: true,
+  // },
 ];
 
 const styleItemData = [
@@ -73,6 +73,8 @@ function createTabsDiv() {
 
   let toneItems = document.createElement("div");
   toneItems.setAttribute("class", "tone_items");
+  let toneItemsContent = document.createElement("div");
+  toneItemsContent.classList.add("tone_items_content");
 
   const toneTitle = document.createElement("div");
   toneTitle.classList.add("tone_title");
@@ -85,6 +87,7 @@ function createTabsDiv() {
 
   toneItems.appendChild(toneTitle);
   toneItems.appendChild(toneSubTitle);
+  toneItems.appendChild(toneItemsContent);
 
   let getToneItemsDataBySubscriptionTier = {
     free: [...toneItemsData].map((tone) => (tone.name === "colorful_gradient" ? { ...tone, isAccess: false } : tone)),
@@ -119,14 +122,12 @@ function createTabsDiv() {
         if (item.name == selectedTone) {
           toneItem.classList.add("active");
         }
-        toneItem.style.setProperty("--checkIcon", `url(${chrome.runtime.getURL("assets/images/tone_item_check.svg")})`);
+        toneItem.style.setProperty("--checkIcon", `url(${chrome.runtime.getURL("assets/images/check_2.svg")})`);
         let toneItemImg = document.createElement("img");
         toneItemImg.setAttribute("src", chrome.runtime.getURL(item.url));
         toneItemImg.setAttribute("alt", "");
         let toneItemHeading = document.createElement("h4");
         toneItemHeading.textContent = item.title;
-        let toneItemParagraph = document.createElement("p");
-        toneItemParagraph.textContent = "by John Bolino";
 
         $(toneItem)
           .off("click")
@@ -141,11 +142,17 @@ function createTabsDiv() {
             Array.from(toneItems.children).forEach((item) => {
               item.classList.remove("active");
             });
-            toneItem.classList.add("active");
+
+            let toneItemActive = document.querySelector(".tone_item.active");
+            if (toneItemActive) toneItemActive.classList.remove("active");
+
+            toneItem.classList.toggle("active");
+
+            // toneItem.classList.add("active");
           });
 
-        toneItem.append(toneItemImg, toneItemHeading, toneItemParagraph);
-        toneItems.append(toneItem);
+        toneItem.append(toneItemImg, toneItemHeading);
+        toneItemsContent.append(toneItem);
       }
 
       clearInterval(intervalId);
@@ -269,14 +276,14 @@ function createForm(tabsDiv) {
   return form;
 }
 
-function createSettingsDiv() {
+function createSettingsDiv(close = null) {
   let settingsDiv = document.createElement("div");
   settingsDiv.className = "settings_content";
 
   let applyLink = document.createElement("a");
   applyLink.setAttribute("class", "apply");
   applyLink.setAttribute("href", "#");
-  applyLink.textContent = "Apply";
+  applyLink.textContent = "Save preferences";
 
   applyLink.onclick = (e) => {
     e.preventDefault();
@@ -300,8 +307,16 @@ function createSettingsDiv() {
   closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
   closeImg.alt = "";
 
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = "Cancel";
+  cancelBtn.classList.add("cancel_btn");
+
+  cancelBtn.addEventListener("click", () => {
+    close && close.click();
+  });
+
   closeImg.addEventListener("click", () => {
-    document.body.removeChild(popup);
+    close && close.click();
   });
 
   closePopupSpan.appendChild(closeImg);
@@ -315,7 +330,12 @@ function createSettingsDiv() {
   titleDiv.appendChild(titleHeading);
 
   settingsDiv.appendChild(tabsDiv.element);
-  settingsDiv.appendChild(applyLink);
+
+  const wrapperBtn = document.createElement("div");
+  wrapperBtn.classList.add("wrapper_btn");
+  wrapperBtn.appendChild(cancelBtn);
+  wrapperBtn.appendChild(applyLink);
+  settingsDiv.appendChild(wrapperBtn);
   return settingsDiv;
 }
 
@@ -323,11 +343,12 @@ function createModal() {
   let div = document.createElement("div");
   div.className = "theme_settings_content";
 
-  let span = document.createElement("span");
-  span.className = "close";
-  span.onclick = () => {
+  let close = document.createElement("span");
+  close.className = "close";
+  close.onclick = () => {
     selectedTone = selectedToneTmp;
     selectedStyle = selectedStyleTmp;
+    console.log("theme_settings_content__click____");
 
     document.querySelectorAll(".theme_settings_content [data-theme]").forEach((item) => {
       item.classList.remove("active");
@@ -348,8 +369,8 @@ function createModal() {
     applyCurrentTheme();
   };
 
-  div.appendChild(span);
-  div.appendChild(createSettingsDiv());
+  div.appendChild(close);
+  div.appendChild(createSettingsDiv(close));
 
   return div;
 }

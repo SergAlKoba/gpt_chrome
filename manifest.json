@@ -115,7 +115,11 @@
         "assets/images/category_loader.svg",
         "assets/images/promptBar_loader.svg",
         "assets/images/promptBar_loader_grid.svg",
-        "assets/images/search_loader.svg"
+        "assets/images/search_loader.svg",
+        "assets/images/theme_avacado_alien.svg",
+        "assets/images/theme_rainbow_candy.svg",
+        "assets/images/theme_honeydew_punch.svg",
+        "assets/images/check_2.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

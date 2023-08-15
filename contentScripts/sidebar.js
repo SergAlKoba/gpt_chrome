@@ -498,7 +498,7 @@ async function createMenuContent() {
   const menuContent = createElem(
     "div",
     {
-      class: TOKEN ? "menu_content active" : "menu_content",
+      class: "menu_content active",
     },
     [
       createElem("div", {}, [
@@ -734,9 +734,14 @@ function createSingleSearchPrompt(promptObj, searchValue) {
 }
 
 async function processInput(e) {
-  const promptsResult = await searchPrompts(e.target.value, selectedCategoryId ?? 1, selectedSort || 1, "search");
+  const promptsResult = await searchPrompts(
+    e?.target?.value ?? "",
+    selectedCategoryId ?? 1,
+    selectedSort || 1,
+    "search"
+  );
   const prompts = promptsResult?.results || [];
-  searchValue = e.target.value;
+  searchValue = e?.target?.value ?? "";
 
   const wrapperFormAndSortBtn = document.querySelector(".wrapper_form_and_sort_btn");
   if (searchValue.trim() === "") {

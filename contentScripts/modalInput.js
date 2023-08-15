@@ -323,10 +323,14 @@ function addPrompster() {
 
 async function init() {
   let isCreatePromster = false;
-  const result = await getPrompsterCommands();
+  let result = (await getPrompsterCommands()) ?? [];
+  if (result.detail == "Invalid token.") {
+    result = [];
+  }
+  console.log("result_____init", result);
 
-  const propmsterBEWithIsHoverProperty = result.map((p) => ({ ...p, isHover: false }));
-  const propmsterBEWithSlash = propmsterBEWithIsHoverProperty.map((p) =>
+  const propmsterBEWithIsHoverProperty = result?.map((p) => ({ ...p, isHover: false }));
+  const propmsterBEWithSlash = propmsterBEWithIsHoverProperty?.map((p) =>
     p.command.includes("/") ? p : { ...p, command: `/${p.command}` }
   );
   concatPromsterBEAndBasePrompster = [...prompsterComands, ...propmsterBEWithSlash];
