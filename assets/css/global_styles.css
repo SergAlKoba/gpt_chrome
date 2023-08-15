@@ -4605,10 +4605,10 @@ ul[id^="headlessui-listbox-options"] li {
   main[class='relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1'] > div[class='flex-1 overflow-hidden'] > div{
     padding-right: 71px !important;
   }
-/* 
-  [class='react-scroll-to-bottom--css-tykuj-79elbk h-full dark:bg-gray-800 right-sidebar-open']{
-    padding-right: 0px;
-  } */
+
+  form .truncate{
+    color: white;
+  }
 
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 
