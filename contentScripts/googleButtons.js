@@ -1022,13 +1022,19 @@ setInterval(() => {
   let isBtnResponseChangeClassName = document.querySelector(".btn-response");
 
   if (!isBtnResponseChangeClassName) {
-    const btnArr = ["Regenerate", "Stop generating"];
+    const regenerateBtnArr = ["Regenerate", "Regenerate response"];
+    const btnArr = [...regenerateBtnArr, "Stop generating"];
     const elements = document.querySelectorAll("form button div");
 
     for (const element of elements) {
       console.log("element?.textContent", element?.textContent);
       if (btnArr.some((btnText) => btnText === element?.textContent)) {
-        console.log(element.parentNode);
+        if (regenerateBtnArr.some((btnText) => btnText === element?.textContent)) {
+          const svg = element.querySelector("svg");
+          element.textContent = "";
+          element.append(svg);
+          element.append("Regenerate response");
+        }
         const btnResponse = element.parentNode;
         // btnResponse.classList.add("btn-response");
         btnResponse.parentElement.classList.add("btn-response");
