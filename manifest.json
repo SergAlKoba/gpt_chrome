@@ -11,7 +11,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://chat.openai.com/c/*"
+        "*://chat.openai.com/*"
       ],
       "exclude_matches": [
         "https://auth0.openai.com/u/signup/*",
