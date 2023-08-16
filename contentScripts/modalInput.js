@@ -538,7 +538,7 @@ function createPromptDetailsPopup({
     []
   );
 
-  likeP.textContent += " " + like_amount;
+  likeP.textContent += " " + processNumber(like_amount);
 
   let likes = createElem("li", {}, [likeIcon, likeP]);
 
@@ -565,7 +565,7 @@ function createPromptDetailsPopup({
     []
   );
 
-  viewP.textContent += " " + amount_of_lookups;
+  viewP.textContent += " " + processNumber(amount_of_lookups);
 
   let views = createElem("li", {}, [viewIcon, viewP]);
 
@@ -688,7 +688,7 @@ function createPromptDetailsPopup({
               }
             } else if (innerText == replaceVariables(modalState, prompt_template)) {
               // div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
-              let text = modalState.map((obj) => obj?.variable_name + " = " + obj?.value).join("; ");
+              let text = modalState.map((obj) => obj?.variable_name + " = " + obj?.value).join("\n");
               childDiv.textContent = text;
               // matches.push(div);
             }
@@ -756,10 +756,10 @@ function createPromptAction({ is_liked, is_favourite, id, categories }) {
       } else if (isLiked) {
         likeBlock.classList.remove("modal_like_block_hidden");
         likeAmount = like_amount + 1;
-        likeAmountText.textContent = likeAmount;
+        likeAmountText.textContent = processNumber(likeAmount);
       } else {
         likeAmount = like_amount - 1;
-        likeAmountText.textContent = likeAmount;
+        likeAmountText.textContent = processNumber(likeAmount);
         if (likeAmount === 0) {
           likeBlock.classList.add("modal_like_block_hidden");
         } else likeBlock.classList.remove("modal_like_block_hidden");
@@ -900,4 +900,24 @@ function createFavoriteBlock({ is_favourite }) {
   );
 
   return favorite;
+}
+
+function processNumber(number) {
+  if (number < 1000) {
+    return number.toString();
+  } else if (number < 1000000) {
+    const remainder = number % 1000;
+    if (remainder === 0 || remainder < 100) {
+      return Math.floor(number / 1000) + "к";
+    } else {
+      return Math.floor(number / 100) / 10 + "к";
+    }
+  } else {
+    const remainder = number % 1000000;
+    if (remainder === 0 || remainder < 100000) {
+      return Math.floor(number / 1000000) + "м";
+    } else {
+      return Math.floor(number / 100000) / 10 + "м";
+    }
+  }
 }

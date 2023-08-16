@@ -824,7 +824,6 @@ function addMicrophone() {
         let language = localStorage.getItem("Language");
         recognition.lang = languages[language];
       } else {
-        console.log("Language____");
         recognition.lang = languages["English"];
       }
 
