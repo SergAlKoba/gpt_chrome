@@ -10,7 +10,15 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.openai.com/*"],
+      "matches": [
+        "*://chat.openai.com/c/*"
+      ],
+      "exclude_matches": [
+        "https://auth0.openai.com/u/signup/*",
+        "https://auth0.openai.com/u/login/*",
+        "https://openai.com/chatgpt*",
+        "https://chat.openai.com/auth/login?next=%2F"
+      ],
       "js": [
         "contentScripts/jquery.min.js",
         "contentScripts/googleLib.js",
