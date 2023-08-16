@@ -4553,7 +4553,7 @@ ul[id^="headlessui-listbox-options"] li {
     overflow: hidden;
   }
 
-  [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] {
+   [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -4561,16 +4561,16 @@ ul[id^="headlessui-listbox-options"] li {
   }
 
 /* question icon */
-  [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"]  [class='group absolute bottom-5 right-4 z-10 flex flex-row items-center gap-3']{
+   [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"]  [class='group absolute bottom-5 right-4 z-10 flex flex-row items-center gap-3']{
     margin-right: -10px;
   }
+  
 
-
-  #global [class="flex h-full max-w-full flex-1 flex-col active"] [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] {
+  #global [class="flex h-full max-w-full flex-1 flex-col active"]  [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] {
     padding-right: 0px !important;
   }
 
-  [class="relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1"] [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] [class="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"]{
+  #global  [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"] [class="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"]{
     width: 57vw;
     padding-left: 16px;
     padding-right: 16px;
@@ -4607,12 +4607,16 @@ ul[id^="headlessui-listbox-options"] li {
 
   }
   
-  main[class='relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1'] > div[class='flex-1 overflow-hidden'] > div{
+  main[class='relative h-full w-full transition-width overflow-auto flex-1'] > div > div[class='flex-1 overflow-hidden'] > div{
     padding-right: 71px !important;
   }
 
   form .truncate{
     color: white;
+  }
+
+  body [role="dialog"][class="relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-[550px]"] main{
+    opacity: 1;
   }
 
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */

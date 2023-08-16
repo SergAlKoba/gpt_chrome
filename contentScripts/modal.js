@@ -348,6 +348,9 @@ function createModal() {
   close.onclick = () => {
     selectedTone = selectedToneTmp;
     selectedStyle = selectedStyleTmp;
+    console.log("selectedStyle", selectedStyle);
+    console.log("selectedStyle type", typeof selectedStyle);
+
     console.log("theme_settings_content__click____");
 
     document.querySelectorAll(".theme_settings_content [data-theme]").forEach((item) => {
@@ -358,10 +361,10 @@ function createModal() {
       item.classList.remove("active");
     });
 
-    if (selectedTone)
+    if (selectedTone && selectedTone !== "null")
       document.querySelector(`.theme_settings_content [data-theme="${selectedTone}"]`).classList.add("active");
 
-    if (selectedStyle)
+    if (selectedStyle && selectedStyle !== "null")
       document.querySelector(`.theme_settings_content [data-font="${selectedStyle}"]`).classList.add("active");
 
     div.classList.remove("active");

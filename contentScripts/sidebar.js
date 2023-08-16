@@ -480,10 +480,11 @@ function createMenuButton() {
   menuButton.addEventListener("click", () => {
     const menuContent = document.querySelector(".menu_content");
     const headerGlobal = document.querySelector(".header_global");
+
     const global = document.querySelector("#global .flex.h-full.max-w-full.flex-1.flex-col");
 
     menuContent.classList.remove("active");
-    headerGlobal.classList.remove("active");
+    headerGlobal && headerGlobal.classList.remove("active");
     global.classList.remove("active");
     sessionStorage.setItem("menuOpened", false);
   });
@@ -1798,11 +1799,7 @@ function createPromptDetailsPopup({
               }
             } else if (innerText == replaceVariables(modalState, prompt_template)) {
               // div.parentNode.parentNode.parentNode.parentNode.style.display = "none";
-
-              let text = modalState
-                .reverse()
-                .map((obj) => obj?.variable_name + " = " + obj?.value)
-                .join("; ");
+              let text = modalState.map((obj) => obj?.variable_name + " = " + obj?.value).join("; ");
 
               childDiv.textContent = text;
               // matches.push(div);
