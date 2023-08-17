@@ -325,10 +325,9 @@ const createElem = (tag, attributes, children) => {
 
 async function createIdeaPopup(last_message) {
   console.log("createIdeaPopup__________");
-  const sendButton = document.querySelector("#global .stretch.mx-2.flex.flex-row.gap-3 .flex-grow.relative button");
-  const parentElement = sendButton.parentNode;
+  const microphone = document.querySelector("#microphone");
 
-  sendButton.classList.add("send_button");
+  // microphone.classList.add("send_button");
   const ideaPopup = document.createElement("div");
   ideaPopup.className = "idea_popup";
   ideaPopup.classList.add("active");
@@ -337,7 +336,7 @@ async function createIdeaPopup(last_message) {
   spinner.classList.add("idea_loader");
 
   ideaPopup.append(spinner);
-  $(ideaPopup).insertAfter(sendButton);
+  $(ideaPopup).insertBefore(microphone);
 
   const list = document.createElement("ul");
 
