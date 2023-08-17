@@ -1217,12 +1217,16 @@ function changeSendButton() {
 
 function changeLeftSideBarIcon() {
   const leftSideBarIcon = document.querySelector(
-    "#global nav .flex.p-3.gap-3.transition-colors.duration-200.text-white.cursor-pointer.text-sm.rounded-md.border.h-11.w-11.flex-shrink-0.items-center.justify-center"
+    "#global nav [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center']"
   );
 
-  if (leftSideBarIcon && leftSideBarIcon.querySelector("svg")) {
+  const isNotChangedWithLeftSideBarIcon = leftSideBarIcon.querySelector("svg");
+
+  const parentElement = leftSideBarIcon.parentNode;
+
+  if (leftSideBarIcon && isNotChangedWithLeftSideBarIcon) {
+    parentElement.classList.add("left_close_side_bar_icon");
     const svg = leftSideBarIcon.querySelector("svg");
-    const span = leftSideBarIcon.querySelector("span");
     svg.remove();
     const leftSideBarImg = createLeftSideBarImg();
 

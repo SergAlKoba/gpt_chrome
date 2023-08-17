@@ -4646,6 +4646,13 @@ main [class='cursor-pointer absolute right-6 bottom-[124px] md:bottom-[180px] lg
 }
 
 
+.left_close_side_bar_icon{
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 
 /* END Prompt library */
