@@ -754,15 +754,6 @@ async function processInput(e) {
   const searchWrapper = wrapperFormAndSortBtn.querySelector(".search_wrapper") || document.createElement("div");
   searchWrapper.classList.add("search_wrapper");
 
-  document.onclick = (e) => {
-    const searchInp = document.getElementById("search");
-    if (e.target !== searchWrapper && searchInp && e.target !== searchInp) {
-      searchInp.value = "";
-      searchValue = "";
-      if (searchWrapper) searchWrapper.remove();
-    }
-  };
-
   const isEmptyData = prompts.length === 0;
 
   while (searchWrapper.firstChild) {
@@ -787,6 +778,9 @@ async function processInput(e) {
   searchList.classList.add("search_list");
 
   const onShowPromptPopupById = (prompt) => () => {
+    const searchInp = document.getElementById("search");
+    searchInp.value = "";
+    searchValue = "";
     searchWrapper.remove();
     document.body.appendChild(createPromptDetailsPopup(prompt));
   };
