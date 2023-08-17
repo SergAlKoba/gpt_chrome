@@ -4645,14 +4645,26 @@ main [class='cursor-pointer absolute right-6 bottom-[124px] md:bottom-[180px] lg
     right: 0px;
 }
 
+/* btn add new chat 17.08.2023*/
+#global  nav  [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 flex-grow overflow-hidden new_chat_btn'] {
+    display: flex;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid  rgba(255, 255, 255, 0.08);
+    background:  radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+    box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset, 0px 0px 0px 1px rgba(255, 255, 255, 0.12);
+}
 
-.left_close_side_bar_icon{
+#global  nav  [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center']{
     position: absolute;
     top: 24px;
     right: 24px;
 }
 
-
+/* share modal 17.08.2023*/ 
+body [class='fixed inset-0 bg-gray-300/70 dark:bg-gray-600/70']{
+    z-index: 10;
+}
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 
 /* END Prompt library */

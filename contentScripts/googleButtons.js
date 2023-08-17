@@ -1136,19 +1136,24 @@ function updateApp() {
 updateApp();
 
 function changeNewChatBtn() {
-  let newChatButton = document?.querySelector("nav");
-  const a = newChatButton?.querySelector("a");
-  const isExistSpan = a?.querySelector("span");
+  let nav = document?.querySelector("nav");
+  const newChatBtn = nav?.querySelector(
+    "nav [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 flex-grow overflow-hidden']"
+  );
 
-  if (newChatButton && a && !isExistSpan) {
-    const svgClone = a.querySelector("svg").cloneNode(true);
-    a.textContent = "";
-    a.appendChild(svgClone);
+  const isNotChangeBtn = newChatBtn && !newChatBtn.classList.contains("new_chat_btn");
+
+  if (nav && isNotChangeBtn) {
+    console.log("newChatBtn", newChatBtn);
+    const svgClone = newChatBtn.querySelector("svg").cloneNode(true);
+    newChatBtn.textContent = "";
+    newChatBtn.appendChild(svgClone);
+    newChatBtn.classList.add("new_chat_btn");
     const span = document.createElement("span");
     span.textContent = "Add new chat";
-    a.appendChild(span);
+    newChatBtn.appendChild(span);
 
-    $(a)
+    $(newChatBtn)
       .off("click")
       .on("click", () => {
         let isMenuContentActive = $(".menu_content").hasClass("active");
@@ -1220,11 +1225,10 @@ function changeLeftSideBarIcon() {
     "#global nav [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center']"
   );
 
-  const isNotChangedWithLeftSideBarIcon = leftSideBarIcon.querySelector("svg");
+  const isNotChangedWithLeftSideBarIcon = leftSideBarIcon && leftSideBarIcon.querySelector("svg");
 
-  const parentElement = leftSideBarIcon.parentNode;
-
-  if (leftSideBarIcon && isNotChangedWithLeftSideBarIcon) {
+  if (isNotChangedWithLeftSideBarIcon) {
+    const parentElement = leftSideBarIcon.parentNode;
     parentElement.classList.add("left_close_side_bar_icon");
     const svg = leftSideBarIcon.querySelector("svg");
     svg.remove();
