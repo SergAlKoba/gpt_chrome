@@ -1455,7 +1455,7 @@ body.loaded main {
 
 [class='absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]']{
     background-image: linear-gradient(180deg,rgba(35, 41, 45,0.01),rgba(35, 41, 45,0.5),rgba(35, 41, 45,0.7),rgba(35, 41, 45,1),rgba(35, 41, 45,1),rgba(35, 41, 45,1) 90%) !important;
-    height: 250px !important;
+    height: 210px !important;
     display: flex;
     justify-content: flex-end;
 }
@@ -1979,6 +1979,20 @@ body.loaded main {
     border: 1px solid rgba(144, 251, 63, 1);
     border-radius: 50%;
     background: url('../images/check_2.svg') no-repeat 50% 50%;
+    background-size: cover;
+    transform: translate(0, -50%);
+}
+
+
+#global .theme_settings_content .settings_content .tabs_nav_content .tone_items .tone_item::after{
+    content: '';
+    right: 8px;
+    bottom: 0px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    border: 1px solid  rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
     background-size: cover;
     transform: translate(0, -50%);
 }
@@ -4672,6 +4686,7 @@ ul[id^="headlessui-listbox-options"] li {
 /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 
   [class='absolute left-2 top-2 z-10 hidden md:inline-block']{
+    margin-left: -1px;
     width: 72px;
     padding-left: 16px;
     padding-right: 16px;
@@ -4752,6 +4767,15 @@ body [class='fixed inset-0 bg-gray-300/70 dark:bg-gray-600/70']{
     #global .menu_content .promt_item .filter_drop {
         max-height: 400px;
     }
+  }
+
+/*if you click generate response, message chat gpt show you this window there chat gpt ask by answer*/
+#global main [class='group w-full text-token-text-primary border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]'] [class='flex justify-between lg:block']{
+    z-index: 20;
+  }
+
+  #global main [class='group w-full text-token-text-primary border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]'] [class='flex justify-between lg:block'] [class='flex justify-between items-center p-4 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm']{
+    background-color: gray;
   }
 
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
