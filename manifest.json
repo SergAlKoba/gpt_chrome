@@ -10,9 +10,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://chat.openai.com/*"
-      ],
+      "matches": ["*://chat.openai.com/*"],
       "exclude_matches": [
         "https://auth0.openai.com/u/signup/*",
         "https://auth0.openai.com/u/login/*",
@@ -127,7 +125,8 @@
         "assets/images/theme_avacado_alien.svg",
         "assets/images/theme_rainbow_candy.svg",
         "assets/images/theme_honeydew_punch.svg",
-        "assets/images/check_2.svg"
+        "assets/images/check_2.svg",
+        "assets/images/edit.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

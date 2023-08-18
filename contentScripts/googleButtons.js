@@ -1122,6 +1122,7 @@ function createUpgradeSubscriptionPopup() {
 
 function updateApp() {
   setInterval(() => {
+    setEditVariableForCss();
     addLogo();
     changeNewChatBtn();
     changeLeftSideBarIcon();
@@ -1133,6 +1134,21 @@ function updateApp() {
 }
 
 updateApp();
+
+function setEditVariableForCss() {
+  function isEditVariableSet() {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const editIconValue = rootStyles.getPropertyValue("--editIcon").trim();
+
+    // Проверяем, что значение не пустое и не равно исходному значению
+    return editIconValue !== "" && editIconValue !== "url(default_icon.svg)";
+  }
+
+  if (!isEditVariableSet()) {
+    const newEditIconUrl = chrome.runtime.getURL("assets/images/edit.svg");
+    document.documentElement.style.setProperty("--editIcon", `url(${newEditIconUrl})`);
+  }
+}
 
 function changeNewChatBtn() {
   let nav = document?.querySelector("nav");
