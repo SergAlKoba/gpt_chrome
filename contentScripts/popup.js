@@ -119,7 +119,7 @@ function createInput(type, placeholder, labelName) {
 
 function createForm(type, submitFunction) {
   const form = document.createElement("form");
-  const emailInput = createInput("email", "acme@corp.ai");
+  const emailInput = createInput("email", "acme@corp.ai", "E-mail adress");
   const passwordInput = createInput("password", "Enter password here");
   const usernameInput = createInput("text", "Enter username here", "Username");
 
