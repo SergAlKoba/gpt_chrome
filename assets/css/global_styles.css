@@ -4747,6 +4747,12 @@ body [class='fixed inset-0 bg-gray-300/70 dark:bg-gray-600/70']{
     color: #FFF;
 }
 
+/* category list */
+@media screen and (max-height: 770px) {
+    #global .menu_content .promt_item .filter_drop {
+        max-height: 400px;
+    }
+  }
 
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 
