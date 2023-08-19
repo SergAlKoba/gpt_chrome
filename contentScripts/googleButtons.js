@@ -470,11 +470,8 @@ function createFollowUpDiv() {
         return;
       }
       const userInput = document.querySelector("textarea");
-      userInput.value += ` ${text}`;
-      console.log(text);
-      const submitButton = userInput.parentElement.querySelector("button");
-      submitButton.disabled = false;
-      submitButton.click();
+      const textWillSend = `${userInput.value} ${text}`;
+      sendInput(textWillSend, true);
     };
     return li;
   };
