@@ -126,7 +126,8 @@
         "assets/images/theme_rainbow_candy.svg",
         "assets/images/theme_honeydew_punch.svg",
         "assets/images/check_2.svg",
-        "assets/images/edit.svg"
+        "assets/images/edit.svg",
+        "assets/images/message.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

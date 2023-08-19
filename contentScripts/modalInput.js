@@ -8,7 +8,7 @@ let isBlurCommandPopup = false;
 
 const prompsterComands = [
   {
-    prompt: "Make this more consistent",
+    prompt: "Get an answer to a question",
     command: "/ask",
     related_prompt: null,
     isHover: false,
@@ -57,6 +57,14 @@ function sendModalInput(selected_prompt) {
 
 function createUlFromItems(items) {
   console.log("items", items);
+
+  const ul = document.createElement("ul");
+  ul.id = "prompsterList";
+  ul.style.overflowY = "auto";
+  ul.style.maxHeight = "200px";
+
+  // Теперь добавим элементы li (liItems) в созданный ul
+
   const liItems = [];
   items.forEach((item) => {
     const spanNode = createElementModal("span", {}, [document.createTextNode(item.command)]);
@@ -89,35 +97,20 @@ function createUlFromItems(items) {
         onShowPromptPopupById(item.related_prompt);
       }
 
-      prompster.classList.remove("active");
-      ul.classList.remove("active");
+      changedConcatPromsterBEAndBasePrompster = concatPromsterBEAndBasePrompster;
+      isShowCommandPopup = false;
+      prompster.remove();
     };
-
-    li.addEventListener("touchstart", (event) => {
-      console.log("touchstart");
-
-      // Обработчик события touchstart
-      // ...
-    });
-
-    // li.touchend = (e) => {
-    //     if (item?.related_prompt===null) {
-    //         sendModalInput(li.getAttribute('data-command'));
-    //     }
-    //     else {
-    //         e.preventDefault();
-    //         e.stopPropagation();
-    //         onShowPromptPopupById(item.related_prompt)
-    //     }
-
-    //     prompster.classList.remove('active');
-    //     ul.classList.remove('active');
-    // };
 
     liItems.push(li);
   });
 
-  return createElementModal("ul", { id: "prompsterList", style: "overflow-y: auto; max-height: 200px;" }, liItems);
+  liItems.forEach((li) => {
+    ul.appendChild(li);
+  });
+
+  // return createElementModal("ul", { id: "prompsterList", style: "overflow-y: auto; max-height: 200px;" }, liItems);
+  return ul;
 }
 
 function filterPrompsterItems(searchText) {
@@ -194,6 +187,7 @@ function createPrompster() {
 }
 
 function addPrompster() {
+  console.log("addPrompster___");
   const container = document.querySelector("#prompt-textarea")?.parentElement;
   const prompster = createPrompster();
   container?.appendChild(prompster);

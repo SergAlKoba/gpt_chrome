@@ -597,12 +597,12 @@ body.loaded main {
     color: #D8DADB;
     font-weight: 600;
     line-height: 28px;
-    padding: 28px 15px 28px 70px;
+    padding: 22px 15px 28px 70px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 #global .menu_content .menu {
-    top: 24px;
+    top: 16px;
     left: 16px;
     z-index: 3;
     width: 40px;
@@ -747,6 +747,7 @@ body.loaded main {
     justify-content: space-between;
     background: rgba(255, 255, 255, 0.1);
     margin-bottom: 10px;
+    flex-direction: row-reverse;
 }
 
 #global .menu_content .promt_item .filter_view .view_item{
@@ -1431,11 +1432,19 @@ body.loaded main {
 }
 
 .from-gray-900{
-    --tw-gradient-from: #181b1e !important;
+    --tw-gradient-from: #181b1e !important; 
 }
 
+[class='flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-[#2A2B32] cursor-pointer break-all hover:pr-4 group']:hover  {
+    border-radius: 6px;
+    border: 1px solid  rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.04) !important;
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+}
+
+
 [class='flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-[#2A2B32] cursor-pointer break-all hover:pr-4 group']:hover .from-gray-900 {
-    --tw-gradient-from: #2a2b32  !important
+    --tw-gradient-from: #212427  !important
 }
 
 #global .flex .flex-col.items-center.text-sm.dark\:bg-gray-800{
@@ -4751,6 +4760,10 @@ main [class='cursor-pointer absolute right-6 bottom-[124px] md:bottom-[180px] lg
     position: absolute;
     top: 24px;
     right: 24px;
+    width: 40px;
+    height: 40px;
+    padding: unset;
+    min-height: unset;
 }
 
 /* share modal 17.08.2023*/ 
@@ -4791,7 +4804,16 @@ body [class='fixed inset-0 bg-gray-300/70 dark:bg-gray-600/70']{
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
+
+   
   }
+/* 
+  #global .sign_up_popup input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active{
+    transition: background-color 5000s ease-in-out 0s;
+  } */
 
   #global .sign_in_popup input{
     border-radius: 8px;
@@ -4806,6 +4828,56 @@ body [class='fixed inset-0 bg-gray-300/70 dark:bg-gray-600/70']{
     font-weight: 400;
     line-height: 20px;
   }
+
+
+  /* message icon start*/
+  #global nav ol li a > svg {
+    display: none;
+  }
+
+  #global nav ol li div > svg {
+    display: none;
+  }
+
+  #global nav ol li a{
+      padding-left: 36px;
+  }
+
+  #global nav ol li a[class='flex py-3 px-3 items-center gap-3 relative rounded-md cursor-pointer break-all bg-gray-800 pr-14 hover:bg-gray-800 group'] {
+    border-radius: 6px;
+    border: 1px solid  rgba(255, 255, 255, 0.08);
+    background:  rgba(255, 255, 255, 0.04);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+  }
+
+  #global nav ol li a[class='flex py-3 px-3 items-center gap-3 relative rounded-md cursor-pointer break-all bg-gray-800 pr-14 hover:bg-gray-800 group'] [class='absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l from-gray-800'] {
+    --tw-gradient-from: #212427  !important;
+  }
+
+  
+  #global nav ol li a::after {
+    content: "";
+    left: 12px;
+    top:50%;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    transform: translateY(-50%);
+    background: var(--messageIcon) no-repeat 50% 50%;
+}
+
+/* message icon end*/
+
+
+/* chat gpt error response btn regenerate response */
+
+#global main form [class='flex ml-1 md:w-full md:m-auto md:mb-4 gap-0 md:gap-2 justify-center'] button[class='btn relative btn-primary whitespace-nowrap m-auto']{
+    border-radius: 8px;
+    background:  rgba(255, 255, 255, 0.10);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+    width: 203px;
+    height: 40px;
+}   
 
   /* >>>>>>>>>>>>>>>>>>>>>>left sidebar close icon <<<<<<<<<<<<<<<<<<<<<<< */
 

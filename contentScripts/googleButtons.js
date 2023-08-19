@@ -1123,6 +1123,7 @@ function createUpgradeSubscriptionPopup() {
 function updateApp() {
   setInterval(() => {
     setEditVariableForCss();
+    setMessageVariableForCss();
     addLogo();
     changeNewChatBtn();
     changeLeftSideBarIcon();
@@ -1134,6 +1135,19 @@ function updateApp() {
 }
 
 updateApp();
+
+function setMessageVariableForCss() {
+  function isMessageVariableSet() {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const messageIconValue = rootStyles.getPropertyValue("--messageIcon").trim();
+    return messageIconValue !== "" && messageIconValue !== "url(default_icon.svg)";
+  }
+
+  if (!isMessageVariableSet()) {
+    const newMessageIcon = chrome.runtime.getURL("assets/images/message.svg");
+    document.documentElement.style.setProperty("--messageIcon", `url(${newMessageIcon})`);
+  }
+}
 
 function setEditVariableForCss() {
   function isEditVariableSet() {
