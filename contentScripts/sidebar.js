@@ -990,6 +990,12 @@ function createCategoryMenu(categories) {
           const categoryId = category?.id;
           selectedCategoryId = categoryId;
 
+          const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
+          document.querySelector(".filter_title span").textContent = newTitleName;
+
+          let img = document.querySelector(".filter_title img");
+          img.src = category?.icon ?? "";
+
           let promptsResponse = await searchPrompts(
             searchValue || "",
             selectedCategoryId ?? playgroundCategoryId,
@@ -1006,9 +1012,6 @@ function createCategoryMenu(categories) {
             rerenderSortMenuByNewList(listSortMenu);
           }
 
-          const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
-          document.querySelector(".filter_title span").textContent = newTitleName;
-
           const promptBarContentList = document.querySelector(".drop_content.list");
           const promptBarContentGrid = document.querySelector(".drop_content.grid");
 
@@ -1016,23 +1019,26 @@ function createCategoryMenu(categories) {
           createPrompts(promptsResponse?.results, promptBarContentGrid, ".drop_content.grid");
         });
 
-        if (category?.icon) {
-          const div = document.createElement("div");
-          div.classList.add("wrapper_icon_and_text_category");
-          const svgWrapper = document.createElement("div");
-          const icon = document.createElement("img");
-          icon.src = category?.icon;
-          svgWrapper.appendChild(icon);
-          div.appendChild(svgWrapper);
-          const spanName = createElem("span", {}, [category?.name]);
-          div.appendChild(spanName);
-          filterDropItem.appendChild(div);
-        } else {
-          const div = document.createElement("div");
-          const spanName = createElem("span", {}, [category?.name]);
-          div.appendChild(spanName);
-          filterDropItem.appendChild(spanName);
-        }
+        // if (category?.icon) {
+        const div = document.createElement("div");
+        div.classList.add("wrapper_icon_and_text_category");
+        const svgWrapper = document.createElement("div");
+
+        if (!category?.icon) svgWrapper.style.display = "none";
+
+        const icon = document.createElement("img");
+        icon.src = category?.icon ?? "";
+        svgWrapper.appendChild(icon);
+        div.appendChild(svgWrapper);
+        const spanName = createElem("span", {}, [category?.name]);
+        div.appendChild(spanName);
+        filterDropItem.appendChild(div);
+        // } else {
+        //   const div = document.createElement("div");
+        //   const spanName = createElem("span", {}, [category?.name]);
+        //   div.appendChild(spanName);
+        //   filterDropItem.appendChild(spanName);
+        // }
 
         const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
 
@@ -1155,7 +1161,7 @@ function createCategoryLoader() {
   let filterTitle = createElem(
     "div",
     {
-      class: "filter_title",
+      class: "filter_loader_title",
     },
     [img]
   );

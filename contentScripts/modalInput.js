@@ -614,6 +614,7 @@ function createPromptDetailsPopup({
 
     const textarea = document.createElement("textarea");
     textarea.classList.add("prompt_detail_modal_textarea");
+    textarea.title = "";
     textarea.placeholder = placeholder;
     textarea.required = true;
     textarea.value = null;
@@ -632,6 +633,11 @@ function createPromptDetailsPopup({
   inputs.forEach(({ variable_name, placeholder, is_textarea }) => {
     // if (is_textarea) {
     const textareaDiv = createTextarea(variable_name, placeholder, handleInputValueChange);
+    const errorMessage = document.createElement("div");
+    errorMessage.classList.add("prompt_detail_modal_textarea_error_message");
+    errorMessage.textContent = "Please fill out the field";
+    textareaDiv.appendChild(errorMessage);
+
     form.appendChild(textareaDiv);
     // } else {
     //   const inputDiv = createInput(variable_name, "text", placeholder, handleInputValueChange);
@@ -649,8 +655,22 @@ function createPromptDetailsPopup({
 
   sendBtn.addEventListener("click", (e) => {
     const isValid = form.checkValidity();
+
+    form.classList.add("submitted");
+    // let textareas = document.querySelectorAll(".prompt_detail_modal_textarea");
+
+    // textareas.forEach(function (textarea, index) {
+    //   let errorMessage = document.querySelectorAll(".prompt_detail_modal_textarea_error_message")[index];
+
+    //   if (textarea.checkValidity()) {
+    //     errorMessage.style.display = "none";
+    //   } else {
+    //     errorMessage.style.display = "block";
+    //   }
+    // });
+
     if (!isValid) {
-      form.reportValidity();
+      // form.reportValidity();
     } else {
       document.body.removeChild(popup);
       sendInput(replaceVariables(modalState, prompt_template));
