@@ -1022,7 +1022,6 @@ setInterval(() => {
     const elements = document.querySelectorAll("form button div");
 
     for (const element of elements) {
-      console.log("element?.textContent", element?.textContent);
       if (btnArr.some((btnText) => btnText === element?.textContent)) {
         if (regenerateBtnArr.some((btnText) => btnText === element?.textContent)) {
           const svg = element.querySelector("svg");

@@ -942,123 +942,121 @@ function createCategoryMenu(categories) {
 
     const isSubscriptionTierLoaded = body.classList.contains("subscription_tier_loaded");
 
-    if (isSubscriptionTierLoaded) {
-      const subscriptionTier = getUserSubscriptionTier();
+    // if (isSubscriptionTierLoaded) {
+    const subscriptionTier = getUserSubscriptionTier();
+    console.log("subscriptionTier______________________________", subscriptionTier);
+    const categoriesForSubscriptionTierFree = ["Playground"];
+    const changeIsAccessCategory = (isAccessArr) => (category) =>
+      isAccessArr.includes(category.name) ? { ...category, isAccess: true } : { ...category, isAccess: false };
+    const categoriesBySubscriptionTierFree = categories.map(changeIsAccessCategory(categoriesForSubscriptionTierFree));
 
-      const categoriesForSubscriptionTierFree = ["Playground"];
-      const changeIsAccessCategory = (isAccessArr) => (category) =>
-        isAccessArr.includes(category.name) ? { ...category, isAccess: true } : { ...category, isAccess: false };
-      const categoriesBySubscriptionTierFree = categories.map(
-        changeIsAccessCategory(categoriesForSubscriptionTierFree)
+    const getCategoriesBySubscriptionTier = {
+      free: categoriesBySubscriptionTierFree,
+      tier1: categories,
+      tier2: categories,
+      tier3: categories,
+    };
+
+    const categoriesBySubscriptionTier = getCategoriesBySubscriptionTier[subscriptionTier];
+    for (let i = 0; i < categoriesBySubscriptionTier.length; i++) {
+      const category = categoriesBySubscriptionTier[i];
+      let filterDropItem = createElem(
+        "li",
+        {
+          // data: category?.id,
+          class: "filter_drop_item",
+        },
+        []
       );
 
-      const getCategoriesBySubscriptionTier = {
-        free: categoriesBySubscriptionTierFree,
-        tier1: categories,
-        tier2: categories,
-        tier3: categories,
-      };
+      const proCategoryArr = [defaultCategoryNameEnum.FAVORITE, defaultCategoryNameEnum.CUSTOM];
+      const isProCategory = proCategoryArr.includes(category?.name);
+      const isSubscriptionTierFree = subscriptionTier === "free";
 
-      const categoriesBySubscriptionTier = getCategoriesBySubscriptionTier[subscriptionTier];
-      for (let i = 0; i < categoriesBySubscriptionTier.length; i++) {
-        const category = categoriesBySubscriptionTier[i];
-        let filterDropItem = createElem(
-          "li",
-          {
-            // data: category?.id,
-            class: "filter_drop_item",
-          },
-          []
+      filterDropItem.addEventListener("click", async (e) => {
+        filterDrop.classList.remove("active");
+        filterTitle.classList.remove("active_arrow");
+
+        e.stopPropagation();
+
+        if (isProCategory && isSubscriptionTierFree) {
+          const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+          document.body.appendChild(upgradeSubscriptionPopup);
+          return;
+        }
+
+        const categoryId = category?.id;
+        selectedCategoryId = categoryId;
+
+        const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
+        document.querySelector(".filter_title span").textContent = newTitleName;
+
+        let img = document.querySelector(".filter_title img");
+        img.src = category?.icon ?? "";
+
+        let promptsResponse = await searchPrompts(
+          searchValue || "",
+          selectedCategoryId ?? playgroundCategoryId,
+          selectedSort ?? 1
         );
 
-        const proCategoryArr = [defaultCategoryNameEnum.FAVORITE, defaultCategoryNameEnum.CUSTOM];
-        const isProCategory = proCategoryArr.includes(category?.name);
-        const isSubscriptionTierFree = subscriptionTier === "free";
+        // promptsResponse = await getCustomsCategory();
 
-        filterDropItem.addEventListener("click", async (e) => {
-          filterDrop.classList.remove("active");
-          filterTitle.classList.remove("active_arrow");
-
-          e.stopPropagation();
-
-          if (isProCategory && isSubscriptionTierFree) {
-            const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-            document.body.appendChild(upgradeSubscriptionPopup);
-            return;
-          }
-
-          const categoryId = category?.id;
-          selectedCategoryId = categoryId;
-
-          const { name: newTitleName } = categoriesBySubscriptionTier.find(({ id }) => id === categoryId);
-          document.querySelector(".filter_title span").textContent = newTitleName;
-
-          let img = document.querySelector(".filter_title img");
-          img.src = category?.icon ?? "";
-
-          let promptsResponse = await searchPrompts(
-            searchValue || "",
-            selectedCategoryId ?? playgroundCategoryId,
-            selectedSort ?? 1
-          );
-
-          // promptsResponse = await getCustomsCategory();
-
-          if (categoryId === defaultCategoryIdEnum.CUSTOM) {
-            const listSortMenuByCustomsCategory = [{ text: "Date", id: 3 }];
-            rerenderSortMenuByNewList(listSortMenuByCustomsCategory);
-          } else {
-            // promptsResponse = await getPromptsByCategory(categoryId);
-            rerenderSortMenuByNewList(listSortMenu);
-          }
-
-          const promptBarContentList = document.querySelector(".drop_content.list");
-          const promptBarContentGrid = document.querySelector(".drop_content.grid");
-
-          createPrompts(promptsResponse?.results, promptBarContentList, ".drop_content.list");
-          createPrompts(promptsResponse?.results, promptBarContentGrid, ".drop_content.grid");
-        });
-
-        // if (category?.icon) {
-        const div = document.createElement("div");
-        div.classList.add("wrapper_icon_and_text_category");
-        const svgWrapper = document.createElement("div");
-
-        if (!category?.icon) svgWrapper.style.display = "none";
-
-        const icon = document.createElement("img");
-        icon.src = category?.icon ?? "";
-        svgWrapper.appendChild(icon);
-        div.appendChild(svgWrapper);
-        const spanName = createElem("span", {}, [category?.name]);
-        div.appendChild(spanName);
-        filterDropItem.appendChild(div);
-        // } else {
-        //   const div = document.createElement("div");
-        //   const spanName = createElem("span", {}, [category?.name]);
-        //   div.appendChild(spanName);
-        //   filterDropItem.appendChild(spanName);
-        // }
-
-        const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
-
-        if (isProCategory) {
-          filterDropItem.appendChild(spanProCategory);
-          spanProCategory.classList.add("pro_category");
-          if (isSubscriptionTierFree) {
-            spanProCategory.classList.add("no_access_pro_category");
-          }
+        if (categoryId === defaultCategoryIdEnum.CUSTOM) {
+          const listSortMenuByCustomsCategory = [{ text: "Date", id: 3 }];
+          rerenderSortMenuByNewList(listSortMenuByCustomsCategory);
+        } else {
+          // promptsResponse = await getPromptsByCategory(categoryId);
+          rerenderSortMenuByNewList(listSortMenu);
         }
 
-        if (!category.isAccess) {
-          filterDropItem.classList.add("no_access_dropdown_item_category");
-        }
+        const promptBarContentList = document.querySelector(".drop_content.list");
+        const promptBarContentGrid = document.querySelector(".drop_content.grid");
 
-        filterDrop.appendChild(filterDropItem);
+        createPrompts(promptsResponse?.results, promptBarContentList, ".drop_content.list");
+        createPrompts(promptsResponse?.results, promptBarContentGrid, ".drop_content.grid");
+      });
+
+      // if (category?.icon) {
+      const div = document.createElement("div");
+      div.classList.add("wrapper_icon_and_text_category");
+      const svgWrapper = document.createElement("div");
+
+      if (!category?.icon) svgWrapper.style.display = "none";
+
+      const icon = document.createElement("img");
+      icon.src = category?.icon ?? "";
+      svgWrapper.appendChild(icon);
+      div.appendChild(svgWrapper);
+      const spanName = createElem("span", {}, [category?.name]);
+      div.appendChild(spanName);
+      filterDropItem.appendChild(div);
+      // } else {
+      //   const div = document.createElement("div");
+      //   const spanName = createElem("span", {}, [category?.name]);
+      //   div.appendChild(spanName);
+      //   filterDropItem.appendChild(spanName);
+      // }
+
+      const spanProCategory = createElem("div", { class: "pro_category" }, ["PRO"]);
+
+      if (isProCategory) {
+        filterDropItem.appendChild(spanProCategory);
+        spanProCategory.classList.add("pro_category");
+        if (isSubscriptionTierFree) {
+          spanProCategory.classList.add("no_access_pro_category");
+        }
       }
 
-      clearInterval(intervalId);
+      if (!category.isAccess) {
+        filterDropItem.classList.add("no_access_dropdown_item_category");
+      }
+
+      filterDrop.appendChild(filterDropItem);
     }
+
+    clearInterval(intervalId);
+    // }
   }, 1000);
 
   let filterElem = createElem(
