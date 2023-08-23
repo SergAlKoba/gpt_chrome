@@ -5149,9 +5149,12 @@ body.hide_ai_recommendations .idea_js{
     display: none !important;
 }
 
-body.hide_ai_recommendations .latest_google{
-    justify-content: flex-end;
+
+
+ body.hide_ai_recommendations .latest_google{
+    justify-content: flex-end !important;
 }
+
 
 body.hide_fast_prompt #follow_up{
     display: none !important;
