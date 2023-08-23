@@ -184,7 +184,8 @@ function createPopup(type) {
 
     const token = localStorage.getItem("token");
     if (token) {
-      await getSubscriptionLevel();
+      const res = await getSubscriptionLevel();
+      console.log("getSubscriptionLevel".toUpperCase(), res);
       $("body").addClass("subscription_tier_loaded");
     }
 
