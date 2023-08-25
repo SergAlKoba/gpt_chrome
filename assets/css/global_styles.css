@@ -5168,5 +5168,9 @@ body.hide_style_button  #style-google {
     display: none !important;
 }
 
+body #__next [class='flex h-full w-full flex-col'] [class='grow overflow-hidden']{
+    display: block !important;
+}
+
 /* body [role='dialog'][class='relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-[550px]'] [class='flex h-full max-w-full flex-1 flex-col active'] */
 /* END Prompt library */
