@@ -19,7 +19,6 @@
       ],
       "js": [
         "contentScripts/jquery.min.js",
-        "contentScripts/googleLib.js",
         "contentScripts/index.js",
         "contentScripts/popup.js",
         "contentScripts/favorites.js",

@@ -254,11 +254,11 @@ function createPopup(type) {
   signGoogleLink.setAttribute("data-callback", "handleCredentialResponse");
   signGoogleLink.appendChild(signGoogleImg);
   signGoogleLink.appendChild(document.createTextNode(" Sign up with Google"));
-  let googleScript = document.createElement("script");
-  googleScript.src = "https://accounts.google.com/gsi/client";
-  googleScript.async = true;
-  googleScript.defer = true;
-  document.body.appendChild(googleScript);
+  // let googleScript = document.createElement("script");
+  // googleScript.src = "https://accounts.google.com/gsi/client";
+  // googleScript.async = true;
+  // googleScript.defer = true;
+  // document.body.appendChild(googleScript);
   const existingAccountText = document.createElement("p");
   const footerText = isSignUp
     ? 'Already registered? <a class="sign_in_js sign_in_text" href="javascript:void(0)">Sign in</a> to your account.'
