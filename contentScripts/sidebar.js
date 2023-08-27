@@ -324,7 +324,11 @@ function preventSubmission(event) {
 }
 
 function sendInput(selected_prompt, is_disabled = false) {
-  let send_button = document.querySelector("form > div > div > button");
+  console.log("sendInput_______________");
+  const send_button = document.querySelector(
+    ".absolute.p-1.rounded-md.md\\:bottom-3.md\\:p-2.md\\:right-3.dark\\:hover\\:bg-gray-900.dark\\:disabled\\:hover\\:bg-transparent.right-2.disabled\\:text-gray-400.enabled\\:bg-brand-purple.text-white.bottom-1\\.5.transition-colors.disabled\\:opacity-40"
+  );
+  console.log("send_button_________", send_button);
   let textarea = document.querySelector("textarea");
   textarea.value = selected_prompt;
 
@@ -336,7 +340,8 @@ function sendInput(selected_prompt, is_disabled = false) {
   textarea.dispatchEvent(event);
 
   // If the button is initially disabled, remove the disabled attribute
-  if (is_disabled) {
+
+  if (send_button && send_button.hasAttribute("disabled")) {
     send_button.removeAttribute("disabled");
   }
 
