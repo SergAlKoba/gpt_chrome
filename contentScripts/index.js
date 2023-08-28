@@ -151,7 +151,13 @@ function createChatMessageButtons(container, isClickBookmark) {
       const textChatGpt = getMessageChatGpt().text();
       bookmark.remove();
       container.insertBefore(bookmarkYellow, addNewDocumentButton);
-      await createBookmark(textChatGpt);
+
+      const requestData = {
+        file: textChatGpt,
+      };
+      await createNewBookmarkDocument(requestData);
+
+      // await createBookmark(textChatGpt);
     }
 
     isClickBookmark = true;
@@ -266,36 +272,6 @@ createSpinner = () => {
 async function createPopupBookmark(bookmark, afterSuccessSavedBookmark) {
   const saveBookmarkPopup = await createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark);
   return saveBookmarkPopup;
-  // console.log("createPopupBookmark");
-
-  // const ul = document.createElement("ul");
-  // ul.classList.add("bookMark_small_popup");
-
-  // const newDocument = document.createElement("li");
-  // newDocument.classList.add("bookMark_small_popup_li");
-  // newDocument.textContent = "New document";
-
-  // newDocument.onclick = () => {
-  //   const newDocumentPopup = createNewDocumentPopup(bookmark, afterSuccessSavedBookmark);
-  //   document.body.appendChild(newDocumentPopup);
-  //   ul.remove();
-  // };
-
-  // ul.appendChild(newDocument);
-
-  // const saveToExisting = document.createElement("li");
-  // saveToExisting.classList.add("bookMark_small_popup_li");
-  // saveToExisting.textContent = "Save to existing";
-
-  // saveToExisting.onclick = async () => {
-  //   const saveBookmarkPopup = await createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark);
-  //   document.body.appendChild(saveBookmarkPopup);
-  //   ul.remove();
-  // };
-
-  // ul.appendChild(saveToExisting);
-
-  // return ul;
 }
 
 function createUpgradeSubscriptionPopup() {
@@ -484,9 +460,13 @@ async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
   const createNewDocumentDiv = document.createElement("div");
   createNewDocumentDiv.classList.add("create_new_document");
 
-  createNewDocumentDiv.onclick = () => {
-    const newDocumentPopup = createNewDocumentPopup(bookmark, afterSuccessSavedBookmark);
-    document.body.appendChild(newDocumentPopup);
+  createNewDocumentDiv.onclick = async () => {
+    const requestData = {
+      file: bookmark,
+    };
+    await createNewBookmarkDocument(requestData);
+    // const newDocumentPopup = createNewDocumentPopup(bookmark, afterSuccessSavedBookmark);
+    // document.body.appendChild(newDocumentPopup);
     popup.remove();
   };
 

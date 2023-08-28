@@ -1101,7 +1101,7 @@ body.loaded main {
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.2);
-    min-width: 59px;
+    min-width: max-content;
     height: 24px;
 }
 
@@ -1225,6 +1225,10 @@ body.loaded main {
     font-weight: 500;
     line-height: 20px;
     margin-bottom: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 276px;
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.grid .answer p{
@@ -1236,6 +1240,9 @@ body.loaded main {
     white-space: nowrap;
     text-overflow: ellipsis;
     color: rgba(137, 143, 147, 1);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 276px;
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.grid .answer .stats{
@@ -4628,8 +4635,8 @@ ul[id^="headlessui-listbox-options"] li {
 }
 
 .prompt_category_img{
-    width: 10px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
 }
 
 .category_loader_img{
