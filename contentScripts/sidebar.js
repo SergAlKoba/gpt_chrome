@@ -2106,16 +2106,16 @@ function processNumber(number) {
   } else if (number < 1000000) {
     const remainder = number % 1000;
     if (remainder === 0 || remainder < 100) {
-      return Math.floor(number / 1000) + "к";
+      return Math.floor(number / 1000) + "K";
     } else {
-      return Math.floor(number / 100) / 10 + "к";
+      return Math.floor(number / 100) / 10 + "K";
     }
   } else {
     const remainder = number % 1000000;
     if (remainder === 0 || remainder < 100000) {
-      return Math.floor(number / 1000000) + "м";
+      return Math.floor(number / 1000000) + "M";
     } else {
-      return Math.floor(number / 100000) / 10 + "м";
+      return Math.floor(number / 100000) / 10 + "M";
     }
   }
 }
