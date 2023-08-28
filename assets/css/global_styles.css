@@ -3294,7 +3294,27 @@ ul[id^="headlessui-listbox-options"] li {
     padding: 10px 14px;
     background: rgba(255, 255, 255, 0.1);
     box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.25), inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16);
+    outline:none !important;
+    border-width: 1px;
 }
+
+#global .popup .popup_content form input:focus-visible {
+    outline: none !important;
+}
+
+
+#global .popup .popup_content form input:focus{
+    box-shadow: rgba(102, 74, 246, 0.25) 0px 0px 0px 3px;
+    color: rgb(216, 218, 219);
+    font-weight: 500;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(102, 74, 246);
+    border-image: initial;
+    transition: box-shadow 0.3s ease 0s;    
+}
+
+
 
 #global .popup .popup_content form button {
     width: 100%;
