@@ -979,13 +979,12 @@ function addElementGoogle() {
   const subscriptionTier = getUserSubscriptionTier();
 
   const latestGoogle = createLatestGoogle();
-  console.log("latestGoogle", latestGoogle);
   const wrapperlatestGoogleDiv = document.createElement("div");
   wrapperlatestGoogleDiv.appendChild(latestGoogle);
   wrapperlatestGoogleDiv.classList.add("wrapper_latest_google");
 
   let messageInput = document.querySelector("main form");
-  console.log("messageInput");
+
   // let messageInput = document.querySelector(
   //   "main > .absolute.bottom-0.left-0.w-full.border-t.md:border-t-0.dark:border-white/20.md:border-transparent.md:dark:border-transparent.md:bg-vert-light-gradient.bg-white.dark:bg-gray-800.md:!bg-transparent.dark:md:bg-vert-dark-gradient.pt-2.md:pl-2.md:w-[calc(100%-.5rem)] > form"
   // );
@@ -1127,10 +1126,21 @@ function updateApp() {
     changeSendButton();
     changeShareIcon();
     changeChatGptText();
+    checkIsSharePageAndAddClassToBody();
   }, 100);
 }
 
 updateApp();
+
+function checkIsSharePageAndAddClassToBody() {
+  const hasNav = document.querySelector("nav");
+  const isSharePage = body.classList.contains("is_share_page");
+  if (!hasNav && !isSharePage) {
+    body.classList.add("is_share_page");
+  } else if (hasNav) {
+    body.classList.remove("is_share_page");
+  }
+}
 
 function setMessageVariableForCss() {
   function isMessageVariableSet() {

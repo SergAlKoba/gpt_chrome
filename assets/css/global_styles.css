@@ -3701,6 +3701,10 @@ ul[id^="headlessui-listbox-options"] li {
     align-items: center;
 }
 
+#global .prompt_details_popup .popup_content .prompt_popup_content .tab_prompt_content .answer ul li:last-child{
+    margin-right: 0px;
+}
+
 #global .prompt_details_popup .popup_content .answer .prompt_categories .prompt_category{
     height: 24px;
     display: flex;
@@ -5198,6 +5202,32 @@ body.hide_style_button  #style-google {
 body #__next [class='flex h-full w-full flex-col'] [class='grow overflow-hidden']{
     display: block !important;
 }
+
+
+/* share page */
+
+body.is_share_page main {
+    opacity: 1;
+}
+
+body.is_share_page  .menu_content{
+    display: none;
+}
+
+body.is_share_page  .menu_content.active{
+    display: none;
+}
+
+body.is_share_page main .header_global{
+    display: none;
+}
+
+body.is_share_page#global .flex.h-full.max-w-full.flex-1.flex-col.active {
+    padding-right: unset;
+}
+
+/* share page */
+
 
 /* body [role='dialog'][class='relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-[550px]'] [class='flex h-full max-w-full flex-1 flex-col active'] */
 /* END Prompt library */
