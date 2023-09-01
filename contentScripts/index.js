@@ -43,11 +43,11 @@ async function init() {
     const res = await getSubscriptionLevel();
     $("body").addClass("subscription_tier_loaded");
     console.log("getSubscriptionLevel".toUpperCase(), res);
-
-    if (res?.hide_ai_recommendations) $("body").addClass("hide_ai_recommendations");
-    if (res?.hide_fast_prompt) $("body").addClass("hide_fast_prompt");
-    if (res?.hide_style_button) $("body").addClass("hide_style_button");
-    if (res?.hide_tone_button) $("body").addClass("hide_tone_button");
+    // console.log("hide_ai_recommendations", hide_ai_recommendations);
+    if (!res?.hide_ai_recommendations) $("body").addClass("hide_ai_recommendations");
+    if (!res?.hide_fast_prompt) $("body").addClass("hide_fast_prompt");
+    if (!res?.hide_style_button) $("body").addClass("hide_style_button");
+    if (!res?.hide_tone_button) $("body").addClass("hide_tone_button");
   }
 }
 

@@ -991,13 +991,13 @@ function addElementGoogle() {
 
   let latestGoogleContent = latestGoogle.querySelector(".latest_google_content");
 
-  const followUpBtn = createFollowUpDiv();
+  // const followUpBtn = createFollowUpDiv();
 
-  if (subscriptionTier === "free") {
-    followUpBtn.classList.add("no_access_follow_up_btn");
-  }
+  // if (subscriptionTier === "free") {
+  //   followUpBtn.classList.add("no_access_follow_up_btn");
+  // }
 
-  latestGoogleContent.appendChild(followUpBtn);
+  // latestGoogleContent.appendChild(followUpBtn);
 
   $(wrapperlatestGoogleDiv).insertAfter(messageInput);
 
