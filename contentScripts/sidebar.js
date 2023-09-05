@@ -402,7 +402,7 @@ function createLoader() {
   const loader = createElem(
     "img",
     {
-      src: chrome.runtime.getURL("assets/images/loader.gif"),
+      src: chrome.runtime.getURL("assets/images/idea_loader.svg"),
     },
     []
   );

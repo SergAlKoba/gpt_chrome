@@ -127,7 +127,8 @@
         "assets/images/theme_honeydew_punch.svg",
         "assets/images/check_2.svg",
         "assets/images/edit.svg",
-        "assets/images/message.svg"
+        "assets/images/message.svg",
+        "assets/images/idea_loader.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]
