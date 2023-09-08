@@ -977,14 +977,21 @@ function createCategoryMenu(categories) {
       const proCategoryArr = [defaultCategoryNameEnum.FAVORITE, defaultCategoryNameEnum.CUSTOM];
       const isProCategory = proCategoryArr.includes(category?.name);
       const isSubscriptionTierFree = subscriptionTier === "free";
+      console.log("isSubscriptionTierFree", isSubscriptionTierFree);
 
       filterDropItem.addEventListener("click", async (e) => {
         filterDrop.classList.remove("active");
         filterTitle.classList.remove("active_arrow");
 
         e.stopPropagation();
-
+        // if (isProCategory && isSubscriptionTierFree) {
         if (isProCategory && isSubscriptionTierFree) {
+          const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+          document.body.appendChild(upgradeSubscriptionPopup);
+          return;
+        }
+
+        if (isSubscriptionTierFree) {
           const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
           document.body.appendChild(upgradeSubscriptionPopup);
           return;
@@ -1030,7 +1037,7 @@ function createCategoryMenu(categories) {
       if (!category?.icon) svgWrapper.style.display = "none";
 
       const icon = document.createElement("img");
-      icon.src = category?.icon ?? "";
+      icon.src = category?.icon ?? category?.white_icon ?? "";
       svgWrapper.appendChild(icon);
       div.appendChild(svgWrapper);
       const spanName = createElem("span", {}, [category?.name]);
@@ -2084,18 +2091,35 @@ function createUpgradeSubscriptionPopup() {
   popupContent.appendChild(titleDiv);
 
   const titleHeading = document.createElement("h5");
-  titleHeading.textContent = "Don`t success";
+  titleHeading.textContent = "Upgrade your account";
   titleDiv.appendChild(titleHeading);
 
   const promptPopupContentDiv = document.createElement("div");
-  promptPopupContentDiv.classList.add("upgrade_popup_content");
   popupContent.appendChild(promptPopupContentDiv);
 
   const answerPara1 = document.createElement("p");
   answerPara1.classList.add("upgrade_popup_content");
 
-  answerPara1.textContent = "You need upgrade your subscription to this element";
+  answerPara1.textContent =
+    "You've reached the maximum capacity of bookmarks for this plan. Upgrade to the Pro plan for bla bla..";
   promptPopupContentDiv.appendChild(answerPara1);
+
+  const wrapperBtn = document.createElement("div");
+  wrapperBtn.classList.add("wrapperBtn");
+
+  const btnUpgrade = document.createElement("button");
+  btnUpgrade.classList.add("btn-upgrade");
+  btnUpgrade.textContent = "Upgrade now";
+
+  btnUpgrade.onclick = () => {
+    popup.remove();
+    const subscriptionPopup = createSubscriptionPopup();
+    document.body.appendChild(subscriptionPopup);
+  };
+
+  wrapperBtn.appendChild(btnUpgrade);
+  // promptPopupContentDiv.appendChild(btnUpgrade);
+  promptPopupContentDiv.appendChild(wrapperBtn);
 
   return popup;
 }

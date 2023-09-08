@@ -7,6 +7,7 @@ document
 document
   .querySelector(":root")
   .style.setProperty("--styleCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
+document.querySelector(":root").style.setProperty("--lock", `url(${chrome.runtime.getURL("assets/images/lock.svg")})`);
 document
   .querySelector(":root")
   .style.setProperty("--languageCaretDown", `url(${chrome.runtime.getURL("assets/images/CaretDown.svg")})`);
@@ -37,7 +38,7 @@ async function getTooltips(output) {
       }),
     };
 
-    let response = await fetch("https://gotgood.ai/api/chat/tooltip-search/", requestOptions).then((response) => {
+    let response = await customFetch("https://gotgood.ai/api/chat/tooltip-search/", requestOptions).then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
         document.body.appendChild(upgradeSubscriptionPopup);
@@ -267,11 +268,17 @@ function createUlSFromCategory(category) {
     li.style.minWidth = "100%";
     li.onclick = function () {
       if (!item.isAccess) {
-        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-        document.body.appendChild(upgradeSubscriptionPopup);
+        li.parentElement.parentElement.querySelector("span").textContent = item.title;
+        li.parentElement.parentElement.parentElement.classList.add("not_access");
+
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionSmallPopup(
+          "upgrade_subscription_small_popup_style_and_tone"
+        );
+        li.parentElement.parentElement.parentElement.appendChild(upgradeSubscriptionPopup);
+
         return;
       }
-
+      li.parentElement.parentElement.parentElement.classList.remove("not_access");
       itemClickHandler(category.className, category.displayName, item, li);
     };
     ul.appendChild(li);
@@ -412,8 +419,21 @@ function createLinkIdea() {
 }
 function createUpgradeSubscriptionSmallPopup(className = "upgrade_subscription_small_popup") {
   const div = document.createElement("div");
-  div.className = className;
+  if (className) {
+    div.className = `upgrade_subscription_small_popup ${className}`;
+  } else div.className = className;
+
   div.textContent = "Lorem ipsum feature is included in the Premium plan.";
+
+  setTimeout(() => {
+    document.addEventListener("mousedown", function handleClickOutside(event) {
+      if (!div.contains(event.target)) {
+        div.remove(); // удалить блок
+        document.removeEventListener("mousedown", handleClickOutside); // убрать обработчик события
+      }
+    });
+  }, 0);
+
   return div;
 }
 function createIdeaElement() {
@@ -434,7 +454,7 @@ function createIdeaElement() {
       return;
     }
     if (!accessSubscriptionTierForIdea.includes(subscriptionTier)) {
-      const upgradeSubscriptionPopup = createUpgradeSubscriptionSmallPopup();
+      const upgradeSubscriptionPopup = createUpgradeSubscriptionSmallPopup("subscription_popup_idea");
       buttonIdea.appendChild(upgradeSubscriptionPopup);
       return;
     }
@@ -587,12 +607,11 @@ function createLatestGoogle() {
     const ul2 = createUlSFromCategory(category, category.items);
 
     ul.onclick = function () {
-      const popup = createSubscriptionPopup();
-      document.body.appendChild(popup);
+      // const popup = createSubscriptionPopup();
+      // document.body.appendChild(popup);
       // console.log("111111111");
       // const classNamePopup = "upgrade_subscription_small_popup_tone_and_style";
       // const isExistPopup = ul.querySelector(`.${classNamePopup}`);
-
       // if (isExistPopup) {
       //   ul.querySelector(`.${classNamePopup}`).remove();
       //   return;
@@ -1133,18 +1152,35 @@ function createUpgradeSubscriptionPopup() {
   popupContent.appendChild(titleDiv);
 
   const titleHeading = document.createElement("h5");
-  titleHeading.textContent = "Don`t success";
+  titleHeading.textContent = "Upgrade your account";
   titleDiv.appendChild(titleHeading);
 
   const promptPopupContentDiv = document.createElement("div");
-  promptPopupContentDiv.classList.add("upgrade_popup_content");
   popupContent.appendChild(promptPopupContentDiv);
 
   const answerPara1 = document.createElement("p");
   answerPara1.classList.add("upgrade_popup_content");
 
-  answerPara1.textContent = "You need upgrade your subscription to this element";
+  answerPara1.textContent =
+    "You've reached the maximum capacity of bookmarks for this plan. Upgrade to the Pro plan for bla bla..";
   promptPopupContentDiv.appendChild(answerPara1);
+
+  const wrapperBtn = document.createElement("div");
+  wrapperBtn.classList.add("wrapperBtn");
+
+  const btnUpgrade = document.createElement("button");
+  btnUpgrade.classList.add("btn-upgrade");
+  btnUpgrade.textContent = "Upgrade now";
+
+  btnUpgrade.onclick = () => {
+    popup.remove();
+    const subscriptionPopup = createSubscriptionPopup();
+    document.body.appendChild(subscriptionPopup);
+  };
+
+  wrapperBtn.appendChild(btnUpgrade);
+  // promptPopupContentDiv.appendChild(btnUpgrade);
+  promptPopupContentDiv.appendChild(wrapperBtn);
 
   return popup;
 }

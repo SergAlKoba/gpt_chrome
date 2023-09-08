@@ -2416,7 +2416,9 @@ body.loaded main {
     margin-left: 8px;
 } */
 
-#global .latest_google .checklist a{
+#global .latest_google .checklist{
+    margin-left:8px;
+    position: relative;
     width: 40px;
     right: 10px;
     height: 40px;
@@ -2434,8 +2436,16 @@ body.loaded main {
     transform: scale(1.1);
 } */
 
-#global .latest_google .checklist.no_access_idea{
-    position: relative;
+/* #global .latest_google .checklist.no_access_idea {
+position: relative;
+} */
+
+#global .latest_google .checklist.no_access_idea {
+    background:  rgba(255, 255, 255, 0.10);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25); 
+}
+
+#global .latest_google .checklist.no_access_idea img{
     filter: brightness(0.4);
 }
 
@@ -3979,7 +3989,14 @@ ul[id^="headlessui-listbox-options"] li {
 }
 
 #global .upgrade_popup_content{
-    padding: 20px;
+    padding: 16px;
+    color:  #898F93;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
 }
 
 
@@ -5376,7 +5393,7 @@ body.is_share_page#global .flex.h-full.max-w-full.flex-1.flex-col.active {
 
 .pricing_plan{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
 }
 
@@ -5492,6 +5509,61 @@ filter: blur(3px);   */
     justify-content: space-between;
 }
 
+#global .latest_google .style_grey ul.not_access  {
+    color:  #62696F;
+    border-radius: 8px;
+    background:  rgba(255, 255, 255, 0.10);
+    box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
+}
+
+#global .latest_google .style_grey ul.not_access span {
+    color:  #62696F;
+}
+
+#global .latest_google .style ul.not_access::after{
+    content: "";
+    top: 50%;
+    width: 20px;
+    height: 15px;
+    right: 15px;
+    position: absolute;
+    transform: translate(0px, -50%);
+    background: var(--lock) no-repeat 50% 50%;
+}
+
+#global .upgrade_subscription_small_popup_style_and_tone{
+    position: absolute;
+    top: -54px;
+    left: 0px;
+}
+
+#global .subscription_popup_idea{
+    top: -54px;
+    left: -8px;
+    color: white;
+}
+
+.wrapperBtn{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding-bottom: 16px;
+    padding-right: 16px;
+}
+
+.btn-upgrade {
+    display: flex;
+padding: 8px 16px;
+justify-content: center;
+align-items: center;
+
+    border-radius: 8px;
+border: 1px solid  rgba(255, 255, 255, 0.08);
+background:  radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+
+/* Button/Effect */
+box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset, 0px 0px 0px 1px rgba(255, 255, 255, 0.12);
+}
 
 /* body [role='dialog'][class='relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-[550px]'] [class='flex h-full max-w-full flex-1 flex-col active'] */
 /* END Prompt library */

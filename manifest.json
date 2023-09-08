@@ -21,6 +21,7 @@
       "js": [
         "contentScripts/jquery.min.js",
         "contentScripts/index.js",
+        "contentScripts/customFetch.js",
         "contentScripts/subscriptionPopup.js",
         "contentScripts/popup.js",
         "contentScripts/favorites.js",
@@ -132,7 +133,8 @@
         "assets/images/idea_loader.svg",
         "assets/images/gift.svg",
         "assets/images/feature_check.svg",
-        "assets/images/most_popular.svg"
+        "assets/images/most_popular.svg",
+        "assets/images/lock.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

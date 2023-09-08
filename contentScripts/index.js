@@ -13,6 +13,19 @@ const bookmarks = [
   "The marketing of Apple Design",
 ];
 
+function customFetch(url, options = {}) {
+  return fetch(url, options).then(async (response) => {
+    console.log("response.status", response.status);
+    if (response.status === 401) {
+      // Обработка ошибки 401 (например, очистка локального хранилища и перезагрузка страницы)
+      localStorage.clear();
+      location.reload();
+      throw new Error("Unauthorized");
+    }
+    return response;
+  });
+}
+
 async function getSubscriptionLevel() {
   const API_URL = "https://gotgood.ai";
 
@@ -26,12 +39,14 @@ async function getSubscriptionLevel() {
     redirect: "follow",
   };
 
-  let response = await fetch(API_URL + "/api/user/subscription-level/", requestOptions);
+  let response = await customFetch(API_URL + "/api/user/subscription-level/", requestOptions);
+  console.log("response", response);
 
   let result = await response.json();
 
   console.log("getSubscriptionLevel result", result);
-  sessionStorage.setItem("subscription_tier", result.subscription_level);
+  // sessionStorage.setItem("subscription_tier", result.subscription_level);
+  sessionStorage.setItem("subscription_tier", 0);
 
   return result;
 }
@@ -311,18 +326,35 @@ function createUpgradeSubscriptionPopup() {
   popupContent.appendChild(titleDiv);
 
   const titleHeading = document.createElement("h5");
-  titleHeading.textContent = "Don`t success";
+  titleHeading.textContent = "Upgrade your account";
   titleDiv.appendChild(titleHeading);
 
   const promptPopupContentDiv = document.createElement("div");
-  promptPopupContentDiv.classList.add("upgrade_popup_content");
   popupContent.appendChild(promptPopupContentDiv);
 
   const answerPara1 = document.createElement("p");
   answerPara1.classList.add("upgrade_popup_content");
 
-  answerPara1.textContent = "You need upgrade your subscription to this element";
+  answerPara1.textContent =
+    "You've reached the maximum capacity of bookmarks for this plan. Upgrade to the Pro plan for bla bla..";
   promptPopupContentDiv.appendChild(answerPara1);
+
+  const wrapperBtn = document.createElement("div");
+  wrapperBtn.classList.add("wrapperBtn");
+
+  const btnUpgrade = document.createElement("button");
+  btnUpgrade.classList.add("btn-upgrade");
+  btnUpgrade.textContent = "Upgrade now";
+
+  btnUpgrade.onclick = () => {
+    popup.remove();
+    const subscriptionPopup = createSubscriptionPopup();
+    document.body.appendChild(subscriptionPopup);
+  };
+
+  wrapperBtn.appendChild(btnUpgrade);
+  // promptPopupContentDiv.appendChild(btnUpgrade);
+  promptPopupContentDiv.appendChild(wrapperBtn);
 
   return popup;
 }
