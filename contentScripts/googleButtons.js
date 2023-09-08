@@ -240,6 +240,7 @@ const followUpItems = [
 
 function createUlSFromCategory(category) {
   const ul = document.createElement("ul");
+
   ul.style.minWidth = "100px";
 
   if (category.items[0].title !== "Default") {
@@ -409,7 +410,12 @@ function createLinkIdea() {
   linkElement.href = "javascript:void(0)";
   return linkElement;
 }
-
+function createUpgradeSubscriptionSmallPopup(className = "upgrade_subscription_small_popup") {
+  const div = document.createElement("div");
+  div.className = className;
+  div.textContent = "Lorem ipsum feature is included in the Premium plan.";
+  return div;
+}
 function createIdeaElement() {
   const buttonIdea = createButtonIdea();
   const linkIdea = createLinkIdea();
@@ -421,9 +427,15 @@ function createIdeaElement() {
   buttonIdea.addEventListener("click", async function () {
     const subscriptionTier = getUserSubscriptionTier();
 
+    const isExistPopup = buttonIdea.querySelector(".upgrade_subscription_small_popup");
+
+    if (isExistPopup) {
+      buttonIdea.querySelector(".upgrade_subscription_small_popup").remove();
+      return;
+    }
     if (!accessSubscriptionTierForIdea.includes(subscriptionTier)) {
-      const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
-      document.body.appendChild(upgradeSubscriptionPopup);
+      const upgradeSubscriptionPopup = createUpgradeSubscriptionSmallPopup();
+      buttonIdea.appendChild(upgradeSubscriptionPopup);
       return;
     }
 
@@ -572,8 +584,28 @@ function createLatestGoogle() {
       localStorage.setItem(category.className, category.name);
     }
 
+    const ul2 = createUlSFromCategory(category, category.items);
+
+    ul.onclick = function () {
+      const popup = createSubscriptionPopup();
+      document.body.appendChild(popup);
+      // console.log("111111111");
+      // const classNamePopup = "upgrade_subscription_small_popup_tone_and_style";
+      // const isExistPopup = ul.querySelector(`.${classNamePopup}`);
+
+      // if (isExistPopup) {
+      //   ul.querySelector(`.${classNamePopup}`).remove();
+      //   return;
+      // }
+      // // if (!accessSubscriptionTierForIdea.includes(subscriptionTier)) {
+      // const upgradeSubscriptionPopup = createUpgradeSubscriptionSmallPopup(classNamePopup);
+      // ul.appendChild(upgradeSubscriptionPopup);
+      // return;
+      // }
+    };
+
     li.appendChild(span);
-    li.appendChild(createUlSFromCategory(category, category.items));
+    li.appendChild(ul2);
     ul.appendChild(li);
   });
 
@@ -998,6 +1030,8 @@ function addElementGoogle() {
   // }
 
   // latestGoogleContent.appendChild(followUpBtn);
+
+  // const
 
   $(wrapperlatestGoogleDiv).insertAfter(messageInput);
 

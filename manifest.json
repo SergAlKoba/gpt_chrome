@@ -21,6 +21,7 @@
       "js": [
         "contentScripts/jquery.min.js",
         "contentScripts/index.js",
+        "contentScripts/subscriptionPopup.js",
         "contentScripts/popup.js",
         "contentScripts/favorites.js",
         "contentScripts/googleButtons.js",
@@ -128,7 +129,10 @@
         "assets/images/check_2.svg",
         "assets/images/edit.svg",
         "assets/images/message.svg",
-        "assets/images/idea_loader.svg"
+        "assets/images/idea_loader.svg",
+        "assets/images/gift.svg",
+        "assets/images/feature_check.svg",
+        "assets/images/most_popular.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]
