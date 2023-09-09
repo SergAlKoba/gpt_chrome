@@ -969,11 +969,19 @@ body.loaded main {
 }
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .designation{
+    height: 38px;
+    max-width: 290px;
+    overflow: auto;
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     margin-bottom: 11px;
     align-items: center;
 }
+
+#global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .designation::-webkit-scrollbar {
+    display: none;
+}
+
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content.list .answer .designation span{
     display: table;
@@ -1019,12 +1027,6 @@ body.loaded main {
     background: linear-gradient(120.45deg, rgba(255, 255, 255, 0.04) 13.15%, rgba(255, 255, 255, 0) 75.74%), rgb(24, 27, 30);
     transform: translate(-24px, -50%);
     z-index: -1;
-  }
-
-  #global  .answer:hover .designation .badge::after {
-    /* background: #2c382a;  */
-    /* background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 126.25%); */
-
   }
 
   #global .prompt_details_popup .answer .badge::after {
@@ -1149,7 +1151,7 @@ body.loaded main {
 
 #global .menu_content .promt_item.active .promt_item_content .drop_content .answer .designation{
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     margin-bottom: 10px;
     align-items: center;
 }

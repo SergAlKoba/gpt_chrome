@@ -1375,7 +1375,7 @@ function createSinglePrompt(promptObj) {
     {
       class: "answer",
     },
-    [link, categories, title, description, stats, point]
+    [categories, title, description, stats, point]
   );
 }
 
