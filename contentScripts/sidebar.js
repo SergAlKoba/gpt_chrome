@@ -181,7 +181,7 @@ async function searchPrompts(text, categoryId, sort, type = "") {
   const categoriesUseFavoriteRoute = [defaultCategoryIdEnum.FAVORITE];
 
   if (categoryId === defaultCategoryIdEnum.CUSTOM) {
-    let response = await fetch(
+    let response = await customFetch(
       API_URL + `/api/shop/get-custom-user-prompts/?text=${text}&sort=${sort}`,
       requestOptions
     );
@@ -190,7 +190,7 @@ async function searchPrompts(text, categoryId, sort, type = "") {
     console.log("result_____", result);
     return result;
   } else {
-    let response = await fetch(
+    let response = await customFetch(
       API_URL +
         `/api/shop/search/?text=${text}&${
           categoriesUseFavoriteRoute.includes(categoryId) ? "favorite=true" : `categories=${categoryId}`
@@ -218,7 +218,7 @@ async function getCategories() {
   }
 
   setIsLoading(true);
-  let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions);
+  let response = await customFetch(API_URL + "/api/shop/get-categories/", requestOptions);
   setIsLoading(false);
   let result = await response.json();
   sessionStorage.setItem("categories", JSON.stringify(result.results));
@@ -240,7 +240,7 @@ async function getFavorites() {
       redirect: "follow",
     };
 
-    let response = await fetch(API_URL + "/api/chat/get-favorites/", requestOptions);
+    let response = await customFetch(API_URL + "/api/chat/get-favorites/", requestOptions);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -260,7 +260,7 @@ async function getPromptsByCategory(categoryId) {
   const TOKEN = localStorage.getItem("token") || "";
   try {
     setIsLoading(true);
-    const response = await fetch(`${API_URL}/api/shop/get-extension-prompt-by-category/${categoryId}`, {
+    const response = await customFetch(`${API_URL}/api/shop/get-extension-prompt-by-category/${categoryId}`, {
       headers: { Authorization: `token ${TOKEN}` },
     });
     setIsLoading(false);
@@ -280,7 +280,7 @@ async function getFavoritesCategory() {
   const TOKEN = localStorage.getItem("token") || "";
   try {
     setIsLoading(true);
-    const response = await fetch(`${API_URL}/api/user/favorites`, {
+    const response = await customFetch(`${API_URL}/api/user/favorites`, {
       headers: { Authorization: `token ${TOKEN}` },
     });
     setIsLoading(false);
@@ -301,7 +301,7 @@ async function getCustomsCategory() {
   try {
     setIsLoading(true);
 
-    const response = await fetch(API_URL + `/api/shop/get-custom-user-prompts/`, {
+    const response = await customFetch(API_URL + `/api/shop/get-custom-user-prompts/`, {
       headers: { Authorization: `token ${TOKEN}` },
     });
     setIsLoading(false);

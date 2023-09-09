@@ -163,7 +163,7 @@ async function getPrompsterCommands() {
     redirect: "follow",
   };
 
-  let response = await fetch("https://gotgood.ai/api/shop/get-commands/", requestOptions)
+  let response = await customFetch("https://gotgood.ai/api/shop/get-commands/", requestOptions)
     .then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
@@ -658,9 +658,10 @@ function createPromptDetailsPopup({
     } else {
       document.body.removeChild(popup);
       const text = replaceVariables(modalState, prompt_template);
-      console.log("text", text);
+
       sendInput(text, true);
-      console.log("modalState_________", modalState);
+      console.log("before sendClickByCurrentPrompt");
+      if (id) sendClickByCurrentPrompt(id);
 
       const observer = new MutationObserver(() => {
         const checkElements = () => {
@@ -920,4 +921,40 @@ function processNumber(number) {
       return Math.floor(number / 100000) / 10 + "M";
     }
   }
+}
+
+function sendClickByCurrentPrompt(id) {
+  const isCustomPrompt = selectedCategoryId === defaultCategoryIdEnum.CUSTOM;
+  if (isCustomPrompt) sendClickByCustomPrompt(id);
+  else sendClickByPrompt(id);
+}
+
+async function sendClickByPrompt(id) {
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify({ prompt_extension_pk: id }),
+    redirect: "follow",
+  };
+
+  await customFetch(`https://gotgood.ai/api/shop/prompt-extension-click-amount-update/`, requestOptions);
+}
+
+async function sendClickByCustomPrompt(id) {
+  let myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `token ${localStorage.getItem("token")}`);
+
+  var requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify({ prompt_extension_pk: id }),
+    redirect: "follow",
+  };
+
+  await customFetch(`https://gotgood.ai/api/shop/custom-prompt-click-amount-update/`, requestOptions);
 }

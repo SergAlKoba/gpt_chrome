@@ -5,6 +5,8 @@ let selectedDocumentBookmark = null;
 let selectedMessageChatGPTBookmark = null;
 console.log({ selectedTone, selectedStyle });
 
+sessionStorage.setItem("isReload", false);
+
 const bookmarks = [
   "Marketing site redesign",
   "Greek Mythology 101",
@@ -17,10 +19,21 @@ function customFetch(url, options = {}) {
   return fetch(url, options).then(async (response) => {
     console.log("response.status", response.status);
     if (response.status === 401) {
-      // Обработка ошибки 401 (например, очистка локального хранилища и перезагрузка страницы)
-      localStorage.clear();
-      location.reload();
+      const wasReloadedPage = JSON.parse(sessionStorage.getItem("isReload"));
+
+      if (!wasReloadedPage) {
+        localStorage.clear();
+        sessionStorage.setItem("isReload", true);
+      }
       throw new Error("Unauthorized");
+    }
+
+    if (response.status === 400) {
+      const isExistUpgradeSubscriptionPopup = document.querySelector(".prompt_details_popup");
+      if (!isExistUpgradeSubscriptionPopup) {
+        const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
+        document.body.appendChild(upgradeSubscriptionPopup);
+      }
     }
     return response;
   });
@@ -45,8 +58,7 @@ async function getSubscriptionLevel() {
   let result = await response.json();
 
   console.log("getSubscriptionLevel result", result);
-  // sessionStorage.setItem("subscription_tier", result.subscription_level);
-  sessionStorage.setItem("subscription_tier", 0);
+  sessionStorage.setItem("subscription_tier", result.subscription_level);
 
   return result;
 }

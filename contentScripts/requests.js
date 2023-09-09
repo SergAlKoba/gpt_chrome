@@ -4,7 +4,7 @@ async function getCategories() {
     redirect: "follow",
   };
 
-  let response = await fetch(API_URL + "/api/shop/get-categories/", requestOptions);
+  let response = await customFetch(API_URL + "/api/shop/get-categories/", requestOptions);
   let result = await response.json();
   console.log(result);
   sessionStorage.setItem("categories", JSON.stringify(result.results));
@@ -39,7 +39,7 @@ async function getFavorites() {
     redirect: "follow",
   };
 
-  let response = await fetch("https://gotgood.ai//api/chat/get-favorites/", requestOptions)
+  let response = await customFetch("https://gotgood.ai//api/chat/get-favorites/", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
@@ -57,7 +57,7 @@ async function getBookmarks() {
     redirect: "follow",
   };
 
-  let response = await fetch("https://gotgood.ai/api/chat/get-bookmarks/", requestOptions)
+  let response = await customFetch("https://gotgood.ai/api/chat/get-bookmarks/", requestOptions)
     .then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
@@ -87,7 +87,7 @@ async function createBookmark(output) {
     redirect: "follow",
   };
 
-  await fetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
+  await customFetch("https://gotgood.ai/api/chat/create-bookmark/", requestOptions)
     .then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
@@ -112,7 +112,7 @@ async function createNewBookmarkDocument(data) {
     redirect: "follow",
   };
 
-  await fetch("https://gotgood.ai/api/shop/create-document/", requestOptions)
+  await customFetch("https://gotgood.ai/api/shop/create-document/", requestOptions)
     .then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
@@ -134,7 +134,7 @@ async function searchBookmark(text = "") {
     redirect: "follow",
   };
 
-  let response = await fetch(API_URL + `/api/shop/get-recent-documents/?search=${text}`, requestOptions);
+  let response = await customFetch(API_URL + `/api/shop/get-recent-documents/?search=${text}`, requestOptions);
 
   return await response.json();
 }
@@ -150,7 +150,7 @@ async function replaceExitingDocumentBookmark(newBookmarkObj, id) {
     body: JSON.stringify(newBookmarkObj),
     redirect: "follow",
   };
-  let response = await fetch(API_URL + `/api/shop/replace-exiting-document/${id}`, requestOptions);
+  let response = await customFetch(API_URL + `/api/shop/replace-exiting-document/${id}`, requestOptions);
 
   return await response.json();
 }
@@ -169,7 +169,7 @@ async function createFavorite(prompt) {
     redirect: "follow",
   };
 
-  let response = await fetch("https://gotgood.ai/api/chat/prompt-favourite/", requestOptions)
+  let response = await customFetch("https://gotgood.ai/api/chat/prompt-favourite/", requestOptions)
     .then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
@@ -197,7 +197,7 @@ async function createLike(prompt) {
     redirect: "follow",
   };
 
-  let response = await fetch("https://gotgood.ai/api/shop/prompt-like/", requestOptions)
+  let response = await customFetch("https://gotgood.ai/api/shop/prompt-like/", requestOptions)
     .then((response) => {
       if (response.status === 402) {
         const upgradeSubscriptionPopup = createUpgradeSubscriptionPopup();
@@ -221,7 +221,7 @@ async function logout() {
     redirect: "follow",
   };
 
-  let response = await fetch(API_URL + "/api/user/logout/", requestOptions)
+  let response = await customFetch(API_URL + "/api/user/logout/", requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
@@ -296,7 +296,7 @@ async function setPromptText(style = none, text = none, tone = none, result_amou
     redirect: "follow",
   };
 
-  let response = await fetch(API_URL + "/api/shop/get-result-prompt/", requestOptions);
+  let response = await customFetch(API_URL + "/api/shop/get-result-prompt/", requestOptions);
   let result = await response.json();
   console.log(response);
   localStorage.setItem("token", result.auth_token);
