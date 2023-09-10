@@ -89,8 +89,11 @@ function createUlFromItems(items) {
     }
 
     li.onclick = (e) => {
-      if (item?.related_prompt === null) {
-        sendModalInput(li.getAttribute("data-command"));
+      const isNotPrompt = item?.related_prompt === null;
+      if (isNotPrompt) {
+        const textSelectedCommand = li.getAttribute("data-command");
+        const isDisabledSendBtn = true;
+        sendInput(textSelectedCommand, isDisabledSendBtn);
       } else {
         e.preventDefault();
         e.stopPropagation();

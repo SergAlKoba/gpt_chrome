@@ -243,13 +243,18 @@ function createChatMessageButtons(container, isClickBookmark) {
 }
 
 function checkAndUpdateChatMessageButtons(isClickBookmark) {
+  // const selector = "#global .relative.transition-width .w-full .text-gray-400.flex.self-end.justify-center.mt-2";
+
   const selector =
-    "#global .relative.transition-width .w-full .text-gray-400.flex.self-end.justify-center.mt-2.gap-2.visible";
+    '[class="group w-full text-token-text-primary border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"] [class="text-gray-400 flex self-end lg:self-center justify-center mt-2 gap-2 md:gap-3 lg:gap-1 lg:absolute lg:top-0 lg:translate-x-full lg:right-0 lg:mt-0 lg:pl-2 visible"]';
+  // document.querySelector('#global .relative.transition-width .w-full [class="group w-full text-token-text-primary border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"]')
+
   const elements = Array.from(document.querySelectorAll(selector));
   let k = 0;
   elements.forEach((element) => {
     ++k;
-    if (!element.querySelector(".btn_1") && k % 2 === 0) {
+    // if (!element.querySelector(".btn_1") && k % 2 === 0) {
+    if (!element.querySelector(".btn_1")) {
       createChatMessageButtons(element, isClickBookmark);
     }
   });
@@ -474,19 +479,19 @@ async function createSaveBookmarkPopup(bookmark, afterSuccessSavedBookmark) {
   popupContent.classList.add("popup_content", "bookmark_popup");
   popup.appendChild(popupContent);
 
-  // const closePopupSpan = document.createElement("span");
-  // closePopupSpan.classList.add("close_popup");
-  // popupContent.appendChild(closePopupSpan);
+  const closePopupSpan = document.createElement("span");
+  closePopupSpan.classList.add("close_popup");
+  popupContent.appendChild(closePopupSpan);
 
-  // const closeImg = document.createElement("img");
-  // closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
-  // closeImg.alt = "";
+  const closeImg = document.createElement("img");
+  closeImg.src = chrome.runtime.getURL("assets/images/close.svg");
+  closeImg.alt = "";
 
-  // closeImg.addEventListener("click", () => {
-  //   document.body.removeChild(popup);
-  // });
+  closeImg.addEventListener("click", () => {
+    document.body.removeChild(popup);
+  });
 
-  // closePopupSpan.appendChild(closeImg);
+  closePopupSpan.appendChild(closeImg);
 
   const titleDiv = document.createElement("div");
   titleDiv.classList.add("title");

@@ -134,7 +134,8 @@
         "assets/images/gift.svg",
         "assets/images/feature_check.svg",
         "assets/images/most_popular.svg",
-        "assets/images/lock.svg"
+        "assets/images/lock.svg",
+        "assets/images/rocket.svg"
       ],
       "use_dynamic_url": false,
       "matches": ["<all_urls>"]

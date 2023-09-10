@@ -1190,6 +1190,7 @@ function updateApp() {
     setEditVariableForCss();
     setMessageVariableForCss();
     addLogo();
+    addUpgradeSubscriptionBtn();
     changeNewChatBtn();
     changeLeftSideBarIcon();
     changeOpenLeftSidebar();
@@ -1201,6 +1202,41 @@ function updateApp() {
 }
 
 updateApp();
+
+function createUpgradeSubscriptionBtn() {
+  const wrapperBtn = document.createElement("div");
+  wrapperBtn.classList.add("wrapper_upgrade_subscription_btn");
+
+  wrapperBtn.onclick = () => {
+    const subscriptionPopup = createSubscriptionPopup();
+    document.body.appendChild(subscriptionPopup);
+  };
+
+  const btn = document.createElement("button");
+  wrapperBtn.appendChild(btn);
+  const img = document.createElement("img");
+  img.src = chrome.runtime.getURL("assets/images/rocket.svg");
+  const span = document.createElement("span");
+  span.classList.add("text_btn");
+  span.textContent = "Upgrade workspace!";
+
+  btn.classList.add("upgrade_subscription_btn");
+
+  btn.append(img, span);
+  return wrapperBtn;
+}
+
+function addUpgradeSubscriptionBtn() {
+  const isExistBtn = document.querySelector(".wrapper_upgrade_subscription_btn");
+  if (isExistBtn) return;
+  const btn = createUpgradeSubscriptionBtn();
+  // const nav = document.querySelector("nav");
+  //  nav.querySelector('class="border-t border-white/20 pt-2 empty:hidden"');
+  const myAccountBtn = $("#__next .overflow-hidden.w-full.h-full .dark .flex.h-full nav .border-t > div");
+  const parentElement = myAccountBtn.parent()[0];
+  console.log("parentElement", parentElement);
+  parentElement.insertBefore(btn, myAccountBtn[0]);
+}
 
 function checkIsSharePageAndAddClassToBody() {
   const hasNav = document.querySelector("nav");

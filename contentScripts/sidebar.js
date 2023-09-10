@@ -882,7 +882,6 @@ function createSearch() {
 
   const body = document.querySelector("body");
   body.addEventListener("click", (e) => {
-    const sortMenuList = document.querySelector(".sort_menu");
     if (e.target !== sortBtn && e.target !== sortMenuList && e.target !== sortIcon) {
       sortMenuList.classList.remove("active");
     }
@@ -892,7 +891,7 @@ function createSearch() {
 
   sortBtn.addEventListener("click", () => {
     const sortMenuList = document.querySelector(".sort_menu");
-    console.log("sortMenuList", sortMenuList);
+    console.log("sortMenuList", sortMenuList.classList.contains("active"));
     sortMenuList.classList.toggle("active");
   });
 
