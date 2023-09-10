@@ -5337,6 +5337,8 @@ body.is_share_page#global .flex.h-full.max-w-full.flex-1.flex-col.active {
 
 #global .popup .subscription_popup .title{
     margin-bottom: 21px;
+    width: 100%;
+    padding-top: 0px;
 }
 
 .wrapper_btns_plan{
