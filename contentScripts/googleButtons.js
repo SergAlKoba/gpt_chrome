@@ -1230,11 +1230,10 @@ function addUpgradeSubscriptionBtn() {
   const isExistBtn = document.querySelector(".wrapper_upgrade_subscription_btn");
   if (isExistBtn) return;
   const btn = createUpgradeSubscriptionBtn();
-  // const nav = document.querySelector("nav");
-  //  nav.querySelector('class="border-t border-white/20 pt-2 empty:hidden"');
+
   const myAccountBtn = $("#__next .overflow-hidden.w-full.h-full .dark .flex.h-full nav .border-t > div");
   const parentElement = myAccountBtn.parent()[0];
-  console.log("parentElement", parentElement);
+
   parentElement.insertBefore(btn, myAccountBtn[0]);
 }
 
