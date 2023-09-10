@@ -154,13 +154,14 @@ function createCardPricingPlan({ name, mostPopular, price, btnText, featuresText
   btnPlan.classList.add("btn_plan");
 
   btnPlan.onclick = function () {
-    const isActive = wrapperPricingPlan.querySelector(".btn_plan.active");
-    console.log('card.querySelector(".btn_plan.active")', wrapperPricingPlan.querySelector(".btn_plan.active"));
+    const isActive = wrapperPricingPlan.querySelector(".card_pricing_plan.active");
+
     if (isActive) {
-      const activeElement = wrapperPricingPlan.querySelector(".btn_plan.active");
+      const activeElement = wrapperPricingPlan.querySelector(".card_pricing_plan.active");
       activeElement.classList.remove("active");
     }
-    btnPlan.classList.toggle("active");
+
+    card.classList.toggle("active");
   };
 
   btnPlan.textContent = btnText;
