@@ -4871,7 +4871,7 @@ ul[id^="headlessui-listbox-options"] li {
   }
 
 /* question icon */
-   [class="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"]  [class='group absolute bottom-5 right-4 z-10 flex flex-row items-center gap-3']{
+   main [class='group absolute bottom-5 right-4 z-10 flex flex-row items-center gap-3']{
     display: none;
   }
   
@@ -5082,6 +5082,12 @@ body [class='fixed inset-0 bg-gray-300/70 dark:bg-gray-600/70']{
 
 [class="group w-full text-token-text-primary border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"] [class='text-gray-400 flex self-end lg:self-center justify-center mt-2 gap-2 md:gap-3 lg:gap-1 lg:absolute lg:top-0 lg:translate-x-full lg:right-0 lg:mt-0 lg:pl-2 visible'] button:hover {
     background: rgba(64,65,79,1);
+}
+
+[class="group w-full text-token-text-primary border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"] [class="text-xs flex items-center justify-center gap-1 absolute left-0 top-2 -ml-4 -translate-x-full group:hover-visible visible"] {
+    position: absolute;
+    top: 54px;
+    left: 54px;
 }
 
 
