@@ -1198,8 +1198,19 @@ function updateApp() {
     changeShareIcon();
     changeChatGptText();
     checkIsSharePageAndAddClassToBody();
+    getCss();
   }, 100);
 }
+
+const getCss = () => {
+  const selector = `nav ol li[data-projection-id="10"] > div`;
+  const div = document.querySelector(selector);
+  console.log("div___________", div);
+  if (div) {
+    console.log("div.classList", div.classList);
+    console.log("div.className", div.className);
+  }
+};
 
 updateApp();
 
@@ -1277,14 +1288,14 @@ function setEditVariableForCss() {
 
 function changeNewChatBtn() {
   let nav = document?.querySelector("nav");
+
   const newChatBtn = nav?.querySelector(
-    "nav [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 flex-grow overflow-hidden']"
+    "nav [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 bg-white dark:bg-transparent flex-grow overflow-hidden']"
   );
 
   const isNotChangeBtn = newChatBtn && !newChatBtn.classList.contains("new_chat_btn");
 
   if (nav && isNotChangeBtn) {
-    console.log("newChatBtn", newChatBtn);
     const svgClone = newChatBtn.querySelector("svg").cloneNode(true);
     newChatBtn.textContent = "";
     newChatBtn.appendChild(svgClone);
@@ -1379,15 +1390,20 @@ function changeLeftSideBarIcon() {
 }
 
 function changeOpenLeftSidebar() {
-  const openLeftSidebar = document.querySelector(".absolute.left-2.top-2.z-10.hidden");
+  // const openLeftSidebar = document.querySelector(".absolute.left-2.top-2.z-10.hidden");
 
-  if (openLeftSidebar && openLeftSidebar.querySelector("svg")) {
+  const nav = document.querySelector("nav");
+  const openLeftSidebar = nav?.querySelector(
+    '[class="flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent"]'
+  );
+
+  if (nav && openLeftSidebar.querySelector("svg")) {
     const svg = openLeftSidebar.querySelector("svg");
     svg.remove();
     const leftSideBarImg = createLeftSideBarImg();
-    const button = openLeftSidebar.querySelector("button");
+    // const button = openLeftSidebar.querySelector("button");
 
-    button.appendChild(leftSideBarImg);
+    openLeftSidebar.appendChild(leftSideBarImg);
   }
 }
 
