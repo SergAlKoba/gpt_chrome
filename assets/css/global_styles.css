@@ -5755,6 +5755,11 @@ filter: blur(3px);   */
     color: rgba(217,217,227,1) !important;
 }
 
+#global nav .open_left_sidebar_icon {
+    top: 24px;
+    right: 24px;
+    position: absolute;
+}
 
 
 

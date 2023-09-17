@@ -1397,7 +1397,8 @@ function changeOpenLeftSidebar() {
     '[class="flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent"]'
   );
 
-  if (nav && openLeftSidebar.querySelector("svg")) {
+  if (nav && openLeftSidebar && openLeftSidebar?.querySelector("svg")) {
+    openLeftSidebar.classList.add("open_left_sidebar_icon");
     const svg = openLeftSidebar.querySelector("svg");
     svg.remove();
     const leftSideBarImg = createLeftSideBarImg();
