@@ -1198,19 +1198,8 @@ function updateApp() {
     changeShareIcon();
     changeChatGptText();
     checkIsSharePageAndAddClassToBody();
-    getCss();
   }, 100);
 }
-
-const getCss = () => {
-  const selector = `nav ol li[data-projection-id="10"] > div`;
-  const div = document.querySelector(selector);
-  console.log("div___________", div);
-  if (div) {
-    console.log("div.classList", div.classList);
-    console.log("div.className", div.className);
-  }
-};
 
 updateApp();
 
