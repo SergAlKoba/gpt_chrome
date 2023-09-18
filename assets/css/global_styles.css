@@ -4879,6 +4879,8 @@ ul[id^="headlessui-listbox-options"] li {
     flex-direction: column;
     align-items: center;
     padding-right: 65px !important;
+    box-shadow: unset !important;
+    border-top: unset !important;
   }
 
 /* question icon */
