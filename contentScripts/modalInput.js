@@ -495,7 +495,8 @@ function createPromptDetailsPopup({
   answerDiv.appendChild(answerHeading);
 
   const answerPara1 = document.createElement("p");
-  answerPara1.textContent = description;
+
+  answerPara1.innerHTML = description;
   answerDiv.appendChild(answerPara1);
 
   const statsList = document.createElement("ul");

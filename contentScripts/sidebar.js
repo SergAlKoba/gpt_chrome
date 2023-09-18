@@ -1036,7 +1036,7 @@ function createCategoryMenu(categories) {
       if (!category?.icon) svgWrapper.style.display = "none";
 
       const icon = document.createElement("img");
-      icon.src = category?.icon ?? category?.white_icon ?? "";
+      icon.src = category?.white_icon ?? category?.icon ?? "";
       svgWrapper.appendChild(icon);
       div.appendChild(svgWrapper);
       const spanName = createElem("span", {}, [category?.name]);
