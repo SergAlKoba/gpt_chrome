@@ -1279,9 +1279,9 @@ function changeNewChatBtn() {
   let nav = document?.querySelector("nav");
 
   const newChatBtn = nav?.querySelector(
-    "nav [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 bg-white dark:bg-transparent flex-grow overflow-hidden']"
+    "nav [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 gizmo:h-10 gizmo:rounded-lg gizmo:border-[rgba(0,0,0,0.08)] gizmo:shadow-[0_1px_1px_0_rgba(0,0,0,0.08)] bg-white dark:bg-transparent flex-grow overflow-hidden']"
   );
-
+  console.log("newChatBtn___", newChatBtn);
   const isNotChangeBtn = newChatBtn && !newChatBtn.classList.contains("new_chat_btn");
 
   if (nav && isNotChangeBtn) {
@@ -1362,7 +1362,7 @@ function changeSendButton() {
 
 function changeLeftSideBarIcon() {
   const leftSideBarIcon = document.querySelector(
-    "#global nav [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center']"
+    "#global nav [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 gizmo:h-10 gizmo:rounded-lg gizmo:border-[rgba(0,0,0,0.08)] gizmo:shadow-[0_1px_1px_0_rgba(0,0,0,0.08)] w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent']"
   );
 
   const isNotChangedWithLeftSideBarIcon = leftSideBarIcon && leftSideBarIcon.querySelector("svg");

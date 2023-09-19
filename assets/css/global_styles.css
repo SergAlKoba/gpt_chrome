@@ -5010,7 +5010,7 @@ main [class='cursor-pointer absolute right-6 bottom-[124px] md:bottom-[180px] lg
 }
 
 /* btn add new chat 17.08.2023*/
-#global  nav  [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 bg-white dark:bg-transparent flex-grow overflow-hidden new_chat_btn'] {
+#global  nav  .new_chat_btn {
     display: flex;
     justify-content: center;
     border-radius: 8px;
@@ -5019,7 +5019,7 @@ main [class='cursor-pointer absolute right-6 bottom-[124px] md:bottom-[180px] lg
     box-shadow: 0px 0px 0px 0.75px rgba(16, 24, 40, 0.08) inset, 0px 0px 0px 1px rgba(255, 255, 255, 0.12);
 }
 
-#global  nav  [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center']{
+#global  nav  [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 gizmo:h-10 gizmo:rounded-lg gizmo:border-[rgba(0,0,0,0.08)] gizmo:shadow-[0_1px_1px_0_rgba(0,0,0,0.08)] w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent']{
     position: absolute;
     top: 24px;
     right: 24px;
@@ -5729,23 +5729,27 @@ filter: blur(3px);   */
 
 
 
-#global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 hover:pr-4 dark:bg-gray-900 group"]{
+#global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 gizmo:bg-white gizmo:hover:bg-gray-100 hover:pr-4 dark:bg-gray-900 group"]{
     background: transparent !important;
 }
+
+/* #global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 gizmo:bg-white gizmo:hover:bg-gray-100 hover:pr-4 dark:bg-gray-900 group"]:hover [class="absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l dark:from-gray-900 from-gray-50 group-hover:from-gray-100 dark:group-hover:from-[#2A2B32]"]{
+    --tw-gradient-from:#181b1e;    
+} */
 
 #global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 cursor-pointer break-all bg-gray-100 dark:bg-gray-800 pr-14 dark:hover:bg-gray-800 group animate-flash"]{
     padding-left: 36px !important;
     padding-right: 3.5rem !important;
 }
 
-#global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 hover:pr-4 dark:bg-gray-900 group"]:hover{
+#global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 gizmo:bg-white gizmo:hover:bg-gray-100 hover:pr-4 dark:bg-gray-900 group"]:hover{
     border-radius: 6px;
     border: 1px solid  rgba(255, 255, 255, 0.08);
     background:  rgba(255, 255, 255, 0.04);
     box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.16) inset, 0px 0px 0px 1px rgba(0, 0, 0, 0.25);
 }
 
-#global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 hover:pr-4 dark:bg-gray-900 group"] [class="absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l dark:from-gray-900 from-gray-50 group-hover:from-gray-100 dark:group-hover:from-[#2A2B32]"]{
+#global nav ol li a[class="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-gray-100 dark:hover:bg-[#2A2B32] cursor-pointer break-all bg-gray-50 gizmo:bg-white gizmo:hover:bg-gray-100 hover:pr-4 dark:bg-gray-900 group"] [class="absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l dark:from-gray-900 from-gray-50 gizmo:from-white group-hover:from-gray-100 dark:group-hover:from-[#2A2B32]"]{
     --tw-gradient-from:#181b1e;    
 }
 
@@ -5760,7 +5764,7 @@ filter: blur(3px);   */
 }
 
 
-#global nav h3[class="h-9 pb-2 pt-3 px-3 text-xs text-gray-500 font-medium text-ellipsis overflow-hidden break-all bg-gray-50 dark:bg-gray-900"]{
+#global nav h3[class="h-9 pb-2 pt-3 px-3 text-xs text-gray-500 font-medium text-ellipsis overflow-hidden break-all bg-gray-50 gizmo:bg-white dark:bg-gray-900"]{
     background:#181b1e !important;
 }
 
