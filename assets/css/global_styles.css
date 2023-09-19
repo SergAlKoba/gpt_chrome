@@ -5820,7 +5820,7 @@ filter: blur(3px);   */
     position: absolute;
 }
 
-#global button[aria-label="Share chat"] [class="flex p-3 items-center gap-3 transition-colors duration-200 text-gray-600 dark:text-gray-200 cursor-pointer text-sm rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 h-11"] svg{
+#global button[aria-label="Share chat"][class="flex p-3 items-center gap-3 transition-colors duration-200 text-gray-600 dark:text-gray-200 cursor-pointer text-sm rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 h-11"] svg{
     margin: 7px;
 }
 
