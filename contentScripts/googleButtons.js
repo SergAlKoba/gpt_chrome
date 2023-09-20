@@ -1402,7 +1402,7 @@ function changeSendButton() {
 
 function changeLeftSideBarIcon() {
   const leftSideBarIcon = document.querySelector(
-    "#global nav [class='flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 gizmo:h-10 gizmo:rounded-lg gizmo:border-[rgba(0,0,0,0.08)] gizmo:shadow-[0_1px_1px_0_rgba(0,0,0,0.08)] w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent']"
+    "#global  button[class='flex p-3 items-center gap-3 transition-colors duration-200 text-gray-600 dark:text-gray-200 cursor-pointer text-sm rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 h-11']"
   );
 
   const isNotChangedWithLeftSideBarIcon = leftSideBarIcon && leftSideBarIcon.querySelector("svg");
