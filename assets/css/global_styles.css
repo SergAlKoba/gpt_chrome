@@ -5008,6 +5008,10 @@ ul[id^="headlessui-listbox-options"] li {
     opacity: 1;
   }
 
+  body [role="dialog"][class="relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-[550px]"] main .dark\:bg-gray-800{
+    background: rgb(35, 41, 45) !important;
+  }
+
 /* Arrow to quickly move to the latest posts */
 main [class='cursor-pointer absolute right-6 bottom-[124px] md:bottom-[180px] lg:bottom-[120px] z-10 rounded-full border border-gray-200 bg-gray-50 text-gray-600 dark:border-white/10 dark:bg-white/10 dark:text-gray-200']{
     right: 0px;
