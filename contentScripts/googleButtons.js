@@ -1198,10 +1198,41 @@ function updateApp() {
     changeShareIcon();
     changeChatGptText();
     checkIsSharePageAndAddClassToBody();
+    checkAndMoveWrapperLatestGoogle();
   }, 100);
 }
 
 updateApp();
+
+function checkAndMoveWrapperLatestGoogle() {
+  const form = document.querySelector("main form");
+  const wrapperLatestGoogle = document.querySelector(".wrapper_latest_google");
+
+  if (!form || !wrapperLatestGoogle) {
+    console.error("Main form or WrapperLatestGoogle not found.");
+    return;
+  }
+
+  if (!checkForWrapperLatestGoogleAddedAfterMainForm()) {
+    wrapperLatestGoogle.remove();
+    form.insertAdjacentElement("afterend", wrapperLatestGoogle);
+  }
+}
+
+function checkForWrapperLatestGoogleAddedAfterMainForm() {
+  const form = document.querySelector("main form");
+  if (!form) {
+    console.error("Main form not found.");
+    return false;
+  }
+
+  const nextElement = form.nextElementSibling;
+  if (nextElement && nextElement.classList.contains("wrapper_latest_google")) {
+    return true;
+  }
+
+  return false;
+}
 
 function createUpgradeSubscriptionBtn() {
   const wrapperBtn = document.createElement("div");
