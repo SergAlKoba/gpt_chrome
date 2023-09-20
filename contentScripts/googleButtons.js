@@ -1199,7 +1199,13 @@ function updateApp() {
     changeChatGptText();
     checkIsSharePageAndAddClassToBody();
     checkAndMoveWrapperLatestGoogle();
+    getHtml();
   }, 100);
+}
+
+function getHtml() {
+  const d = document.querySelector("[data-radix-popper-content-wrapper]");
+  // console.log("111111111", d);
 }
 
 updateApp();
@@ -1402,7 +1408,7 @@ function changeSendButton() {
 
 function changeLeftSideBarIcon() {
   const leftSideBarIcon = document.querySelector(
-    "#global  button[class='flex p-3 items-center gap-3 transition-colors duration-200 text-gray-600 dark:text-gray-200 cursor-pointer text-sm rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 h-11']"
+    "#global  button[aria-label='Open sidebar'][class='flex p-3 items-center gap-3 transition-colors duration-200 text-gray-600 dark:text-gray-200 cursor-pointer text-sm rounded-md bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 h-11']"
   );
 
   const isNotChangedWithLeftSideBarIcon = leftSideBarIcon && leftSideBarIcon.querySelector("svg");

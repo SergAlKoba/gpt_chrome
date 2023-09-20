@@ -465,21 +465,51 @@ function createCategory(id) {
   return categoryItems;
 }
 
+function createTooltipRideSideBar(text) {
+  const tooltip = document.createElement("div");
+
+  tooltip.innerHTML = `      
+  ${text}
+        <span class='tooltip_pointer'>
+          <div
+            width="10"
+            height="5"
+            viewbox="0 0 30 10"
+            preserveaspectratio="none"
+            class="relative top-[-3px] h-2 w-2 rotate-45 transform border-r border-b border-black/10 bg-black shadow-xs"
+            style="display: block;"
+          ></div>
+        </span>      
+        </span>`;
+  // tooltip.textContent = "Open Sidebar";
+  return tooltip;
+}
+
 function createMenuButton() {
+  const imgMenu = createElem(
+    "img",
+    {
+      src: chrome.runtime.getURL("assets/images/right_sidebar_icon.svg"),
+    },
+    []
+  );
+
+  const tooltip = createTooltipRideSideBar("Close sidebar");
+  tooltip.classList.add("menu_tooltip");
+  const wrapperTooltip = document.createElement("div");
+  wrapperTooltip.appendChild(tooltip);
+  wrapperTooltip.classList.add("wrapper_tooltip");
+
+  wrapperTooltip.onclick = () => {
+    tooltip.classList.remove("active");
+  };
+
   const menuButton = createElem(
     "a",
     {
       class: "menu",
     },
-    [
-      createElem(
-        "img",
-        {
-          src: chrome.runtime.getURL("assets/images/right_sidebar_icon.svg"),
-        },
-        []
-      ),
-    ]
+    [imgMenu, wrapperTooltip]
   );
 
   menuButton.addEventListener("click", () => {
@@ -489,6 +519,8 @@ function createMenuButton() {
     const global = document.querySelector("#global .flex.h-full.max-w-full.flex-1.flex-col");
 
     menuContent.classList.remove("active");
+    tooltip.classList.remove("active");
+
     headerGlobal && headerGlobal.classList.remove("active");
     global.classList.remove("active");
     sessionStorage.setItem("menuOpened", false);

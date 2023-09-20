@@ -192,6 +192,7 @@ html{
     transition: unset;
 
     z-index: 22 !important;
+    position: relative;
 }
 
 .header_global .settings .menu:hover{
@@ -501,7 +502,7 @@ body.loaded main {
     z-index: 9;
     height: 100vh;
     position: fixed;
-    overflow: hidden;
+    overflow: unset;
     background: #181B1E;
     width: 360px !important;
     border-left: 1px solid rgba(255, 255, 255, 0.2);
@@ -5884,5 +5885,43 @@ filter: blur(3px);   */
     padding-left: 12px !important;
 }
 
+
+
+.menu_tooltip {
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: -135px;
+    width: 50px;
+    background-color: green;
+
+    width: max-content;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    height: max-content;
+    padding: 8px 9px;
+    border-radius: 8px;
+    background: black;
+    font-weight: 500;
+}
+
+.menu:hover .menu_tooltip {
+    display: flex;
+}
+
+ .menu_tooltip .tooltip_pointer {
+    position: absolute;
+    right: -8px;
+    transform-origin: 0px 0px;
+    transform: translateY(50%) rotate(90deg) translateX(-50%);
+    top: 16px;
+}
+
+.menu_tooltip .tooltip_pointer div{
+    background: black;
+}
 
 /* END Prompt library */

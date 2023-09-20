@@ -40,6 +40,26 @@ async function doLogin() {
   }
 }
 
+function createTooltipRideSideBar(text) {
+  const tooltip = document.createElement("div");
+
+  tooltip.innerHTML = `      
+  ${text}
+        <span class='tooltip_pointer'>
+          <div
+            width="10"
+            height="5"
+            viewbox="0 0 30 10"
+            preserveaspectratio="none"
+            class="relative top-[-3px] h-2 w-2 rotate-45 transform border-r border-b border-black/10 bg-black shadow-xs"
+            style="display: block;"
+          ></div>
+        </span>      
+        </span>`;
+  // tooltip.textContent = "Open Sidebar";
+  return tooltip;
+}
+
 function createMenu() {
   console.log("createMenu____");
   // $(".header_global").remove();
@@ -81,6 +101,16 @@ function createMenu() {
   const accountUser = createElement("div", "user");
   const accountSettings = createElement("div", "settings");
   const settingsMenuLink = createElement("a", "menu");
+
+  const tooltip = createTooltipRideSideBar("Open sidebar");
+  tooltip.classList.add("menu_tooltip");
+  const wrapperTooltip = document.createElement("div");
+  wrapperTooltip.appendChild(tooltip);
+  wrapperTooltip.classList.add("wrapper_tooltip");
+
+  settingsMenuLink.append(wrapperTooltip);
+  console.log("settingsMenuLink___ ", settingsMenuLink);
+
   const settingsMenuImg = createElement("img");
   settingsMenuImg.src = chrome.runtime.getURL("assets/images/right_sidebar_icon.svg");
   settingsMenuImg.alt = "";
