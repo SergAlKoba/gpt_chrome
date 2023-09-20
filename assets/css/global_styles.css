@@ -5858,8 +5858,31 @@ filter: blur(3px);   */
     background-color: rgb(35, 41, 45) !important;
 }
 
+.light .text-gray-600 {
+    color: white;
+}
+
 .radix-state-checked\:bg-green-600[data-state=checked], .radix-state-on\:bg-green-600[data-state=on] {
     background: radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
 }
+
+/* click setting and click custom instruction, appear this modal */
+#global [role="dialog"][class="relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-xl"] button{
+    background: radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+}
+
+
+#global [role="dialog"][class="relative col-auto col-start-2 row-auto row-start-2 w-full rounded-lg text-left shadow-xl transition-all left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 max-w-lg xl:max-w-xl"] {
+    background-color: rgba(32,33,35,1) !important;
+}
+
+.btn-primary {
+    background: radial-gradient(127.76% 230.29% at 5.64% -71.25%, #6E37FF 0%, #8D62FF 6.77%, #63E 78.65%);
+}
+
+#global nav a[class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm bg-gray-100 dark:bg-gray-800'] {
+    padding-left: 12px !important;
+}
+
 
 /* END Prompt library */
