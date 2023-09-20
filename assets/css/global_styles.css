@@ -49,6 +49,10 @@ html{
     background: #23292D;
 }
 
+    /* #global.light {
+        background: #23292D;
+    } */
+
 [class='relative h-full w-full transition-width flex flex-col overflow-auto items-stretch flex-1'] [class='flex-1 overflow-hidden']{
     display: flex;
     flex-direction: row-reverse;
@@ -5824,4 +5828,18 @@ filter: blur(3px);   */
     margin: 7px;
 }
 
+ .dark body{
+    background-color: rgb(35, 41, 45) !important;
+ }
+ .dark html {
+    background-color: rgb(35, 41, 45) !important;
+}
+
+.light body {
+    background-color: rgb(35, 41, 45) !important;
+}
+
+.light html {
+    background-color: rgb(35, 41, 45) !important;
+}
 /* END Prompt library */

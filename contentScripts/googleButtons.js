@@ -1190,7 +1190,7 @@ function updateApp() {
     setEditVariableForCss();
     setMessageVariableForCss();
     addLogo();
-    addUpgradeSubscriptionBtn();
+    // addUpgradeSubscriptionBtn();
     changeNewChatBtn();
     changeLeftSideBarIcon();
     changeOpenLeftSidebar();
@@ -1278,41 +1278,50 @@ function setEditVariableForCss() {
 function changeNewChatBtn() {
   let nav = document?.querySelector("nav");
 
-  const newChatBtn = nav?.querySelector(
-    "nav [class='flex px-3 min-h-[44px] py-1 items-center gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 gizmo:h-10 gizmo:rounded-lg gizmo:border-[rgba(0,0,0,0.08)] gizmo:shadow-[0_1px_1px_0_rgba(0,0,0,0.08)] bg-white dark:bg-transparent flex-grow overflow-hidden']"
-  );
+  // const newChatBtn = nav?.querySelectorAll("a span");
+  // console.log("newChatBtn", newChatBtn);
 
-  const isNotChangeBtn = newChatBtn && !newChatBtn.classList.contains("new_chat_btn");
+  const isNotChangeBtn = !nav?.querySelector(".new_chat_btn");
 
   if (nav && isNotChangeBtn) {
-    const svgClone = newChatBtn.querySelector("svg").cloneNode(true);
-    newChatBtn.textContent = "";
-    newChatBtn.appendChild(svgClone);
-    newChatBtn.classList.add("new_chat_btn");
-    const span = document.createElement("span");
-    span.textContent = "Add new chat";
-    newChatBtn.appendChild(span);
+    const spans = nav?.querySelectorAll("a span");
+    spans.forEach((span) => {
+      if (span.textContent.trim() === "New Chat") {
+        changeChatButton(span.parentElement);
+      }
+    });
 
-    $(newChatBtn)
-      .off("click")
-      .on("click", () => {
-        let isMenuContentActive = $(".menu_content").hasClass("active");
-        if (isMenuContentActive) {
-          let intervalId = null;
+    function changeChatButton(newChatBtn) {
+      newChatBtn.classList.add("new_chat_btn");
+      const svgClone = newChatBtn.querySelector("svg").cloneNode(true);
+      newChatBtn.textContent = "";
+      newChatBtn.appendChild(svgClone);
+      newChatBtn.classList.add("new_chat_btn");
+      const span = document.createElement("span");
+      span.textContent = "Add new chat";
+      newChatBtn.appendChild(span);
 
-          intervalId = setInterval(() => {
-            // console.log("_____isMenuContentActive");
-            let isMenuContentActive = $(".menu_content").hasClass("active");
+      $(newChatBtn)
+        .off("click")
+        .on("click", () => {
+          let isMenuContentActive = $(".menu_content").hasClass("active");
+          if (isMenuContentActive) {
+            let intervalId = null;
 
-            if (!isMenuContentActive) {
-              $("#global .flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
-              clearInterval(intervalId);
-            } else {
-              $("#global .flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
-            }
-          }, 200);
-        }
-      });
+            intervalId = setInterval(() => {
+              // console.log("_____isMenuContentActive");
+              let isMenuContentActive = $(".menu_content").hasClass("active");
+
+              if (!isMenuContentActive) {
+                $("#global .flex.h-full.max-w-full.flex-1.flex-col").removeClass("active");
+                clearInterval(intervalId);
+              } else {
+                $("#global .flex.h-full.max-w-full.flex-1.flex-col").addClass("active");
+              }
+            }, 200);
+          }
+        });
+    }
   }
 }
 
@@ -1383,11 +1392,12 @@ function changeOpenLeftSidebar() {
 
   const nav = document.querySelector("nav");
   const openLeftSidebar = nav?.querySelector(
-    '[class="flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 hover:bg-gray-500/10 h-11 w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent"]'
+    '[class="flex px-3 min-h-[44px] py-1 gap-3 transition-colors duration-200 dark:text-white cursor-pointer text-sm rounded-md border dark:border-white/20 gizmo:min-h-0 hover:bg-gray-500/10 h-11 gizmo:h-10 gizmo:rounded-lg gizmo:border-[rgba(0,0,0,0.1)] w-11 flex-shrink-0 items-center justify-center bg-white dark:bg-transparent"]'
   );
 
   if (nav && openLeftSidebar && openLeftSidebar?.querySelector("svg")) {
-    openLeftSidebar.classList.add("open_left_sidebar_icon");
+    // openLeftSidebar
+    openLeftSidebar.parentElement.classList.add("open_left_sidebar_icon");
     const svg = openLeftSidebar.querySelector("svg");
     svg.remove();
     const leftSideBarImg = createLeftSideBarImg();
